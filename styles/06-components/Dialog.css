@@ -1,0 +1,72 @@
+
+[data-visible] .Dialog-card {
+	-webkit-animation: scale-up-center 0.1s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+	        animation: scale-up-center 0.1s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+}
+
+.Dialog {
+  display: block;
+  opacity: 1;
+}
+
+.Dialog[aria-hidden='true'] {
+  display: none;
+}
+.Dialog[aria-hidden='true'], .Dialog[aria-hidden='true'] .overlay, .Dialog[aria-hidden='true'] .Dialog-body {
+  opacity: 0;
+  transform: translateY(-100%);
+}
+
+.overlay {
+  transition: opacity 0.1s cubic-bezier(.9,.03,.69,.22);
+  display: block;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background-color: rgba(0,0,0, 0.5);
+  opacity: 1;
+}
+
+
+.Dialog-body {
+  transition: opacity 0.1s cubic-bezier(.9,.03,.69,.22), transform 0.1s cubic-bezier(.9,.03,.69,.22);
+  top: 0;
+  left: 0;
+  z-index: 100;
+  right: 0;
+  bottom: 0;
+  opacity: 1;
+  pointer-events: none;
+  padding: 1rem;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+.Dialog-card {
+  width: calc(100vw - 2rem);
+  max-width: 100%;
+  pointer-events: auto;
+}
+
+.Dialog-title {
+  line-height: 2rem;
+}
+
+@media(max-width: 768px) {
+  .Dialog-body {
+    padding: 0;
+  }
+  .Dialog-card {
+    width: 100%;
+  }
+}
+
+@supports (display: flex) {
+  .Dialog-body {
+    flex-direction: row;
+    position: fixed;
+  }
+}

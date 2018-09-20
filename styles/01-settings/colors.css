@@ -1,0 +1,29 @@
+/* 
+Colors
+
+Base colors
+
+Colors:
+dark: #333333
+medium: #666666
+light: #F6F6F6
+link: #006699
+hover: #0099CC
+active: #00CCEE
+primary: #CD4B18
+visited: #004262
+darksection: #004262
+
+Styleguide Settings.colors
+*/
+:root {
+  --dark: #333333;
+  --medium: #666666;
+  --light: #F6F6F6;
+  --link: #006699;
+  --hover: #0099CC;
+  --active: #00CCEE;
+  --primary: #CD4B18;
+  --visited: #004262;
+  --darksection: #004262;
+}

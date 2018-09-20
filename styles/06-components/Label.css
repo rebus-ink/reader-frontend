@@ -1,0 +1,12 @@
+.Label {
+  color: var(--darksection);
+  position:relative;
+  margin: 0;
+  padding: 1rem 1rem;
+  display: block;
+  text-indent: 1rem;
+}
+
+.Label.is-hidden {
+  display: none;
+}

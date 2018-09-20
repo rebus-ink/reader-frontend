@@ -1,0 +1,23 @@
+.ErrorPage {
+  text-align:center;
+}
+@supports(display: flex) {
+  .ErrorPage {
+    font-size: 200%;
+    padding: 0 2rem;
+    text-align:center;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    background-color:var(--primary);
+    color: white;
+    box-shadow: 0 2px 4px 0 rgba(0,66,98,0.25);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    z-index: -1;
+  }
+}

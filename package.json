@@ -8,7 +8,9 @@
   },
   "scripts": {
     "test": "tap --cov tests/*.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "kss": "npm run build-css && rm -rf docs && cp -r static docs && kss --config kss-config.json",
+    "build-css": "node build-css.js"
   },
   "repository": {
     "type": "git",
@@ -23,14 +25,23 @@
   "devDependencies": {
     "@commitlint/cli": "^7.1.2",
     "@commitlint/config-conventional": "^7.1.2",
+    "autoprefixer": "^9.1.5",
+    "cssnano": "^4.1.0",
     "csurf": "^1.9.0",
     "documentation": "^8.1.2",
     "flow-bin": "^0.80.0",
     "flow-coverage-report": "^0.6.0",
     "husky": "^1.0.0-rc.14",
+    "kss": "^3.0.0-beta.23",
     "lint-staged": "^7.2.2",
     "nodemon": "^1.18.4",
     "onchange": "^4.1.0",
+    "postcss": "^7.0.2",
+    "postcss-bem-linter": "^3.1.0",
+    "postcss-calc": "^6.0.1",
+    "postcss-custom-properties": "^8.0.3",
+    "postcss-easy-import": "^3.0.0",
+    "postcss-reporter": "^6.0.0",
     "prettier-standard": "^8.0.1",
     "proxyquire": "^2.1.0",
     "sinon": "^6.3.3",

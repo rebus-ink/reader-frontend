@@ -1,0 +1,38 @@
+
+.Card {
+  display: block;
+  background: #fff;
+  box-shadow: 0 2px 4px 0 rgba(0,66,98,0.25);
+  font-size: 1rem;
+  color: var(--dark);
+  padding: 0;
+  line-height: 1.7rem;
+  clear:both;
+  position: relative;
+}
+
+@supports (display: flex) {
+  .Card {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.Card-body {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: normal;
+  padding: 1rem 0;
+  margin: 0;
+  overflow-x: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+.Card-collection {
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

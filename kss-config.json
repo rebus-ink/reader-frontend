@@ -1,0 +1,5 @@
+{
+  "source": ["styles"],
+  "destination": "docs/",
+  "css": ["app.css"]
+}
