@@ -1,7 +1,4 @@
 body {
-	font-family: var(--fonts);
-  font-size: var(--font-size);
-  line-height: var(--line-height);
   background-color: #EFF7FB;
 	background-size: 100%;
 	background-repeat: no-repeat;

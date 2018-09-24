@@ -1,0 +1,76 @@
+/*
+Text Button
+
+Basic text button component.
+
+Markup:
+<button class="TextButton {{modifier_class}}">This is a Text Button</button>
+
+.TextButton:hover - hover state
+.TextButton:focus - focus state
+.TextButton:active - active state
+.TextButton--disabled - disabled state (also styles the `disabled` attribute)
+.TextButton--disabled:focus - disabled state (also styles the `disabled` attribute)
+
+StyleGuide 6.TextButton
+
+*/
+
+
+.TextButton {
+  font-family: var(--fonts);
+  font-weight: 550;
+  flex: 0 1 auto;
+  line-height: 1;
+
+  display: inline-block;
+  padding: 0;
+
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  text-align: center;
+  white-space: nowrap;
+  text-decoration: underline;
+
+  color: var(--primary);
+  border: none;
+  outline: none;
+  background-color: transparent;
+
+  -ms-touch-action: manipulation;
+      touch-action: manipulation;
+}
+.TextButton:hover {
+  color: var(--hover);
+  box-shadow: 0px 3px 0px 0px;
+  text-decoration: none;
+}
+
+.TextButton:active {
+  color: var(--active);
+}
+
+
+.TextButton:focus {
+  text-decoration: none;
+  background-color: var(--light);
+  margin: -2px -7px;
+  padding: 2px 7px;
+  outline: none;
+}
+
+
+.TextButton[disabled], .TextButton--disabled, .TextButton[disabled]:hover, .TextButton--disabled:hover {
+  color: var(--disabled);
+  cursor: not-allowed;
+}
+.TextButton[disabled]:focus, .TextButton--disabled:focus {
+  color: white;
+  border-color: var(--disabled);
+  background-color: var(--disabled);
+  box-shadow: inset 0 0px 2px 0 rgba(0,66,98,.15);
+
+}

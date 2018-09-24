@@ -1,29 +1,65 @@
 /* 
-Colors
+Utility Colors
 
-Base colors
+Monochromatic colors
 
 Colors:
 dark: #333333
 medium: #666666
 light: #F6F6F6
-link: #006699
-hover: #0099CC
-active: #00CCEE
-primary: #CD4B18
-visited: #004262
-darksection: #004262
+white: white
 
-Styleguide Settings.colors
+Styleguide 1.UtilityColors
 */
 :root {
   --dark: #333333;
   --medium: #666666;
   --light: #F6F6F6;
-  --link: #006699;
-  --hover: #0099CC;
+}
+/* 
+Link Colors
+
+Link and button colors
+
+Colors:
+link: #007AB8
+hover: #006699
+active: #00CCEE
+primary: #CD4B18
+visited: #004262
+
+Styleguide 1.LinkColors
+*/
+:root {
+  --link: #007AB8;
+  --hover: #006699;
   --active: #00CCEE;
   --primary: #CD4B18;
   --visited: #004262;
-  --darksection: #004262;
+}
+/* 
+UI Colors
+
+User Interface colors
+
+Colors:
+error: #ff3b3b
+error-light: #fff5f4
+valid: #2ed0ac
+valid-light: #eefffc
+warning: #ffd943
+warning-light: #fffbef
+disabled: #C6C6C6
+
+Styleguide 1.UIColors
+*/
+:root {
+  --error: #ff3b3b;
+  --error-light: #fff5f4;
+  --valid: #2ed0ac;
+  --valid-light: #eefffc;
+  --warning: #ffd943;
+  --warning-light: #fffbef;
+  --disabled: #C6C6C6;
+
 }

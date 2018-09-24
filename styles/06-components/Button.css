@@ -1,15 +1,35 @@
+/*
+Button
 
+Basic button component.
+
+Markup:
+<button class="Button {{modifier_class}}">This is a Test Button</button>
+
+.Button:hover - hover state
+.Button:focus - focus state
+.Button:active - active state
+.Button--circular - more rounded borders
+.Button--disabled - disabled state (also styles the `disabled` attribute)
+.Button--primary - primary button
+.Button--primary:hover - primary button, hover
+.Button--primary:focus - primary button, focus
+.Button--primary:active - primary button, active
+
+StyleGuide 6.Button
+
+*/
 .Button {
     font-family: var(--fonts);
-    font-size: .85rem;
-    font-weight: 300;
+    font-size: .75rem;
+    font-weight: 550;
     flex: 0 1 auto;
     line-height: 1;
 
     display: inline-block;
 
-    min-width: 10rem;
-    padding: .6rem 1rem;
+    min-width: 8rem;
+    padding: .6rem 1.5rem;
 
     cursor: pointer;
     -webkit-user-select: none;
@@ -19,19 +39,24 @@
     text-align: center;
     white-space: nowrap;
     text-decoration: none;
-    letter-spacing: .89px;
+    letter-spacing: 1.25px;
     text-transform: uppercase;
 
     color: var(--primary);
-    border: 1px solid var(--primary);
-    border-radius: 100px;
+    border: 2px solid var(--primary);
+    border-radius: 0.35rem;
     outline: none;
     background-color: white;
-    box-shadow: 0 2px 4px 0 rgba(0,66,98,.25), 0 0 0 0 var(--active);
+    box-shadow: 0 1px 2px 0 rgba(0,66,98,.15);
 
     -ms-touch-action: manipulation;
         touch-action: manipulation;
 }
+
+.Button--circular {
+    border-radius: 100px;
+}
+
 .Button-icon {
     width: 1rem;
     height: 1rem;
@@ -41,7 +66,7 @@
 .Button:link,
 .Button:visited {
     color: var(--primary);
-    border: 1px solid var(--primary);
+    border-color: var(--primary);
 }
 
 .Button--remove {
@@ -50,7 +75,7 @@
 
 .Button:hover {
     color: var(--hover);
-    border: 1px solid var(--hover);
+    border-color: var(--hover);
 }
 .Button-icon:hover {
     color: var(--hover);
@@ -58,24 +83,28 @@
 
 .Button:visited:hover {
     color: var(--hover);
-    border: 1px solid var(--hover);
+    border-color: var(--hover);
 }
 .Button-icon:visited:hover {
     color: var(--hover);
 }
 
-.Button:focus,
-.Button--primary:focus {
-    border-color: #ccc;
+.Button:focus {
     outline: none;
-    box-shadow: inset 0 2px 4px 0 rgba(0,66,98,.25);
+    box-shadow: inset 0 0px 2px 0 rgba(0,66,98,.15);
+    background-color: #fafafa;
+}
+
+.Button--primary:focus {
+    border-color: #b64315;
+    outline: none;
+    background-color: #b64315;
+    box-shadow: inset 0 0px 2px 0 rgba(0,66,98,.15);
 }
 
 .Button:active {
     transform: translate(1px, 1px);
-
     color: var(--active);
-    border: 1px solid var(--active);
     border-color: var(--active);
     background-color: white;
 }
@@ -87,6 +116,7 @@
 .Button--primary:link,
 .Button--primary:visited {
     color: white;
+    font-weight: 350;
     background-color: var(--primary);
 }
 .Button-icon--primary,
@@ -106,14 +136,29 @@
 }
 
 .Button--primary:active {
+    color: white;
     background-color: var(--active);
 }
 .Button-icon--primary:active {
     color: var(--active);
 }
 
+.Button[disabled], .Button--primary[disabled], .Button--disabled, .Button[disabled]:hover, .Button--primary[disabled]:hover, .Button--disabled:hover {
+    color: white;
+    border-color: var(--disabled);
+    background-color: var(--disabled);
+    box-shadow: none;
+    cursor: not-allowed;
+}
+.Button[disabled]:focus, .Button--primary[disabled]:focus, .Button--disabled:focus {
+    border-color: #999;
+    background-color: var(--disabled);
+    box-shadow: inset 0 0px 2px 0 rgba(0,66,98,.15);
+
+}
+
 .Button--large {
-    font-size: 1.2rem;
+    font-size: 1rem;
 
     padding: 1rem 2rem;
 }
@@ -132,33 +177,6 @@
     vertical-align: text-top;
 }
 
-.Button--profile {
-    width: 3rem;
-    min-width: auto;
-    height: 3rem;
-    padding: 0;
-
-    border: none;
-    border-radius: 0;
-    background-color: transparent;
-    box-shadow: none;
-}
-.Button--profile .icon {
-    width: 3rem;
-    height: 3rem;
-}
-.Button--profile:hover,
-.Button--profile:active {
-    border: none;
-}
-.Button--profile:focus,
-.Button--profile:active {
-    background-color: #f0f0f0;
-}
-
-.Button--profile[aria-expanded='true'] {
-    background-color: #f0f0f0;
-}
 
 .Button--front {
     font-size: 1.1rem;
@@ -166,109 +184,4 @@
 
 .Button--remove {
     font-size: 2rem;
-}
-
-.Button--base {
-    position: relative;
-
-    width: 180px;
-    margin: 0 2rem;
-    padding: 0;
-
-    border-radius: 0;
-    box-shadow: none;
-}
-
-.Button--base:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(0,66,98,.35);
-}
-
-.Button--base[aria-pressed='true'] {
-    border-color: #99c199;
-}
-
-.Button--base[aria-pressed='false'] {
-    border-color: #ebb7a2;
-}
-.Button--base[aria-pressed=true]:hover {
-    border-color: var(--hover);
-}
-.Button--base[disabled] {
-    cursor: not-allowed;
-
-    opacity: .5;
-    border-color: #333;
-}
-.Button--base[disabled] .Button--toggle-on,
-.Button--base[disabled] .Button--toggle-on,
-.Button--base[disabled] .Button.Button--toggle-label {
-    color: black;
-    background-color: #f0f0f0;
-}
-
-.Button--toggleOn {
-    font-size: 1.5rem;
-
-    position: absolute;
-    top: 0;
-    right: 0;
-
-    display: block;
-
-    width: 40px;
-    height: 100%;
-    padding: .4rem 0;
-
-    color: darkgreen;
-    background-color: #bee1be;
-    box-shadow: inset 0 0 2px 0 rgba(0, 93, 8, .3);
-}
-
-.Button--toggleOff {
-    font-size: 1.5rem;
-
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    display: block;
-
-    width: 40px;
-    height: 100%;
-    padding: .4rem 0;
-
-    background-color: #f7e2d9;
-    box-shadow: inset 0 0 2px 0 rgba(93, 0, 8, .2);
-}
-
-.Button.Button--toggleLabel {
-    position: relative;
-    z-index: 100;
-
-    display: block;
-
-    width: 138px;
-    padding: .7rem 0;
-
-    transition: transform .25s ease-in-out;
-
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
-}
-
-[aria-pressed=false] .Button--toggleLabel {
-    transform: translateX(40px);
-}
-[aria-pressed=true] .Button--toggleLabel {
-    color: darkgreen;
-}
-
-.Button:hover .Button--toggleLabel,
-.Button:hover .Button--toggleOn {
-    color: var(--hover);
-}
-.Button--toggle-label {
-    border: 1px solid #cd4b18;
 }

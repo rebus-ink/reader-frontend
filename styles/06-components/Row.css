@@ -1,14 +1,36 @@
 
+/*
+Row
+
+Basic row component.
+
+Markup:
+<div class="Row"><h3 class="Row-title Row-title--cardTitle">This is a card title</h3></div>
+<div class="Row"><img  class="Row-icon"alt="" src="https://s3.amazonaws.com/uifaces/faces/twitter/johnsmithagency/128.jpg"><p>This is a paragraph</p></div>
+<div class="Row"><img  class="Row-icon"alt="" src="https://s3.amazonaws.com/uifaces/faces/twitter/johnsmithagency/128.jpg">
+<div class="Row-group">
+  <h4 class="Row-title">This a row title</h4>
+  <p class="Row-paragraph">This is a row paragraph</p>
+</div>
+<div class="Row-buttons"><button class="Button">Button</button></div>
+
+</div>
+
+StyleGuide 6.Row
+
+*/
 .Row {
   display: block;
   font-weight: normal;
   line-height: 3rem;
-  padding: 1rem 2rem;
+  padding: 0.5rem 1rem;
   transition: background-color 0.25s ease-in;
   border: none;
   align-items: center;
-  min-height: 4.5rem;
+  min-height: 3rem;
   position: relative;
+  border-top: 1px solid #f0f0f0;
+  background-color: white;
 }
 
 .Row--end {
@@ -28,7 +50,9 @@
   float:left;
   margin-right: 1rem;
   color: var(--primary);
-  flex: 0 0 3rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 100%;
 }
 
 .Row-title {
@@ -36,8 +60,13 @@
   font-weight: inherit;
   margin: 0;
   padding: 0;
-  font-weight: bold;
-  font-size: 1.3rem;
+  font-weight: 550;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.Row-title--cardTitle {
+  font-size: 1.2rem;
 }
 
 .Row a:visited {
@@ -53,9 +82,8 @@
 .Row-paragraph {
   margin: 0;
   padding: 0;
-  line-height: 1.2rem;
-  font-size: 1.1rem;
-  line-height: 3rem;
+  line-height: 1rem;
+  font-size: 0.75rem;
 }
 
 .Row-label {
@@ -71,7 +99,6 @@
 @supports (display: flex) {
   .Row--buttons {
     display: flex;
-    justify-content: space-between;
   }
   .Row-body {
     flex: 0 0 auto;
@@ -82,16 +109,18 @@
   }
   .Row {
     display: flex;
-    justify-content: space-between;
   }
-  .Row > * {
-    flex: 1 1 auto;
+  .Row-icon {
+    flex: 0 1 auto;
   }
   .Row--link {
     justify-content: center;
   }
   .Row--toggle {
     display: flex;
+  }
+  .Row-buttons {
+    margin-left: auto;
   }
 }
 

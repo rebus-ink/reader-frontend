@@ -8,7 +8,7 @@ Markup:
 <div class="font-demo-sans"><span class="font-demo-lighter">This</span> is a <em>demo</em> of the <strong>sans</strong> font</div>
 <div class="font-demo-code"><span class="font-demo-lighter">This</span> is a <em>demo</em> of the <strong>monospaced</strong> font</div>
 
-Styleguide Settings.Fonts
+Styleguide 1.Fonts
 */
 @supports (font-variation-settings:'wdth' 200) {
   @font-face {
@@ -77,7 +77,7 @@ Styleguide Settings.Fonts
 }
 
 .font-demo-lighter{
-  font-weight: 200;
+  font-weight: 300;
 }
 
 :root {

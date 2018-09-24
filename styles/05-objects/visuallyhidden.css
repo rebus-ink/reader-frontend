@@ -1,4 +1,12 @@
 
+
+/* 
+Visually Hidden
+
+The `.visuallyhidden` class is for when you want an element to be accessible but not visible.
+
+StyleGuide 5.visuallyhidden
+*/
 .visuallyhidden {
   border: 0;
   clip: rect(0 0 0 0);
