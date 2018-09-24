@@ -1,5 +1,5 @@
 {
   "source": ["styles"],
   "destination": "docs/",
-  "css": ["app.css"]
+  "css": ["styles/app.css"]
 }

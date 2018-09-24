@@ -25,11 +25,15 @@ fs.readFile('index.css', (err, css) => {
       preset: 'default'
     })
   ])
-    .process(css, { from: 'index.css', to: 'static/app.css' })
+    .process(css, {
+      from: 'index.css',
+      to: 'static/app.css',
+      map: { inline: false }
+    })
     .then(result => {
-      fs.writeFile('static/app.css', result.css, () => true)
+      fs.writeFile('static/styles/app.css', result.css, () => true)
       if (result.map) {
-        fs.writeFile('static/app.css.map', result.map, () => true)
+        fs.writeFile('static/styles/app.css.map', result.map, () => true)
       }
     })
 })
