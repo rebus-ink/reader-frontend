@@ -31,9 +31,13 @@ fs.readFile('index.css', (err, css) => {
       map: { inline: false }
     })
     .then(result => {
-      fs.writeFile('static/styles/app.css', result.css, () => true)
+      fs.writeFile('static/styles/app.css', result.css, () =>
+        console.log('app.css')
+      )
       if (result.map) {
-        fs.writeFile('static/styles/app.css.map', result.map, () => true)
+        fs.writeFile('static/styles/app.css.map', result.map, () =>
+          console.log('app.css.map')
+        )
       }
     })
 })

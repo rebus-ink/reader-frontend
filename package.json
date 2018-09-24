@@ -9,7 +9,8 @@
   "scripts": {
     "test": "tap --cov tests/*.js",
     "start": "node index.js",
-    "kss": "npm run build-css && rm -rf docs && cp -r static docs && kss --config kss-config.json",
+    "kss": "npm run build-css && rm -rf docs && cp -r static docs && kss --config kss-config.json && echo 'done'",
+    "kss-dev": "onchange 'styles/**/*.css' -- npm run kss",
     "build-css": "node build-css.js"
   },
   "repository": {
