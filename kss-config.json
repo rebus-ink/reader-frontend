@@ -1,5 +1,6 @@
 {
   "source": ["styles"],
   "destination": "docs/",
-  "css": ["styles/app.css"]
+  "css": ["styles/app.css"],
+  "title": "Rebus Reader Style Guide"
 }

@@ -1,12 +1,7 @@
 .Label {
-  color: var(--darksection);
+  font-weight: 550;
+  font-size: 0.85rem;
   position:relative;
-  margin: 0;
-  padding: 1rem 1rem;
   display: block;
-  text-indent: 1rem;
-}
-
-.Label.is-hidden {
-  display: none;
+  text-indent: 0.2rem;
 }

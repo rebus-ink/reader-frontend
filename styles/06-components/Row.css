@@ -16,7 +16,7 @@ Markup:
 
 </div>
 
-StyleGuide 6.Row
+StyleGuide 6.2
 
 */
 .Row {
@@ -27,9 +27,9 @@ StyleGuide 6.Row
   transition: background-color 0.25s ease-in;
   border: none;
   align-items: center;
-  min-height: 3rem;
+  min-height: 4rem;
   position: relative;
-  border-top: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
   background-color: white;
 }
 
@@ -38,7 +38,7 @@ StyleGuide 6.Row
 }
 
 .Row:first-child {
-  border-top: none;
+  border-top: 1px solid #f0f0f0;
 }
 .Row--link {
   text-align: center;
