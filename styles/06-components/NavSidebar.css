@@ -1,0 +1,16 @@
+.NavSidebar, #kss-node .kss-sidebar.kss-style {
+  background-image: url(background.svg);
+  background-position: top left;
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow: inset -1px 0 1px 1px rgba(255,255,255,0.5), 1px 0 1px 0px rgba(205,205,205,0.2);
+  background-color: #fcfcfc;
+  border-right: 1px dotted #ccc;
+  padding: 1rem;
+  margin: 0;
+}
+
+.NavSidebar-nav a, #kss-node .kss-sidebar.kss-style nav a {
+  font-size: 1.1rem;
+  font-weight: 450;
+}

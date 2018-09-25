@@ -5,15 +5,36 @@ Row
 Basic row component.
 
 Markup:
+<div>
 <div class="Row"><h3 class="Row-title Row-title--cardTitle">This is a card title</h3></div>
-<div class="Row"><img  class="Row-icon"alt="" src="https://s3.amazonaws.com/uifaces/faces/twitter/johnsmithagency/128.jpg"><p>This is a paragraph</p></div>
-<div class="Row"><img  class="Row-icon"alt="" src="https://s3.amazonaws.com/uifaces/faces/twitter/johnsmithagency/128.jpg">
+<div class="Row"><img  class="Row-icon"alt="" src="/styles/cover1.jpg"><p>Saving Bletchley Park</p></div>
+<div class="Row"><img  class="Row-icon"alt="" src="/styles/cover2.jpg">
 <div class="Row-group">
-  <h4 class="Row-title">This a row title</h4>
-  <p class="Row-paragraph">This is a row paragraph</p>
+  <h4 class="Row-title">Badass: Making Users Awesome</h4>
+  <p class="Row-paragraph"><a href="#" class="Row-attribution">Kathy Sierra</a></p>
 </div>
-<div class="Row-buttons"><button class="Button">Button</button></div>
-
+<div class="Row-buttons"><button class="Button">Read</button></div>
+</div>
+<div class="Row"><img  class="Row-icon"alt="" src="/styles/cover3.jpg">
+<div class="Row-group">
+  <h4 class="Row-title">The Half-Life of Joshua Jones</h4>
+  <p class="Row-paragraph"><a href="#" class="Row-attribution">Danny Scheinmann</a></p>
+</div>
+<div class="Row-buttons"><button class="TextButton">View</button></div>
+</div>
+<div class="Row"><img  class="Row-icon"alt="" src="/styles/cover4.jpg">
+<div class="Row-group">
+  <h4 class="Row-title">After I'm Gone</h4>
+  <p class="Row-paragraph"><a href="#" class="Row-attribution">Laura Lippman</a></p>
+</div>
+<div class="Row-buttons"><button class="InfoButton" aria-label="Information">i</button></div>
+</div>
+<div class="Row"><img  class="Row-icon"alt="" src="/styles/cover5.jpg">
+<div class="Row-group">
+  <h4 class="Row-title">Just Fucking Ship</h4>
+  <p class="Row-paragraph"><a href="#" class="Row-attribution">Amy Hoy</a></p>
+</div>
+</div>
 </div>
 
 StyleGuide 6.2
@@ -51,8 +72,7 @@ StyleGuide 6.2
   margin-right: 1rem;
   color: var(--primary);
   width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 100%;
+  height: auto;
 }
 
 .Row-title {
@@ -63,6 +83,11 @@ StyleGuide 6.2
   font-weight: 550;
   font-size: 1rem;
   line-height: 1;
+}
+
+.Row-attribution {
+  font-variant-caps: small-caps;
+  text-decoration: none;
 }
 
 .Row-title--cardTitle {

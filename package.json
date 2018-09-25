@@ -10,7 +10,7 @@
     "test": "tap --cov tests/*.js",
     "start": "node index.js",
     "css-docs": "npm run build-css && rm -rf docs && cp -r static docs && kss --config kss-config.json && echo 'done'",
-    "css-docs-dev": "onchange 'styles/**/*.css' -- npm run kss",
+    "css-docs-dev": "onchange 'styles/**/*.css' -- npm run css-docs",
     "build-css": "node build-css.js"
   },
   "repository": {

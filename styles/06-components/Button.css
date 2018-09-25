@@ -9,12 +9,14 @@ Markup:
 .Button:hover - hover state
 .Button:focus - focus state
 .Button:active - active state
+.Button:active:focus - active+focus state
 .Button--circular - more rounded borders
 .Button--disabled - disabled state (also styles the `disabled` attribute)
 .Button--primary - primary button
 .Button--primary:hover - primary button, hover
 .Button--primary:focus - primary button, focus
 .Button--primary:active - primary button, active
+.Button--primary:active:focus - primary button, active+focus
 
 StyleGuide 6.Button
 
@@ -42,8 +44,8 @@ StyleGuide 6.Button
     letter-spacing: 1.25px;
     text-transform: uppercase;
 
-    color: var(--primary);
-    border: 2px solid var(--primary);
+    color: var(--link);
+    border: 2px solid var(--link);
     border-radius: 0.35rem;
     outline: none;
     background-color: white;
@@ -51,6 +53,7 @@ StyleGuide 6.Button
 
     -ms-touch-action: manipulation;
         touch-action: manipulation;
+    transition: box-shadow 0.15s ease-in-out;
 }
 
 .Button--circular {
@@ -65,8 +68,8 @@ StyleGuide 6.Button
 .Button:link,
 .Button:link,
 .Button:visited {
-    color: var(--primary);
-    border-color: var(--primary);
+    color: var(--link);
+    border-color: var(--link);
 }
 
 .Button--remove {
@@ -75,7 +78,7 @@ StyleGuide 6.Button
 
 .Button:hover {
     color: var(--hover);
-    border-color: var(--hover);
+    box-shadow: 0 0 0 2px var(--hover), 0 1px 2px 0 rgba(0,66,98,.15);
 }
 .Button-icon:hover {
     color: var(--hover);
@@ -91,15 +94,8 @@ StyleGuide 6.Button
 
 .Button:focus {
     outline: none;
-    box-shadow: inset 0 0px 2px 0 rgba(0,66,98,.15);
+    box-shadow: 0 0 0 2px var(--link), inset 0 0px 2px 0 rgba(0,66,98,.15);
     background-color: #fafafa;
-}
-
-.Button--primary:focus {
-    border-color: #b64315;
-    outline: none;
-    background-color: #b64315;
-    box-shadow: inset 0 0px 2px 0 rgba(0,66,98,.15);
 }
 
 .Button:active {
@@ -108,8 +104,18 @@ StyleGuide 6.Button
     border-color: var(--active);
     background-color: white;
 }
+.Button:active:focus, .Button:active:hover {
+    box-shadow: 0 0 0 2px var(--active), inset 0 0px 2px 0 rgba(0,66,98,.15);
+}
 .Button-icon:active {
     color: var(--active);
+}
+
+.Button--primary:focus {
+    border-color: var(--link);
+    outline: none;
+    background-color: var(--link);
+    box-shadow: rgb(255, 255, 255) 0px 0px 0px 1px, 0px 0px 0px 3px var(--link);
 }
 
 .Button--primary,
@@ -117,7 +123,7 @@ StyleGuide 6.Button
 .Button--primary:visited {
     color: white;
     font-weight: 350;
-    background-color: var(--primary);
+    background-color: var(--link);
 }
 .Button-icon--primary,
 .Button-icon--primary:link,
@@ -129,6 +135,7 @@ StyleGuide 6.Button
 .Button--primary:link:hover {
     color: white;
     background-color: var(--hover);
+    border-color: var(--hover);
 }
 .Button-icon--primary:hover,
 .Button-icon--primary:link:hover {
@@ -137,7 +144,11 @@ StyleGuide 6.Button
 
 .Button--primary:active {
     color: white;
+    border-color: var(--active);
     background-color: var(--active);
+}
+.Button--primary:active:focus, .Button--primary:active:hover {
+    box-shadow: rgb(255, 255, 255) 0px 0px 0px 1px, 0px 0px 0px 3px var(--active);
 }
 .Button-icon--primary:active {
     color: var(--active);
