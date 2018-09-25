@@ -26,6 +26,7 @@ Markup:
 <div class="Row-group">
   <h4 class="Row-title">After I'm Gone</h4>
   <p class="Row-paragraph"><a href="#" class="Row-attribution">Laura Lippman</a></p>
+  <p class="Row-paragraph Row-paragraph--tags"><a href="#" class="Row-tag">#suspense</a> <a href="#" class="Row-tag">#femaleauthor</a></p>
 </div>
 <div class="Row-buttons"><button class="InfoButton" aria-label="Information">i</button></div>
 </div>
@@ -89,6 +90,20 @@ StyleGuide 6.2
   font-variant-caps: small-caps;
   text-decoration: none;
 }
+.Row-tag {
+  font-size: .6rem;
+  margin: 0.2rem 0.2rem 0.2rem 0;
+  text-decoration: none;
+  background-color: var(--light);
+  display: inline-block;
+  padding: 4px 5px;
+  border-radius: 0.4rem;
+}
+
+.Row-tag:hover {
+  box-shadow: none;
+  background-color: #f0f0f0;
+}
 
 .Row-title--cardTitle {
   font-size: 1.2rem;
@@ -109,6 +124,9 @@ StyleGuide 6.2
   padding: 0;
   line-height: 1rem;
   font-size: 0.75rem;
+}
+.Row-paragraph--tags {
+  line-height: 1;
 }
 
 .Row-label {
