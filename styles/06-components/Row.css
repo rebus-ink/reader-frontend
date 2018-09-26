@@ -11,29 +11,29 @@ Markup:
 <div class="Row"><img  class="Row-icon"alt="" src="/styles/cover2.jpg">
 <div class="Row-group">
   <h4 class="Row-title">Badass: Making Users Awesome</h4>
-  <p class="Row-paragraph"><a href="#" class="Row-attribution">Kathy Sierra</a></p>
+  <p class="Row-paragraph"><span href="#" class="Row-attribution">Kathy Sierra</span></p>
 </div>
-<div class="Row-buttons"><button class="Button">Read</button></div>
+<button class="Row-button">Read</button>
 </div>
-<div class="Row"><img  class="Row-icon"alt="" src="/styles/cover3.jpg">
+<div class="Row is-selectable"><img  class="Row-icon"alt="" src="/styles/cover3.jpg">
 <div class="Row-group">
-  <h4 class="Row-title">The Half-Life of Joshua Jones</h4>
-  <p class="Row-paragraph"><a href="#" class="Row-attribution">Danny Scheinmann</a></p>
+  <h4 class="Row-title"><a href="#">The Half-Life of Joshua Jones</a></h4>
+  <p class="Row-paragraph"><span href="#" class="Row-attribution">Danny Scheinmann</span>, <span href="#" class="Row-attribution">John Mitchinson</span> <span class="Row-attributionLabel">(editor)</span> </p>
 </div>
-<div class="Row-buttons"><button class="TextButton">View</button></div>
+<button class="Row-button">View</button>
 </div>
-<div class="Row"><img  class="Row-icon"alt="" src="/styles/cover4.jpg">
+<div class="Row is-selected"><img  class="Row-icon"alt="" src="/styles/cover4.jpg">
 <div class="Row-group">
-  <h4 class="Row-title">After I'm Gone</h4>
-  <p class="Row-paragraph"><a href="#" class="Row-attribution">Laura Lippman</a></p>
-  <p class="Row-paragraph Row-paragraph--tags"><a href="#" class="Row-tag">#suspense</a> <a href="#" class="Row-tag">#femaleauthor</a></p>
+  <h4 class="Row-title">After I'm Gone (Selected Row)</h4>
+  <p class="Row-paragraph"><span href="#" class="Row-attribution">Laura Lippman</span></p>
+  <p class="Row-paragraph Row-paragraph--tags"><span href="#" class="Row-tag">#suspense</span> <span href="#" class="Row-tag">#femaleauthor</span></p>
 </div>
-<div class="Row-buttons"><button class="InfoButton" aria-label="Information">i</button></div>
+<button class="Row-button" aria-label="Information">i</button>
 </div>
 <div class="Row"><img  class="Row-icon"alt="" src="/styles/cover5.jpg">
 <div class="Row-group">
   <h4 class="Row-title">Just Fucking Ship</h4>
-  <p class="Row-paragraph"><a href="#" class="Row-attribution">Amy Hoy</a></p>
+  <p class="Row-paragraph"><span href="#" class="Row-attribution">Amy Hoy</span></p>
 </div>
 </div>
 </div>
@@ -45,14 +45,31 @@ StyleGuide 6.2
   display: block;
   font-weight: normal;
   line-height: 3rem;
-  padding: 0.5rem 1rem;
+  padding: 0;
   transition: background-color 0.25s ease-in;
   border: none;
   align-items: center;
-  min-height: 4rem;
   position: relative;
+  min-height: 4rem;
   border-bottom: 1px solid #f0f0f0;
   background-color: white;
+}
+.Row.is-selectable {
+  cursor: pointer;
+}
+.Row.is-selectable a {
+  text-decoration: none;
+  font-weight: 600;
+  color: black;
+}
+.Row.is-selectable:hover {
+  background-color: #fafafa;
+  cursor: pointer;
+  /* This class should only be added by the JS code that enables Row selection */
+}
+.Row.is-selected {
+  box-shadow: inset 0 0 0 2px #ccc;
+  background-color: #f9f9f9;
 }
 
 .Row--end {
@@ -70,9 +87,9 @@ StyleGuide 6.2
 
 .Row-icon {
   float:left;
-  margin-right: 1rem;
+  margin: 0.25rem 1rem 0.25rem 0.25rem;
   color: var(--primary);
-  width: 2.5rem;
+  width: 3rem;
   height: auto;
 }
 
@@ -89,6 +106,11 @@ StyleGuide 6.2
 .Row-attribution {
   font-variant-caps: small-caps;
   text-decoration: none;
+  color: #666;
+}
+
+.Row-attributionLabel {
+  color: #888;
 }
 .Row-tag {
   font-size: .6rem;
@@ -107,6 +129,7 @@ StyleGuide 6.2
 
 .Row-title--cardTitle {
   font-size: 1.2rem;
+  margin: 0.25rem 1rem;
 }
 
 .Row a:visited {
@@ -135,8 +158,49 @@ StyleGuide 6.2
   display: inline-block;
   text-indent: 0;
 }
+.Row-group {
+  margin: 0.25rem 0;
+}
 .Row-toggles {
   flex: 0 0 auto;
+}
+
+.Row-button {
+  font-family: var(--fonts);
+  font-weight: 550;
+  flex: 0 1 auto;
+  line-height: 1;
+
+  display: inline-block;
+  padding: 0;
+
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  text-align: center;
+  white-space: nowrap;
+  text-decoration: none;
+
+  color: var(--link);
+  border: none;
+  outline: none;
+  background-color: transparent;
+
+  -ms-touch-action: manipulation;
+      touch-action: manipulation;
+}
+
+.Row-button:hover {
+  color: white;
+  background-color: var(--link);
+}
+.Row-button:focus {
+  text-decoration: none;
+  box-shadow: 0px 3px 0px 0px;
+  background-color: var(--light);
+  outline: none;
 }
 
 @supports (display: flex) {
@@ -162,8 +226,31 @@ StyleGuide 6.2
   .Row--toggle {
     display: flex;
   }
-  .Row-buttons {
+  .Row-button {
     margin-left: auto;
+  }
+}
+
+@supports (display: grid) {
+  .Row {
+    display: grid;
+    grid-template-columns: 4rem 1fr 0.25fr;
+  }
+  .Row-group {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .Row-button {
+    height: 100%;
+    display: block;
+    width: 100%;
+  }
+  .Row-title--cardTitle {
+    grid-column-start: 2;
+    grid-column-end: span 3;
+    margin: .25rem 0;
   }
 }
 

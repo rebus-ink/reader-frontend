@@ -20,10 +20,10 @@ a {
   box-shadow: 0 0 0 0 var(--light);
   transition: box-shadow 0.1s cubic-bezier(.9,.03,.69,.22), transform 0.1s cubic-bezier(.9,.03,.69,.22);
 }
-a:link {
+:link {
   color: var(--link);
 }
-a:visited {
+:visited {
   color: var(--visited);
 }
 a:hover {
@@ -34,15 +34,16 @@ a:hover {
 a:focus {
   outline: none;
   text-decoration: none;
-  background-color: var(--light);
-  margin: -2px -7px;
-  padding: 2px 7px;
+  background-color: var(--link);
+  box-shadow: 0 0 0 4px var(--link);
+  color: white;
+  border-radius: 0.1rem;
 }
 a:active {
   color: var(--active);
 }
 
-a[role=tab]:focus {
+[role=tab]:focus {
   background-color: var(--light);
   color: black;
 }

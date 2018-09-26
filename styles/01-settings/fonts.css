@@ -1,12 +1,12 @@
 /*
 Fonts
 
-Default font settings and @font-face imports. If the examples look like comics sans then the font hasn't been loaded
+Default font settings and @font-face imports. If the examples look like comics sans then the font hasn't been loaded. I'm using the Source family from Adobe as it provides a full set of typographic features, in serif, sans, and monospace. It also provides _variable_ font files which let us deliver any font weight variation from 100-900 in a single font file, which is a huge feature for both performance and typesetting flexibility.
 
 Markup:
-<div class="font-demo-serif"><span class="font-demo-lighter">This</span> is a <em>demo</em> of the <strong>serif</strong> font</div>
-<div class="font-demo-sans"><span class="font-demo-lighter">This</span> is a <em>demo</em> of the <strong>sans</strong> font</div>
-<div class="font-demo-code"><span class="font-demo-lighter">This</span> is a <em>demo</em> of the <strong>monospaced</strong> font</div>
+<div class="font-demo-serif"><span class="font-demo-lighter">This</span> is a <em>demo</em> of <strong>Source Serif Pro</strong> font</div>
+<div class="font-demo-sans"><span class="font-demo-lighter">This</span> is a <em>demo</em> of the <strong>Source Sans Pro</strong> font</div>
+<div class="font-demo-code"><span class="font-demo-lighter">This</span> is a <em>demo</em> of the <strong>Source Code</strong> font</div>
 
 Styleguide 1.Fonts
 */

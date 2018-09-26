@@ -4,7 +4,7 @@ Input
 Basic input components.
 
 Markup:
-<label class="Label">Text Input
+<label class="Label">Input Label
 <input type="text" class="Input {{modifier_class}}" value="Test Value">
 </label>
 
@@ -54,8 +54,7 @@ StyleGuide 6.Input
 }
 
 .Input:invalid, .Input--invalid, .Input--invalid:focus {
-  background-color: var(--error-light);
-  box-shadow: 0 0 0 2px var(--error);
+  box-shadow: 0 0 0 1px #eee, 0 0 0 3px var(--error);
 }
 
 .Input-invalidIcon {

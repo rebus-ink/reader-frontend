@@ -22,8 +22,8 @@ Link Colors
 Link and button colors
 
 Colors:
-link: #007AB8
-hover: #006699
+link: #006699
+hover: #007AB8
 active: #00CCEE
 primary: #CD4B18
 visited: #004262
@@ -31,8 +31,8 @@ visited: #004262
 Styleguide 1.LinkColors
 */
 :root {
-  --link: #007AB8;
-  --hover: #006699;
+  --link: #006699;
+  --hover: #007AB8;
   --active: #00CCEE;
   --primary: #CD4B18;
   --visited: #004262;
