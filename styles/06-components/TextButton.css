@@ -16,7 +16,6 @@ StyleGuide 6.TextButton
 
 */
 
-
 .TextButton {
   font-family: var(--fonts);
   font-weight: 400;
@@ -28,9 +27,9 @@ StyleGuide 6.TextButton
 
   cursor: pointer;
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   text-align: center;
   white-space: nowrap;
   text-decoration: none;
@@ -41,7 +40,7 @@ StyleGuide 6.TextButton
   background-color: transparent;
 
   -ms-touch-action: manipulation;
-      touch-action: manipulation;
+  touch-action: manipulation;
 }
 .TextButton:hover {
   color: var(--hover);
@@ -53,7 +52,6 @@ StyleGuide 6.TextButton
   color: var(--active);
 }
 
-
 .TextButton:focus {
   outline: none;
   text-decoration: none;
@@ -63,15 +61,17 @@ StyleGuide 6.TextButton
   border-radius: 0.1rem;
 }
 
-
-.TextButton[disabled], .TextButton--disabled, .TextButton[disabled]:hover, .TextButton--disabled:hover {
+.TextButton[disabled],
+.TextButton--disabled,
+.TextButton[disabled]:hover,
+.TextButton--disabled:hover {
   color: var(--disabled);
   cursor: not-allowed;
 }
-.TextButton[disabled]:focus, .TextButton--disabled:focus {
+.TextButton[disabled]:focus,
+.TextButton--disabled:focus {
   color: white;
   border-color: var(--disabled);
   background-color: var(--disabled);
-  box-shadow: inset 0 0px 2px 0 rgba(0,66,98,.15);
-
+  box-shadow: inset 0 0px 2px 0 rgba(0, 66, 98, 0.15);
 }

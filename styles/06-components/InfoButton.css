@@ -16,23 +16,21 @@ StyleGuide 6.InfoButton
 
 */
 
-
 .InfoButton {
-  font-family: "Source Serif Pro", serif;
+  font-family: 'Source Serif Pro', serif;
   font-weight: 400;
   font-style: italic;
   font-size: 1.5rem;
   flex: 0 1 auto;
   line-height: 1;
 
-  display: inline-block;
   padding: 0;
 
   cursor: pointer;
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   text-align: center;
   white-space: nowrap;
   text-decoration: none;
@@ -50,7 +48,7 @@ StyleGuide 6.InfoButton
   justify-content: center;
 
   -ms-touch-action: manipulation;
-      touch-action: manipulation;
+  touch-action: manipulation;
 }
 .InfoButton:hover {
   color: var(--hover);
@@ -63,11 +61,6 @@ StyleGuide 6.InfoButton
   color: var(--active);
   border-color: var(--active);
 }
-.InfoButton:active:hover, .InfoButton:active:focus {
-  box-shadow: 0px 0px 0px 2px var(--active);
-}
-
-
 .InfoButton:focus {
   text-decoration: none;
   border-color: var(--hover);
@@ -75,18 +68,24 @@ StyleGuide 6.InfoButton
   background-color: var(--light);
   outline: none;
 }
+.InfoButton:active:hover,
+.InfoButton:active:focus {
+  box-shadow: 0px 0px 0px 2px var(--active);
+}
 
-
-.InfoButton[disabled], .InfoButton--disabled, .InfoButton[disabled]:hover, .InfoButton--disabled:hover {
+.InfoButton[disabled],
+.InfoButton--disabled,
+.InfoButton[disabled]:hover,
+.InfoButton--disabled:hover {
   box-shadow: 0px 0px 0px 2px var(--disabled);
   color: var(--disabled);
   border-color: var(--disabled);
   cursor: not-allowed;
 }
-.InfoButton[disabled]:focus, .InfoButton--disabled:focus {
+.InfoButton[disabled]:focus,
+.InfoButton--disabled:focus {
   color: white;
   border-color: var(--disabled);
   background-color: var(--disabled);
-  box-shadow: inset 0 0px 2px 0 rgba(0,66,98,.15);
-
+  box-shadow: inset 0 0px 2px 0 rgba(0, 66, 98, 0.15);
 }

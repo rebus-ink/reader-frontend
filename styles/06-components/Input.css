@@ -39,21 +39,28 @@ StyleGuide 6.Input
   box-shadow: 0 0 0 1px var(--active);
 }
 
-.Input--checkbox, .Input--radio {
+.Input--checkbox,
+.Input--radio {
   display: inline-block;
   border: none;
   padding: 0;
   margin: 0;
-  width:inherit;
+  width: inherit;
 }
-.Input[disabled], .Input[readonly], .Input--disabled, .Input--disabled:focus, .Input--disabled:hover {
+.Input[disabled],
+.Input[readonly],
+.Input--disabled,
+.Input--disabled:focus,
+.Input--disabled:hover {
   background-color: #eee;
   border: none;
   box-shadow: none;
   cursor: not-allowed;
 }
 
-.Input:invalid, .Input--invalid, .Input--invalid:focus {
+.Input:invalid,
+.Input--invalid,
+.Input--invalid:focus {
   box-shadow: 0 0 0 1px #eee, 0 0 0 3px var(--error);
 }
 
@@ -74,7 +81,8 @@ StyleGuide 6.Input
   bottom: 0.45rem;
 }
 
-.Input:invalid + .Input-invalidIcon, .Input--invalid + .Input-invalidIcon{
+.Input--invalid + .Input-invalidIcon,
+.Input:invalid + .Input-invalidIcon {
   display: inline-block;
   display: flex;
 }

@@ -11,6 +11,7 @@
     "start": "node index.js",
     "css-docs": "npm run build-css && rm -rf docs && cp -r static docs && kss --config kss-config.json && echo 'done'",
     "css-docs-dev": "onchange 'styles/**/*.css' -- npm run css-docs",
+    "fix-things-for-me": "onchange 'styles/**/*.css' '**/*.js' -- prettier-standard '**/*.{js,md,css}'",
     "build-css": "node build-css.js"
   },
   "repository": {
@@ -38,7 +39,6 @@
     "nodemon": "^1.18.4",
     "onchange": "^4.1.0",
     "postcss": "^7.0.2",
-    "postcss-bem-linter": "^3.1.0",
     "postcss-calc": "^6.0.1",
     "postcss-custom-properties": "^8.0.3",
     "postcss-easy-import": "^3.0.0",
@@ -47,6 +47,8 @@
     "proxyquire": "^2.1.0",
     "sinon": "^6.3.3",
     "standard": "^11.0.1",
+    "stylelint": "^9.6.0",
+    "stylelint-config-recommended": "^2.1.0",
     "tap": "^12.0.1"
   },
   "dependencies": {
@@ -83,9 +85,20 @@
       "commitmsg": "commitlint -E GIT_PARAMS"
     }
   },
+  "stylelint": {
+    "extends": "stylelint-config-recommended",
+    "rules": {
+      "declaration-block-no-duplicate-properties": [
+        true,
+        {
+          "ignore": ["consecutive-duplicates-with-different-values"]
+        }
+      ]
+    }
+  },
   "lint-staged": {
     "linters": {
-      "**/*.{js,md}": [
+      "**/*.{js,md,css}": [
         "prettier-standard",
         "git add"
       ]

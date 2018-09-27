@@ -1,4 +1,3 @@
-
 .Icon {
   display: inline-block;
   text-align: center;
@@ -35,13 +34,12 @@
 
 .Icon--circle {
   border-radius: 100%;
-  background-color:currentColor;
+  background-color: currentColor;
   background-size: 100px;
 }
 
-
 .Icon--circle-svg {
-  transform: translate(-0.1rem, .2rem) scale(.65);
+  transform: translate(-0.1rem, 0.2rem) scale(0.65);
   color: white;
   width: 2.5rem;
   height: 2.5rem;
@@ -55,5 +53,5 @@
 }
 
 .Icon--primary {
-	color: var(--primary);
+  color: var(--primary);
 }

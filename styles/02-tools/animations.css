@@ -23,11 +23,11 @@ Styleguide 2.1.Fade
     transform: translateY(-1rem);
   }
   33% {
-    opacity: .65;
-    transform: translateY(-.15rem);
+    opacity: 0.65;
+    transform: translateY(-0.15rem);
   }
   67% {
-    opacity: .85;
+    opacity: 0.85;
     transform: translateY(-0.05rem);
   }
   100% {
@@ -49,11 +49,11 @@ Styleguide 2.1.Fade
   }
   1% {
     -webkit-transform: scale(0.5);
-            transform: scale(0.5);
+    transform: scale(0.5);
   }
   100% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
 }
 /*
@@ -67,14 +67,14 @@ Markup:
 Styleguide 2.1.ScaleUp
 */
 @keyframes scale-up-center {
- 0% {
-   -webkit-transform: scale(0.5);
-           transform: scale(0.5);
- }
- 100% {
-   -webkit-transform: scale(1);
-           transform: scale(1);
- }
+  0% {
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
 }
 .styleguide-scale-demo {
   animation-duration: 1s;

@@ -1,7 +1,6 @@
 const autoprefixer = require('autoprefixer')
 const postcss = require('postcss')
 const cssnano = require('cssnano')
-const linter = require('postcss-bem-linter')
 const properties = require('postcss-custom-properties')
 const reporter = require('postcss-reporter')
 const easyImport = require('postcss-easy-import')
@@ -13,10 +12,8 @@ fs.readFile('index.css', (err, css) => {
     throw err
   }
   postcss([
-    linter({
-      implicitComponents: 'styles/components/**/*.css'
-    }),
     easyImport,
+    require('stylelint'),
     properties(),
     calc(),
     autoprefixer,
