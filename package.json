@@ -11,7 +11,7 @@
     "start": "node index.js",
     "css-docs": "npm run build-css && rm -rf docs && cp -r static docs && kss --config kss-config.json && echo 'done'",
     "css-docs-dev": "onchange 'styles/**/*.css' -- npm run css-docs",
-    "fix-things-for-me": "onchange 'styles/**/*.css' '**/*.js' -- prettier-standard '**/*.{js,md,css}'",
+    "fix-things-for-me": "onchange 'styles/**/*.css' 'app/**/*.js' 'server/**/*.js' -- prettier-standard '**/*.{js,md,css}'",
     "build-css": "node build-css.js"
   },
   "repository": {
