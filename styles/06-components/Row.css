@@ -8,32 +8,53 @@ Markup:
 <div class="Row"><h3 class="Row-title Row-title--cardTitle">This is a card title</h3></div>
 <div class="Row"><img  class="Row-icon"alt="" src="/styles/cover1.jpg"><p>Saving Bletchley Park</p></div>
 <div class="Row"><img  class="Row-icon"alt="" src="/styles/cover2.jpg">
-<div class="Row-group">
-  <h4 class="Row-title">Badass: Making Users Awesome</h4>
-  <p class="Row-paragraph"><span href="#" class="Row-attribution">Kathy Sierra</span></p>
-</div>
-<button class="Row-button">Read</button>
+  <div class="Row-group">
+    <h4 class="Row-title">Badass: Making Users Awesome</h4>
+    <p class="Row-paragraph"><span href="#" class="Row-attribution">Kathy Sierra</span></p>
+  </div>
+  <div class="Progress">
+  <svg viewBox="0 0 32 32">
+    <circle stroke-width="32" stroke-dasharray="100 100" r="16" cx="16" cy="16" fill="none" stroke="#666"></circle>
+  </svg>
+  <div><span class="Progress-page">408</span><span class="Progress-separator">/</span><span class="Progress-total">408</span></div>
+  </div>
 </div>
 <div class="Row is-selectable"><img  class="Row-icon"alt="" src="/styles/cover3.jpg">
-<div class="Row-group">
-  <h4 class="Row-title"><a href="#">The Half-Life of Joshua Jones</a></h4>
-  <p class="Row-paragraph"><span href="#" class="Row-attribution">Danny Scheinmann</span>, <span href="#" class="Row-attribution">John Mitchinson</span> <span class="Row-attributionLabel">(editor)</span> </p>
-</div>
-<button class="Row-button">View</button>
+  <div class="Row-group">
+    <h4 class="Row-title"><a href="#">The Half-Life of Joshua Jones</a></h4>
+    <p class="Row-paragraph"><span href="#" class="Row-attribution">Danny Scheinmann</span>, <span href="#" class="Row-attribution">John Mitchinson</span> <span class="Row-attributionLabel">(editor)</span> </p>
+  </div>
+  <div class="Progress">
+  <svg viewBox="0 0 32 32">
+    <circle stroke-width="32" stroke-dasharray="75 100" r="16" cx="16" cy="16" fill="none" stroke="#666"></circle>
+  </svg>
+  <div><span class="Progress-page">300</span><span class="Progress-separator">/</span><span class="Progress-total">400</span></div>
+  </div>
 </div>
 <div class="Row is-selected"><img  class="Row-icon"alt="" src="/styles/cover4.jpg">
-<div class="Row-group">
-  <h4 class="Row-title">After I'm Gone (Selected Row)</h4>
-  <p class="Row-paragraph"><span href="#" class="Row-attribution">Laura Lippman</span></p>
-  <p class="Row-paragraph Row-paragraph--tags"><span href="#" class="Row-tag">#suspense</span> <span href="#" class="Row-tag">#femaleauthor</span></p>
-</div>
-<button class="Row-button" aria-label="Information">i</button>
+  <div class="Row-group">
+    <h4 class="Row-title">After I'm Gone (Selected Row)</h4>
+    <p class="Row-paragraph"><span href="#" class="Row-attribution">Laura Lippman</span></p>
+    <p class="Row-paragraph Row-paragraph--tags"><span href="#" class="Row-tag">#suspense</span> <span href="#" class="Row-tag">#femaleauthor</span></p>
+  </div>
+  <div class="Progress">
+  <svg viewBox="0 0 32 32">
+    <circle stroke-width="32" stroke-dasharray="30 100" r="16" cx="16" cy="16" fill="none" stroke="#666"></circle>
+  </svg>
+  <div><span class="Progress-page">140</span><span class="Progress-separator">/</span><span class="Progress-total">456</span></div>
+  </div>
 </div>
 <div class="Row"><img  class="Row-icon"alt="" src="/styles/cover5.jpg">
-<div class="Row-group">
-  <h4 class="Row-title">Just Fucking Ship</h4>
-  <p class="Row-paragraph"><span href="#" class="Row-attribution">Amy Hoy</span></p>
-</div>
+  <div class="Row-group">
+    <h4 class="Row-title">Just Fucking Ship</h4>
+    <p class="Row-paragraph"><span href="#" class="Row-attribution">Amy Hoy</span></p>
+  </div>
+  <div class="Progress">
+  <svg viewBox="0 0 32 32">
+    <circle stroke-width="32" stroke-dasharray="43 100" r="16" cx="16" cy="16" fill="none" stroke="#666"></circle>
+  </svg>
+  <div><span class="Progress-page">100</span><span class="Progress-separator">/</span><span class="Progress-total">230</span></div>
+  </div>
 </div>
 </div>
 

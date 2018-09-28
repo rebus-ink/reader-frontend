@@ -1,0 +1,64 @@
+/*
+Progress
+
+Circular progress bar
+
+Markup:
+<div class="Progress {{modifier_class}}">
+<span> </span>
+<svg viewBox="0 0 32 32">
+  <circle stroke-width="32" stroke-dasharray="75 100" r="16" cx="16" cy="16" fill="none"></circle>
+</svg>
+<div><span class="Progress-page">300</span><span class="Progress-separator">/</span><span class="Progress-total">400</span></div>
+</div>
+
+Progress--tiny - tiny book
+Progress--small - small book
+
+
+StyleGuide 6.Progress
+*/
+
+.Progress {
+  text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.25rem 0;
+  overflow: hidden;
+  line-height: 1;
+}
+
+.Progress svg {
+  height: 60px;
+  width: auto;
+  margin: 0.25rem;
+  border-radius: 50%;
+  background: #eee;
+  transform: rotate(-90deg);
+  display: block;
+  align-self: center;
+}
+
+.Progress--tiny svg {
+  transform: rotate(-90deg) scale(0.5);
+}
+.Progress--small svg {
+  transform: rotate(-90deg) scale(0.75);
+}
+
+.Progress circle {
+  stroke: #aaa;
+}
+
+.Progress-total {
+  font-weight: 350;
+}
+.Progress-page {
+  font-weight: 650;
+}
+.Progress-separator {
+  color: #ccc;
+}
