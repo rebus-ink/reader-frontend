@@ -4,16 +4,14 @@ Progress
 Circular progress bar
 
 Markup:
-<div class="Progress {{modifier_class}}">
-<span> </span>
-<svg viewBox="0 0 32 32">
-  <circle stroke-width="32" stroke-dasharray="75 100" r="16" cx="16" cy="16" fill="none"></circle>
-</svg>
-<div><span class="Progress-page">300</span><span class="Progress-separator">/</span><span class="Progress-total">400</span></div>
+<div class="Progress {{modifier_class}}"><p class="Progress-page">300</p>
+<p class="Progress-total">of 400</p>
 </div>
 
-Progress--tiny - tiny book
-Progress--small - small book
+.Progress--complete - book fully read
+.Progress--shortBook - short book
+.Progress--longBook - long book
+.Progress--unread - unread book
 
 
 StyleGuide 6.Progress
@@ -26,39 +24,38 @@ StyleGuide 6.Progress
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0.25rem 0;
+  padding: 0.25rem;
   overflow: hidden;
   line-height: 1;
-}
-
-.Progress svg {
-  height: 60px;
-  width: auto;
-  margin: 0.25rem;
-  border-radius: 50%;
-  background: #eee;
-  transform: rotate(-90deg);
-  display: block;
-  align-self: center;
-}
-
-.Progress--tiny svg {
-  transform: rotate(-90deg) scale(0.5);
-}
-.Progress--small svg {
-  transform: rotate(-90deg) scale(0.75);
-}
-
-.Progress circle {
-  stroke: #aaa;
+  font-feature-settings: 'pnum' on;
+  font-variant-numeric: proportional-nums;
+  font-size: 2rem;
 }
 
 .Progress-total {
+  display: block;
   font-weight: 350;
+  font-size: 60%;
+  color: black;
 }
 .Progress-page {
-  font-weight: 650;
+  display: block;
+  font-weight: 750;
 }
-.Progress-separator {
-  color: #ccc;
+
+.Progress--complete {
+  color: #28b595;
+}
+.Progress--unread {
+  color: #e7c43d;
+}
+.Progress--unread .Progress-page {
+  text-transform: uppercase;
+  font-size: 1.3rem;
+}
+.Progress--shortBook {
+  font-size: 1.4rem;
+}
+.Progress--longBook {
+  font-size: 2.4rem;
 }

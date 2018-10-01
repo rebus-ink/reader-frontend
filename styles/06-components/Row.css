@@ -5,55 +5,50 @@ Basic row component.
 
 Markup:
 <div>
-<div class="Row"><h3 class="Row-title Row-title--cardTitle">This is a card title</h3></div>
-<div class="Row"><img  class="Row-icon"alt="" src="/styles/cover1.jpg"><p>Saving Bletchley Park</p></div>
-<div class="Row"><img  class="Row-icon"alt="" src="/styles/cover2.jpg">
+<div class="Row Row--titleRow"><h3 class="Row-title Row-title--cardTitle">This is a card title</h3></div>
+<div class="Row"><div class="Row-group"><h4>Saving Bletchley Park</h4></div><img  class="Row-icon"alt="" src="/styles/cover1.jpg">
+  <div class="Progress Progress--unread">
+  <span class="Progress-page">Unread</span><span class="Progress-total">408 p.</span>
+  </div></div>
+<div class="Row">
   <div class="Row-group">
     <h4 class="Row-title">Badass: Making Users Awesome</h4>
     <p class="Row-paragraph"><span href="#" class="Row-attribution">Kathy Sierra</span></p>
   </div>
-  <div class="Progress">
-  <svg viewBox="0 0 32 32">
-    <circle stroke-width="32" stroke-dasharray="100 100" r="16" cx="16" cy="16" fill="none" stroke="#666"></circle>
-  </svg>
-  <div><span class="Progress-page">408</span><span class="Progress-separator">/</span><span class="Progress-total">408</span></div>
+  <img  class="Row-icon"alt="" src="/styles/cover2.jpg">
+  <div class="Progress Progress--complete">
+  <span class="Progress-page">408</span><span class="Progress-total">of 408</span>
   </div>
 </div>
-<div class="Row is-selectable"><img  class="Row-icon"alt="" src="/styles/cover3.jpg">
+<div class="Row is-selectable">
   <div class="Row-group">
     <h4 class="Row-title"><a href="#">The Half-Life of Joshua Jones</a></h4>
     <p class="Row-paragraph"><span href="#" class="Row-attribution">Danny Scheinmann</span>, <span href="#" class="Row-attribution">John Mitchinson</span> <span class="Row-attributionLabel">(editor)</span> </p>
   </div>
+  <img  class="Row-icon"alt="" src="/styles/cover3.jpg">
   <div class="Progress">
-  <svg viewBox="0 0 32 32">
-    <circle stroke-width="32" stroke-dasharray="75 100" r="16" cx="16" cy="16" fill="none" stroke="#666"></circle>
-  </svg>
-  <div><span class="Progress-page">300</span><span class="Progress-separator">/</span><span class="Progress-total">400</span></div>
+  <span class="Progress-page">300</span><span class="Progress-total">of 400</span>
   </div>
 </div>
-<div class="Row is-selected"><img  class="Row-icon"alt="" src="/styles/cover4.jpg">
+<div class="Row is-selected">
   <div class="Row-group">
     <h4 class="Row-title">After I'm Gone (Selected Row)</h4>
     <p class="Row-paragraph"><span href="#" class="Row-attribution">Laura Lippman</span></p>
     <p class="Row-paragraph Row-paragraph--tags"><span href="#" class="Row-tag">#suspense</span> <span href="#" class="Row-tag">#femaleauthor</span></p>
   </div>
-  <div class="Progress">
-  <svg viewBox="0 0 32 32">
-    <circle stroke-width="32" stroke-dasharray="30 100" r="16" cx="16" cy="16" fill="none" stroke="#666"></circle>
-  </svg>
-  <div><span class="Progress-page">140</span><span class="Progress-separator">/</span><span class="Progress-total">456</span></div>
+  <img  class="Row-icon"alt="" src="/styles/cover4.jpg">
+  <div class="Progress Progress--longBook">
+  <span class="Progress-page">140</span><span class="Progress-total">of 1456</span>
   </div>
 </div>
-<div class="Row"><img  class="Row-icon"alt="" src="/styles/cover5.jpg">
+<div class="Row">
   <div class="Row-group">
     <h4 class="Row-title">Just Fucking Ship</h4>
     <p class="Row-paragraph"><span href="#" class="Row-attribution">Amy Hoy</span></p>
   </div>
-  <div class="Progress">
-  <svg viewBox="0 0 32 32">
-    <circle stroke-width="32" stroke-dasharray="43 100" r="16" cx="16" cy="16" fill="none" stroke="#666"></circle>
-  </svg>
-  <div><span class="Progress-page">100</span><span class="Progress-separator">/</span><span class="Progress-total">230</span></div>
+  <img  class="Row-icon"alt="" src="/styles/cover5.jpg">
+  <div class="Progress Progress--shortBook">
+  <span class="Progress-page">100</span><span class="Progress-total">of 130</span>
   </div>
 </div>
 </div>
@@ -105,15 +100,18 @@ StyleGuide 6.2
   text-transform: uppercase;
 }
 
-.Row-icon {
+.Row-icon,
+.kss-style .Row-icon {
   float: left;
-  margin: 0.25rem 1rem 0.25rem 0.25rem;
+  margin: 0.25rem;
   color: var(--primary);
   width: 3rem;
+  max-width: 3rem;
   height: auto;
 }
 
-.Row-title {
+.Row-title,
+.kss-style .Row-title {
   margin: 0;
   padding: 0;
   font-weight: 550;
@@ -160,7 +158,8 @@ StyleGuide 6.2
 .Row--highlight {
   background-color: #f9f9f9;
 }
-.Row-paragraph {
+.Row-paragraph,
+.kss-style .Row-paragraph {
   margin: 0;
   padding: 0;
   line-height: 1rem;
@@ -177,7 +176,7 @@ StyleGuide 6.2
   text-indent: 0;
 }
 .Row-group {
-  margin: 0.25rem 0;
+  margin: 0.25rem;
 }
 .Row-toggles {
   flex: 0 0 auto;
@@ -252,7 +251,10 @@ StyleGuide 6.2
 @supports (display: grid) {
   .Row {
     display: grid;
-    grid-template-columns: 4rem 1fr 0.25fr;
+    grid-template-columns: 1fr min-content 6rem;
+  }
+  .Row--titleRow {
+    display: flex;
   }
   .Row-group {
     height: 100%;
