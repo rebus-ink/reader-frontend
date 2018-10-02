@@ -8,7 +8,7 @@ Markup:
 <div class="Row Row--titleRow"><h3 class="Row-title Row-title--cardTitle">This is a card title</h3></div>
 <div class="Row"><div class="Row-group"><h4>Saving Bletchley Park</h4></div><img  class="Row-icon"alt="" src="/styles/cover1.jpg">
   <div class="Progress Progress--unread">
-  <span class="Progress-page">Unread</span><span class="Progress-total">408 p.</span>
+  <span class="Progress-page">0</span><span class="Progress-total">of <em>408</em></span>
   </div></div>
 <div class="Row">
   <div class="Row-group">
@@ -16,18 +16,18 @@ Markup:
     <p class="Row-paragraph"><span href="#" class="Row-attribution">Kathy Sierra</span></p>
   </div>
   <img  class="Row-icon"alt="" src="/styles/cover2.jpg">
-  <div class="Progress Progress--complete">
-  <span class="Progress-page">408</span><span class="Progress-total">of 408</span>
+  <div class="Progress Progress--read">
+  <span class="Progress-page">408</span><span class="Progress-total">of <em>408</em></span>
   </div>
 </div>
 <div class="Row is-selectable">
   <div class="Row-group">
-    <h4 class="Row-title"><a href="#">The Half-Life of Joshua Jones</a></h4>
+    <h4 class="Row-title"><a href="#" class="Row-link">The Half-Life of Joshua Jones</a></h4>
     <p class="Row-paragraph"><span href="#" class="Row-attribution">Danny Scheinmann</span>, <span href="#" class="Row-attribution">John Mitchinson</span> <span class="Row-attributionLabel">(editor)</span> </p>
   </div>
   <img  class="Row-icon"alt="" src="/styles/cover3.jpg">
   <div class="Progress">
-  <span class="Progress-page">300</span><span class="Progress-total">of 400</span>
+  <span class="Progress-page">300</span><span class="Progress-total">of <em>400</em></span>
   </div>
 </div>
 <div class="Row is-selected">
@@ -38,7 +38,7 @@ Markup:
   </div>
   <img  class="Row-icon"alt="" src="/styles/cover4.jpg">
   <div class="Progress Progress--longBook">
-  <span class="Progress-page">140</span><span class="Progress-total">of 1456</span>
+  <span class="Progress-page">140</span><span class="Progress-total">of <em>1456</em></span>
   </div>
 </div>
 <div class="Row">
@@ -48,7 +48,7 @@ Markup:
   </div>
   <img  class="Row-icon"alt="" src="/styles/cover5.jpg">
   <div class="Progress Progress--shortBook">
-  <span class="Progress-page">100</span><span class="Progress-total">of 130</span>
+  <span class="Progress-page">100</span><span class="Progress-total">of <em>130</em></span>
   </div>
 </div>
 </div>
@@ -60,7 +60,7 @@ StyleGuide 6.2
   display: block;
   font-weight: normal;
   line-height: 3rem;
-  padding: 0;
+  padding: 0 0 0 1rem;
   transition: background-color 0.25s ease-in;
   border: none;
   align-items: center;
@@ -72,7 +72,7 @@ StyleGuide 6.2
 .Row.is-selectable {
   cursor: pointer;
 }
-.Row.is-selectable a {
+.Row.is-selectable .Row-link {
   text-decoration: none;
   font-weight: 600;
   color: black;
@@ -83,7 +83,6 @@ StyleGuide 6.2
   /* This class should only be added by the JS code that enables Row selection */
 }
 .Row.is-selected {
-  box-shadow: inset 0 0 0 2px #ccc;
   background-color: #f9f9f9;
 }
 
@@ -108,6 +107,13 @@ StyleGuide 6.2
   width: 3rem;
   max-width: 3rem;
   height: auto;
+}
+
+.Row-icon--longBook {
+  max-width: 4rem;
+  width: 4rem;
+  object-fit: cover;
+  height: 4rem;
 }
 
 .Row-title,
@@ -148,10 +154,10 @@ StyleGuide 6.2
   margin: 0.25rem 1rem;
 }
 
-.Row a:visited {
+.Row-link:visited {
   color: var(--link);
 }
-.Row a:hover {
+.Row-link:hover {
   color: var(--hover);
 }
 
@@ -251,7 +257,7 @@ StyleGuide 6.2
 @supports (display: grid) {
   .Row {
     display: grid;
-    grid-template-columns: 1fr min-content 6rem;
+    grid-template-columns: 1fr min-content minmax(max-content, 5rem);
   }
   .Row--titleRow {
     display: flex;

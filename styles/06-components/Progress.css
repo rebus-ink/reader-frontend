@@ -8,7 +8,7 @@ Markup:
 <p class="Progress-total">of 400</p>
 </div>
 
-.Progress--complete - book fully read
+.Progress--read - book fully read
 .Progress--shortBook - short book
 .Progress--longBook - long book
 .Progress--unread - unread book
@@ -34,28 +34,37 @@ StyleGuide 6.Progress
 
 .Progress-total {
   display: block;
-  font-weight: 350;
+  font-weight: 300;
   font-size: 60%;
-  color: black;
+}
+.Progress-total em {
+  font-style: normal;
+  font-weight: 400;
 }
 .Progress-page {
   display: block;
   font-weight: 750;
+  letter-spacing: -2px;
 }
 
-.Progress--complete {
-  color: #28b595;
+.Progress--read {
+  color: #1c826a;
+  background-color: var(--valid-light);
 }
 .Progress--unread {
-  color: #e7c43d;
+  color: #887011;
+  background-color: var(--warning-light);
 }
 .Progress--unread .Progress-page {
-  text-transform: uppercase;
-  font-size: 1.3rem;
+  font-size: 3rem;
+  font-weight: 900;
 }
-.Progress--shortBook {
-  font-size: 1.4rem;
-}
-.Progress--longBook {
+/* .Progress--shortBook {
+  font-size: 1.2rem;
+} */
+/* .Progress--longBook {
   font-size: 2.4rem;
+} */
+.Progress--longBook .Progress-page {
+  letter-spacing: -2px;
 }
