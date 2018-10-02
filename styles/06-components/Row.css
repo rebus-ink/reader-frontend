@@ -72,6 +72,12 @@ StyleGuide 6.2
 .Row.is-selectable {
   cursor: pointer;
 }
+.Row-link:visited {
+  color: var(--link);
+}
+.Row-link:hover {
+  color: var(--hover);
+}
 .Row.is-selectable .Row-link {
   text-decoration: none;
   font-weight: 600;
@@ -154,11 +160,13 @@ StyleGuide 6.2
   margin: 0.25rem 1rem;
 }
 
-.Row-link:visited {
-  color: var(--link);
+.Row:focus-within {
+  box-shadow: 0 0 0 4px black;
 }
-.Row-link:hover {
-  color: var(--hover);
+.Row:focus-within .Row-link:focus {
+  background-color: transparent;
+  box-shadow: none;
+  color: black;
 }
 
 .Row--highlight {
