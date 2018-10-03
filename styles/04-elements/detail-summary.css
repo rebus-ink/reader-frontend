@@ -1,0 +1,51 @@
+/*
+Detail + Summary
+
+Built in disclosure widget
+
+Markup:
+<details>
+    <summary>Details</summary>
+    Something small enough to escape casual notice.
+</details>
+
+StyleGuide: 4.detail
+*/
+
+details {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5),
+    0 1px 1px 0px rgba(205, 205, 205, 0.2);
+}
+
+details:first-of-type {
+  border-bottom: 1px solid #e0e0e0;
+  border-top: 1px solid #e0e0e0;
+}
+
+summary {
+  background-image: none;
+  background-color: var(--light);
+  color: #666;
+  font-size: 0.65rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0.25rem 0.5rem;
+  line-height: 0.65rem;
+  font-family: var(--sans-fonts);
+}
+
+details[open] {
+  box-shadow: none;
+  background-color: transparent;
+}
+
+details[open] summary {
+  margin-bottom: 0.5em;
+  box-shadow: none;
+  background-color: transparent;
+}
