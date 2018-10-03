@@ -1,0 +1,244 @@
+/*
+Book Card
+
+Basic book component for display in Library.
+
+Markup:
+<div>
+<div class="BookCard"><img class="BookCard-icon"alt="" src="/styles/cover1.jpg"><div class="BookCard-group"><h4 class="BookCard-title">Saving Bletchley Park</h4>
+    <p class="BookCard-paragraph"></p>
+    <p class="BookCard-paragraph BookCard-paragraph--tags"><span href="#" class="BookCard-tag BookCard-tag--highlight">324 highlights</span></p></div>
+  <div class="BookCard-progress BookCard-progress--unread">
+    <h5 class="BookCard-sessions-label">Sessions (0)</h5>
+    <p class="BookCard-sessions">None</p>
+    <p class="BookCard-total">312 pages</p>
+  </div></div>
+<div class="BookCard">
+  <img  class="BookCard-icon"alt="" src="/styles/cover2.jpg">
+  <div class="BookCard-group">
+    <h4 class="BookCard-title">Badass: Making Users Awesome</h4>
+    <p class="BookCard-paragraph"><span href="#" class="BookCard-attribution">Kathy Sierra</span></p>
+    <p class="BookCard-paragraph BookCard-paragraph--tags"><span href="#" class="BookCard-tag BookCard-tag--highlight">12 highlights</span></p>
+  </div>
+  <div class="BookCard-progress">
+    <h5 class="BookCard-sessions-label">Sessions (2)</h5>
+    <ol class="BookCard-sessions"><li class="BookCard-session"><em class="BookCard-session-time">20 hours ago:</em> <span class="BookCard-session-pages">100-198</span></li><li class="BookCard-session"><em class="BookCard-session-time">2 days ago:</em> <span class="BookCard-session-pages">0-100</span></li></ol>
+    <p class="BookCard-total">402 pages</p>
+  </div>
+</div>
+<div class="BookCard is-selectable">
+  <img  class="BookCard-icon"alt="" src="/styles/cover3.jpg">
+  <div class="BookCard-group">
+    <h4 class="BookCard-title"><a href="#" class="BookCard-link">The Half-Life of Joshua Jones</a></h4>
+    <p class="BookCard-paragraph"><span href="#" class="BookCard-attribution">Danny Scheinmann</span>, <span href="#" class="BookCard-attribution">John Mitchinson</span> <span class="BookCard-attributionLabel">(editor)</span> </p>
+    <p class="BookCard-paragraph BookCard-paragraph--tags"><span href="#" class="BookCard-tag BookCard-tag--highlight">5 highlights</span> <span href="#" class="BookCard-tag BookCard-tag--note">2 notes</span> </p>
+  </div>
+  <div class="BookCard-progress">
+    <h5 class="BookCard-sessions-label">Sessions (4)</h5>
+    <ol class="BookCard-sessions">
+    <li class="BookCard-session"><em class="BookCard-session-time">20 hours ago:</em>  <span class="BookCard-session-pages">235-403</span></li>
+    <li class="BookCard-session"><em class="BookCard-session-time">2 days ago:</em>  <span class="BookCard-session-pages">68-235</span></li><li class="BookCard-session"><em class="BookCard-session-time">5 days ago:</em>  <span class="BookCard-session-pages">15-69</span></li><li class="BookCard-session"><em class="BookCard-session-time">7 days ago:</em>  <span class="BookCard-session-pages">0-15</span></li></ol>
+    <p class="BookCard-total">563 pages</p>
+  </div>
+</div>
+<div class="BookCard is-selected">
+  <img  class="BookCard-icon"alt="" src="/styles/cover4.jpg">
+  <div class="BookCard-group">
+    <h4 class="BookCard-title">After I'm Gone (Selected BookCard)</h4>
+    <p class="BookCard-paragraph"><span href="#" class="BookCard-attribution">Laura Lippman</span></p>
+    <p class="BookCard-paragraph BookCard-paragraph--tags"><span href="#" class="BookCard-tag BookCard-tag--note">8 notes</span> <span href="#" class="BookCard-tag">#suspense</span> <span href="#" class="BookCard-tag">#femaleauthor</span></p>
+  </div>
+  <div class="BookCard-progress">
+    <h5 class="BookCard-sessions-label">Sessions (1)</h5>
+    <ol class="BookCard-sessions"><li class="BookCard-session"><em class="BookCard-session-time">13 days ago:</em>  <span class="BookCard-session-pages">0-138</span></li></ol>
+    <p class="BookCard-total">843 pages</p>
+  </div>
+</div>
+</div>
+
+StyleGuide 6.3
+
+*/
+
+.BookCard {
+  padding: 0;
+  margin: 1px 0;
+  display: flex;
+  justify-content: space-between;
+}
+.BookCard.is-selectable {
+  cursor: pointer;
+}
+.BookCard-link:visited {
+  color: var(--link);
+}
+.BookCard-link:hover {
+  color: var(--hover);
+}
+.BookCard.is-selectable .BookCard-link {
+  text-decoration: none;
+  font-weight: 600;
+  color: black;
+}
+.BookCard.is-selectable:hover {
+  background-color: #fafafa;
+  cursor: pointer;
+  /* This class should only be added by the JS code that enables BookCard selection */
+}
+.BookCard.is-selected {
+  background-color: #f9f9f9;
+}
+
+.BookCard-group {
+  border-bottom: 1px solid #999;
+  padding: 1rem 0 0.25rem;
+  margin: 0 1rem;
+  margin-bottom: -1px;
+  display: flex;
+  flex-direction: column;
+}
+.BookCard:first-of-type .BookCard-group {
+  border-top: 1px solid #999;
+}
+
+.BookCard-icon {
+  display: block;
+  width: auto;
+  height: auto;
+  max-height: 6rem;
+  flex: 0 1 auto;
+}
+
+.BookCard-title,
+.kss-style .BookCard-title {
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.BookCard-attribution {
+  font-weight: 300;
+  font-variant-caps: small-caps;
+  text-decoration: none;
+  color: #666;
+}
+.BookCard-attributionLabel {
+  font-weight: 300;
+  color: #888;
+}
+
+.BookCard-tag {
+  font-weight: 300;
+  font-size: 0.6rem;
+  margin: 0.2rem 0.2rem 0.2rem 0;
+  text-decoration: none;
+  background-color: #f0f0f0;
+  display: inline-block;
+  padding: 4px 5px;
+  border-radius: 0.4rem;
+  font-family: var(--sans-fonts);
+}
+.BookCard-tag:hover {
+  box-shadow: none;
+  color: black;
+  background-color: #f0f0f0;
+}
+.BookCard-tag--note {
+  color: white;
+  background-color: #555;
+}
+.BookCard-tag--highlight {
+  background-color: #ffffba;
+  box-shadow: 0 0 0 1px #ffffba;
+}
+
+.BookCard-paragraph {
+  line-height: 0.6rem;
+  font-weight: 300;
+  margin-top: 0.1rem;
+  font-size: 0.65rem;
+  --local-font-size: 0.65rem;
+}
+.BookCard-paragraph--tags {
+  margin-top: auto;
+}
+
+.BookCard-progress {
+  border-bottom: 1px solid #ccc;
+  padding: 0.5rem 1rem 0.5rem 0;
+  margin-bottom: -1px;
+  display: flex;
+  flex-direction: column;
+}
+
+.BookCard:first-of-type .BookCard-progress {
+  border-top: 1px solid #ccc;
+}
+
+.BookCard-total {
+  font-family: var(--sans-fonts);
+  line-height: 1;
+  font-feature-settings: 'pnum' on;
+  font-variant-numeric: proportional-nums;
+  font-weight: 750;
+  letter-spacing: -1px;
+  font-size: 1.25rem;
+  text-align: right;
+  margin-top: 0.5rem;
+  margin-top: auto;
+}
+
+.BookCard-sessions {
+  list-style: none;
+  margin: 0.5rem 0 1rem;
+  padding: 0;
+  font-family: var(--sans-fonts);
+  line-height: 1;
+  font-feature-settings: 'pnum' on;
+  font-variant-numeric: proportional-nums;
+  font-size: 0.75rem;
+}
+.BookCard-sessions-label {
+  color: #666;
+  font-size: 0.6rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  line-height: 0.6rem;
+}
+
+.BookCard-session {
+  display: flex;
+  justify-content: space-between;
+}
+.BookCard-session-time {
+  font-style: normal;
+  color: #333;
+  font-weight: 300;
+  margin-right: 0.5rem;
+}
+.BookCard-session-pages {
+  font-style: normal;
+  font-weight: 500;
+}
+
+@supports (display: grid) {
+  .BookCard {
+    display: grid;
+    grid-auto-rows: auto;
+    grid-template-columns: 0.25fr 1fr 0.5fr;
+  }
+  .BookCard-icon {
+    display: block;
+    height: auto;
+    width: 100%;
+    max-height: none;
+  }
+  .BookCard-session {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
