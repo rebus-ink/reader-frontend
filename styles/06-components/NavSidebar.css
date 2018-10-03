@@ -23,6 +23,7 @@
   padding: 0.25rem 1rem;
   box-shadow: none;
   color: var(--link);
+  font-family: var(--sans-fonts);
 }
 
 #kss-node .kss-sidebar.kss-style .kss-nav__name,
