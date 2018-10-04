@@ -11,6 +11,7 @@ Markup:
 .TextButton:active - active state
 .TextButton--disabled - disabled state (also styles the `disabled` attribute)
 .TextButton--disabled:focus - disabled state (also styles the `disabled` attribute)
+.TextButton--warning - only click this if you really know what you're doing
 
 StyleGuide 6.TextButton
 
@@ -74,4 +75,14 @@ StyleGuide 6.TextButton
   border-color: var(--disabled);
   background-color: var(--disabled);
   box-shadow: inset 0 0px 2px 0 rgba(0, 66, 98, 0.15);
+}
+
+.TextButton--warning {
+  color: var(--primary);
+}
+.TextButton--information {
+  font-family: var(--fonts);
+  font-style: italic;
+  font-size: 1.25rem;
+  padding: 0 0.5rem;
 }

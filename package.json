@@ -7,7 +7,7 @@
     "node": "^8.0.0"
   },
   "scripts": {
-    "test": "tap --cov tests/*.js",
+    "test": "tap --node-arg=-r --node-arg=esm --cov tests/*.js",
     "start": "node index.js",
     "css-docs": "npm run build-css && rm -rf docs && cp -r static docs && kss --config kss-config.json && echo 'done'",
     "css-docs-dev": "onchange 'styles/**/*.css' -- npm run css-docs",
@@ -55,6 +55,8 @@
     "accesscontrol": "^2.2.1",
     "connect-ensure-login": "^0.1.1",
     "cookie-session": "^2.0.0-beta.3",
+    "date-fns": "^1.29.0",
+    "esm": "^3.0.84",
     "express": "^4.16.3",
     "helmet": "^3.13.0",
     "knex": "^0.15.2",
@@ -91,7 +93,9 @@
       "declaration-block-no-duplicate-properties": [
         true,
         {
-          "ignore": ["consecutive-duplicates-with-different-values"]
+          "ignore": [
+            "consecutive-duplicates-with-different-values"
+          ]
         }
       ]
     }

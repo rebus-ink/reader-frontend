@@ -66,7 +66,6 @@ StyleGuide 6.2
   align-items: center;
   position: relative;
   min-height: 4rem;
-  border-bottom: 1px solid #f0f0f0;
   background-color: white;
 }
 .Row.is-selectable {
@@ -97,7 +96,7 @@ StyleGuide 6.2
 }
 
 .Row:first-child {
-  border-top: 1px solid #f0f0f0;
+  /* border-top: 1px solid #f0f0f0; */
 }
 .Row--link {
   text-align: center;
@@ -197,7 +196,7 @@ StyleGuide 6.2
 }
 
 .Row-button {
-  font-family: var(--fonts);
+  font-family: var(--sans-fonts);
   font-weight: 550;
   flex: 0 1 auto;
   line-height: 1;
@@ -268,7 +267,8 @@ StyleGuide 6.2
     grid-template-columns: 1fr min-content minmax(max-content, 5rem);
   }
   .Row--titleRow {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 3rem;
   }
   .Row-group {
     height: 100%;
@@ -282,8 +282,6 @@ StyleGuide 6.2
     width: 100%;
   }
   .Row-title--cardTitle {
-    grid-column-start: 2;
-    grid-column-end: span 3;
     margin: 0.25rem 0;
   }
 }
