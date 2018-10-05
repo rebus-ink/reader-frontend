@@ -22,7 +22,7 @@ if (
   app.use(
     basicAuth({
       challenge: true,
-      users: { admin: 'plasticfantasticsecret' || process.env.DEV_PASSWORD }
+      users: { admin: process.env.DEV_PASSWORD || 'plasticfantasticsecret' }
     })
   )
 }
@@ -59,24 +59,20 @@ app.use(compression())
 app.use('/static', express.static('static'))
 
 // Only require https if we aren't in dev.
-console.log(process.env.NODE_ENV)
 if (process.env.NODE_ENV !== 'development') {
   app.use(function (req, res, next) {
     const path = req.path || ''
-    if (req.protocol !== 'https') {
+    if (
+      req.protocol !== 'https' &&
+      process.env.DOMAIN !== 'http://127.0.0.1:8800'
+    ) {
       res.redirect(process.env.DOMAIN + path)
     } else {
       next()
     }
   })
   // We only need to log errors/bans. Build in App Engine logs are enough for the rest.
-  app.use(
-    morgan('combined', {
-      skip: function (req, res) {
-        return res.statusCode < 400
-      }
-    })
-  )
+  app.use(morgan('combined'))
 } else {
   // Full logs with colours when in dev.
   app.use(morgan('dev'))
@@ -87,11 +83,31 @@ const viewModel = require('./library-mock.json')
 app.get('/', function (req, res, next) {
   return res.format({
     'text/html': function () {
+      console.log('in /')
       const render = viperHTML.wire
       res.send(pageHead(render, viewModel) + pageBody(render, viewModel))
     },
     'application/json': function () {
       return res.send({ running: true })
+    }
+  })
+})
+app.use(function (req, res, next) {
+  res.status(404)
+  res.send('Not Found')
+})
+
+app.use(function errorHandler (err, req, res, next) {
+  console.error(err.stack)
+  if (res.headersSent) {
+    return next(err)
+  }
+  res.format({
+    'text/html': function () {
+      return res.status(err.statusCode || 500).send('not found')
+    },
+    'application/json': function () {
+      return res.sendStatus(err.statusCode || 500)
     }
   })
 })

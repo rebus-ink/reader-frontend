@@ -9,7 +9,7 @@
   "scripts": {
     "test": "tap --node-arg=-r --node-arg=esm --cov tests/*.js",
     "start": "node index.js",
-    "dev-server": "export NODE_ENV=development DOMAIN=http://127.0.0.1:8800 DEPLOY_STAGE=development && nodemon index.js",
+    "dev-server": "NODE_ENV=development DOMAIN=http://127.0.0.1:8800 DEPLOY_STAGE=development nodemon dev.js",
     "css-docs": "npm run build-css && rm -rf docs && cp -r static docs && kss --config kss-config.json && echo 'done'",
     "css-docs-dev": "onchange 'styles/**/*.css' -- npm run css-docs",
     "fix-things-for-me": "onchange 'styles/**/*.css' 'app/**/*.js' 'server/**/*.js' -- prettier-standard '**/*.{js,md,css}'",
