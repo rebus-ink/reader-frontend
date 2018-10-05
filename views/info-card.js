@@ -1,13 +1,18 @@
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
 
-export const infoCardView = (render, model) => render`<div class="InfoCard">
+export const infoCardView = (render, model) => render(
+  model,
+  ':infoCard'
+)`<div class="InfoCard InfoSidebar">
 <div class="Row Row--titleRow">
   <h3 class="Row-title Row-title--cardTitle">${model.name}</h3>
   <button class="Row-button">Read</button>
 </div>
 <details class="InfoCard-detail" open>
   <summary>Metadata</summary>
+  <ul class="InfoCard-contents">
   ${attributionsMap(model.attributions, render)}
+  </ul>
 </details>
 <details class="InfoCard-detail">
   <summary>Table of Contents</summary>
@@ -39,18 +44,15 @@ export const infoCardView = (render, model) => render`<div class="InfoCard">
 
 function attributionsMap (attributions = [], render) {
   return attributions.map((attribution, index) => {
-    return render(
-      attribution,
-      ':bookCard-attribution'
-    )`<span class="BookCard-attribution">${
+    return render(attribution, ':infoCard-attribution')`<li><span>${
       attribution.name
     }</span> ${attribution.roles.map(
       role =>
         render(
           attribution,
-          ':bookCard-attributionLabel'
-        )`<span class="BookCard-attributionLabel">(${role})</span>`
-    )}`
+          ':infoCard-attributionLabel'
+        )`<span>(${role})</span>`
+    )}</li>`
   })
 }
 

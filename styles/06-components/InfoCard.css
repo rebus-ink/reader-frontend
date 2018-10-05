@@ -389,8 +389,10 @@ StyleGuide 6.4
   /* padding: 0 1rem; */
 }
 .InfoCard-contents {
-  padding: 0.5rem 1rem;
+  padding: 0 1rem;
+  margin: 0 0 0.5rem;
   font-size: 0.75rem;
+  list-style: none;
 }
 
 .InfoCard-contents ol {
@@ -398,4 +400,7 @@ StyleGuide 6.4
 }
 .InfoCard-contents li {
   line-height: 1.25rem;
+}
+.InfoCard-contents .BookCard-session {
+  line-height: 1;
 }

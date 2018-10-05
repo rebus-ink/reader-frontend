@@ -61,8 +61,8 @@ StyleGuide 6.3
 */
 
 .BookCard {
-  padding: 0;
-  margin: 1px 0;
+  padding: 0 1rem;
+  margin: 2px 0;
   display: flex;
   justify-content: space-between;
 }
@@ -77,7 +77,7 @@ StyleGuide 6.3
 }
 .BookCard.is-selectable .BookCard-link {
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 500;
   color: black;
 }
 .BookCard.is-selectable:hover {
@@ -90,7 +90,7 @@ StyleGuide 6.3
 }
 
 .BookCard-group {
-  border-bottom: 1px solid #999;
+  border-bottom: 1px solid #ccc;
   padding: 1rem 0 0.25rem;
   margin: 0 1rem;
   margin-bottom: -1px;
@@ -98,7 +98,7 @@ StyleGuide 6.3
   flex-direction: column;
 }
 .BookCard:first-of-type .BookCard-group {
-  border-top: 1px solid #999;
+  border-top: 1px solid #ccc;
 }
 
 .BookCard-icon {
@@ -222,7 +222,7 @@ StyleGuide 6.3
 }
 .BookCard-session-pages {
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 @supports (display: grid) {
@@ -237,8 +237,8 @@ StyleGuide 6.3
     width: 100%;
     max-height: none;
   }
-  .BookCard-session {
+  /* .BookCard-session {
     display: grid;
     grid-template-columns: 1fr 1fr;
-  }
+  } */
 }

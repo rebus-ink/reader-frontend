@@ -47,11 +47,10 @@ summary:hover {
 
 details[open] {
   box-shadow: none;
-  background-color: transparent;
+  background-color: white;
 }
 
 details[open] summary {
-  margin-bottom: 0.5em;
   background-color: transparent;
 }
 

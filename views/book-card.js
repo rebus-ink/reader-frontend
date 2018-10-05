@@ -1,7 +1,9 @@
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
+const notSelected = 'BookCard is-selectable'
+const selected = 'BookCard is-selectable is-selected'
 
 export const bookCardView = (render, model) => render(model, ':bookCard')`
-<div class="BookCard is-selectable">
+<div class=${model.isSelected ? selected : notSelected}>
   <img  class="BookCard-icon" alt="${model.cover.summary}" src=${
   model.cover.url
 } width=${model.cover.width} height=${model.cover.height}>
@@ -20,7 +22,7 @@ export const bookCardView = (render, model) => render(model, ':bookCard')`
       model,
       ':bookCard-tag--highlight'
     )`<span class="BookCard-tag BookCard-tag--highlight">${
-      model.hightlights
+      model.highlights.length
     } highlights</span>`
     : ''
 }
@@ -30,7 +32,7 @@ export const bookCardView = (render, model) => render(model, ':bookCard')`
       model,
       ':bookCard-tag--note'
     )`<span class="BookCard-tag BookCard-tag--note">${
-      model.notes
+      model.notes.length
     } notes</span>`
     : ''
 }
@@ -49,9 +51,9 @@ export const bookCardView = (render, model) => render(model, ':bookCard')`
   <div class="BookCard-progress">
     <h5 class="BookCard-sessions-label">Sessions (${model.sessions.length})</h5>
     <ol class="BookCard-sessions">
-      ${sessionsMap(model.sessions)}
+      ${sessionsMap(model.sessions, render)}
     </ol>
-    <p class="BookCard-total">~${model.length} pages</p>
+    <p class="BookCard-total">${model.length} pages</p>
   </div>
 </div>`
 

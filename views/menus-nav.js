@@ -1,13 +1,16 @@
-export const topMenu = (render, model) => render`<nav class="Menu Menu--top">
+export const topMenuNav = (render, model) => render(
+  model,
+  ':topMenuNav'
+)`<nav class="Menu Menu--top  Menu--left">
 <ul class="Menu-list">
-  <li><button class="TextButton TextButton--information" aria-label="Help">?</button></li>
+  <li></li>
   <li><button class="TextButton">Settings</button></li>
 </ul>
 </nav>`
-export const bottomMenu = (
-  render,
-  model
-) => render`<nav class="Menu Menu--bottom">
+export const bottomMenuNav = (render, model) => render(
+  model,
+  ':bottomMenuNav'
+)`<nav class="Menu Menu--bottom Menu--left">
 <ul class="Menu-list">
   <li><button class="TextButton">Add…</button></li>
   <li><button class="TextButton">Edit…</button></li>

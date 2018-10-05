@@ -62,6 +62,7 @@ StyleGuide 6.NavSidebar
   color: var(--link);
   font-family: var(--sans-fonts);
   text-decoration: none;
+  border-left: 6px solid transparent;
 }
 
 #kss-node .kss-sidebar.kss-style .kss-nav__name,
@@ -69,18 +70,26 @@ StyleGuide 6.NavSidebar
   color: inherit;
   font-weight: 350;
 }
+.is-selected > .NavSidebar-link {
+  background-color: #5f5f5f;
+  color: white;
+  border-left: 6px #444 solid;
+}
 .NavSidebar-link:hover,
 #kss-node .kss-sidebar.kss-style nav a:hover {
   color: white;
   background-color: var(--link);
   box-shadow: none;
+  border-left-color: #003366;
 }
 .NavSidebar-link:focus,
 #kss-node .kss-sidebar.kss-style nav a:focus {
   margin: 0;
-  padding: 0.25rem 1rem;
+  box-shadow: none;
+  border-radius: 0;
   background-color: var(--link);
   color: white;
+  border-left-color: #003366;
 }
 
 .NavSidebar-item {
@@ -89,11 +98,6 @@ StyleGuide 6.NavSidebar
 
 .NavSidebar-item .NavSidebar-item .NavSidebar-link {
   padding: 0.25rem 2rem;
-}
-.NavSidebar-item.is-selected > .NavSidebar-link {
-  background-color: #5f5f5f;
-  color: white;
-  border-left: 6px #444 solid;
 }
 
 .NavSidebar-separator {

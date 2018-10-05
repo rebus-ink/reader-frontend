@@ -9,6 +9,7 @@
   "scripts": {
     "test": "tap --node-arg=-r --node-arg=esm --cov tests/*.js",
     "start": "node index.js",
+    "dev-server": "export NODE_ENV=development DOMAIN=http://127.0.0.1:8800 DEPLOY_STAGE=development && nodemon index.js",
     "css-docs": "npm run build-css && rm -rf docs && cp -r static docs && kss --config kss-config.json && echo 'done'",
     "css-docs-dev": "onchange 'styles/**/*.css' -- npm run css-docs",
     "fix-things-for-me": "onchange 'styles/**/*.css' 'app/**/*.js' 'server/**/*.js' -- prettier-standard '**/*.{js,md,css}'",
@@ -53,11 +54,13 @@
   },
   "dependencies": {
     "accesscontrol": "^2.2.1",
+    "compression": "^1.7.3",
     "connect-ensure-login": "^0.1.1",
     "cookie-session": "^2.0.0-beta.3",
     "date-fns": "^1.29.0",
     "esm": "^3.0.84",
     "express": "^4.16.3",
+    "express-basic-auth": "^1.1.5",
     "helmet": "^3.13.0",
     "knex": "^0.15.2",
     "morgan": "^1.9.1",
@@ -68,7 +71,8 @@
     "passport-auth0": "^1.0.0",
     "pg": "^7.4.3",
     "sanitize-html": "^1.19.0",
-    "short-uuid": "^3.0.0"
+    "short-uuid": "^3.0.0",
+    "viperhtml": "^2.16.0"
   },
   "standard": {
     "ignore": [

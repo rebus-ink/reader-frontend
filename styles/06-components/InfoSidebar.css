@@ -16,6 +16,8 @@ StyleGuide: 6.InfoSidebar
     -1px 0 1px 0px rgba(205, 205, 205, 0.2);
   background-color: var(--light);
   border-left: 1px solid #e0e0e0;
-  padding: 1rem;
+  padding: 0;
   margin: 0;
+  max-height: 100%;
+  overflow-y: auto;
 }

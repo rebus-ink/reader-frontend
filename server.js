@@ -1,5 +1,5 @@
 'use strict'
-
+require = require('esm')(module) // eslint-disable-line
 const express = require('express')
 const app = express()
 const compression = require('compression')
@@ -10,6 +10,9 @@ const basicAuth = require('express-basic-auth')
 const helmet = require('helmet')
 // const csrf = require('csurf')
 const morgan = require('morgan')
+const viperHTML = require('viperhtml')
+const { pageBody } = require('./views/page-body.js')
+const { pageHead } = require('./views/page-head.js')
 
 // Public staging and dev servers are locked down with a simple basic auth password
 if (
@@ -19,7 +22,7 @@ if (
   app.use(
     basicAuth({
       challenge: true,
-      users: { admin: 'plasticfantasticsecret' }
+      users: { admin: 'plasticfantasticsecret' || process.env.DEV_PASSWORD }
     })
   )
 }
@@ -53,12 +56,15 @@ app.set('trust proxy', true)
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(compression())
+app.use('/static', express.static('static'))
 
 // Only require https if we aren't in dev.
+console.log(process.env.NODE_ENV)
 if (process.env.NODE_ENV !== 'development') {
   app.use(function (req, res, next) {
+    const path = req.path || ''
     if (req.protocol !== 'https') {
-      res.redirect(process.env.HTML_DOMAIN + req.path)
+      res.redirect(process.env.DOMAIN + path)
     } else {
       next()
     }
@@ -75,6 +81,20 @@ if (process.env.NODE_ENV !== 'development') {
   // Full logs with colours when in dev.
   app.use(morgan('dev'))
 }
+
+const viewModel = require('./library-mock.json')
+
+app.get('/', function (req, res, next) {
+  return res.format({
+    'text/html': function () {
+      const render = viperHTML.wire
+      res.send(pageHead(render, viewModel) + pageBody(render, viewModel))
+    },
+    'application/json': function () {
+      return res.send({ running: true })
+    }
+  })
+})
 
 module.exports = {
   // Export app for reuse in other express apps/servers
