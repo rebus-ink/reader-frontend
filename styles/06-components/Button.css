@@ -1,0 +1,208 @@
+/*
+Button
+
+Basic button component.
+
+Markup:
+<button class="Button {{modifier_class}}">This is a Test Button</button>
+
+.Button:hover - hover state
+.Button:focus - focus state
+.Button:active - active state
+.Button:active:focus - active+focus state
+.Button--circular - more rounded borders
+.Button--disabled - disabled state (also styles the `disabled` attribute)
+.Button--primary - primary button
+.Button--primary:hover - primary button, hover
+.Button--primary:focus - primary button, focus
+.Button--primary:active - primary button, active
+.Button--primary:active:focus - primary button, active+focus
+
+StyleGuide 6.Button
+
+*/
+.Button {
+  font-family: var(--sans-fonts);
+  font-size: 0.75rem;
+  font-weight: 550;
+  flex: 0 1 auto;
+  line-height: 1;
+
+  display: inline-block;
+
+  min-width: 8rem;
+  padding: 0.6rem 1.5rem;
+
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-align: center;
+  white-space: nowrap;
+  text-decoration: none;
+  letter-spacing: 1.25px;
+  text-transform: uppercase;
+
+  color: var(--link);
+  border: 2px solid var(--link);
+  border-radius: 0.35rem;
+  outline: none;
+  background-color: white;
+  box-shadow: 0 1px 2px 0 rgba(0, 66, 98, 0.15);
+
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  transition: box-shadow 0.15s ease-in-out;
+}
+
+.Button--circular {
+  border-radius: 100px;
+}
+
+.Button-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.Button:link,
+.Button:visited {
+  color: var(--link);
+  border-color: var(--link);
+}
+
+.Button:hover {
+  color: var(--hover);
+  box-shadow: 0 0 0 2px var(--hover), 0 1px 2px 0 rgba(0, 66, 98, 0.15);
+}
+.Button-icon:hover {
+  color: var(--hover);
+}
+.Button-icon:active {
+  color: var(--active);
+}
+.Button-icon:visited:hover {
+  color: var(--hover);
+}
+
+.Button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--link), inset 0 0px 2px 0 rgba(0, 66, 98, 0.15);
+  background-color: #fafafa;
+}
+
+.Button:active {
+  transform: translate(1px, 1px);
+  color: var(--active);
+  border-color: var(--active);
+  background-color: white;
+}
+.Button:visited:hover {
+  color: var(--hover);
+  border-color: var(--hover);
+}
+.Button:active:focus,
+.Button:active:hover {
+  box-shadow: 0 0 0 2px var(--active), inset 0 0px 2px 0 rgba(0, 66, 98, 0.15);
+}
+
+.Button--primary,
+.Button--primary:link,
+.Button--primary:visited {
+  color: white;
+  font-weight: 350;
+  background-color: var(--link);
+}
+.Button--primary:focus {
+  border-color: var(--link);
+  outline: none;
+  background-color: var(--link);
+  box-shadow: rgb(255, 255, 255) 0px 0px 0px 1px, 0px 0px 0px 3px var(--link);
+}
+
+.Button-icon--primary,
+.Button-icon--primary:link,
+.Button-icon--primary:visited {
+  color: white;
+}
+
+.Button--primary:active {
+  color: white;
+  border-color: var(--active);
+  background-color: var(--active);
+}
+.Button--primary:hover,
+.Button--primary:link:hover {
+  color: white;
+  background-color: var(--hover);
+  border-color: var(--hover);
+}
+.Button-icon--primary:active {
+  color: var(--active);
+}
+.Button-icon--primary:hover,
+.Button-icon--primary:link:hover {
+  color: white;
+}
+
+.Button--primary:active:focus,
+.Button--primary:active:hover {
+  box-shadow: rgb(255, 255, 255) 0px 0px 0px 1px, 0px 0px 0px 3px var(--active);
+}
+
+.Button[disabled],
+.Button--primary[disabled],
+.Button--disabled,
+.Button[disabled]:hover,
+.Button--primary[disabled]:hover,
+.Button--disabled:hover {
+  color: white;
+  border-color: var(--disabled);
+  background-color: var(--disabled);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+.Button[disabled]:focus,
+.Button--primary[disabled]:focus,
+.Button--disabled:focus {
+  border-color: #999;
+  background-color: var(--disabled);
+  box-shadow: inset 0 0px 2px 0 rgba(0, 66, 98, 0.15);
+}
+
+.Button--large {
+  font-size: 1rem;
+
+  padding: 1rem 2rem;
+}
+
+.Button--tab-bar {
+  min-width: auto;
+}
+.Button--full-row {
+  flex: 1 1 auto;
+}
+
+.Button--add {
+  font-size: 2rem;
+  line-height: 0.7rem;
+
+  vertical-align: text-top;
+}
+
+.Button--front {
+  font-size: 1.1rem;
+}
+
+.Button--remove {
+  font-size: 2rem;
+}
+
+.Button--menu {
+  background-color: rgba(255, 255, 255, 0.5);
+  font-size: 0.65rem;
+  padding: 0.3rem 0.5rem;
+  min-width: auto;
+  box-shadow: inset 0 1px 1px 0 rgba(0, 66, 98, 0.15),
+    0 1px 1px 0 rgba(0, 66, 98, 0.15);
+}

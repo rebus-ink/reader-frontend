@@ -1,0 +1,70 @@
+/*
+Progress
+
+Circular progress bar
+
+Markup:
+<div class="Progress {{modifier_class}}"><p class="Progress-page">300</p>
+<p class="Progress-total">of 400</p>
+</div>
+
+.Progress--read - book fully read
+.Progress--shortBook - short book
+.Progress--longBook - long book
+.Progress--unread - unread book
+
+
+StyleGuide 6.Progress
+*/
+
+.Progress {
+  text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.25rem;
+  overflow: hidden;
+  line-height: 1;
+  font-feature-settings: 'pnum' on;
+  font-variant-numeric: proportional-nums;
+  font-size: 2rem;
+}
+
+.Progress-total {
+  display: block;
+  font-weight: 300;
+  font-size: 60%;
+}
+.Progress-total em {
+  font-style: normal;
+  font-weight: 400;
+}
+.Progress-page {
+  display: block;
+  font-weight: 750;
+  letter-spacing: -2px;
+}
+
+.Progress--read {
+  color: #1c826a;
+  background-color: var(--valid-light);
+}
+.Progress--unread {
+  color: #887011;
+  background-color: var(--warning-light);
+}
+.Progress--unread .Progress-page {
+  font-size: 3rem;
+  font-weight: 900;
+}
+/* .Progress--shortBook {
+  font-size: 1.2rem;
+} */
+/* .Progress--longBook {
+  font-size: 2.4rem;
+} */
+.Progress--longBook .Progress-page {
+  letter-spacing: -2px;
+}

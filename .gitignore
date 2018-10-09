@@ -59,3 +59,12 @@ typings/
 
 # next.js build output
 .next
+
+# Docs build folder
+docs/
+
+# Build output
+static/styles/
+static/js/
+app-development.yaml
+google-keyfile.json

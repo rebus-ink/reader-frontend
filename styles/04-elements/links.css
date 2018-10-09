@@ -1,0 +1,50 @@
+/*
+Links
+
+Basic link styles
+
+Markup:
+<p><a href="#" class="{{modifier_class}}">This is a link</a></p>
+
+:link - basic link
+:visited - visited link
+:hover - hover
+:focus - links need focus styles as well
+:active - when it's active
+
+StyleGuide: 4.links
+*/
+
+a {
+  outline: none;
+  box-shadow: 0 0 0 0 var(--light);
+  transition: box-shadow 0.1s cubic-bezier(0.9, 0.03, 0.69, 0.22),
+    transform 0.1s cubic-bezier(0.9, 0.03, 0.69, 0.22);
+}
+:link {
+  color: var(--link);
+}
+:visited {
+  color: var(--visited);
+}
+a:hover {
+  color: var(--hover);
+  box-shadow: 0px 3px 0px 0px;
+  text-decoration: none;
+}
+a:focus {
+  outline: none;
+  text-decoration: none;
+  background-color: var(--link);
+  box-shadow: 0 0 0 4px var(--link);
+  color: white;
+  border-radius: 0.1rem;
+}
+a:active {
+  color: var(--active);
+}
+
+[role='tab']:focus {
+  background-color: var(--light);
+  color: black;
+}

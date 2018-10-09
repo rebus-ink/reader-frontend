@@ -1,0 +1,41 @@
+.CloserButton {
+  font-family: var(--fonts);
+  font-size: 0.85rem;
+  font-size: 300%;
+  font-weight: 300;
+
+  flex: 0 1 auto;
+  line-height: 1;
+
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+
+  display: inline-block;
+
+  min-width: auto;
+  padding: 0;
+
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-align: center;
+  white-space: nowrap;
+  text-decoration: none;
+  letter-spacing: 0.89px;
+  text-transform: uppercase;
+
+  color: var(--primary);
+  border: none;
+  outline: none;
+  background-color: transparent;
+  box-shadow: none;
+
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+.CloserButton:hover {
+  border: none;
+}

@@ -1,0 +1,93 @@
+/*
+Text Button
+
+Basic text button component.
+
+Markup:
+<button class="TextButton {{modifier_class}}">This is a Text Button</button>
+
+.TextButton:hover - hover state
+.TextButton:focus - focus state
+.TextButton:active - active state
+.TextButton--disabled - disabled state (also styles the `disabled` attribute)
+.TextButton--disabled:focus - disabled state (also styles the `disabled` attribute)
+.TextButton--warning - only click this if you really know what you're doing
+
+StyleGuide 6.TextButton
+
+*/
+
+.TextButton {
+  font-family: var(--sans-fonts);
+  font-weight: 400;
+  flex: 0 1 auto;
+  line-height: 1.2;
+
+  display: inline-block;
+  padding: 0;
+
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-align: center;
+  white-space: nowrap;
+  text-decoration: none;
+
+  color: var(--link);
+  border: none;
+  outline: none;
+  background-color: transparent;
+
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+.TextButton:hover {
+  color: var(--hover);
+  box-shadow: 0px 3px 0px 0px;
+  text-decoration: none;
+}
+
+.TextButton:active {
+  color: var(--active);
+}
+
+.TextButton:focus {
+  outline: none;
+  text-decoration: none;
+  background-color: var(--link);
+  box-shadow: 0 0 0 4px var(--link);
+  color: white;
+  border-radius: 0.1rem;
+}
+
+.TextButton[disabled],
+.TextButton--disabled,
+.TextButton[disabled]:hover,
+.TextButton--disabled:hover {
+  color: var(--disabled);
+  cursor: not-allowed;
+}
+.TextButton[disabled]:focus,
+.TextButton--disabled:focus {
+  color: white;
+  border-color: var(--disabled);
+  background-color: var(--disabled);
+  box-shadow: inset 0 0px 2px 0 rgba(0, 66, 98, 0.15);
+}
+
+.TextButton--warning {
+  color: var(--primary);
+}
+.TextButton--information {
+  font-family: var(--fonts);
+  font-style: italic;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+.TextButton--emoji {
+  text-shadow: 0 0 var(--link);
+  color: transparent;
+  line-height: 1.3;
+}

@@ -1,4 +1,4 @@
-# reader-api
+# reader-frontend
 
 Hobb API Server: backend for the Rebus Reader system
 

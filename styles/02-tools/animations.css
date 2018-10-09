@@ -1,0 +1,84 @@
+/*
+Animation
+
+Animation keyframes
+
+Styleguide 2.1
+*/
+
+/*
+Fade In
+
+For when elements are appearing.
+
+Markup:
+<div class="font-demo-serif styleguide-fade-demo"><span class="font-demo-lighter">This</span> is a <em>demo</em> of the <strong>fade</strong> animation</div>
+
+Styleguide 2.1.Fade
+*/
+@keyframes fadeIn {
+  0% {
+    display: block;
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+  33% {
+    opacity: 0.65;
+    transform: translateY(-0.15rem);
+  }
+  67% {
+    opacity: 0.85;
+    transform: translateY(-0.05rem);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.styleguide-fade-demo {
+  animation-duration: 1s;
+  animation-name: fadeIn;
+  animation-iteration-count: infinite;
+  background-color: #f0f0f0;
+}
+
+@keyframes ux-hover {
+  0% {
+    display: block;
+  }
+  1% {
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+/*
+Scale Up
+
+For Dialog boxes and the like
+
+Markup:
+<div class="font-demo-serif styleguide-scale-demo"><span class="font-demo-lighter">This</span> is a <em>demo</em> of the <strong>fade</strong> animation</div>
+
+Styleguide 2.1.ScaleUp
+*/
+@keyframes scale-up-center {
+  0% {
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+.styleguide-scale-demo {
+  animation-duration: 1s;
+  animation-name: scale-up-center;
+  animation-iteration-count: infinite;
+  background-color: #f0f0f0;
+}

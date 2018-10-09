@@ -1,0 +1,287 @@
+/*
+Row
+
+Basic row component.
+
+Markup:
+<div>
+<div class="Row Row--titleRow"><h3 class="Row-title Row-title--cardTitle">This is a card title</h3></div>
+<div class="Row"><div class="Row-group"><h4>Saving Bletchley Park</h4></div><img  class="Row-icon"alt="" src="/styles/cover1.jpg">
+  <div class="Progress Progress--unread">
+  <span class="Progress-page">0</span><span class="Progress-total">of <em>408</em></span>
+  </div></div>
+<div class="Row">
+  <div class="Row-group">
+    <h4 class="Row-title">Badass: Making Users Awesome</h4>
+    <p class="Row-paragraph"><span href="#" class="Row-attribution">Kathy Sierra</span></p>
+  </div>
+  <img  class="Row-icon"alt="" src="/styles/cover2.jpg">
+  <div class="Progress Progress--read">
+  <span class="Progress-page">408</span><span class="Progress-total">of <em>408</em></span>
+  </div>
+</div>
+<div class="Row is-selectable">
+  <div class="Row-group">
+    <h4 class="Row-title"><a href="#" class="Row-link">The Half-Life of Joshua Jones</a></h4>
+    <p class="Row-paragraph"><span href="#" class="Row-attribution">Danny Scheinmann</span>, <span href="#" class="Row-attribution">John Mitchinson</span> <span class="Row-attributionLabel">(editor)</span> </p>
+  </div>
+  <img  class="Row-icon"alt="" src="/styles/cover3.jpg">
+  <div class="Progress">
+  <span class="Progress-page">300</span><span class="Progress-total">of <em>400</em></span>
+  </div>
+</div>
+<div class="Row is-selected">
+  <div class="Row-group">
+    <h4 class="Row-title">After I'm Gone (Selected Row)</h4>
+    <p class="Row-paragraph"><span href="#" class="Row-attribution">Laura Lippman</span></p>
+    <p class="Row-paragraph Row-paragraph--tags"><span href="#" class="Row-tag">#suspense</span> <span href="#" class="Row-tag">#femaleauthor</span></p>
+  </div>
+  <img  class="Row-icon"alt="" src="/styles/cover4.jpg">
+  <div class="Progress Progress--longBook">
+  <span class="Progress-page">140</span><span class="Progress-total">of <em>1456</em></span>
+  </div>
+</div>
+<div class="Row">
+  <div class="Row-group">
+    <h4 class="Row-title">Just Fucking Ship</h4>
+    <p class="Row-paragraph"><span href="#" class="Row-attribution">Amy Hoy</span></p>
+  </div>
+  <img  class="Row-icon"alt="" src="/styles/cover5.jpg">
+  <div class="Progress Progress--shortBook">
+  <span class="Progress-page">100</span><span class="Progress-total">of <em>130</em></span>
+  </div>
+</div>
+</div>
+
+StyleGuide 6.2
+
+*/
+.Row {
+  display: block;
+  font-weight: normal;
+  line-height: 3rem;
+  padding: 0 0 0 1rem;
+  transition: background-color 0.25s ease-in;
+  border: none;
+  align-items: center;
+  position: relative;
+  min-height: 4rem;
+  background-color: white;
+}
+.Row.is-selectable {
+  cursor: pointer;
+}
+.Row-link:visited {
+  color: var(--link);
+}
+.Row-link:hover {
+  color: var(--hover);
+}
+.Row.is-selectable .Row-link {
+  text-decoration: none;
+  font-weight: 600;
+  color: black;
+}
+.Row.is-selectable:hover {
+  background-color: #fafafa;
+  cursor: pointer;
+  /* This class should only be added by the JS code that enables Row selection */
+}
+.Row.is-selected {
+  background-color: #f9f9f9;
+}
+
+.Row--end {
+  justify-content: flex-end;
+}
+
+.Row:first-child {
+  /* border-top: 1px solid #f0f0f0; */
+}
+.Row--link {
+  text-align: center;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+}
+
+.Row-icon,
+.kss-style .Row-icon {
+  float: left;
+  margin: 0.25rem;
+  color: var(--primary);
+  width: 3rem;
+  max-width: 3rem;
+  height: auto;
+}
+
+.Row-icon--longBook {
+  max-width: 4rem;
+  width: 4rem;
+  object-fit: cover;
+  height: 4rem;
+}
+
+.Row-title,
+.kss-style .Row-title {
+  margin: 0;
+  padding: 0;
+  font-weight: 550;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.Row-attribution {
+  font-variant-caps: small-caps;
+  text-decoration: none;
+  color: #666;
+}
+
+.Row-attributionLabel {
+  color: #888;
+}
+.Row-tag {
+  font-size: 0.6rem;
+  margin: 0.2rem 0.2rem 0.2rem 0;
+  text-decoration: none;
+  background-color: var(--light);
+  display: inline-block;
+  padding: 4px 5px;
+  border-radius: 0.4rem;
+}
+
+.Row-tag:hover {
+  box-shadow: none;
+  background-color: #f0f0f0;
+}
+
+.Row-title--cardTitle {
+  font-size: 1.2rem;
+  margin: 0.25rem 1rem;
+}
+
+.Row:focus-within {
+  box-shadow: 0 0 0 4px black;
+}
+.Row:focus-within .Row-link:focus {
+  background-color: transparent;
+  box-shadow: none;
+  color: black;
+}
+
+.Row--highlight {
+  background-color: #f9f9f9;
+}
+.Row-paragraph,
+.kss-style .Row-paragraph {
+  margin: 0;
+  padding: 0;
+  line-height: 1rem;
+  font-size: 0.75rem;
+}
+.Row-paragraph--tags {
+  line-height: 1;
+}
+
+.Row-label {
+  border: none;
+  padding: 0;
+  display: inline-block;
+  text-indent: 0;
+}
+.Row-group {
+  margin: 0.25rem;
+}
+.Row-toggles {
+  flex: 0 0 auto;
+}
+
+.Row-button {
+  font-family: var(--sans-fonts);
+  font-weight: 550;
+  flex: 0 1 auto;
+  line-height: 1;
+
+  display: inline-block;
+  padding: 0;
+
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-align: center;
+  white-space: nowrap;
+  text-decoration: none;
+
+  color: var(--link);
+  border: none;
+  outline: none;
+  background-color: transparent;
+
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+
+.Row-button:hover {
+  color: white;
+  background-color: var(--link);
+}
+.Row-button:focus {
+  text-decoration: none;
+  box-shadow: 0px 3px 0px 0px;
+  background-color: var(--light);
+  outline: none;
+}
+
+@supports (display: flex) {
+  .Row--buttons {
+    display: flex;
+  }
+  .Row-body {
+    flex: 0 0 auto;
+    display: block;
+  }
+  .Row-wrapper {
+    flex: 0 1 auto;
+  }
+  .Row {
+    display: flex;
+  }
+  .Row-icon {
+    flex: 0 1 auto;
+  }
+  .Row--link {
+    justify-content: center;
+  }
+  .Row--toggle {
+    display: flex;
+  }
+  .Row-button {
+    margin-left: auto;
+  }
+}
+
+@supports (display: grid) {
+  .Row {
+    display: grid;
+    grid-template-columns: 1fr min-content minmax(max-content, 5rem);
+  }
+  .Row--titleRow {
+    display: grid;
+    grid-template-columns: 1fr 3rem;
+  }
+  .Row-group {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .Row-button {
+    height: 100%;
+    display: block;
+    width: 100%;
+  }
+  .Row-title--cardTitle {
+    margin: 0.25rem 0;
+  }
+}
