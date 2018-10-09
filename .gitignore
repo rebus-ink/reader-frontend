@@ -68,3 +68,4 @@ static/styles/
 static/js/
 app-development.yaml
 google-keyfile.json
+secrets.tar
