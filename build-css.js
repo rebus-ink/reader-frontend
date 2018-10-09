@@ -28,6 +28,14 @@ fs.readFile('index.css', (err, css) => {
       map: { inline: false }
     })
     .then(result => {
+      try {
+        fs.mkdirSync('static/styles/')
+      } catch (err) {
+        if (err.code !== 'EEXIST') throw err
+      }
+      return result
+    })
+    .then(result => {
       fs.writeFile('static/styles/app.css', result.css, () =>
         console.log('app.css')
       )
