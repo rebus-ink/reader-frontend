@@ -7,7 +7,7 @@
     "node": "^8.0.0"
   },
   "scripts": {
-    "test": "npm run build-css && tap --node-arg=-r --node-arg=esm --cov tests/*.js",
+    "test": "npm run build-css && tap --cov tests/*.js",
     "start": "node index.js",
     "dev-server": "NODE_ENV=development DOMAIN=http://127.0.0.1:8800 DEPLOY_STAGE=development nodemon dev.js",
     "css-docs": "npm run build-css && rm -rf docs && cp -r static docs && kss --config kss-config.json && echo 'done'",
