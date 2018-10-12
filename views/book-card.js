@@ -17,21 +17,11 @@ export const bookCardView = (render, model) => render(model, ':bookCard')`
   )}</p>
     <p class="BookCard-paragraph BookCard-paragraph--tags">
       ${
-  model.highlights
+  model.notes
     ? render(
       model,
       ':bookCard-tag--highlight'
     )`<span class="BookCard-tag BookCard-tag--highlight">${
-      model.highlights.length
-    } highlights</span>`
-    : ''
-}
-      ${
-  model.notes
-    ? render(
-      model,
-      ':bookCard-tag--note'
-    )`<span class="BookCard-tag BookCard-tag--note">${
       model.notes.length
     } notes</span>`
     : ''
