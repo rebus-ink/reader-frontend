@@ -62,10 +62,7 @@ app.use('/static', express.static('static'))
 if (process.env.NODE_ENV !== 'development') {
   app.use(function (req, res, next) {
     const path = req.path || ''
-    if (
-      req.protocol !== 'https' &&
-      process.env.DOMAIN !== 'http://127.0.0.1:8800'
-    ) {
+    if (req.protocol !== 'https') {
       res.redirect(process.env.DOMAIN + path)
     } else {
       next()
@@ -83,7 +80,6 @@ const viewModel = require('./library-mock.json')
 app.get('/', function (req, res, next) {
   return res.format({
     'text/html': function () {
-      console.log('in /')
       const render = viperHTML.wire
       res.send(pageHead(render, viewModel) + pageBody(render, viewModel))
     },
