@@ -70,7 +70,7 @@ function sessionsMap (sessions = [], render) {
       session,
       ':bookCard-session'
     )`<li class="BookCard-session"><em class="BookCard-session-time">${distanceInWordsToNow(
-      session.created
+      session.published
     )}:</em>  <span class="BookCard-session-pages">${session.start}-${
       session.end
     }</span></li>`

@@ -11,15 +11,15 @@
     "sessions": [{
       "start": 0,
       "end": 102,
-      "created": "2018-08-19 14:18:49.98-04"
+      "published": "2018-08-19 14:18:49.98-04"
     }, {
       "start": 102,
       "end": 172,
-      "created": "2018-07-20 14:18:49.98-04"
+      "published": "2018-07-20 14:18:49.98-04"
     }, {
       "start": 172,
       "end": 302,
-      "created": "2018-06-21 14:18:49.98-04"
+      "published": "2018-06-21 14:18:49.98-04"
     }]
   }, {
     "name": "Badass: Making Users Awesome",
@@ -33,7 +33,7 @@
     "sessions": [{
       "start": 0,
       "end": 300,
-      "created": "2018-09-30 14:18:49.98-04"
+      "published": "2018-09-30 14:18:49.98-04"
     }]
   }, {
     "name": "Saving Bletchley Park",
@@ -54,7 +54,7 @@
     "sessions": [{
       "start": 0,
       "end": 138,
-      "created": "2018-09-19 14:18:49.98-04"
+      "published": "2018-09-19 14:18:49.98-04"
     }]
   }, {
     "name": "Heart of the Original",
