@@ -8,13 +8,13 @@
   },
   "scripts": {
     "test": "npm run build-css && tap --cov tests/*.js",
-    "dev-test": "onchange 'app/**/*.js' 'server/**/*.js' 'test/**/*.js' -- tap --cov tests/*.js",
-    "start": "node index.js",
+    "dev-test": "onchange 'app/**/*.js' 'server/**/*.js' 'test/**/*.js' -- onerror \"tap --cov -R classic tests/*.js\"",
     "dev-server": "NODE_ENV=development DOMAIN=http://127.0.0.1:8800 DEPLOY_STAGE=development nodemon dev.js",
-    "css-docs": "npm run build-css && rm -rf docs && cp -r static docs && kss --config kss-config.json && echo 'done'",
-    "css-docs-dev": "onchange 'styles/**/*.css' -- npm run css-docs",
     "fix-things-for-me": "onchange 'styles/**/*.css' 'app/**/*.js' 'server/**/*.js' -- prettier-standard '**/*.{js,md,css}'",
-    "build-css": "node build-css.js"
+    "start": "node index.js",
+    "build-css": "node build-css.js",
+    "css-docs": "npm run build-css && rm -rf docs && cp -r static docs && kss --config kss-config.json && echo 'done'",
+    "css-docs-dev": "onchange 'styles/**/*.css' -- npm run css-docs"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
     "@commitlint/cli": "^7.1.2",
     "@commitlint/config-conventional": "^7.1.2",
     "autoprefixer": "^9.1.5",
+    "cli-error-notifier": "^2.0.1",
     "cssnano": "^4.1.0",
     "csurf": "^1.9.0",
     "documentation": "^8.1.2",
@@ -65,6 +66,7 @@
     "express-basic-auth": "^1.1.5",
     "got": "^9.2.2",
     "helmet": "^3.13.0",
+    "keyv": "^3.1.0",
     "knex": "^0.15.2",
     "morgan": "^1.9.1",
     "objection": "^1.2.6",
