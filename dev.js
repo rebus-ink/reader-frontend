@@ -1,6 +1,8 @@
 const https = require('https')
 const fs = require('fs')
 const { app } = require('./server.js')
+const morgan = require('morgan')
+app.use(morgan('dev'))
 
 const options = {
   key: fs.readFileSync('./dev/localhost.key'),
