@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "npm run build-css && tap --cov tests/*.js",
-    "dev-test": "onchange 'app/**/*.js' 'server/**/*.js' 'test/**/*.js' -- onerror \"tap --cov -R classic tests/*.js\"",
+    "dev-test": "onchange 'app/**/*.js' 'server/**/*.js' 'tests/**/*.js' -- onerror \"tap --cov -R classic tests/*.js\"",
     "dev-server": "NODE_ENV=development DOMAIN=http://127.0.0.1:8800 DEPLOY_STAGE=development nodemon dev.js",
     "fix-things-for-me": "onchange 'styles/**/*.css' 'app/**/*.js' 'server/**/*.js' -- prettier-standard '**/*.{js,md,css}'",
     "start": "node index.js",
@@ -40,6 +40,7 @@
     "husky": "^1.0.0-rc.14",
     "kss": "^3.0.0-beta.23",
     "lint-staged": "^7.2.2",
+    "node-mocks-http": "^1.7.3",
     "nodemon": "^1.18.4",
     "onchange": "^4.1.0",
     "postcss": "^7.0.2",
