@@ -63,4 +63,4 @@ function setup (app, options) {
   })
 }
 
-module.exports.setup = setup
+module.exports.authSetup = setup
