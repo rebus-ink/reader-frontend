@@ -4,21 +4,7 @@ const express = require('express')
 const app = express()
 const compression = require('compression')
 // const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn
-const basicAuth = require('express-basic-auth')
 const { securitySetup } = require('./server/security.js')
-
-// Public staging and dev servers are locked down with a simple basic auth password
-if (
-  process.env.DEPLOY_STAGE === 'staging' ||
-  process.env.DEPLOY_STAGE === 'development'
-) {
-  app.use(
-    basicAuth({
-      challenge: true,
-      users: { admin: process.env.DEV_PASSWORD || 'plasticfantasticsecret' }
-    })
-  )
-}
 
 securitySetup(app)
 

@@ -1,5 +1,19 @@
 const { app } = require('./server.js')
 const morgan = require('morgan')
+const basicAuth = require('express-basic-auth')
+
+// Public staging and dev servers are locked down with a simple basic auth password
+if (
+  process.env.DEPLOY_STAGE === 'staging' ||
+  process.env.DEPLOY_STAGE === 'development'
+) {
+  app.use(
+    basicAuth({
+      challenge: true,
+      users: { admin: process.env.DEV_PASSWORD || 'plasticfantasticsecret' }
+    })
+  )
+}
 
 app.use(function (req, res, next) {
   const path = req.path || ''
@@ -10,5 +24,11 @@ app.use(function (req, res, next) {
   }
 })
 // We only need to log errors/bans. Built-in App Engine logs are enough for the rest.
-app.use(morgan('combined'))
+app.use(
+  morgan('combined', {
+    skip: function (req, res) {
+      return res.statusCode < 400
+    }
+  })
+)
 app.listen(8080, () => console.log('Listening'))
