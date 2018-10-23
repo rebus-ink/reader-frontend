@@ -75,11 +75,6 @@ function setup (options) {
     },
     passport.authenticate('auth0', { failureRedirect: '/login' })
   )
-  app.post('/logout', (req, res) => {
-    req.session = null
-    req.logout()
-    res.redirect('/')
-  })
   app.get('/login', function (req, res, next) {
     if (req.user) {
       res.redirect(req.session.returnTo || '/')
@@ -106,6 +101,7 @@ function setup (options) {
   })
 
   // Routes
+  app.use('/', require('./server/routes/logout.js'))
   app.use('/', require('./server/routes/front-page.js'))
   app.use('/', require('./server/routes/library.js'))
 
