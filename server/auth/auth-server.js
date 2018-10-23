@@ -47,10 +47,10 @@ function authserver (options) {
             // create JWT, save in token store
             const { readerId } = user
             const expiresIn = '30m'
-            const token = jwt({ sub: readerId }, process.env.SECRETORKEY, {
+            const token = jwt.sign({ sub: readerId }, process.env.SECRETORKEY, {
               algorithm: 'HS256',
               expiresIn,
-              jwtId: translator.new(),
+              jwtid: translator.new(),
               audience: process.env.AUDIENCE,
               issuer: process.env.ISSUER
             })
@@ -81,6 +81,7 @@ function authserver (options) {
 
   app.use('/', require('../routes/login.js'))
   app.use('/', require('../routes/logout.js'))
+  app.use('/', require('../routes/refresh-token.js'))
   return app
 }
 
