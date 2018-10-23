@@ -1,9 +1,11 @@
+require = require('esm')(module) // eslint-disable-line
 const https = require('https')
 const fs = require('fs')
 const { setup } = require('./server.js')
 const yaml = require('js-yaml')
 const morgan = require('morgan')
 const KeyvFile = require('keyv-file')
+const { authserver } = require('./server/auth/auth-server.js')
 
 // Auth
 const doc = yaml.safeLoad(fs.readFileSync('./app-development.yaml', 'utf8'))
@@ -19,12 +21,14 @@ const strategy = new Auth0Strategy(
     return done(null, profile)
   }
 )
-const app = setup({
-  strategy,
-  store: new KeyvFile({
-    filename: `./keyv-file/default.msgpack`
+const app = setup(
+  authserver({
+    strategy,
+    store: new KeyvFile({
+      filename: `./keyv-file/default.msgpack`
+    })
   })
-})
+)
 
 app.use(morgan('dev'))
 

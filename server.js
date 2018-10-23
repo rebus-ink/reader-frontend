@@ -5,15 +5,8 @@ const compression = require('compression')
 const cookieSession = require('cookie-session')
 // const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn
 const { securitySetup } = require('./server/security.js')
-const passport = require('passport')
-const Keyv = require('keyv')
-const { authenticate } = require('./server/auth/authenticate.js')
-const viperHTML = require('viperhtml')
-const { pageHead } = require('./views/page-head.js')
-const { pageFoot } = require('./views/page-foot.js')
 
-function setup (options) {
-  const { strategy, store } = options
+function setup (authserver) {
   const app = express()
   securitySetup(app)
 
@@ -35,73 +28,14 @@ function setup (options) {
   app.use(compression())
   app.use('/static', express.static('static'))
 
-  // Storage setup
-  options.storage = new Keyv({
-    uri: typeof store === 'string' && store,
-    store: typeof store !== 'string' && store,
-    namespace: 'rebus-reader-accounts'
-  })
-
-  // Passport setup
-  passport.use(strategy)
-  passport.serializeUser((user, done) => {
-    done(null, user.id)
-  })
-  passport.deserializeUser((id, done) => {
-    return options.storage
-      .get(id)
-      .then(user => {
-        if (user) {
-          done(null, user)
-        } else {
-          done(null, { id })
-        }
-      })
-      .catch(err => {
-        done(err)
-      })
-  })
-  app.use(passport.initialize())
-  app.use(passport.session())
-
-  // Login and logout routes
-  app.post(
-    '/login',
-    function (req, res, next) {
-      if (req.query.returnTo) {
-        req.session.returnTo = req.query.returnTo
-      }
-      next()
-    },
-    passport.authenticate('auth0', { failureRedirect: '/login' })
-  )
-  app.get('/login', function (req, res, next) {
-    if (req.user) {
-      res.redirect(req.session.returnTo || '/')
-    }
-    const render = viperHTML.wire
-    res.send(
-      pageHead(render) +
-        `<div class="FrontLayout">
-    <form action="/login?returnTo=/library" method="POST">
-    <button class="Button">Log In</button>
-    </form>
-    </div>` +
-        pageFoot(render)
-    )
-  })
-  app.get('/callback', authenticate(options), function (req, res, next) {
-    res.redirect(req.session.returnTo || '/')
-  })
-
   // Make sure the session doesn't expire as long as there is activity
   app.use(function (req, res, next) {
     req.session.nowInMinutes = Math.floor(Date.now() / 60e3)
     next()
   })
+  app.use(authserver)
 
   // Routes
-  app.use('/', require('./server/routes/logout.js'))
   app.use('/', require('./server/routes/front-page.js'))
   app.use('/', require('./server/routes/library.js'))
 
@@ -117,7 +51,13 @@ function setup (options) {
     }
     res.format({
       'text/html': function () {
-        return res.status(err.statusCode || 500).send('not found')
+        if (process.env.NODE_ENV === 'development') {
+          return res
+            .status(err.statusCode || 500)
+            .send(JSON.stringify(err.stack, null, 4))
+        } else {
+          return res.status(err.statusCode || 500).send('Something Went Boom')
+        }
       },
       'application/json': function () {
         return res.sendStatus(err.statusCode || 500)
