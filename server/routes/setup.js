@@ -1,7 +1,10 @@
 const passport = require('passport')
 const Keyv = require('keyv')
-const cookieSession = require('cookie-session')
-const { authenticate } = require('./authenticate.js')
+const { authenticate } = require('../auth/authenticate.js')
+const express = require('express')
+const viperHTML = require('viperhtml')
+const { pageHead } = require('../../views/page-head.js')
+const { pageFoot } = require('../../views/page-foot.js')
 /**
  * setup
  * You need to setup session middleware before you call this. You also need to define your own `loginPath` GET routes. This does not handle user account creation.
@@ -9,14 +12,9 @@ const { authenticate } = require('./authenticate.js')
  * @param {*} strategy initialised passport strategy
  * @param {*} store keyV store
  */
-function setup (app, options) {
-  const {
-    strategy,
-    store,
-    loginPath = '/login',
-    logoutPath = '/logout',
-    logoutRedirect = '/'
-  } = options
+function authRouter (options) {
+  const router = express.Router()
+  const { strategy, store, logoutRedirect = '/' } = options
 
   // Storage setup
   options.storage = new Keyv({
@@ -24,16 +22,6 @@ function setup (app, options) {
     store: typeof store !== 'string' && store,
     namespace: 'rebus-reader-accounts'
   })
-
-  // Cookie Session
-  app.use(
-    cookieSession({
-      name: 'sod',
-      keys: [process.env.COOKIE_KEY || '4FAC5133-2641-4745-9D58-2187C37B8116'],
-      secure: true,
-      maxAge: 24 * 60 * 60 * 1000
-    })
-  )
 
   // Passport setup
   passport.use(strategy)
@@ -46,21 +34,38 @@ function setup (app, options) {
       .then(user => done(null, user))
       .catch(err => done(err))
   })
-  app.use(passport.initialize())
-  app.use(passport.session())
+  router.use(passport.initialize())
+  router.use(passport.session())
 
   // Login and logout routes
-  app.post(loginPath, authenticate(options))
-  app.post(logoutPath, (req, res) => {
+  router.post('/login', authenticate(options))
+  router.post('/logout', (req, res) => {
     req.logout()
+    req.session = null
     res.redirect(logoutRedirect)
   })
 
   // Make sure the session doesn't expire as long as there is activity
-  app.use(function (req, res, next) {
+  router.use(function (req, res, next) {
     req.session.nowInMinutes = Math.floor(Date.now() / 60e3)
     next()
   })
+  router.get('/login', function (req, res, next) {
+    if (req.user) {
+      res.redirect(req.session.returnTo || '/')
+    }
+    const render = viperHTML.wire
+    res.send(
+      pageHead(render) +
+        `<div class="FrontLayout">
+    <form action="/login" method="POST">
+    <button class="Button">Log In</button>
+    </form>
+    </div>` +
+        pageFoot(render)
+    )
+  })
+  return router
 }
 
-module.exports.authSetup = setup
+module.exports.authRouter = authRouter

@@ -46,7 +46,9 @@ function authenticate ({
             if (err) {
               throw err
             }
-            res.redirect(req.session.returnTo || successRedirect)
+            const returnTo = req.session.returnTo
+            req.session.returnTo = null
+            res.redirect(returnTo || successRedirect)
           })
         })
         .catch(err => {

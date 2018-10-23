@@ -1,7 +1,7 @@
 const { app } = require('./server.js')
 const morgan = require('morgan')
 const basicAuth = require('express-basic-auth')
-const { authSetup } = require('./server/auth/setup')
+const { authRouter } = require('./server/routes/setup')
 
 // Public staging and dev servers are locked down with a simple basic auth password
 if (
@@ -23,14 +23,14 @@ const strategy = new Auth0Strategy(
     domain: 'rebus.auth0.com',
     clientID: process.env.AUTH0_CLIENT_ID,
     clientSecret: process.env.AUTH0_CLIENT_SECRET,
-    callbackURL: `${process.env.DOMAIN}/login`
+    callbackURL: `${process.env.DOMAIN}/callback`
   },
   (accessToken, refreshToken, extraParams, profile, done) => {
     return done(null, profile)
   }
 )
 
-authSetup(app, { strategy })
+app.use('/', authRouter({ strategy }))
 
 app.use(function (req, res, next) {
   const path = req.path || ''
