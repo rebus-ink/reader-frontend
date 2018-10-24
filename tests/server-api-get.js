@@ -6,7 +6,7 @@ const fakeGot = sinon.fake.returns(Promise.resolve({ body: fakeResult }))
 const stubs = {
   got: fakeGot
 }
-const { get } = proxyquire('../server/api-get.js', stubs)
+const { get } = proxyquire('../server/utils/api-get.js', stubs)
 
 tap.test('api-get', async function (test) {
   const result = await get('https://example.com/')

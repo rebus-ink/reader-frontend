@@ -22,6 +22,7 @@ async function get (url /*: string */, token /*: string */) {
     const response = await got(url, options)
     return response.body
   } catch (error) {
+    console.error(error)
     return null
   }
 }
