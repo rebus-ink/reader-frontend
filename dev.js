@@ -22,9 +22,9 @@ const strategy = new Auth0Strategy(
   }
 )
 
-process.env.SECRETORKEY = doc.env_variables.AUTH0_CLIENT_SECRET
-process.env.ISSUER = 'REBUS_READER'
-process.env.AUDIENCE = 'REBUS_API'
+process.env.SECRETORKEY = doc.env_variables.SECRETORKEY
+process.env.ISSUER = doc.env_variables.ISSUER
+process.env.AUDIENCE = doc.env_variables.AUDIENCE
 
 const app = setup(
   authserver({
