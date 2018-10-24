@@ -4,7 +4,7 @@ node_js:
 # From travis-ci.com: "The default user for accessing the local PostgreSQL server is postgres with a blank password."
 # The database name (created below) is: "travis_ci_test"
 before_install:
-- 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then openssl aes-256-cbc -K $encrypted_836ffb92ea95_key -iv $encrypted_836ffb92ea95_iv; fi'
+- if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then openssl aes-256-cbc -K $encrypted_836ffb92ea95_key -iv $encrypted_836ffb92ea95_iv; fi
   -in secrets.tar.enc -out secrets.tar -d
 - tar xvf secrets.tar
 - psql -c 'create database travis_ci_test;' -U postgres
