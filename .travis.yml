@@ -8,6 +8,7 @@ before_install:
   -in secrets.tar.enc -out secrets.tar -d
 - tar xvf secrets.tar
 - psql -c 'create database travis_ci_test;' -U postgres
+before_deploy: "npm run build-css"
 deploy:
   provider: gae
   keyfile: google-keyfile.json
