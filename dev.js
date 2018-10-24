@@ -25,6 +25,7 @@ const strategy = new Auth0Strategy(
 process.env.SECRETORKEY = doc.env_variables.SECRETORKEY
 process.env.ISSUER = doc.env_variables.ISSUER
 process.env.AUDIENCE = doc.env_variables.AUDIENCE
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0
 
 const app = setup(
   authserver({
