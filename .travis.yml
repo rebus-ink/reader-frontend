@@ -5,8 +5,8 @@ node_js:
 # The database name (created below) is: "travis_ci_test"
 before_install:
 - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && openssl aes-256-cbc -K $encrypted_836ffb92ea95_key -iv $encrypted_836ffb92ea95_iv
-  -in secrets.tar.enc -out secrets.tar -d || echo "fine"'
-- tar xvf secrets.tar
+  -in secrets.tar.enc -out secrets.tar -d || echo "no secrets"'
+- '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && tar xvf secrets.tar || echo "no secrets.tar"'
 - psql -c 'create database travis_ci_test;' -U postgres
 before_deploy: "npm run build-css"
 deploy:
