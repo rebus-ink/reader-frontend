@@ -21,7 +21,7 @@ tap.test('api-get - errors', async function (test) {
   stubs.got = function () {
     throw new Error('Kaboom!')
   }
-  const { get } = proxyquire('../server/api-get.js', stubs)
+  const { get } = proxyquire('../server/utils/api-get.js', stubs)
   const result = await get('https://example.com/')
   test.notOk(result)
 })
