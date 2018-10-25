@@ -9,16 +9,16 @@ const translator = short()
 
 function authserver (options) {
   // Need an oauth=false option that tells us to do the authentication processing in the login route instead of the callback route
-  const { strategy, store } = options
+  const { strategy, accountStore, tokenStore } = options
   // Storage setup
   options.storage = new Keyv({
-    uri: typeof store === 'string' && store,
-    store: typeof store !== 'string' && store,
+    uri: typeof accountStore === 'string' && accountStore,
+    store: typeof accountStore !== 'string' && accountStore,
     namespace: 'rebus-reader-accounts'
   })
   const tokenStorage = new Keyv({
-    uri: typeof store === 'string' && store,
-    store: typeof store !== 'string' && store,
+    uri: typeof tokenStore === 'string' && tokenStore,
+    store: typeof tokenStore !== 'string' && tokenStore,
     namespace: 'rebus-reader-tokens'
   })
   const app = express()

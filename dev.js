@@ -30,8 +30,11 @@ process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0
 const app = setup(
   authserver({
     strategy,
-    store: new KeyvFile({
+    accountStore: new KeyvFile({
       filename: `./keyv-file/default.msgpack`
+    }),
+    tokenStore: new KeyvFile({
+      filename: `./keyv-file/default-tokens.msgpack`
     })
   })
 )

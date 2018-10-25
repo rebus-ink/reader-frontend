@@ -1,29 +1,17 @@
 require = require('esm')(module) // eslint-disable-line
-const { app } = require('./server.js')
+const { setup } = require('./server.js')
 const morgan = require('morgan')
 const basicAuth = require('express-basic-auth')
-const { authRouter } = require('./server/routes/setup')
+const { authserver } = require('./server/auth/auth-server.js')
 
 const Datastore = require('@google-cloud/datastore')
 const namespace = 'rebus-reader'
 const datastore = new Datastore({
   namespace
 })
-const { GKeyV } = require('../server/utils/gkeyv.js')
-const store = new GKeyV({ datastore })
-
-// Public staging and dev servers are locked down with a simple basic auth password
-if (
-  process.env.DEPLOY_STAGE === 'staging' ||
-  process.env.DEPLOY_STAGE === 'development'
-) {
-  app.use(
-    basicAuth({
-      challenge: true,
-      users: { admin: process.env.DEV_PASSWORD || 'plasticfantasticsecret' }
-    })
-  )
-}
+const { GKeyV } = require('./server/utils/gkeyv.js')
+const accountStore = new GKeyV({ datastore })
+const tokenStore = new GKeyV({ datastore })
 
 // Auth
 const Auth0Strategy = require('passport-auth0')
@@ -39,7 +27,26 @@ const strategy = new Auth0Strategy(
   }
 )
 
-app.use('/', authRouter({ strategy, store }))
+const app = setup(
+  authserver({
+    strategy,
+    accountStore,
+    tokenStore
+  })
+)
+
+// Public staging and dev servers are locked down with a simple basic auth password
+if (
+  process.env.DEPLOY_STAGE === 'staging' ||
+  process.env.DEPLOY_STAGE === 'development'
+) {
+  app.use(
+    basicAuth({
+      challenge: true,
+      users: { admin: process.env.DEV_PASSWORD || 'plasticfantasticsecret' }
+    })
+  )
+}
 
 app.use(function (req, res, next) {
   const path = req.path || ''
