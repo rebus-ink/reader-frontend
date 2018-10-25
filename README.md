@@ -1,6 +1,6 @@
 # reader-frontend
 
-Hobb API Server: backend for the Rebus Reader system
+Front-end for the Rebus Reader system
 
 ## Commit Message Style
 
