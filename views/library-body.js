@@ -6,8 +6,8 @@ import { topMenuMain, bottomMenuMain } from './menus-main.js'
 import { topMenuInfo, bottomMenuInfo } from './menus-info.js'
 export const pageBody = (render, model) => render(
   model,
-  ':pageBody'
-)`<body class="Layout">
+  ':libraryBody'
+)`<div class="Layout">
   ${topMenuNav(render, model)}
   ${topMenuMain(render, model)}
   ${topMenuInfo(render, model)}
@@ -17,5 +17,4 @@ export const pageBody = (render, model) => render(
   ${bottomMenuNav(render, model)}
   ${bottomMenuMain(render, model)}
   ${bottomMenuInfo(render, model)}
-</body>
-</html>`
+</div>`
