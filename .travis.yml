@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- node
+- lts/*
 # From travis-ci.com: "The default user for accessing the local PostgreSQL server is postgres with a blank password."
 # The database name (created below) is: "travis_ci_test"
 before_install:
