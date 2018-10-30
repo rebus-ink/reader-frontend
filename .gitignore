@@ -70,3 +70,4 @@ app-development.yaml
 google-keyfile.json
 secrets.tar
 keyv-file
+app-staging.yaml
