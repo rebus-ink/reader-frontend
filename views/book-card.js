@@ -37,8 +37,6 @@ export const bookCardView = (render, model) => render(model, ':bookCard')`
     : ''
 }
     </p>
-  </div>
-  <div class="BookCard-progress">
     <p class="BookCard-total">${model.length} pages</p>
   </div>
 </div>`

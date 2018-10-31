@@ -61,11 +61,12 @@ StyleGuide 6.3
 */
 
 .BookCard {
-  padding: 0.5rem 1rem;
+  padding: 0;
   margin: 0;
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #f0f0f0;
+  position: relative;
 }
 /* .BookCard:first-child {
   border-top: 1px solid #f0f0f0;
@@ -165,7 +166,7 @@ StyleGuide 6.3
   --local-font-size: 0.65rem;
 }
 .BookCard-paragraph--tags {
-  margin-top: auto;
+  margin-top: 0.25rem;
 }
 
 .BookCard-progress {
@@ -190,6 +191,7 @@ StyleGuide 6.3
   text-align: right;
   margin-top: 0.5rem;
   margin-top: auto;
+  margin-bottom: 0.25rem;
 }
 
 .BookCard-sessions {
@@ -231,13 +233,14 @@ StyleGuide 6.3
   .BookCard {
     display: grid;
     grid-auto-rows: auto;
-    grid-template-columns: 0.25fr 1fr 0.5fr;
+    grid-template-columns: 0.5fr 1fr;
   }
   .BookCard-icon {
     display: block;
-    height: auto;
+    height: 100%;
     width: 100%;
     max-height: none;
+    object-fit: cover;
   }
   /* .BookCard-session {
     display: grid;

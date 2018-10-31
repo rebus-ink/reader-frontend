@@ -27,6 +27,7 @@ StyleGuide 6.Menu
   background-color: transparent;
   padding: 0;
   margin: 0;
+  border-bottom: 1px solid #f0f0f0;
 }
 .Menu-list {
   display: flex;

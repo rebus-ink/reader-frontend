@@ -63,7 +63,6 @@ StyleGuide 6.NavSidebar
   color: var(--link);
   font-family: var(--sans-fonts);
   text-decoration: none;
-  border-right: 6px solid transparent;
 }
 
 #kss-node .kss-sidebar.kss-style .kss-nav__name,
@@ -73,7 +72,7 @@ StyleGuide 6.NavSidebar
 }
 .is-selected > .NavSidebar-link {
   background-color: white;
-  border-right: 6px #ccc solid;
+  font-weight: 800;
 }
 .NavSidebar-link:hover,
 #kss-node .kss-sidebar.kss-style nav a:hover {

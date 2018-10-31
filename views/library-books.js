@@ -6,5 +6,7 @@ export const libraryBooksView = (render, model) => render(
   ':libraryBooks'
 )`<main id="library" class="Library">
   ${topMenuMain(render, model)}
-  ${model.books.map(book => bookCardView(render, book))}
+  <div class="Library-books">${model.books.map(book =>
+    bookCardView(render, book)
+  )}</div>
 </main>`
