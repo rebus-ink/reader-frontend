@@ -1,9 +1,9 @@
-import { libraryBooksView } from './library-books.js'
 import { navSidebarView } from './nav-sidebar.js'
 export const pageBody = (render, model, req) => render(
   model,
   ':libraryBody'
 )`<div class="Layout">
   ${navSidebarView(render, model, req)}
-  ${libraryBooksView(render, model)}
+  <main id="Notes" class="Notes"><h2>Notes ${req.params.noteId ||
+    ''}</h2></main>
 </div>`
