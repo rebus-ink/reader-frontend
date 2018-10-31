@@ -1,4 +1,4 @@
-import distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
+// import distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
 import { topMenuInfo } from './menus-info.js'
 
 export const infoCardView = (render, model) => render(
@@ -20,14 +20,6 @@ ${topMenuInfo(render, model)}
   <summary>Table of Contents</summary>
   <div class="InfoCard-contents">
     ${[model.toc]}
-  </div>
-</details>
-<details class="InfoCard-detail">
-    <summary>Sessions (${model.sessions.length})</summary>
-  <div class="InfoCard-contents">
-    <ol class="BookCard-sessions">
-    ${sessionsMap(model.sessions, render)}
-    </ol>
   </div>
 </details>
 <details class="InfoCard-detail">
@@ -58,15 +50,15 @@ function attributionsMap (attributions = [], render) {
   })
 }
 
-function sessionsMap (sessions = [], render) {
-  return sessions.map((session, index) => {
-    return render(
-      session,
-      ':bookCard-session'
-    )`<li class="BookCard-session"><em class="BookCard-session-time">${distanceInWordsToNow(
-      session.published
-    )}:</em>  <span class="BookCard-session-pages">${session.start}-${
-      session.end
-    }</span></li>`
-  })
-}
+// function sessionsMap (sessions = [], render) {
+//   return sessions.map((session, index) => {
+//     return render(
+//       session,
+//       ':bookCard-session'
+//     )`<li class="BookCard-session"><em class="BookCard-session-time">${distanceInWordsToNow(
+//       session.published
+//     )}:</em>  <span class="BookCard-session-pages">${session.start}-${
+//       session.end
+//     }</span></li>`
+//   })
+// }
