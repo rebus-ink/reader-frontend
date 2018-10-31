@@ -46,11 +46,7 @@ StyleGuide 6.Menu
   border-bottom: none;
 }
 
-.Menu--left {
-}
 .Menu--center {
   border-right: none;
   border-left: none;
-}
-.Menu--right {
 }

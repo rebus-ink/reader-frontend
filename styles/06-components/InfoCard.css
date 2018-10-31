@@ -388,9 +388,6 @@ StyleGuide 6.4
   grid-area: InfoCard;
 }
 
-.InfoCard-detail {
-  /* padding: 0 1rem; */
-}
 .InfoCard-contents {
   padding: 0 1rem;
   margin: 0 0 0.5rem;
