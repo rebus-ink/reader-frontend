@@ -1,9 +1,11 @@
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
+import { topMenuInfo } from './menus-info.js'
 
 export const infoCardView = (render, model) => render(
   model,
   ':infoCard'
 )`<div class="InfoCard InfoSidebar">
+${topMenuInfo(render, model)}
 <div class="Row Row--titleRow">
   <h3 class="Row-title Row-title--cardTitle">${model.name}</h3>
   <button class="Row-button">Read</button>

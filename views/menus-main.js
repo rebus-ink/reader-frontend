@@ -3,9 +3,9 @@ export const topMenuMain = (render, model) => render(
   ':topMenuMain'
 )`<nav class="Menu Menu--top Menu--center">
 <ul class="Menu-list">
-  <li><button class="TextButton">Menu</button></li>
-  <li><button class="TextButton">Filter</button></li>
-  <li><button class="TextButton TextButton--information" aria-label="Information">i</button></li>
+  <li id="button-show-navigation-menu"><button class="TextButton" aria-label="Show Navigation menu">&lt; Menu</button></li>
+  <li><button class="TextButton">Filter…</button></li>
+  <li><button class="TextButton" aria-label="Information">Sort…</button></li>
 </ul>
 </nav>`
 export const bottomMenuMain = (render, model) => render(

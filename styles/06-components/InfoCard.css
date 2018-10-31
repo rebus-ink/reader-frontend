@@ -384,6 +384,9 @@ Markup:
 
 StyleGuide 6.4
 */
+.InfoCard {
+  grid-area: InfoCard;
+}
 
 .InfoCard-detail {
   /* padding: 0 1rem; */

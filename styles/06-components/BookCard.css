@@ -61,24 +61,28 @@ StyleGuide 6.3
 */
 
 .BookCard {
-  padding: 0 1rem;
-  margin: 2px 0;
+  padding: 0.5rem 1rem;
+  margin: 0;
   display: flex;
   justify-content: space-between;
+  border-bottom: 1px solid #f0f0f0;
 }
+/* .BookCard:first-child {
+  border-top: 1px solid #f0f0f0;
+} */
 .BookCard.is-selectable {
   cursor: pointer;
+}
+.BookCard-link {
+  text-decoration: none;
+  font-weight: 600;
+  color: black;
 }
 .BookCard-link:visited {
   color: var(--link);
 }
 .BookCard-link:hover {
   color: var(--hover);
-}
-.BookCard.is-selectable .BookCard-link {
-  text-decoration: none;
-  font-weight: 500;
-  color: black;
 }
 .BookCard.is-selectable:hover {
   background-color: #fafafa;
@@ -90,16 +94,15 @@ StyleGuide 6.3
 }
 
 .BookCard-group {
-  border-bottom: 1px solid #ccc;
   padding: 1rem 0 0.25rem;
   margin: 0 1rem;
   margin-bottom: -1px;
   display: flex;
   flex-direction: column;
 }
-.BookCard:first-of-type .BookCard-group {
+/* .BookCard:first-of-type .BookCard-group {
   border-top: 1px solid #ccc;
-}
+} */
 
 .BookCard-icon {
   display: block;
@@ -166,16 +169,15 @@ StyleGuide 6.3
 }
 
 .BookCard-progress {
-  border-bottom: 1px solid #ccc;
   padding: 0.5rem 1rem 0.5rem 0;
   margin-bottom: -1px;
   display: flex;
   flex-direction: column;
 }
 
-.BookCard:first-of-type .BookCard-progress {
+/* .BookCard:first-of-type .BookCard-progress {
   border-top: 1px solid #ccc;
-}
+} */
 
 .BookCard-total {
   font-family: var(--sans-fonts);

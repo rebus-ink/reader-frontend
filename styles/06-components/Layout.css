@@ -1,10 +1,6 @@
 .Layout {
   display: grid;
-  grid-template-areas:
-    'navMenuTop mainMenuTop infoMenuTop'
-    'NavSidebar Main InfoCard'
-    'navMenuBottom mainMenuBottom infoMenuBottom';
+  grid-template-areas: 'NavSidebar Main InfoCard';
   grid-template-columns: 200px 1.25fr 0.75fr;
-  grid-template-rows: 1.7rem 1fr 1.7rem;
   height: 100vh;
 }

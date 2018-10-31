@@ -1,5 +1,6 @@
 .Library {
-  padding: 1rem 0;
+  padding: 0;
   max-height: 100%;
   overflow-y: auto;
+  grid-area: Main;
 }
