@@ -75,7 +75,7 @@ StyleGuide 6.3
 }
 .BookCard-link {
   text-decoration: none;
-  font-weight: 600;
+  font-weight: inherit;
   color: black;
 }
 .BookCard-link:visited {
@@ -184,7 +184,6 @@ StyleGuide 6.3
   line-height: 1;
   font-feature-settings: 'pnum' on;
   font-variant-numeric: proportional-nums;
-  font-weight: 600;
   letter-spacing: -1px;
   font-size: 1.25rem;
   text-align: right;

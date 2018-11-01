@@ -11,6 +11,8 @@
 .Library-books {
   display: grid;
   grid-gap: 1rem;
+  padding-top: 1rem;
+  padding-right: 1rem;
 }
 
 @media (min-width: 820px) {

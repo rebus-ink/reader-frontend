@@ -3,4 +3,5 @@
   grid-template-areas: 'NavSidebar Main';
   grid-template-columns: 200px 1fr;
   height: 100vh;
+  grid-gap: 1rem;
 }
