@@ -27,9 +27,6 @@ StyleGuide 6.NavSidebar
 */
 .NavSidebar,
 #kss-node .kss-sidebar.kss-style {
-  background-image: none;
-  background-color: var(--light);
-  border-right: 1px solid #e0e0e0;
   padding: 0;
   margin: 0;
   grid-area: NavSidebar;
