@@ -1,7 +1,7 @@
-export const login = (render, model) => {
+export const login = (render, model = { returnTo: '/' }) => {
   return render`<div class="FrontLayout">
   <form action="/login?returnTo=${encodeURIComponent(
-    model.returnTo || '/'
+    model.returnTo
   )}" method="POST">
   <button class="Button">Log In</button>
   </form>
