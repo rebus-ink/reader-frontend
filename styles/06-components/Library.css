@@ -8,10 +8,19 @@
   grid-template-rows: 2rem 1fr;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 820px) {
   .Library-books {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (min-width: 1200px) {
+  .Library-books {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
