@@ -1,12 +1,6 @@
 window.customElements.define(
   'nav-menu-toggle',
   class NavMenuToggle extends window.HTMLButtonElement {
-    static get observedAttributes () {
-      return ['color']
-    }
-    attributeChangedCallback (name, oldValue, newValue, nsValue) {
-      this.style.color = newValue
-    }
     connectedCallback () {
       this.updateVisibility()
       this.addEventListener('click', this)
@@ -16,13 +10,30 @@ window.customElements.define(
     }
     updateVisibility () {
       this.menu = document.getElementById(this.dataset.menuId)
-      this.visible = window.getComputedStyle(this.menu).display !== 'none'
+      this.checkVisibility()
       this.setAttribute('aria-expanded', this.visible)
       this.innerText = this.visible ? 'Hide Menu' : 'Show Menu'
     }
+    checkVisibility () {
+      if (
+        window.getComputedStyle(this.menu).getPropertyValue('display') ===
+        'none'
+      ) {
+        this.visible = false
+      } else {
+        this.visible = true
+      }
+    }
     handleEvent (event) {
-      this.menu.closest('.Layout').classList.toggle('is-without-menu')
-      this.visible = window.getComputedStyle(this.menu).display !== 'none'
+      this.checkVisibility()
+      if (this.visible) {
+        this.menu.closest('.Layout').classList.add('is-without-menu')
+        this.menu.closest('.Layout').classList.remove('is-with-menu')
+      } else {
+        this.menu.closest('.Layout').classList.add('is-with-menu')
+        this.menu.closest('.Layout').classList.remove('is-without-menu')
+      }
+      this.visible = !this.visible
       this.setAttribute('aria-expanded', this.visible)
       this.innerText = this.visible ? 'Hide Menu' : 'Show Menu'
     }
