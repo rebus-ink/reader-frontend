@@ -229,7 +229,6 @@ StyleGuide 6.3
   }
   .BookCard-icon {
     display: block;
-    height: 100%;
     width: 100%;
     max-height: none;
     object-fit: contain;

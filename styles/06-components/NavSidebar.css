@@ -33,6 +33,7 @@ StyleGuide 6.NavSidebar
   display: flex;
   flex-direction: column;
   background-color: var(--light);
+  z-index: 5;
 }
 
 .NavSidebar-title,

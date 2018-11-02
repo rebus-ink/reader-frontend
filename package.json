@@ -79,6 +79,7 @@
     "passport-auth0": "^1.0.0",
     "sanitize-html": "^1.19.0",
     "short-uuid": "^3.0.0",
+    "swup": "^1.7.9",
     "viperhtml": "^2.16.0"
   },
   "standard": {
