@@ -23,7 +23,7 @@
     }]
   }, {
     "name": "Badass: Making Users Awesome",
-    "isSelected": true,
+    "isSelected": false,
     "cover": { "width": 105, "height": 162, "url": "https://hungry-leavitt-c793be.netlify.com/styles/cover2.jpg", "summary": "" },
     "length": 402,
     "notes": [{}, {}, {}],

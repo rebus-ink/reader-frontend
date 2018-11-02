@@ -6,6 +6,7 @@
   height: 100%;
   display: grid;
   grid-template-rows: 2rem 1fr;
+  padding-left: 1rem;
 }
 
 .Library-books {

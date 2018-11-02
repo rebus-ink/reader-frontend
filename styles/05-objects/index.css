@@ -5,9 +5,3 @@ Class-based selectors that define simple design patterns
 
 StyleGuide: 5
 */
-
-@media (min-width: 768px) {
-  #button-show-navigation-menu {
-    display: none;
-  }
-}

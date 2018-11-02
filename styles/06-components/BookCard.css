@@ -117,7 +117,7 @@ StyleGuide 6.3
   margin: 0;
   padding: 0;
   font-weight: 750;
-  font-size: 1rem;
+  font-size: 1.2rem;
   line-height: 1;
 }
 
@@ -158,14 +158,14 @@ StyleGuide 6.3
 }
 
 .BookCard-paragraph {
-  line-height: 0.6rem;
+  line-height: 0.75rem;
   font-weight: 300;
-  margin-top: 0.1rem;
+  margin-top: 0.25rem;
   font-size: 0.65rem;
   --local-font-size: 0.65rem;
 }
 .BookCard-paragraph--tags {
-  margin-top: 0.25rem;
+  margin-top: 0.5rem;
 }
 
 .BookCard-progress {
@@ -244,4 +244,9 @@ StyleGuide 6.3
     display: grid;
     grid-template-columns: 1fr 1fr;
   } */
+  @media (max-width: 820px) {
+    .BookCard {
+      grid-template-columns: 0.2fr 1fr;
+    }
+  }
 }

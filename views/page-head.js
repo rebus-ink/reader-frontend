@@ -4,5 +4,7 @@ export const pageHead = (render, model) => render(model, ':pagehead')`
 <head>
     <link media="all" rel="stylesheet" href="/static/styles/app.css">
     <title>Rebus Reader</title>
+    <script src="/js/built-in-element.min.js" type="module"></script>
+    <script src="/components/nav-menu-toggle.js" type="module"></script>
 </head>
 <body>`

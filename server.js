@@ -27,6 +27,8 @@ function setup (authserver) {
   app.use(express.json())
   app.use(compression())
   app.use('/static', express.static('static'))
+  app.use('/js', express.static('js'))
+  app.use('/components', express.static('components'))
 
   // Make sure the session doesn't expire as long as there is activity
   app.use(function (req, res, next) {

@@ -4,5 +4,5 @@ export const pageBody = (render, model, req) => render(
   ':libraryBody'
 )`<div class="Layout">
   ${navSidebarView(render, model, req)}
-  <main id="Import" class="Import"><h2>Import</h2></main>
+  <main id="Import" class="Import" tabindex="-1"><h2>Import</h2></main>
 </div>`

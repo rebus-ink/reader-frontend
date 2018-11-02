@@ -1,7 +1,5 @@
 require = require('esm')(module) // eslint-disable-line
 const tap = require('tap')
-const sinon = require('sinon')
-const fakeRender = sinon.fake()
 const render = require('viperhtml').wire()
 
 const { login } = require('../views/login.js')

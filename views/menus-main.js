@@ -3,8 +3,6 @@ export const topMenuMain = (render, model) => render(
   ':topMenuMain'
 )`<nav class="Menu Menu--top Menu--center">
 <ul class="Menu-list">
-  <li id="button-show-navigation-menu"><button class="TextButton" aria-label="Show Navigation menu">Menu</button></li>
-  <li><button class="TextButton">Filter</button></li>
-  <li><button class="TextButton" aria-label="Information">Sort</button></li>
+  <li id="button-show-navigation-menu"><button class="TextButton" aria-label="Show Navigation menu" is="nav-menu-toggle" data-menu-id='NavSidebar'>Menu</button></li>
 </ul>
 </nav>`

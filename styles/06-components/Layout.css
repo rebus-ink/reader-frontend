@@ -3,5 +3,9 @@
   grid-template-areas: 'NavSidebar Main';
   grid-template-columns: 200px 1fr;
   height: 100vh;
-  grid-gap: 1rem;
+}
+
+.Layout.is-without-menu {
+  grid-template-areas: 'Main';
+  grid-template-columns: 1fr;
 }

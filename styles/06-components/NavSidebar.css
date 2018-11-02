@@ -107,3 +107,6 @@ StyleGuide 6.NavSidebar
 .NavSidebar-buttons {
   margin: auto 0 0.5rem;
 }
+.is-without-menu .NavSidebar {
+  display: none;
+}

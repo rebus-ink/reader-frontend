@@ -5,7 +5,7 @@ import { arrify } from './util-arrify.js'
 export const libraryBooksView = (render, model) => render(
   model,
   ':libraryBooks'
-)`<main id="library" class="Library">
+)`<main id="library" class="Library" tabindex="-1">
   ${topMenuMain(render, model)}
   <div class="Library-books">${arrify(model.books).map(book =>
     bookCardView(render, book)

@@ -13,8 +13,11 @@ export const navSidebarView = (render, model, req) => {
       return false
     }
   }
-  return render(model, ':navSidebarView')`<nav class="NavSidebar">
-  <h1 class="NavSidebar-title">Rebus Reader</h1>
+  return render(
+    model,
+    ':navSidebarView'
+  )`<nav class="NavSidebar" id="NavSidebar" aria-labelledby="NavSidebar-title">
+  <h1 class="NavSidebar-title" id="NavSidebar-title">Rebus Reader</h1>
   <ol>
     <li class="${isSelected(
     '/library'

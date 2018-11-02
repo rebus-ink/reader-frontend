@@ -4,6 +4,6 @@ export const pageBody = (render, model, req) => render(
   ':libraryBody'
 )`<div class="Layout">
   ${navSidebarView(render, model, req)}
-  <main id="Notes" class="Notes"><h2>Notes ${req.params.noteId ||
+  <main id="Notes" class="Notes" tabindex="-1"><h2>Notes ${req.params.noteId ||
     ''}</h2></main>
 </div>`
