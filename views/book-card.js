@@ -3,14 +3,15 @@ const notSelected = 'BookCard is-selectable'
 const selected = 'BookCard is-selectable is-selected'
 
 export const bookCardView = (render, model = { cover: {} }) => {
-  const { cover = {} } = model
+  const { cover = {}, id = '' } = model
+  const url = `/library/info/${encodeURIComponent(id)}`
   return render(model, ':bookCard')`
 <div class=${model.isSelected ? selected : notSelected}>
   <img  class="BookCard-icon" alt="${cover.summary}" src=${cover.url} width=${
   cover.width
 } height=${cover.height}>
   <div class="BookCard-group">
-    <h4 class="BookCard-title"><a href="#" class="BookCard-link">${
+    <h4 class="BookCard-title"><a href="${url}" class="BookCard-link">${
   model.name
 }</a></h4>
     <p class="BookCard-paragraph">${attributionsMap(

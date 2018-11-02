@@ -28,9 +28,11 @@ StyleGuide 6.Menu
   padding: 0;
   margin: 0;
 }
+.Menu li {
+  margin-right: 1rem;
+}
 .Menu-list {
   display: flex;
-  justify-content: space-between;
   list-style: none;
   font-size: 0.85rem;
   align-items: center;

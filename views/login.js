@@ -4,5 +4,5 @@ export const login = (render, model = { returnTo: '/' }) => {
   <form action=${action} method="POST">
   <button class="Button">Log In</button>
   </form>
-  </div>${console.log('Login')}`
+  </div>`
 }

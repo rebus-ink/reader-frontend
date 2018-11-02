@@ -1,5 +1,6 @@
 {
   "books": [{
+    "id": "http://localhost:8080/api/publication-1",
     "name": "The Half-Life of Joshua Jones",
     "isSelected": false,
     "cover": { "width": 105, "height": 162, "url": "https://hungry-leavitt-c793be.netlify.com/styles/cover3.jpg", "summary": "" },
@@ -22,6 +23,7 @@
       "published": "2018-06-21 14:18:49.98-04"
     }]
   }, {
+    "id": "http://localhost:8080/api/publication-2",
     "name": "Badass: Making Users Awesome",
     "isSelected": false,
     "cover": { "width": 105, "height": 162, "url": "https://hungry-leavitt-c793be.netlify.com/styles/cover2.jpg", "summary": "" },
@@ -36,6 +38,7 @@
       "published": "2018-09-30 14:18:49.98-04"
     }]
   }, {
+    "id": "http://localhost:8080/api/publication-3",
     "name": "Saving Bletchley Park",
     "isSelected": false,
     "cover": { "width": 105, "height": 162, "url": "https://hungry-leavitt-c793be.netlify.com/styles/cover1.jpg", "summary": "" },
@@ -45,6 +48,7 @@
     "attributions": [],
     "sessions": []
   }, {
+    "id": "http://localhost:8080/api/publication-4",
     "name": "Just Fucking Ship",
     "isSelected": false,
     "cover": { "width": 105, "height": 162, "url": "https://hungry-leavitt-c793be.netlify.com/styles/cover5.jpg", "summary": "" },
@@ -57,6 +61,7 @@
       "published": "2018-09-19 14:18:49.98-04"
     }]
   }, {
+    "id": "http://localhost:8080/api/publication-5",
     "name": "Heart of the Original",
     "isSelected": false,
     "cover": { "width": 105, "height": 162, "url": "https://hungry-leavitt-c793be.netlify.com/styles/cover6.jpg", "summary": "" },
@@ -65,6 +70,7 @@
     "attributions": [],
     "sessions": []
   }, {
+    "id": "http://localhost:8080/api/publication-6",
     "name": "The Bleeding Edge",
     "isSelected": false,
     "cover": { "width": 105, "height": 162, "url": "https://hungry-leavitt-c793be.netlify.com/styles/cover7.jpg", "summary": "" },
@@ -73,6 +79,7 @@
     "attributions": [],
     "sessions": []
   }, {
+    "id": "http://localhost:8080/api/publication-7",
     "name": "Rinse, Spin, Repeat",
     "isSelected": false,
     "cover": { "width": 105, "height": 162, "url": "https://hungry-leavitt-c793be.netlify.com/styles/cover8.jpg", "summary": "" },
@@ -81,6 +88,7 @@
     "attributions": [],
     "sessions": []
   }, {
+    "id": "http://localhost:8080/api/publication-8",
     "name": "On The Menu",
     "isSelected": false,
     "cover": { "width": 105, "height": 162, "url": "https://hungry-leavitt-c793be.netlify.com/styles/cover9.jpg", "summary": "" },
@@ -89,6 +97,7 @@
     "attributions": [],
     "sessions": []
   }, {
+    "id": "http://localhost:8080/api/publication-9",
     "name": "The Book of Wag",
     "isSelected": false,
     "cover": { "width": 105, "height": 162, "url": "https://hungry-leavitt-c793be.netlify.com/styles/cover10.jpg", "summary": "" },
@@ -97,6 +106,7 @@
     "attributions": [],
     "sessions": []
   }, {
+    "id": "http://localhost:8080/api/publication-10",
     "name": "Back In The USSR",
     "isSelected": false,
     "cover": { "width": 105, "height": 162, "url": "https://hungry-leavitt-c793be.netlify.com/styles/cover11.jpg", "summary": "" },
@@ -105,6 +115,7 @@
     "attributions": [],
     "sessions": []
   }, {
+    "id": "http://localhost:8080/api/publication-11",
     "name": "Family Breakdown",
     "isSelected": false,
     "cover": { "width": 105, "height": 162, "url": "https://hungry-leavitt-c793be.netlify.com/styles/cover12.jpg", "summary": "" },
@@ -113,6 +124,7 @@
     "attributions": [],
     "sessions": []
   }, {
+    "id": "http://localhost:8080/api/publication-12",
     "name": "Letters Of Note",
     "isSelected": false,
     "cover": { "width": 105, "height": 162, "url": "https://hungry-leavitt-c793be.netlify.com/styles/cover13.jpg", "summary": "" },
@@ -121,6 +133,7 @@
     "attributions": [],
     "sessions": []
   }, {
+    "id": "http://localhost:8080/api/publication-13",
     "name": "Lists Of Note",
     "isSelected": false,
     "cover": { "width": 105, "height": 162, "url": "https://hungry-leavitt-c793be.netlify.com/styles/cover14.jpg", "summary": "" },

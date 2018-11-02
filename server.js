@@ -43,6 +43,7 @@ function setup (authserver) {
   app.use('/', require('./server/routes/settings.js'))
   app.use('/', require('./server/routes/notes.js'))
   app.use('/', require('./server/routes/import.js'))
+  app.use('/', require('./server/routes/info-card.js'))
 
   app.use(function (req, res, next) {
     res.status(404)

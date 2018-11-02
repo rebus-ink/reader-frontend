@@ -76,14 +76,8 @@ StyleGuide 6.3
 .BookCard-link {
   text-decoration: none;
   font-weight: inherit;
-  color: black;
 }
-.BookCard-link:visited {
-  color: var(--link);
-}
-.BookCard-link:hover {
-  color: var(--hover);
-}
+
 .BookCard.is-selectable:hover {
   background-color: #fafafa;
   cursor: pointer;

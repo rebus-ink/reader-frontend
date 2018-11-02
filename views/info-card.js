@@ -1,14 +1,14 @@
 // import distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
-import { topMenuInfo } from './menus-info.js'
 
-export const infoCardView = (render, model) => render(
-  model,
-  ':infoCard'
-)`<div class="InfoCard InfoSidebar">
-${topMenuInfo(render, model)}
-<div class="Row Row--titleRow">
+export const infoCardView = (render, model) => {
+  const { cover = {} } = model
+  return render(model, ':infoCard')`<div class="InfoCard">
+<div class="InfoCard-title">
+  <img  class="BookCard-icon" alt="${cover.summary}" src=${cover.url} width=${
+  cover.width
+} height=${cover.height}> 
   <h3 class="Row-title Row-title--cardTitle">${model.name}</h3>
-  <button class="Row-button">Read</button>
+  <button class="Button Button--primary">Read</button>
 </div>
 <details class="InfoCard-detail" open>
   <summary>Metadata</summary>
@@ -35,6 +35,7 @@ ${topMenuInfo(render, model)}
   </div>
 </details>
 </div>`
+}
 
 function attributionsMap (attributions = [], render) {
   return attributions.map((attribution, index) => {
