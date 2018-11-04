@@ -8,7 +8,7 @@ function securitySetup (app) {
         directives: {
           defaultSrc: ["'self'"],
           scriptSrc: ["'self'"],
-          styleSrc: ["'self'"],
+          styleSrc: ["'self'", "'unsafe-inline'"],
           connectSrc: ["'self'"],
           objectSrc: ["'none'"],
           imgSrc: ['*', 'data:', 'https:'],

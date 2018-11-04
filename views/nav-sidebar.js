@@ -1,21 +1,44 @@
-export const navSidebarView = (render, model) => render(
-  model,
-  ':navSidebarView'
-)`
-<nav class="NavSidebar">
-  <h1 class="NavSidebar-title">Rebus Reader</h1>
+export const navSidebarView = (render, model, req) => {
+  const isSelected = path => {
+    if (path === req.path) {
+      return 'NavSidebar-item is-selected'
+    } else {
+      return 'NavSidebar-item'
+    }
+  }
+  const ariaCurrent = path => {
+    if (path === req.path) {
+      return 'page'
+    } else {
+      return false
+    }
+  }
+  return render(
+    model,
+    ':navSidebarView'
+  )`<nav class="NavSidebar" id="NavSidebar" aria-labelledby="NavSidebar-title">
+  <h1 class="NavSidebar-title" id="NavSidebar-title">Rebus Reader</h1>
   <ol>
-    <li class="NavSidebar-item is-selected"><a href="#" class="NavSidebar-link">Library</a></li>
-    <li class="NavSidebar-item"><a href="#" class="NavSidebar-link">Last 7 Days</a></li>
-    <li class="NavSidebar-item"><a href="#" class="NavSidebar-link">Starred</a></li>
-    <li class="NavSidebar-item"><a href="#" class="NavSidebar-link">Notes</a></li>
-  </ol>
-  <hr class="NavSidebar-separator">
-  <h2 class="NavSidebar-title NavSidebar-title--section">Stacks</h2>
-  <ol>
-    <li class="NavSidebar-item"><a href="#" class="NavSidebar-link">Work</a></li>
-    <li class="NavSidebar-item"><a href="#" class="NavSidebar-link">Thesis</a></li>
-    <li class="NavSidebar-item"><a href="#" class="NavSidebar-link">R&amp;D</a></li>
-    <li class="NavSidebar-item"><a href="#" class="NavSidebar-link">Sustainable Ecology</a></li>
+    <li class="${isSelected(
+    '/library'
+  )}"><a href="/library#Library" class="NavSidebar-link" aria-current=${ariaCurrent(
+  '/library'
+)}>Library</a></li>
+    <li class="${isSelected(
+    '/library/notes'
+  )}"><a href="/library/notes#Notes" class="NavSidebar-link" aria-current=${ariaCurrent(
+  '/library/notes'
+)}>Notes</a></li>
+    <li class="${isSelected(
+    '/library/import'
+  )}"><a href="/library/import#Import" class="NavSidebar-link" aria-current=${ariaCurrent(
+  '/library/import'
+)}>Import</a></li>
+    <li class="${isSelected(
+    '/library/settings'
+  )}"><a href="/library/settings#Settings" class="NavSidebar-link" aria-current=${ariaCurrent(
+  '/library/settings'
+)}>Settings</a></li>
   </ol>
 </nav>`
+}

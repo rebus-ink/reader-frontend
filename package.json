@@ -59,6 +59,7 @@
   "dependencies": {
     "@google-cloud/datastore": "^2.0.0",
     "accesscontrol": "^2.2.1",
+    "built-in-element": "^0.1.4",
     "compression": "^1.7.3",
     "connect-ensure-login": "^0.1.1",
     "cookie-session": "^2.0.0-beta.3",
@@ -78,6 +79,7 @@
     "passport-auth0": "^1.0.0",
     "sanitize-html": "^1.19.0",
     "short-uuid": "^3.0.0",
+    "swup": "^1.7.9",
     "viperhtml": "^2.16.0"
   },
   "standard": {

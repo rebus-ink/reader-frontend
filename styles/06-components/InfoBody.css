@@ -1,0 +1,7 @@
+.InfoBody {
+  grid-area: Main;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  display: grid;
+  grid-template-rows: 2rem 1fr;
+}

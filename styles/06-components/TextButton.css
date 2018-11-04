@@ -19,7 +19,7 @@ StyleGuide 6.TextButton
 
 .TextButton {
   font-family: var(--sans-fonts);
-  font-weight: 400;
+  font-weight: 600;
   flex: 0 1 auto;
   line-height: 1.2;
 

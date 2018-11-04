@@ -61,25 +61,23 @@ StyleGuide 6.3
 */
 
 .BookCard {
-  padding: 0 1rem;
-  margin: 2px 0;
+  padding: 0;
+  margin: 0;
   display: flex;
   justify-content: space-between;
+  position: relative;
 }
+/* .BookCard:first-child {
+  border-top: 1px solid #f0f0f0;
+} */
 .BookCard.is-selectable {
   cursor: pointer;
 }
-.BookCard-link:visited {
-  color: var(--link);
-}
-.BookCard-link:hover {
-  color: var(--hover);
-}
-.BookCard.is-selectable .BookCard-link {
+.BookCard-link {
   text-decoration: none;
-  font-weight: 500;
-  color: black;
+  font-weight: inherit;
 }
+
 .BookCard.is-selectable:hover {
   background-color: #fafafa;
   cursor: pointer;
@@ -90,16 +88,15 @@ StyleGuide 6.3
 }
 
 .BookCard-group {
-  border-bottom: 1px solid #ccc;
   padding: 1rem 0 0.25rem;
   margin: 0 1rem;
   margin-bottom: -1px;
   display: flex;
   flex-direction: column;
 }
-.BookCard:first-of-type .BookCard-group {
+/* .BookCard:first-of-type .BookCard-group {
   border-top: 1px solid #ccc;
-}
+} */
 
 .BookCard-icon {
   display: block;
@@ -113,8 +110,8 @@ StyleGuide 6.3
 .kss-style .BookCard-title {
   margin: 0;
   padding: 0;
-  font-weight: 600;
-  font-size: 1rem;
+  font-weight: 750;
+  font-size: 1.2rem;
   line-height: 1;
 }
 
@@ -155,39 +152,38 @@ StyleGuide 6.3
 }
 
 .BookCard-paragraph {
-  line-height: 0.6rem;
+  line-height: 0.75rem;
   font-weight: 300;
-  margin-top: 0.1rem;
+  margin-top: 0.25rem;
   font-size: 0.65rem;
   --local-font-size: 0.65rem;
 }
 .BookCard-paragraph--tags {
-  margin-top: auto;
+  margin-top: 0.5rem;
 }
 
 .BookCard-progress {
-  border-bottom: 1px solid #ccc;
   padding: 0.5rem 1rem 0.5rem 0;
   margin-bottom: -1px;
   display: flex;
   flex-direction: column;
 }
 
-.BookCard:first-of-type .BookCard-progress {
+/* .BookCard:first-of-type .BookCard-progress {
   border-top: 1px solid #ccc;
-}
+} */
 
 .BookCard-total {
   font-family: var(--sans-fonts);
   line-height: 1;
   font-feature-settings: 'pnum' on;
   font-variant-numeric: proportional-nums;
-  font-weight: 750;
   letter-spacing: -1px;
   font-size: 1.25rem;
   text-align: right;
   margin-top: 0.5rem;
   margin-top: auto;
+  margin-bottom: 0.25rem;
 }
 
 .BookCard-sessions {
@@ -229,16 +225,21 @@ StyleGuide 6.3
   .BookCard {
     display: grid;
     grid-auto-rows: auto;
-    grid-template-columns: 0.25fr 1fr 0.5fr;
+    grid-template-columns: 0.5fr 1fr;
   }
   .BookCard-icon {
     display: block;
-    height: auto;
     width: 100%;
     max-height: none;
+    object-fit: contain;
   }
   /* .BookCard-session {
     display: grid;
     grid-template-columns: 1fr 1fr;
   } */
+  @media (max-width: 820px) {
+    .BookCard {
+      grid-template-columns: 0.2fr 1fr;
+    }
+  }
 }

@@ -1,24 +1,25 @@
 const viperHTML = require('viperhtml')
-const { pageBody } = require('../../views/library-body.js')
+const { pageBody } = require('../../views/settings-body.js')
 const { pageHead } = require('../../views/page-head.js')
 const { pageFoot } = require('../../views/page-foot.js')
 const { ensureLogin } = require('../ensure-login.js')
 const { getUserStreams } = require('../utils/get-user-streams.js')
 const express = require('express')
 const router = express.Router()
-const { getLibraryState } = require('../utils/get-library-state.js')
+const getSettingsState = () => Promise.resolve({})
 
-const viewModel = require('../../library-mock.json')
-
-router.get('/library', ensureLogin, getUserStreams, function (req, res, next) {
-  return getLibraryState(req, res)
+router.get('/library/settings', ensureLogin, getUserStreams, function (
+  req,
+  res,
+  next
+) {
+  return getSettingsState(req, res)
     .then(model => {
-      model = model || viewModel
       const render = viperHTML.wire
       res.send(
-        pageHead(render, viewModel) +
-          pageBody(render, viewModel, req) +
-          pageFoot(render, viewModel)
+        pageHead(render, model) +
+          pageBody(render, model, req) +
+          pageFoot(render, model)
       )
     })
     .catch(err => next(err))

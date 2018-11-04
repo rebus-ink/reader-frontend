@@ -1,24 +1,34 @@
 const viperHTML = require('viperhtml')
-const { pageBody } = require('../../views/library-body.js')
+const { pageBody } = require('../../views/info-body.js')
 const { pageHead } = require('../../views/page-head.js')
 const { pageFoot } = require('../../views/page-foot.js')
 const { ensureLogin } = require('../ensure-login.js')
 const { getUserStreams } = require('../utils/get-user-streams.js')
 const express = require('express')
 const router = express.Router()
-const { getLibraryState } = require('../utils/get-library-state.js')
 
 const viewModel = require('../../library-mock.json')
+const getInfoState = (req, res) => {
+  return Promise.resolve().then(() => {
+    const book = viewModel.books.filter(
+      book => book.id === req.params.bookId
+    )[0]
+    return book || {}
+  })
+}
 
-router.get('/library', ensureLogin, getUserStreams, function (req, res, next) {
-  return getLibraryState(req, res)
+router.get('/library/info/:bookId', ensureLogin, getUserStreams, function (
+  req,
+  res,
+  next
+) {
+  return getInfoState(req, res)
     .then(model => {
-      model = model || viewModel
       const render = viperHTML.wire
       res.send(
-        pageHead(render, viewModel) +
-          pageBody(render, viewModel, req) +
-          pageFoot(render, viewModel)
+        pageHead(render, model) +
+          pageBody(render, model, req) +
+          pageFoot(render, model)
       )
     })
     .catch(err => next(err))

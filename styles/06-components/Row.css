@@ -66,7 +66,7 @@ StyleGuide 6.2
   align-items: center;
   position: relative;
   min-height: 4rem;
-  background-color: white;
+  background-color: transparent;
 }
 .Row.is-selectable {
   cursor: pointer;
@@ -95,9 +95,6 @@ StyleGuide 6.2
   justify-content: flex-end;
 }
 
-.Row:first-child {
-  /* border-top: 1px solid #f0f0f0; */
-}
 .Row--link {
   text-align: center;
   font-size: 1.25rem;

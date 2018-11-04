@@ -1,14 +1,17 @@
-import distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
+// import distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
 const notSelected = 'BookCard is-selectable'
 const selected = 'BookCard is-selectable is-selected'
 
-export const bookCardView = (render, model) => render(model, ':bookCard')`
+export const bookCardView = (render, model = { cover: {} }) => {
+  const { cover = {}, id = '' } = model
+  const url = `/library/info/${encodeURIComponent(id)}`
+  return render(model, ':bookCard')`
 <div class=${model.isSelected ? selected : notSelected}>
-  <img  class="BookCard-icon" alt="${model.cover.summary}" src=${
-  model.cover.url
-} width=${model.cover.width} height=${model.cover.height}>
+  <img  class="BookCard-icon" alt="${cover.summary}" src=${cover.url} width=${
+  cover.width
+} height=${cover.height}>
   <div class="BookCard-group">
-    <h4 class="BookCard-title"><a href="#" class="BookCard-link">${
+    <h4 class="BookCard-title"><a href="${url}" class="BookCard-link">${
   model.name
 }</a></h4>
     <p class="BookCard-paragraph">${attributionsMap(
@@ -37,15 +40,10 @@ export const bookCardView = (render, model) => render(model, ':bookCard')`
     : ''
 }
     </p>
-  </div>
-  <div class="BookCard-progress">
-    <h5 class="BookCard-sessions-label">Sessions (${model.sessions.length})</h5>
-    <ol class="BookCard-sessions">
-      ${sessionsMap(model.sessions, render)}
-    </ol>
     <p class="BookCard-total">${model.length} pages</p>
   </div>
 </div>`
+}
 
 function attributionsMap (attributions = [], render) {
   return attributions.map((attribution, index) => {
@@ -64,15 +62,15 @@ function attributionsMap (attributions = [], render) {
   })
 }
 
-function sessionsMap (sessions = [], render) {
-  return sessions.map((session, index) => {
-    return render(
-      session,
-      ':bookCard-session'
-    )`<li class="BookCard-session"><em class="BookCard-session-time">${distanceInWordsToNow(
-      session.published
-    )}:</em>  <span class="BookCard-session-pages">${session.start}-${
-      session.end
-    }</span></li>`
-  })
-}
+// function sessionsMap (sessions = [], render) {
+//   return sessions.map((session, index) => {
+//     return render(
+//       session,
+//       ':bookCard-session'
+//     )`<li class="BookCard-session"><em class="BookCard-session-time">${distanceInWordsToNow(
+//       session.published
+//     )}:</em>  <span class="BookCard-session-pages">${session.start}-${
+//       session.end
+//     }</span></li>`
+//   })
+// }

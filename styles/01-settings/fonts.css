@@ -93,11 +93,12 @@ Styleguide 1.Fonts
 }
 
 :root {
-  --sans-fonts: 'Source Sans Pro', system-ui, -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
-  --fonts: 'Source Serif Pro', Georgia, serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', serif;
+  --sans-fonts: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', sans-serif;
+  --fonts: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', sans-serif;
   --font-size: 125%;
   --line-height: 1.5;
 }

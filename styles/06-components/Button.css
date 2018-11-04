@@ -46,7 +46,6 @@ StyleGuide 6.Button
 
   color: var(--link);
   border: 2px solid var(--link);
-  border-radius: 0.35rem;
   outline: none;
   background-color: white;
   box-shadow: 0 1px 2px 0 rgba(0, 66, 98, 0.15);
@@ -205,4 +204,18 @@ StyleGuide 6.Button
   min-width: auto;
   box-shadow: inset 0 1px 1px 0 rgba(0, 66, 98, 0.15),
     0 1px 1px 0 rgba(0, 66, 98, 0.15);
+}
+
+.Button--discrete {
+  background-color: transparent;
+  font-size: 0.75rem;
+  text-transform: none;
+  padding: 0.25rem 0.25rem;
+  min-width: auto;
+  font-weight: 400;
+  box-shadow: none;
+  margin: 0.25rem 1rem;
+  border-width: 1px;
+  display: block;
+  width: calc(100% - 2.5rem);
 }

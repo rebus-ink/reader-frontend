@@ -43,6 +43,32 @@ Styleguide 2.1.Fade
   background-color: #f0f0f0;
 }
 
+@keyframes slideIn {
+  0% {
+    display: block;
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  33% {
+    opacity: 0.65;
+    transform: translateX(-15%);
+  }
+  67% {
+    opacity: 0.85;
+    transform: translateX(-5%);
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.styleguide-slide-demo {
+  animation-duration: 1s;
+  animation-name: slideIn;
+  animation-iteration-count: infinite;
+  background-color: #f0f0f0;
+}
+
 @keyframes ux-hover {
   0% {
     display: block;

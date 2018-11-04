@@ -5,16 +5,12 @@ const { login } = require('../views/login.js')
 
 function ensureLogin (req, res, next) {
   const render = viperHTML.wire
-  if (req.user && req.user.email.endsWith('@rebus.foundation')) {
+  if (req.user) {
     next()
-  } else if (req.user) {
-    req.session = null
-    req.logout()
-    res.redirect('/')
   } else {
     res.send(
       pageHead(render, { returnTo: req.path }) +
-        login(render({ returnTo: req.path })) +
+        login(render, { returnTo: req.path }) +
         pageFoot(render, { returnTo: req.path })
     )
   }

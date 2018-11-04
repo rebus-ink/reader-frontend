@@ -1,5 +1,35 @@
 .Library {
-  padding: 1rem 0;
+  padding: 0;
   max-height: 100%;
   overflow-y: auto;
+  grid-area: Main;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 2rem 1fr;
+  padding-left: 1rem;
+}
+
+.Library-books {
+  display: grid;
+  grid-gap: 1rem;
+  padding-top: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 820px) {
+  .Library-books {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (min-width: 1200px) {
+  .Library-books {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
