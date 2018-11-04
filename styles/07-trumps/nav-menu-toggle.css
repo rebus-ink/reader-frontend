@@ -1,6 +1,7 @@
 #nav-menu-toggle {
   z-index: 11;
   position: relative;
+  display: block;
 }
 
 @media (max-width: 820px) {

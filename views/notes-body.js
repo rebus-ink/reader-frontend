@@ -1,9 +1,10 @@
 import { navSidebarView } from './nav-sidebar.js'
+import { topMenuMain } from './menus-main.js'
 export const pageBody = (render, model, req) => render(
   model,
   ':libraryBody'
-)`<div class="Layout">
+)`<div class="Layout" id="layout">
   ${navSidebarView(render, model, req)}
-  <main id="Notes" class="Notes" tabindex="-1"><h2>Notes ${req.params.noteId ||
-    ''}</h2></main>
+  <main class="Notes" id="Notes" tabindex="-1">
+  ${topMenuMain(render, model)}<h2>Notes ${req.params.noteId || ''}</h2></main>
 </div>`

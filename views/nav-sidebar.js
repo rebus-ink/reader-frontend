@@ -21,22 +21,22 @@ export const navSidebarView = (render, model, req) => {
   <ol>
     <li class="${isSelected(
     '/library'
-  )}"><a href="/library" class="NavSidebar-link" aria-current=${ariaCurrent(
+  )}"><a href="/library#Library" class="NavSidebar-link" aria-current=${ariaCurrent(
   '/library'
 )}>Library</a></li>
     <li class="${isSelected(
     '/library/notes'
-  )}"><a href="/library/notes" class="NavSidebar-link" aria-current=${ariaCurrent(
+  )}"><a href="/library/notes#Notes" class="NavSidebar-link" aria-current=${ariaCurrent(
   '/library/notes'
 )}>Notes</a></li>
     <li class="${isSelected(
     '/library/import'
-  )}"><a href="/library/import" class="NavSidebar-link" aria-current=${ariaCurrent(
+  )}"><a href="/library/import#Import" class="NavSidebar-link" aria-current=${ariaCurrent(
   '/library/import'
 )}>Import</a></li>
     <li class="${isSelected(
     '/library/settings'
-  )}"><a href="/library/settings" class="NavSidebar-link" aria-current=${ariaCurrent(
+  )}"><a href="/library/settings#Settings" class="NavSidebar-link" aria-current=${ariaCurrent(
   '/library/settings'
 )}>Settings</a></li>
   </ol>

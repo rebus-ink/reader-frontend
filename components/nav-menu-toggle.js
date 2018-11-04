@@ -8,8 +8,10 @@ window.customElements.define(
     disconnectedCallback () {
       this.removeEventListener('click', this)
     }
+    get menu () {
+      return document.getElementById(this.dataset.menuId)
+    }
     updateVisibility () {
-      this.menu = document.getElementById(this.dataset.menuId)
       this.checkVisibility()
       this.setAttribute('aria-expanded', this.visible)
       this.innerText = this.visible ? 'Hide Menu' : 'Show Menu'
