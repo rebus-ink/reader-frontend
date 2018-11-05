@@ -1,3 +1,3 @@
-const swup = new window.Swup({
+window.swup = new window.Swup({
   elements: ['main', '#NavSidebar']
 })
