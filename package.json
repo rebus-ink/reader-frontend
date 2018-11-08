@@ -80,7 +80,8 @@
     "sanitize-html": "^1.19.0",
     "short-uuid": "^3.0.0",
     "swup": "^1.7.9",
-    "viperhtml": "^2.16.0"
+    "viperhtml": "^2.16.0",
+    "xstate": "^4.0.1"
   },
   "standard": {
     "ignore": [
