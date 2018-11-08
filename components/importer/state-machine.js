@@ -15,7 +15,7 @@ export const machine = {
       }
     },
     loaded: {
-      initial: ['parsing'],
+      initial: ['previewing'],
       on: {
         CANCEL: {
           target: 'unloaded',
@@ -28,6 +28,12 @@ export const machine = {
         READY: 'ready'
       },
       states: {
+        previewing: {
+          onEntry: ['preview'],
+          on: {
+            PARSE: 'parsing'
+          }
+        },
         parsing: {
           onEntry: ['parse'],
           on: {
@@ -73,5 +79,6 @@ export const machine = {
   }
 }
 
-// Actions: load, handleError, unload, parse, process, upload, create
+// Actions: load, handleError, unload, preview, parse, process, upload, create
 // Interpreter needs to be an event emitter and maybe also an observable.
+// Serverside, all the preview action does is send the PARSE event.
