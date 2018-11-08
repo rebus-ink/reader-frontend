@@ -1,4 +1,5 @@
 // import distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
+import { clean } from '../server/utils/sanitize-state'
 
 export const infoCardView = (render, model) => {
   const { cover = {} } = model
@@ -19,7 +20,7 @@ export const infoCardView = (render, model) => {
 <details class="InfoCard-detail">
   <summary>Table of Contents</summary>
   <div class="InfoCard-contents">
-    ${[model.toc]}
+    ${[clean(model.toc)]}
   </div>
 </details>
 <details class="InfoCard-detail">
