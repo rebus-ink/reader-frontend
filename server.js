@@ -5,6 +5,9 @@ const compression = require('compression')
 const cookieSession = require('cookie-session')
 // const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn
 const { securitySetup } = require('./server/security.js')
+if (!process.env.API_DOMAIN) {
+  process.env.API_DOMAIN = process.env.DOMAIN + '/api'
+}
 
 function setup (authserver) {
   const app = express()

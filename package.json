@@ -9,7 +9,7 @@
   "scripts": {
     "test": "tap --cov tests/*.js",
     "dev-test": "onchange 'app/**/*.js' 'server/**/*.js' 'tests/**/*.js' -- onerror \"tap --cov -R classic tests/*.js\"",
-    "dev-server": "NODE_ENV=development DOMAIN=http://127.0.0.1:8800 DEPLOY_STAGE=development nodemon dev.js",
+    "dev-server": "NODE_ENV=development DOMAIN=http://localhost:4430 DEPLOY_STAGE=development nodemon dev.js",
     "fix-things-for-me": "onchange 'styles/**/*.css' 'app/**/*.js' 'server/**/*.js' -- prettier-standard '**/*.{js,md,css}'",
     "start": "node index.js",
     "build-css": "node build-css.js",
