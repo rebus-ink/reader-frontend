@@ -5,7 +5,7 @@ export const machine = {
     unloaded: {
       on: {
         LOAD: {
-          target: 'loaded',
+          target: 'loading',
           actions: ['load']
         },
         ERROR: {
@@ -14,8 +14,8 @@ export const machine = {
         }
       }
     },
-    loaded: {
-      initial: ['previewing'],
+    loading: {
+      initial: ['parsing'],
       on: {
         CANCEL: {
           target: 'unloaded',
@@ -25,15 +25,9 @@ export const machine = {
           target: 'failure',
           actions: ['handleError']
         },
-        READY: 'ready'
+        READY: 'import'
       },
       states: {
-        previewing: {
-          onEntry: ['preview'],
-          on: {
-            PARSE: 'parsing'
-          }
-        },
         parsing: {
           onEntry: ['parse'],
           on: {
@@ -45,8 +39,8 @@ export const machine = {
         }
       }
     },
-    ready: {
-      initial: 'uploading',
+    import: {
+      initial: 'previewing',
       on: {
         CANCEL: {
           target: 'unloaded',
@@ -59,6 +53,12 @@ export const machine = {
         DONE: 'success'
       },
       states: {
+        previewing: {
+          onEntry: ['preview'],
+          on: {
+            UPLOAD: 'uploading'
+          }
+        },
         uploading: {
           onEntry: ['upload'],
           on: {
