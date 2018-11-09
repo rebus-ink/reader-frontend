@@ -5,17 +5,16 @@ const { arrify } = require('./arrify.js')
 async function getChapterState (req, res) {
   const book = await getBookState(req, res)
   const token = req.user.token
-  const { chapterNumber = 0 } = req.params.chapter
-  const chapterListing = arrify(book.orderedItems)[chapterNumber]
+  const { chapter = 0 } = req.params
+  const chapterListing = arrify(book.orderedItems)[chapter]
   const id = chapterListing.id
   const result = await get(id, token)
   if (result === null) {
     return result
   }
-  const chapter = arrify(book.orderedItems)[req.params.chapter]
   return {
     book,
-    chapter
+    chapter: result
   }
 }
 
