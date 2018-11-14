@@ -1,19 +1,11 @@
-import * as xstate from 'xstate'
 import ky from 'ky'
-const { Machine } = xstate
 
-// To use you need to subclass, add your own config+options and set up event listening in either your constructor or connectedCallback.
+// To use you need to subclass, add your own machine and set up event listening in either your constructor or connectedCallback.
 // Should be hidden by default
 
 export class XStateElement extends window.HTMLElement {
-  static get machineConfig () {
+  static get machine () {
     return {}
-  }
-  static get machineOptions () {
-    return {}
-  }
-  static get xstate () {
-    return xstate
   }
   static get eventName () {
     return 'xstate:transition'
@@ -26,9 +18,7 @@ export class XStateElement extends window.HTMLElement {
     } catch (err) {
       this.context = await this.loadState()
     }
-    const config = this.constructor.machineConfig
-    const options = this.constructor.machineOptions
-    this.machine = Machine(config, options, this.context)
+    this.machine = this.constructor.machine.withContext(this.context)
     this.state = this.machine.initialState
   }
   disconnectedCallback () {}
