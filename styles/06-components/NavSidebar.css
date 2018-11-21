@@ -111,6 +111,41 @@ StyleGuide 6.NavSidebar
 .is-without-menu .NavSidebar {
   display: none;
 }
+
+.NavSidebar--toc {
+  font-size: 0.65rem;
+  padding: 0.5rem;
+}
+
+.NavSidebar--toc ol {
+  padding: 0 1rem;
+}
+
+.NavSidebar--toc h1 {
+  font-size: 1.25em;
+  line-height: 1.5em;
+}
+.NavSidebar--toc h2 {
+  font-size: 1em;
+  line-height: 1.25em;
+  font-weight: 600;
+}
+.NavSidebar--toc h3 {
+  font-size: 0.85em;
+  line-height: 1.25em;
+  font-weight: 600;
+}
+.NavSidebar--toc h4 {
+  font-size: 0.75em;
+  line-height: 1.25em;
+  font-weight: 600;
+}
+.NavSidebar--toc h5 {
+  font-size: 0.65em;
+  line-height: 1.25em;
+  font-weight: 400;
+}
+
 @media (max-width: 820px) {
   .NavSidebar {
     padding-top: 2rem;

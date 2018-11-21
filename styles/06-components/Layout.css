@@ -6,6 +6,10 @@
   position: relative;
 }
 
+.Layout--reader {
+  grid-template-columns: 0.3fr 1fr;
+}
+
 .Layout.is-without-menu {
   grid-template-areas: 'Main';
   grid-template-columns: 1fr;

@@ -4,7 +4,8 @@ export const tocSidebarView = (render, model, req) => {
   return render(
     model,
     ':tocSidebarView'
-  )`<div class="NavSidebar" id="NavSidebar">
+  )`<div class="NavSidebar NavSidebar--toc" id="NavSidebar">
+  <h1>${[clean(model.name)]}</h1>
   ${[clean(model.toc.content)]}
 </div>`
 }
