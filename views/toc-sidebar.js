@@ -3,10 +3,12 @@ import { arrify } from './util-arrify.js'
 import { getId } from './utils/get-id.js'
 // Need to make sure this has a return link and location markers
 export const tocSidebarView = (render, model, req) => {
+  const returnURL = `/library/info/${encodeURIComponent(getId(model.id))}`
   return render(
     model,
     ':tocSidebarView'
   )`<div class="NavSidebar NavSidebar--toc" id="NavSidebar">
+  <a href="${returnURL}" class="TextButton TextButton--tocReturn" aria-label="Return to Book Information">&lt; Return</a>
   <h1 class="NavSidebar-title">${[clean(model.name)]}</h1>
   <h2 class="NavSidebar-subtitle">Contents</h2>
   <ol>
