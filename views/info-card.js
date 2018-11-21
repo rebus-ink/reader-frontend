@@ -4,7 +4,7 @@ import { getId } from './utils/get-id.js'
 
 export const infoCardView = (render, model) => {
   const { cover = {}, id = '' } = model
-  const url = `/reader/${encodeURIComponent(getId(id))}`
+  const url = `/reader/${encodeURIComponent(getId(id))}/0`
   return render(model, ':infoCard')`<div class="InfoCard">
 <div class="InfoCard-title">
   <img  class="BookCard-icon" alt="${cover.summary}" src=${cover.url} width=${

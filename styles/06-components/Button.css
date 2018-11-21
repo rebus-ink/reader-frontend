@@ -131,8 +131,9 @@ StyleGuide 6.Button
   background-color: var(--active);
 }
 .Button--primary:hover,
-.Button--primary:link:hover {
-  color: white;
+.Button--primary:link:hover,
+.Button--primary:link:visited:hover {
+  color: white !important;
   background-color: var(--hover);
   border-color: var(--hover);
 }
