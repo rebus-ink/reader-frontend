@@ -1,11 +1,33 @@
 import { clean } from '../server/utils/sanitize-state'
+import { arrify } from './util-arrify.js'
+import { getId } from './utils/get-id.js'
 // Need to make sure this has a return link and location markers
 export const tocSidebarView = (render, model, req) => {
   return render(
     model,
     ':tocSidebarView'
   )`<div class="NavSidebar NavSidebar--toc" id="NavSidebar">
-  <h1>${[clean(model.name)]}</h1>
-  ${[clean(model.toc.content)]}
+  <h1 class="NavSidebar-title">${[clean(model.name)]}</h1>
+  <h2 class="NavSidebar-subtitle">Contents</h2>
+  <ol>
+${renderToC(render, model, req)}
+  </ol>
 </div>`
+}
+
+function renderToC (render, model, req) {
+  return arrify(model.orderedItems).map((chapter, index) => {
+    const url = `/reader/${encodeURIComponent(getId(model.id))}/${index}`
+    const isSelected =
+      req.params.chapter === String(index)
+        ? 'NavSidebar-item is-selected'
+        : 'NavSidebar-item'
+    const ariaCurrent = req.params.chapter === String(index) ? 'page' : false
+    return render(
+      chapter,
+      ':toc-entry'
+    )`<li class="${isSelected}"><a href="${url}" class="NavSidebar-link" aria-current=${ariaCurrent}>${
+      chapter.name
+    }</a></li>`
+  })
 }

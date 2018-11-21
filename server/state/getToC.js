@@ -24,15 +24,9 @@ function getToC (publication /*: Publication */) /*: PublicationDocument */ {
 }
 // View then needs to process links to make sure they point at the right place.
 function generateToC (publication) {
-  const list = arrify(publication.orderedItems)
-    .map(chapter => {
-      return `    <li><a href="${chapter.id}">${chapter.name}</a></li>`
-    })
-    .join('')
-  return `<nav>
-  <ol>
-    ${list}
-  </ol>
-</nav>`
+  const list = arrify(publication.orderedItems).map(chapter => {
+    return { id: chapter.id, name: chapter.name, children: [] }
+  })
+  return list
 }
 module.exports.getToC = getToC
