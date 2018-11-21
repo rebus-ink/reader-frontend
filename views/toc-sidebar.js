@@ -5,6 +5,6 @@ export const tocSidebarView = (render, model, req) => {
     model,
     ':tocSidebarView'
   )`<div class="NavSidebar" id="NavSidebar">
-  ${[clean(model.book.toc.content)]}
+  ${[clean(model.toc.content)]}
 </div>`
 }

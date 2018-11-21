@@ -5,7 +5,7 @@ export const pageBody = (render, model, req) => render(
   model,
   ':libraryBody'
 )`<div class="Layout">
-  ${tocSidebarView(render, model, req)}
+  ${tocSidebarView(render, model.book, req)}
   <main id="chapter" class="Chapter" tabindex="-1">
   ${topMenuMain(render, model)}
   ${chapterView(render, model)}</main>

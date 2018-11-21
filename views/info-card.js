@@ -1,15 +1,17 @@
 // import distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
 import { clean } from '../server/utils/sanitize-state'
+import { getId } from './utils/get-id.js'
 
 export const infoCardView = (render, model) => {
-  const { cover = {} } = model
+  const { cover = {}, id = '' } = model
+  const url = `/reader/${encodeURIComponent(getId(id))}`
   return render(model, ':infoCard')`<div class="InfoCard">
 <div class="InfoCard-title">
   <img  class="BookCard-icon" alt="${cover.summary}" src=${cover.url} width=${
   cover.width
 } height=${cover.height}> 
   <h3 class="Row-title Row-title--cardTitle">${model.name}</h3>
-  <button class="Button Button--primary">Read</button>
+  <a class="Button Button--primary" href="${url}">Read</a>
 </div>
 <details class="InfoCard-detail" open>
   <summary>Metadata</summary>
@@ -20,7 +22,7 @@ export const infoCardView = (render, model) => {
 <details class="InfoCard-detail">
   <summary>Table of Contents</summary>
   <div class="InfoCard-contents">
-    ${[clean(model.toc)]}
+    ${[clean(model.toc.content)]}
   </div>
 </details>
 <details class="InfoCard-detail">
