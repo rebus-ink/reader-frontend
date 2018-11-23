@@ -107,7 +107,7 @@ tap.test('views - tocSidebarView', test => {
     tocSidebarView.bind(
       null,
       () => render,
-      { toc: { content: '' } },
+      { toc: { content: '' }, id: 'http://example.com/publication-1' },
       { path: '/reader/0' }
     )
   )
@@ -119,7 +119,10 @@ tap.test('views - readerPageBody', test => {
     readerPageBody.bind(
       null,
       () => render,
-      { book: { toc: { content: '' } }, chapter: { content: '' } },
+      {
+        book: { toc: { content: '' }, id: 'http://example.com/publication-1' },
+        chapter: { content: '', id: 'http://example.com/publication-1' }
+      },
       { path: '/reader/0' }
     )
   )
