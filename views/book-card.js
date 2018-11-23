@@ -1,10 +1,11 @@
 // import distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
+import { getId } from './utils/get-id.js'
 const notSelected = 'BookCard is-selectable'
 const selected = 'BookCard is-selectable is-selected'
 
 export const bookCardView = (render, model = { cover: {} }) => {
   const { cover = {}, id = '' } = model
-  const url = `/library/info/${encodeURIComponent(id)}`
+  const url = `/library/info/${encodeURIComponent(getId(id))}`
   return render(model, ':bookCard')`
 <div class=${model.isSelected ? selected : notSelected}>
   <img  class="BookCard-icon" alt="${cover.summary}" src=${cover.url} width=${

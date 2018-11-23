@@ -39,6 +39,7 @@ function toBookCard (publication /*: Publication */) /*: BookCard */ {
     stacks: getStacks(publication),
     tags: getTags(publication),
     toc: getToC(publication),
+    totalItems: publication.totalItems,
     orderedItems: arrify(publication.orderedItems)
   }
 }

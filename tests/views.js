@@ -101,3 +101,42 @@ tap.test('views - settingsPageBody', test => {
   )
   test.end()
 })
+const { tocSidebarView } = require('../views/toc-sidebar.js')
+tap.test('views - tocSidebarView', test => {
+  test.doesNotThrow(
+    tocSidebarView.bind(
+      null,
+      () => render,
+      { toc: { content: '' }, id: 'http://example.com/publication-1' },
+      { path: '/reader/0' }
+    )
+  )
+  test.end()
+})
+const { pageBody: readerPageBody } = require('../views/reader-chapter.js')
+tap.test('views - readerPageBody', test => {
+  test.doesNotThrow(
+    readerPageBody.bind(
+      null,
+      () => render,
+      {
+        book: { toc: { content: '' }, id: 'http://example.com/publication-1' },
+        chapter: { content: '', id: 'http://example.com/publication-1' }
+      },
+      { path: '/reader/0' }
+    )
+  )
+  test.end()
+})
+const { chapterView } = require('../views/chapter.js')
+tap.test('views - chapterView', test => {
+  test.doesNotThrow(
+    chapterView.bind(
+      null,
+      () => render,
+      { book: { toc: { content: '' } }, chapter: { content: '' } },
+      { path: '/reader/0' }
+    )
+  )
+  test.end()
+})

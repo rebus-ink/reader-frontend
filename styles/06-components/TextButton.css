@@ -91,3 +91,10 @@ StyleGuide 6.TextButton
   color: transparent;
   line-height: 1.3;
 }
+.TextButton--tocReturn {
+  font-size: 0.65rem;
+  text-align: left;
+  display: block;
+  margin: 0.25rem 1rem;
+  text-transform: uppercase;
+}

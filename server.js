@@ -5,6 +5,9 @@ const compression = require('compression')
 const cookieSession = require('cookie-session')
 // const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn
 const { securitySetup } = require('./server/security.js')
+if (!process.env.API_DOMAIN) {
+  process.env.API_DOMAIN = process.env.DOMAIN + '/api'
+}
 
 function setup (authserver) {
   const app = express()
@@ -44,6 +47,8 @@ function setup (authserver) {
   app.use('/', require('./server/routes/notes.js'))
   app.use('/', require('./server/routes/import.js'))
   app.use('/', require('./server/routes/info-card.js'))
+  app.use('/', require('./server/routes/reader-book.js'))
+  app.use('/', require('./server/routes/reader-chapter.js'))
 
   app.use(function (req, res, next) {
     res.status(404)
