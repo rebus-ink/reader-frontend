@@ -6,7 +6,8 @@ tap.test('getLocaleProperty', function (test) {
     summary: 'Test!'
   }
   const result = getLocaleProperty(testData, 'summary')
-  test.equals(result, 'Test!')
+  test.equals(result.summary, 'Test!')
+  test.equals(result.lang, 'en')
   test.end()
 })
 
@@ -17,7 +18,8 @@ tap.test('getLocaleProperty - map', function (test) {
     }
   }
   const result = getLocaleProperty(testData, 'summary')
-  test.equals(result, 'Test!')
+  test.equals(result.summary, 'Test!')
+  test.equals(result.lang, 'en')
   test.end()
 })
 
@@ -28,6 +30,7 @@ tap.test('getLocaleProperty - nothing local', function (test) {
     }
   }
   const result = getLocaleProperty(testData, 'summary')
-  test.notOk(result)
+  test.equals(result.summary, 'Prófa!')
+  test.equals(result.lang, 'is')
   test.end()
 })
