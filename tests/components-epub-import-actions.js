@@ -26,7 +26,6 @@ test('load', async (page, t) => {
   t.end()
 })
 
-// test preview
 // test parse
 test('parse', async (page, t) => {
   try {

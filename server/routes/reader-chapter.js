@@ -13,6 +13,7 @@ const getBookState = (req, res) => {
   return Promise.resolve().then(() => {
     const id = `${process.env.API_DOMAIN}/${req.params.bookId}`
     const book = viewModel.books.filter(book => book.id === id)[0]
+    // This needs to actually get that chapter from the API.
     const chapter = book.orderedItems[0]
     return { book, chapter }
   })
