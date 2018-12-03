@@ -21,6 +21,7 @@ function authserver (options) {
     store: typeof tokenStore !== 'string' && tokenStore,
     namespace: 'rebus-reader-tokens'
   })
+  options.tokenStorage = tokenStorage
   const app = express()
 
   // Passport setup
@@ -37,6 +38,7 @@ function authserver (options) {
         .then((user = {}) => {
           return tokenStorage.get(id).then(token => {
             user.token = token
+            user.id = id
             return user
           })
         })
@@ -45,9 +47,8 @@ function authserver (options) {
             return user
           } else {
             // create JWT, save in token store
-            const { readerId } = user
             const expiresIn = '30m'
-            const token = jwt.sign({ sub: readerId }, process.env.SECRETORKEY, {
+            const token = jwt.sign({ sub: id }, process.env.SECRETORKEY, {
               algorithm: 'HS256',
               expiresIn,
               jwtid: translator.new(),
@@ -74,8 +75,9 @@ function authserver (options) {
   })
   app.use(passport.initialize())
   app.use(passport.session())
+  app.locals.authOptions = options
 
-  app.get('/callback', authenticate(options), function (req, res, next) {
+  app.get('/callback', authenticate, function (req, res, next) {
     res.redirect(req.session.returnTo || '/')
   })
 
