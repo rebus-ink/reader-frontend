@@ -9,7 +9,7 @@ const { getStacks } = require('./getStacks.js')
 const { getTags } = require('./getTags.js')
 const { getToC } = require('./getToC.js')
 const { arrify } = require('../utils/arrify.js')
-const { getDocuments } = require('./getDocuments.js')
+const { getDocuments, getDocumentsById } = require('./getDocuments.js')
 /**
  * Converts an ActivityStreams publication type into an easier to handle BookCard state object.
  */
@@ -42,7 +42,8 @@ function toBookCard (publication /*: Publication */) /*: BookCard */ {
     toc: getToC(publication),
     totalItems: publication.totalItems,
     orderedItems: arrify(publication.orderedItems),
-    documents: getDocuments(publication)
+    documents: getDocuments(publication),
+    documentsById: getDocumentsById(publication)
   }
 }
 
