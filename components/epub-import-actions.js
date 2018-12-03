@@ -80,25 +80,13 @@ export async function parse (context) {
   }).map(itemToActivityStub)
   // Update HTML toc to use proper URLs
   // Not needed because we're ignoring the HTML toc for Prototype A
-  // Converts reading order into orderedItems array, pulling the Activity Document stubs from the preliminary attachments array.
-  // Possibly do this at a later stage when the activities are readier.
-  context.orderedItems = Array.from(opfDoc.querySelectorAll('itemref')).map(element => {
-    return context.attachment.filter(item => item.id === element.getAttribute('itemref'))[0]
+  // This adds 'schema:position' to each activity. The API server has to use this to generate the `orderedItems` property as we cannot do so during import. Each item in the `orderedItems` property needs to refer to the id of a document in `attachment` but those ids don't exist until the document has been created serverside. So we need another mechanism.
+  const itemRefs = Array.from(opfDoc.querySelectorAll('itemref'))
+  itemRefs.forEach((element, index) => {
+    const item = context.attachment.filter(item => item.id === element.getAttribute('itemref'))[0]
+    item['schema:position'].activity = index
   })
-  // Set the reader url as alternate urls for all html attachments
-  const chapters = context.orderedItems.map(item => item.path)
-  for (var index = 0; index < context.attachment.length; index++) {
-    const path = context.attachment[index].path
-    const chapterIndex = chapters.indexOf(path)
-    if (chapterIndex !== -1) {
-      context.attachment[index].activity.url = [{
-        type: 'Link',
-        rel: ['alternate'],
-        href: `${context.DOMAIN}/reader/${chapterIndex}`,
-        mediaType: 'text/html'
-      }]
-    }
-  }
+  context.totalItems = itemRefs.length
   // Gets the creators (specific roles in later release)
   // Contributors are a future feature
   context.attributedTo = Array.from(opfDoc.querySelectorAll('creator')).map(creator => {
@@ -131,8 +119,6 @@ export async function parse (context) {
 
 // This action goes through all of the remaining html files in the epub, processes them for type
 export async function process (context, event) {
-  // Make sure we have a parser
-  const parser = new window.DOMParser()
   // Get the zip
   const zip = context.zip
   // For each resource we...
@@ -141,47 +127,7 @@ export async function process (context, event) {
     // Read it from the Zip file
     if (resource.mediaType === 'application/xhtml+xml') {
       const file = await zip.file(resource.path).async('string')
-      // This is for browser rendering, we don't care about xmlish behaviours in this context
-      const fileDoc = parser.parseFromString(file, 'text/html')
-      // Let's get the name! The first H1 would be the most sensible place to find it
-      const h1text = getText(fileDoc.querySelector('h1'))
-      // But sometimes book CMSes are extremely borked
-      const h2text = getText(fileDoc.querySelector('h2'))
-      // And they almost never have useful text in their title tags (you'd think they'd add something useful, but you'd be wrong). Let's grab it as a fallback anwyway.
-      const titleText = getText(fileDoc.querySelector('title'))
-      resource.activity.name = h1text || h2text || titleText
-      // A thing to do later is parse the HTML file for embedded metadata such as schema.org, opengraph or plain old meta tags.
-      // Parse HTML files to update all URL references to point at the media upload URL for that document. Basically: 1. turn all relative URL into full using the current doc URL as base. 2. Parse src, href, srcset, xlink:href (for SVG) attributes for URLs, convert them to absolute that refer to actual uploaded path.
-      const base = new URL(resource.path, 'http://example.com/')
-      const srcs = Array.from(fileDoc.querySelectorAll('[src]'))
-      const hrefs = Array.from(fileDoc.querySelectorAll('[href]'))
-      // We aren't doing srcset for now as that requires parsing the srcset contents and we are in a hurry
-      const svgHrefs = Array.from(fileDoc.querySelectorAll('[xlink|href]'))
-      // We are only going to check for chapter to chapter links this time around. Non-linear links will be handled later through a special /reader/attachment/:id route.
-      hrefs.forEach(node => {
-        const path = new URL(node.getAttribute('href'), base).pathname.replace('/', '')
-        const reference = context.orderedItems.map(item => item.path).indexOf(path)
-        if (reference !== -1) {
-          node.setAttribute('href', reference)
-        }
-      })
-      // This probably doesn't actually work for inline SVG 1.1. It should work, in theory, but needs testing. Definitely doesn't work for SVGs embedded using <object> (which you shouldn't need for xhtml but is technically legal). <iframe> should be fine as that would point at the uploaded media svg.
-      svgHrefs.forEach(node => {
-        const path = new URL(node.getAttributeNS('http://www.w3.org/1999/xlink', 'href'), base).pathname.replace('/', '')
-        const reference = context.attachment.filter(attachment => attachment.path === path)[0]
-        if (reference) {
-          node.setAttributeNS('http://www.w3.org/1999/xlink', 'href', resource.href)
-        }
-      })
-      srcs.forEach(node => {
-        const path = new URL(node.getAttribute('src'), base).pathname.replace('/', '')
-        const reference = context.attachment.filter(attachment => attachment.path === path)[0]
-        if (reference) {
-          node.setAttribute('src', resource.href)
-        }
-      })
-      // Since this is for the content attribute were we aren't planning on supporting JS or extra stuff (for that, you can always get the original), we're just using outerHTML. Later on we need to do this as a contentMap with the correct language.
-      resource.activity.content = fileDoc.documentElement.outerHTML
+      resource.activity.content = file
     }
   }
   return context
@@ -216,21 +162,13 @@ export async function create (context, event) {
   const publication = {
     '@context': [
       'https://www.w3.org/ns/activitystreams',
-      { reader: 'https://rebus.foundation/ns/reader' }
+      { reader: 'https://rebus.foundation/ns/reader', schema: 'https://schema.org/' }
     ],
     name: context.title
   }
   publication.attachment = context.attachment.map(item => item.activity)
-  // Big problem number one. All items in the reading order need a link to the reader as an alternate in both attachments and orderedItems. Use a const full url to begin with.
-  publication.orderedItems = context.orderedItems.map(item => {
-    const chapter = context.attachment.filter(attachment => attachment.path === item.path)[0]
-    item.name = chapter.name
-    item.nameMap = chapter.nameMap
-    item.url = chapter.url
-    return item
-  })
   // The the `publication` property in the context should now be a complete `rebus:Publication` activity.
-  publication.totalItems = publication.orderedItems.length
+  publication.totalItems = context.totalItems
   publication.attributedTo = context.attributedTo
   publication.icon = context.icon
   publication.url = context.url
@@ -274,5 +212,6 @@ function itemToActivityStub (item) {
     mediaType: item.mediaType
   }]
   item.summary = `Resource of type ${item.mediaType}`
+  item['reader:path'] = item.path
   return item
 }
