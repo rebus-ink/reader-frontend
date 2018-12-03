@@ -7,7 +7,7 @@ const router = express.Router()
 router.get('/logout', function (req, res, next) {
   const render = viperHTML.wire
   res.send(
-    pageHead(render) +
+    pageHead(render, {}, req) +
       `<div class="FrontLayout"><form action="/logout" method="POST" class="FrontLayout-child">
       <button class="Button">Log Out</button>
       </form></div>` +

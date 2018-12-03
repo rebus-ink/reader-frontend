@@ -25,7 +25,7 @@ router.get('/', function (req, res, next) {
     )
   } else {
     res.send(
-      pageHead(render, viewModel) +
+      pageHead(render, viewModel, req) +
         `<div class="FrontLayout">
     <form action="/login?returnTo=/library" method="POST" class="FrontLayout-child">
     <button class="Button">Log In</button>

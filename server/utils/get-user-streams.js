@@ -6,7 +6,8 @@ function getUserStreams (req, res, next) {
       profile: `https://${host}/api/${readerId}`,
       library: `https://${host}/api/${readerId}/library`,
       outbox: `https://${host}/api/${readerId}/activity`,
-      streams: `https://${host}/api/${readerId}/streams`
+      streams: `https://${host}/api/${readerId}/streams`,
+      upload: `https://${host}/api/file-upload`
     }
   }
   next()

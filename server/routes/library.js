@@ -16,7 +16,7 @@ router.get('/library', ensureLogin, getUserStreams, function (req, res, next) {
       model = model || viewModel
       const render = viperHTML.wire
       res.send(
-        pageHead(render, viewModel) +
+        pageHead(render, viewModel, req) +
           pageBody(render, viewModel, req) +
           pageFoot(render, viewModel)
       )

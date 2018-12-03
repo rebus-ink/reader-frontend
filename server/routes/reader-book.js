@@ -17,7 +17,7 @@ router.get('/reader/:bookId', ensureLogin, getUserStreams, function (
     .then(model => {
       const render = viperHTML.wire
       res.send(
-        pageHead(render, model) +
+        pageHead(render, model, req) +
           pageBody(render, model, req) +
           pageFoot(render, model)
       )
