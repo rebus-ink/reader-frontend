@@ -1,5 +1,5 @@
 const viperHTML = require('viperhtml')
-const { pageHead } = require('../views/page-head.js')
+const { pageHead } = require('../views/safe-head.js')
 const { pageFoot } = require('../views/page-foot.js')
 const { login } = require('../views/login.js')
 

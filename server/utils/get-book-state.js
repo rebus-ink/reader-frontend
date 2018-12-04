@@ -16,9 +16,9 @@ async function getBookState (req, res) {
   })
   let chapter
   if (req.params.filePath) {
-    chapter = book.documentsById[req.params.filePath]
+    chapter = book.documents[req.params.filePath]
   } else {
-    chapter = book.documents[book.orderedItems[0].id]
+    chapter = book.documentsById[book.orderedItems[0].id]
   }
   return {chapter, book}
 }

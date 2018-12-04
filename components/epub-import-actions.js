@@ -84,8 +84,10 @@ export async function parse (context) {
   // This adds 'schema:position' to each activity. The API server has to use this to generate the `orderedItems` property as we cannot do so during import. Each item in the `orderedItems` property needs to refer to the id of a document in `attachment` but those ids don't exist until the document has been created serverside. So we need another mechanism.
   const itemRefs = Array.from(opfDoc.querySelectorAll('itemref'))
   itemRefs.forEach((element, index) => {
-    const item = context.attachment.filter(item => item.id === element.getAttribute('itemref'))[0]
-    item['schema:position'].activity = index
+    const item = context.attachment.filter(item => {
+      return item.id === element.getAttribute('idref')
+    })[0]
+    item.activity['position'] = index
   })
   context.totalItems = itemRefs.length
   // Gets the creators (specific roles in later release)

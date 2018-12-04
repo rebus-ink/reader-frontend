@@ -45,7 +45,7 @@ function toBookCard (publication /*: Publication */) /*: BookCard */ {
     documentsById: getDocumentsById(publication)
   }
   state.orderedItems = arrify(publication.orderedItems).map((item, index) => {
-    return state.documentsById(item.id)
+    return state.documentsById[item.id]
   })
   return state
 }
