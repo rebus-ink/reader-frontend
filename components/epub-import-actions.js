@@ -218,3 +218,5 @@ function itemToActivityStub (item) {
   item['reader:path'] = item.path
   return item
 }
+
+window.actions = {load, parse, process, upload, create}

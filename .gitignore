@@ -71,3 +71,4 @@ google-keyfile.json
 secrets.tar
 keyv-file
 app-staging.yaml
+reader-api/
