@@ -7,6 +7,7 @@ const got = require('got')
  * At some point this needs to use configurable Keyv cache stores.
  */
 async function post (url /*: string */, body/*: any */, token /*: string */) {
+  console.log(`${process.env.DOMAIN}/api${url}`, body, token)
   let headers
   if (token) {
     headers = {
@@ -21,7 +22,7 @@ async function post (url /*: string */, body/*: any */, token /*: string */) {
     timeout: 1000
   }
   try {
-    const response = await got(url, options)
+    const response = await got(`${process.env.DOMAIN}/api${url}`, options)
     const location = response.headers['location']
     const result = await got(location, {
       headers,

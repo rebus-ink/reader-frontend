@@ -45,11 +45,11 @@ function authenticate (req, res, next) {
   if (req.query.returnTo) {
     req.session.returnTo = req.query.returnTo
   }
-  const {strategy, failureRedirect = '/login', storage, successRedirect = '/'} = req.locals.authOptions
+  const {strategy, failureRedirect = '/login', storage, tokenStorage, successRedirect = '/'} = req.app.locals.authOptions
   passport.authenticate(strategy.name, function (err, user) {
     if (err) { next(err) }
     if (!user) { next(new Error('No user')) }
-    return processAuth(user, {strategy, failureRedirect, storage, successRedirect}).then(user => {
+    return processAuth(user, {strategy, failureRedirect, storage, tokenStorage, successRedirect}).then(user => {
       return req.logIn(user, function (err) {
         if (err) {
           throw err

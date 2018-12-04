@@ -19,7 +19,7 @@ async function get (url /*: string */, token /*: string */) {
     timeout: 1000
   }
   try {
-    const response = await got(url, options)
+    const response = await got(`${process.env.DOMAIN}/api${url}`, options)
     return response.body
   } catch (error) {
     console.error(error)
