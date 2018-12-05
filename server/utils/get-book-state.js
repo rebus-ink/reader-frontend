@@ -5,7 +5,7 @@ const { arrify } = require('./arrify.js')
 
 async function getBookState (req, res) {
   const token = req.user.token
-  const id = `${process.env.API_DOMAIN}/${req.params.bookId}`
+  const id = `${process.env.DOMAIN}/${req.params.bookId}`
   const result = await get(id, token)
   if (result === null) {
     return result

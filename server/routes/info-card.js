@@ -10,7 +10,7 @@ const router = express.Router()
 const viewModel = require('../../library-mock.json')
 const getInfoState = (req, res) => {
   return Promise.resolve().then(() => {
-    const id = `${process.env.API_DOMAIN}/${req.params.bookId}`
+    const id = `${process.env.DOMAIN}/${req.params.bookId}`
     const book = viewModel.books.filter(book => book.id === id)[0]
     return book || {}
   })

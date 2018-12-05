@@ -6,7 +6,7 @@ function getUserStreams (req, res, next) {
       library: reader.streams.items[0].id,
       outbox: reader.outbox,
       streams: `${reader.id}/streams`,
-      upload: `${process.env.DOMAIN}/api/file-upload`
+      upload: `${process.env.DOMAIN}file-upload`
     }
   }
   next()

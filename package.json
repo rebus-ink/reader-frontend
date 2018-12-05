@@ -9,7 +9,7 @@
   "scripts": {
     "test": "tap 'tests/*.js'",
     "dev-test": "onchange 'app/**/*.js' 'server/**/*.js' 'tests/**/*.js' -- onerror \"tap -R classic tests/*.js\"",
-    "dev-server": "NODE_ENV=development DOMAIN=https://localhost:4430 DEPLOY_STAGE=development nodemon dev.js",
+    "dev-server": "DEBUG=hobb:*,vonnegut:* SECRETORKEY=kick-opossum-snowiness ISSUER=auth.reader-api.test NODE_ENV=development BASE=https://localhost:4430 DEPLOY_STAGE=development nodemon dev.js",
     "fix-things-for-me": "onchange 'styles/**/*.css' 'app/**/*.js' 'server/**/*.js' -- prettier-standard '**/*.{js,md,css}'",
     "start": "node index.js",
     "build-css": "node build-css.js",
@@ -63,6 +63,7 @@
   },
   "dependencies": {
     "@google-cloud/datastore": "^2.0.0",
+    "@google-cloud/storage": "2.3.1",
     "accesscontrol": "^2.2.1",
     "built-in-element": "^0.1.4",
     "compression": "^1.7.3",
@@ -70,6 +71,8 @@
     "cookie-session": "^2.0.0-beta.3",
     "csurf": "^1.9.0",
     "date-fns": "^1.29.0",
+    "debug": "4.1.0",
+    "dotenv": "6.1.0",
     "esm": "^3.0.84",
     "express": "^4.16.3",
     "express-basic-auth": "^1.1.5",
@@ -80,17 +83,24 @@
     "jsonwebtoken": "^8.3.0",
     "jszip": "3.1.5",
     "keyv": "^3.1.0",
-    "ky": "^0.5.1",
+    "knex": "0.15.2",
+    "lodash": "4.17.11",
     "morgan": "^1.9.1",
     "ms": "^2.1.1",
+    "multer": "1.4.1",
+    "objection": "1.4.0",
+    "objection-db-errors": "1.0.0",
+    "objection-guid": "3.0.2",
     "passport": "^0.4.0",
     "passport-auth0": "^1.0.0",
+    "passport-jwt": "4.0.0",
+    "pg": "7.7.1",
     "sanitize-html": "^1.19.0",
     "short-uuid": "^3.0.0",
+    "sqlite": "3.0.0",
     "swup": "^1.7.9",
     "viperhtml": "^2.16.0",
-    "wicked-elements": "0.3.1",
-    "xstate": "^4.0.1"
+    "wicked-elements": "0.3.1"
   },
   "standard": {
     "ignore": [
