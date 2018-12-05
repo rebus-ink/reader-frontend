@@ -8,17 +8,15 @@ const express = require('express')
 const router = express.Router()
 const { getLibraryState } = require('../utils/get-library-state.js')
 
-const viewModel = require('../../library-mock.json')
-
 router.get('/library', ensureLogin, getUserStreams, function (req, res, next) {
   return getLibraryState(req, res)
     .then(model => {
-      model = model || viewModel
+      console.log(model)
       const render = viperHTML.wire
       res.send(
-        pageHead(render, viewModel, req) +
-          pageBody(render, viewModel, req) +
-          pageFoot(render, viewModel)
+        pageHead(render, model, req) +
+          pageBody(render, model, req) +
+          pageFoot(render, model)
       )
     })
     .catch(err => next(err))
