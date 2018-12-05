@@ -17,14 +17,22 @@ async function createPublication (payload) {
     method: 'POST',
     body: JSON.stringify(payload),
     headers: new window.Headers({
-      'content-type': 'application/json',
+      'content-type': 'application/ld+json',
       'Authorization': `Bearer ${JWT}`
     })
   })
   if (!response.ok) {
     throw new HTTPError('POST Error:', response.statusText)
   }
-  return response.json()
+  const activity = await window.fetch(response.headers.get('location'), {
+    credentials: 'include',
+    headers: new window.Headers({
+      'content-type': 'application/ld+json',
+      'Authorization': `Bearer ${JWT}`
+    })
+  })
+  console.log(await activity.json())
+  return response.headers.get('location')
 }
 
 async function uploadFile (payload) {

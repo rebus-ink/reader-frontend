@@ -144,7 +144,14 @@ export async function upload (context, event) {
   // There are security implications for hosting unmodified html, css, and js files on a domain we control. So, we're only going to upload images and media. The long term solution is to sanitize the svg
   // To upload, blobs need to be turned into File objects and added to a FormData object which becomes the payload.
   // First upload the epub.
-  await uploadFile(context.file)
+  try {
+    const data = new window.FormData()
+    data.append('file', context.file)
+    await uploadFile(data)
+  } catch (err) {
+    console.log(err.response)
+    throw err
+  }
   // Then cycle through the attachments and upload images, audio, video
   for (var index = 0; index < context.attachment.length; index++) {
     const resource = context.attachment[index]
@@ -153,7 +160,12 @@ export async function upload (context, event) {
       const file = new window.File([blob], resource.path, {type: resource.mediaType})
       const data = new window.FormData()
       data.append('file', file)
-      await uploadFile(data)
+      try {
+        await uploadFile(data)
+      } catch (err) {
+        console.log(err)
+        throw err
+      }
     }
   }
   return context
@@ -163,19 +175,26 @@ export async function upload (context, event) {
 export async function create (context, event) {
   const createPublication = window.createPublication
   const publication = {
-    '@context': [
-      'https://www.w3.org/ns/activitystreams',
-      { reader: 'https://rebus.foundation/ns/reader', schema: 'https://schema.org/' }
-    ],
+    type: 'reader:Publication',
     name: context.title
   }
   publication.attachment = context.attachment.map(item => item.activity)
   // The the `publication` property in the context should now be a complete `rebus:Publication` activity.
   publication.totalItems = context.totalItems
   publication.attributedTo = context.attributedTo
-  publication.icon = context.icon
+  if (context.icon) {
+    publication.icon = context.icon
+  }
   publication.url = context.url
-  return createPublication(publication)
+  const wrapper = {
+    '@context': [
+      'https://www.w3.org/ns/activitystreams',
+      { reader: 'https://rebus.foundation/ns/reader', schema: 'https://schema.org/' }
+    ],
+    type: 'Create',
+    object: publication
+  }
+  return createPublication(wrapper)
 }
 
 function getText (node) {
