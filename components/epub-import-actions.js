@@ -55,7 +55,7 @@ export async function parse (context) {
   // We are going to be generating a TOC from the chapters themselves in the prototype A so getting a proper ToC is not a priority for this release
   // Generate a unique file prefix: `:userId/:bookId`
   // Currently, client-side js doesn't have access to the user id (easy to fix later) so for prototype A we're just going to go for a random id for the book media
-  const userId = document.querySelector('[name="rebus-user-id"]')
+  const userId = document.querySelector('[name="rebus-user-id"]').getAttribute('content')
   context.bookPrefix = `${userId}-${Math.random().toFixed(6).replace('.', '')}/`
   function getURL (path) {
     return new window.URL(context.bookPrefix + path, BUCKET_URL)
