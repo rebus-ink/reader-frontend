@@ -19,7 +19,11 @@ async function processAuth (user, {storage, tokenStorage}) {
       issuer: process.env.ISSUER
     })
     await tokenStorage.set(user.id, token, ms(expiresIn))
-    const result = await get('/whoami', token)
+    let result
+    try {
+      result = await get('whoami', token)
+    } catch (err) {
+    }
     if (result) {
       const newUser = {id: user.id, reader: result}
       newUser.readerId = new URL(result.id).pathname.split('-')[1]
@@ -30,7 +34,7 @@ async function processAuth (user, {storage, tokenStorage}) {
         type: 'Person',
         summary: `Reader profile for user id ${user.id}`
       }
-      const result = await post('/readers', newReader, token)
+      const result = await post('readers', newReader, token)
       const newUser = {id: user.id, reader: result}
       newUser.readerId = new URL(result.id).pathname.split('-')[1]
       await storage.set(user.id, newUser)
