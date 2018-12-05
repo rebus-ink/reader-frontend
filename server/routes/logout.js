@@ -1,10 +1,11 @@
 const viperHTML = require('viperhtml')
 const { pageHead } = require('../../views/page-head.js')
 const { pageFoot } = require('../../views/page-foot.js')
+const { getUserStreams } = require('../utils/get-user-streams.js')
 const express = require('express')
 const router = express.Router()
 
-router.get('/logout', function (req, res, next) {
+router.get('/logout', getUserStreams, function (req, res, next) {
   const render = viperHTML.wire
   res.send(
     pageHead(render, {}, req) +
