@@ -194,6 +194,7 @@ export async function create (context, event) {
     type: 'Create',
     object: publication
   }
+  console.log(wrapper.object.attachment)
   return createPublication(wrapper)
 }
 
@@ -234,7 +235,7 @@ function itemToActivityStub (item) {
     mediaType: item.mediaType
   }]
   item.summary = `Resource of type ${item.mediaType}`
-  item['reader:path'] = item.path
+  item.activity['reader:path'] = item.path
   return item
 }
 
