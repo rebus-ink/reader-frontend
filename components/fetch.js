@@ -16,10 +16,10 @@ async function createPublication (payload) {
     credentials: 'include',
     method: 'POST',
     body: JSON.stringify(payload),
-    header: {
+    headers: new window.Headers({
       'content-type': 'application/json',
       'Authorization': `Bearer ${JWT}`
-    }
+    })
   })
   if (!response.ok) {
     throw new HTTPError('POST Error:', response.statusText)
@@ -34,12 +34,16 @@ async function uploadFile (payload) {
     credentials: 'include',
     method: 'POST',
     body: payload,
-    header: {
+    headers: new window.Headers({
       'Authorization': `Bearer ${JWT}`
-    }
+    })
   })
   if (!response.ok) {
-    throw new HTTPError('POST Error:', response.statusText)
+    const err = new HTTPError('POST Error:', response.statusText)
+    err.statusCode = response.status
+    err.headers = response.headers
+    err.response = response
+    throw err
   }
   return response.json()
 }
