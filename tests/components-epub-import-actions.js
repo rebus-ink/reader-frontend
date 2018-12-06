@@ -46,6 +46,10 @@ test('parse', async (page, t) => {
     const actions = require('epub-import-actions')
     let context, result
     try {
+      const meta = document.createElement('meta')
+      meta.setAttribute('name', 'rebus-user-id')
+      meta.setAttribute('content', 'test-value')
+      document.head.appendChild(meta)
       const testEpubBlob = await window.fetch(`data:application/epub+zip;base64,${window.testEpub}`)
         .then(res => res.blob())
       const testEpub = new window.File([testEpubBlob], 'test-epub.epub', {type: 'application/epub+zip'})
