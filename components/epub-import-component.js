@@ -23,10 +23,11 @@ window.customElements.define(
       const uploaded = await actions.upload(processed)
       progress.textContent = `Creating ${context.title}`
       const created = await actions.create(uploaded)
+      progress.textContent = ''
       console.log(created)
       const log = this.querySelector('[data-upload-log]')
       const report = document.createElement('li')
-      report.textContent = `Uploaded ${context.title}`
+      report.textContent = `Uploaded ${context.title} to library`
       log.appendChild(report)
     }
   },
