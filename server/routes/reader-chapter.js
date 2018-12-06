@@ -8,14 +8,17 @@ const express = require('express')
 const router = express.Router()
 const { getBookState } = require('../utils/get-book-state.js')
 const { arrify } = require('../utils/arrify.js')
+const debug = require('debug')('vonnegut:routes:chapter')
 
 router.get('/reader/:bookId/:filePath', ensureLogin, getUserStreams, function (
   req,
   res,
   next
 ) {
+  debug(req.user)
   return getBookState(req, res)
     .then(model => {
+      debug(model)
       if (model.chapter.type !== 'Document') {
         res.redirect(getAlternate(model.chapter))
       }

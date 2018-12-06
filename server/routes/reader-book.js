@@ -7,14 +7,17 @@ const { getUserStreams } = require('../utils/get-user-streams.js')
 const express = require('express')
 const router = express.Router()
 const { getBookState } = require('../utils/get-book-state.js')
+const debug = require('debug')('vonnegut:routes:book')
 
 router.get('/reader/:bookId', ensureLogin, getUserStreams, function (
   req,
   res,
   next
 ) {
+  debug(req.user)
   return getBookState(req, res)
     .then(model => {
+      debug(model)
       const render = viperHTML.wire
       res.send(
         pageHead(render, model, req) +

@@ -1,6 +1,6 @@
 // @flow
 const got = require('got')
-const debug = require('debug')('vonnegut:api-get')
+const debug = require('debug')('vonnegut:utils:api-get')
 
 /**
  * A simple wrapper around `got` that fetches the resource using the token for auth, if available.
