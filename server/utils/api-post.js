@@ -1,5 +1,6 @@
 // @flow
 const got = require('got')
+const URL = require('url').URL
 
 /**
  * A simple wrapper around `got` that fetches the resource using the token for auth, if available.

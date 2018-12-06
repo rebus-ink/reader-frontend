@@ -5,6 +5,7 @@ const { get } = require('../utils/api-get')
 const { post } = require('../utils/api-post')
 const jwt = require('jsonwebtoken')
 const ms = require('ms')
+const URL = require('url').URL
 
 async function processAuth (user, {storage, tokenStorage}) {
   const storedUser = await storage.get(user.id)

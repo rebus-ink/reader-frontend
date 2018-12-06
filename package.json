@@ -14,7 +14,9 @@
     "start": "node index.js",
     "build-css": "node build-css.js",
     "css-docs": "npm run build-css && rm -rf docs && cp -r static docs && kss --config kss-config.json && echo 'done'",
-    "css-docs-dev": "onchange 'styles/**/*.css' -- npm run css-docs"
+    "css-docs-dev": "onchange 'styles/**/*.css' -- npm run css-docs",
+    "deploy-dev": "gcloud app deploy app-development.yaml",
+    "deploy-staging": "gcloud app deploy app-staging.yaml"
   },
   "repository": {
     "type": "git",
