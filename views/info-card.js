@@ -1,10 +1,13 @@
 // import distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
-import { clean } from '../server/utils/sanitize-state'
+// import { clean } from '../server/utils/sanitize-state'
 import { getId } from './utils/get-id.js'
+import { arrify } from './util-arrify.js'
+const debug = require('debug')('vonnegut:views:infocard')
 
-export const infoCardView = (render, model) => {
+export const infoCardView = (render, model, req) => {
   const { cover = {}, id = '' } = model.book
   const book = model.book
+  debug(book)
   const url = `/reader/${encodeURIComponent(getId(id))}/0`
   return render(book, ':infoCard')`<div class="InfoCard">
 <div class="InfoCard-title">
@@ -23,26 +26,23 @@ export const infoCardView = (render, model) => {
 <details class="InfoCard-detail">
   <summary>Table of Contents</summary>
   <div class="InfoCard-contents">
-    ${[clean(book.toc.content)]}
+  ${renderToC(render, book, req)}
   </div>
 </details>
 <details class="InfoCard-detail">
   <summary>Annotations &amp; Notes</summary>
-  <div class="InfoCard-contents">
-  Something small enough to escape casual notice.
-  </div>
+  <div class="InfoCard-contents"> </div>
 </details>
 <details class="InfoCard-detail">
   <summary>Preview</summary>
-  <div class="InfoCard-contents">
-  Something small enough to escape casual notice.
-  </div>
+  <div class="InfoCard-contents"> </div>
 </details>
 </div>`
 }
 
 function attributionsMap (attributions = [], render) {
   return attributions.map((attribution, index) => {
+    debug(attribution)
     return render(attribution, ':infoCard-attribution')`<li><span>${
       attribution.name
     }</span> ${attribution.roles.map(
@@ -67,3 +67,22 @@ function attributionsMap (attributions = [], render) {
 //     }</span></li>`
 //   })
 // }
+
+function renderToC (render, model, req) {
+  debug('rendering ToC')
+  return arrify(model.orderedItems).map((chapter, index) => {
+    debug(chapter)
+    const url = `/reader/${encodeURIComponent(getId(model.id))}/${chapter['reader:path']}`
+    const isSelected =
+      req.params.chapter === String(index)
+        ? 'NavSidebar-item is-selected'
+        : 'NavSidebar-item'
+    const ariaCurrent = req.params.chapter === String(index) ? 'page' : false
+    return render(
+      chapter,
+      ':toc-entry'
+    )`<li class="${isSelected}"><a href="${url}" class="NavSidebar-link" aria-current=${ariaCurrent}>${
+      chapter.name
+    }</a></li>`
+  })
+}
