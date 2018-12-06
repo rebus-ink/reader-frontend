@@ -7,7 +7,7 @@ const { getUserStreams } = require('../utils/get-user-streams.js')
 const express = require('express')
 const router = express.Router()
 const { getLibraryState } = require('../utils/get-library-state.js')
-const debug = require('debug')('vonnegut:routes:import')
+const debug = require('debug')('vonnegut:routes:library')
 
 router.get('/library', ensureLogin, getUserStreams, function (req, res, next) {
   debug(req.user)
