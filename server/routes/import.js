@@ -6,6 +6,7 @@ const { ensureLogin } = require('../ensure-login.js')
 const { getUserStreams } = require('../utils/get-user-streams.js')
 const express = require('express')
 const router = express.Router()
+const debug = require('debug')('vonnegut:routes:import')
 
 const getImportState = () => Promise.resolve({})
 
@@ -17,8 +18,9 @@ router.get('/library/import', ensureLogin, getUserStreams, function (
   return getImportState(req, res)
     .then(model => {
       const render = viperHTML.wire
+      debug(model)
       res.send(
-        pageHead(render, model) +
+        pageHead(render, model, req) +
           pageBody(render, model, req) +
           pageFoot(render, model)
       )

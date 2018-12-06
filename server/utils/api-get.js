@@ -1,5 +1,6 @@
 // @flow
 const got = require('got')
+const debug = require('debug')('vonnegut:utils:api-get')
 
 /**
  * A simple wrapper around `got` that fetches the resource using the token for auth, if available.
@@ -10,7 +11,7 @@ async function get (url /*: string */, token /*: string */) {
   let headers
   if (token) {
     headers = {
-      Authorization: 'Basic ' + token
+      Authorization: 'Bearer ' + token
     }
   }
   const options = {
@@ -18,13 +19,16 @@ async function get (url /*: string */, token /*: string */) {
     json: true,
     timeout: 1000
   }
+  const fullURL = new URL(url, process.env.DOMAIN).href
+  debug(fullURL, token)
+  let response
   try {
-    const response = await got(url, options)
-    return response.body
-  } catch (error) {
-    console.error(error)
-    return null
+    response = await got(fullURL, options)
+  } catch (err) {
+    debug(err)
+    debug(response)
   }
+  return response.body
 }
 
 module.exports.get = get

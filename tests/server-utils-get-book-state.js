@@ -34,6 +34,32 @@ let returnData = {
       id: `https://example.com/publication/0/document/4`,
       name: 'Chapter 4'
     }
+  ],
+  attachment: [
+    {
+      type: 'Document',
+      id: `https://example.com/publication/0/document/1`,
+      name: 'Chapter 1',
+      'reader:path': 'document1.html'
+    },
+    {
+      type: 'Document',
+      id: `https://example.com/publication/0/document/2`,
+      name: 'Chapter 2',
+      'reader:path': 'document2.html'
+    },
+    {
+      type: 'Document',
+      id: `https://example.com/publication/0/document/3`,
+      name: 'Chapter 3',
+      'reader:path': 'document3.html'
+    },
+    {
+      type: 'Document',
+      id: `https://example.com/publication/0/document/4`,
+      name: 'Chapter 4',
+      'reader:path': 'document4.html'
+    }
   ]
 }
 const fakeGot = () => returnData
@@ -55,10 +81,10 @@ tap.test('get-book-state', async function (test) {
   })
   request.user = { token: 'thing' }
   const response = httpMocks.createResponse()
-  const result = await getBookState(request, response)
-  test.ok(result.toc)
-  test.equals(result.orderedItems.length, 4)
-  test.equals(result.totalItems, 4)
+  const {book} = await getBookState(request, response)
+  test.ok(book.toc)
+  test.equals(book.orderedItems.length, 4)
+  test.equals(book.totalItems, 4)
 })
 
 tap.test('get-book-state - returns null', async function (test) {

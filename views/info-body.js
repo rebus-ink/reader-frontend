@@ -8,5 +8,5 @@ export const pageBody = (render, model, req) => render(
   ${navSidebarView(render, model, req)}
   <main id="info-body" class="InfoBody" tabindex="-1">
   ${returnMenu(render, model, req)}
-  ${infoCardView(render, model)}</main>
+  ${infoCardView(render, model, req)}</main>
 </div>`

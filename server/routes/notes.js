@@ -18,7 +18,7 @@ router.get('/library/notes/:nodeId', ensureLogin, getUserStreams, function (
     .then(model => {
       const render = viperHTML.wire
       res.send(
-        pageHead(render, model) +
+        pageHead(render, model, req) +
           pageBody(render, model, req) +
           pageFoot(render, model)
       )
@@ -35,7 +35,7 @@ router.get('/library/notes', ensureLogin, getUserStreams, function (
     .then(model => {
       const render = viperHTML.wire
       res.send(
-        pageHead(render, model) +
+        pageHead(render, model, req) +
           pageBody(render, model, req) +
           pageFoot(render, model)
       )

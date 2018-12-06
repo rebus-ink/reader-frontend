@@ -22,7 +22,7 @@ router.get('/login', function (req, res, next) {
   }
   const render = viperHTML.wire
   res.send(
-    pageHead(render) +
+    pageHead(render, {}, req) +
       `<div class="FrontLayout">
   <form action="/login?returnTo=/library" method="POST">
   <button class="Button">Log In</button>

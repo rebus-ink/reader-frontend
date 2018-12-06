@@ -20,7 +20,7 @@ const strategy = new Auth0Strategy(
     domain: 'rebus.auth0.com',
     clientID: process.env.AUTH0_CLIENT_ID,
     clientSecret: process.env.AUTH0_CLIENT_SECRET,
-    callbackURL: `${process.env.DOMAIN}/callback`
+    callbackURL: `${process.env.BASE}/callback`
   },
   (accessToken, refreshToken, extraParams, profile, done) => {
     return done(null, profile)
@@ -51,7 +51,7 @@ if (
 app.use(function (req, res, next) {
   const path = req.path || ''
   if (req.protocol !== 'https') {
-    res.redirect(process.env.DOMAIN + path)
+    res.redirect(process.env.BASE + path)
   } else {
     next()
   }

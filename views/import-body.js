@@ -7,5 +7,11 @@ export const pageBody = (render, model, req) => render(
   ${navSidebarView(render, model, req)}
   <main class="Import" id="Import" tabindex="-1">
   ${topMenuMain(render, model)}
-  <h2>Import</h2></main>
+  <h2>Import</h2>
+  <form is='epub-import'>
+    <input type='file'>
+    <div data-upload-progress></div>
+    <ul data-upload-log></ul>
+  </form>
+  </main>
 </div>`

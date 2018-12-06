@@ -6,6 +6,7 @@ import type {Publication, PublicationDocument} from './types.js.flow'
  * Filters the publication's attachments to find the publication's Table of Contents
  */
 const { arrify } = require('../utils/arrify.js')
+const debug = require('debug')('vonnegut:state:getToC')
 function getToC (publication /*: Publication */) /*: PublicationDocument */ {
   const contents = arrify(publication.tag)
     .filter(tag => tag.rel === 'contents')
@@ -27,6 +28,7 @@ function generateToC (publication) {
   const list = arrify(publication.orderedItems).map(chapter => {
     return { id: chapter.id, name: chapter.name, children: [] }
   })
+  debug(list)
   return list
 }
 module.exports.getToC = getToC

@@ -19,7 +19,7 @@ ${renderToC(render, model, req)}
 
 function renderToC (render, model, req) {
   return arrify(model.orderedItems).map((chapter, index) => {
-    const url = `/reader/${encodeURIComponent(getId(model.id))}/${index}`
+    const url = `/reader/${encodeURIComponent(getId(model.id))}/${chapter['reader:path']}`
     const isSelected =
       req.params.chapter === String(index)
         ? 'NavSidebar-item is-selected'

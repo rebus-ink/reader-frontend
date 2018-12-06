@@ -5,8 +5,8 @@ const compression = require('compression')
 const cookieSession = require('cookie-session')
 // const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn
 const { securitySetup } = require('./server/security.js')
-if (!process.env.API_DOMAIN) {
-  process.env.API_DOMAIN = process.env.DOMAIN + '/api'
+if (!process.env.DOMAIN) {
+  process.env.DOMAIN = process.env.BASE + '/api/'
 }
 
 function setup (authserver) {
@@ -50,6 +50,10 @@ function setup (authserver) {
   app.use('/', require('./server/routes/reader-book.js'))
   app.use('/', require('./server/routes/reader-chapter.js'))
 
+  const apiApp = require('./reader-api/server.js').app
+  app.use('/api', apiApp) // This requires multer, @google-cloud/storage, sqlite objection knex pg objection-db-errors objection-guid debug lodash dotenv passport-jwt
+
+  apiApp.initialize()
   app.use(function (req, res, next) {
     res.status(404)
     res.send('Not Found')

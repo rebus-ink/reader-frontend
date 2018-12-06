@@ -9,7 +9,7 @@ function ensureLogin (req, res, next) {
     next()
   } else {
     res.send(
-      pageHead(render, { returnTo: req.path }) +
+      pageHead(render, { returnTo: req.path }, req) +
         login(render, { returnTo: req.path }) +
         pageFoot(render, { returnTo: req.path })
     )

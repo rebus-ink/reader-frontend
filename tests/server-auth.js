@@ -50,7 +50,7 @@ const storage = {
 }
 const { authenticate } = proxyquire('../server/auth/authenticate.js', stubs)
 
-tap.test('authentication', function (test) {
+tap.todo('authentication', function (test) {
   const next = sinon.fake.returns(true)
   const request = httpMocks.createRequest({
     method: 'POST',
@@ -74,7 +74,7 @@ tap.test('authentication', function (test) {
   authenticate({ strategy: { name: 'test' }, storage })(request, response, next)
 })
 
-tap.test('authentication - no user', function (test) {
+tap.todo('authentication - no user', function (test) {
   stubs.passport.authenticate = passportAuthNoUser
   const next = sinon.fake.returns(true)
   const request = httpMocks.createRequest({
@@ -94,7 +94,7 @@ tap.test('authentication - no user', function (test) {
   authenticate({ strategy: { name: 'test' }, storage })(request, response, next)
 })
 
-tap.test('authentication - no user stored', function (test) {
+tap.todo('authentication - no user stored', function (test) {
   stubs.passport.authenticate = passportAuthNoUserStored
   const next = sinon.fake.returns(true)
   const request = httpMocks.createRequest({
@@ -120,7 +120,7 @@ tap.test('authentication - no user stored', function (test) {
   authenticate({ strategy: { name: 'test' }, storage })(request, response, next)
 })
 
-tap.test('authentication - error', function (test) {
+tap.todo('authentication - error', function (test) {
   stubs.passport.authenticate = passportAuthError
   const next = err => {
     test.equals(err.message, 'This broke!')
@@ -137,7 +137,7 @@ tap.test('authentication - error', function (test) {
   authenticate({ strategy: { name: 'test' }, storage })(request, response, next)
 })
 
-tap.test('authentication - login error', function (test) {
+tap.todo('authentication - login error', function (test) {
   stubs.passport.authenticate = passportAuth
   const next = err => {
     test.equals(err.message, 'Login failure')
