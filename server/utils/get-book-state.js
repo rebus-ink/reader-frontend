@@ -16,9 +16,10 @@ async function getBookState (req, res) {
   book.attributions = arrify(result.attributedTo).map(attribution => {
     return toBookCardAttribution(result, attribution)
   })
+  debug(req.params)
   let chapter
-  if (req.params.filePath) {
-    chapter = book.documents[req.params.filePath]
+  if (req.param[0]) {
+    chapter = book.documents[req.params[0]]
   } else {
     chapter = book.documentsById[book.orderedItems[0].id]
   }

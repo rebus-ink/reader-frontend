@@ -8,7 +8,7 @@ export const infoCardView = (render, model, req) => {
   const { cover = {}, id = '' } = model.book
   const book = model.book
   debug(book)
-  const url = `/reader/${encodeURIComponent(getId(id))}/0`
+  const url = `/reader/${encodeURIComponent(getId(id))}`
   return render(book, ':infoCard')`<div class="InfoCard">
 <div class="InfoCard-title">
   <img  class="BookCard-icon" alt="${cover.summary}" src=${cover.url} width=${
