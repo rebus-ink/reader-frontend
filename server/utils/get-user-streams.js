@@ -1,12 +1,17 @@
+
+const debug = require('debug')('vonnegut:utils:get-user-streams')
 function getUserStreams (req, res, next) {
+  debug(req.user)
   if (req.user) {
-    const reader = req.user.reader
+    const {reader = {}} = req.user
     req.user.streams = {
       profile: reader.id,
-      library: reader.streams.items[0].id,
       outbox: reader.outbox,
       streams: `${reader.id}/streams`,
       upload: `${process.env.DOMAIN}file-upload`
+    }
+    if (reader && reader.streams && reader.streams.items && reader.streams.items[0]) {
+      req.user.streams.library = reader.streams.items[0].id
     }
   }
   next()
