@@ -160,7 +160,6 @@ export async function upload (context, event) {
     await uploadFile(data)
   } catch (err) {
     console.log(err.response)
-    throw err
   }
   // Then cycle through the attachments and upload images, audio, video
   for (var index = 0; index < context.attachment.length; index++) {
@@ -174,7 +173,6 @@ export async function upload (context, event) {
         await uploadFile(data)
       } catch (err) {
         console.log(err)
-        throw err
       }
     }
   }
