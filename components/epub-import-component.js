@@ -14,6 +14,7 @@ window.customElements.define(
       const file = this.fileInput.files[0]
       const progress = this.querySelector('[data-upload-progress')
       progress.textContent = `Loading ${file.name}`
+      const log = this.querySelector('[data-upload-log]')
       try {
         const context = await actions.load({}, {detail: { file }})
         progress.textContent = `Parsing ${context.title}`
@@ -26,12 +27,14 @@ window.customElements.define(
         const created = await actions.create(uploaded)
         progress.textContent = ''
         console.log(created)
-        const log = this.querySelector('[data-upload-log]')
         const report = document.createElement('li')
         report.textContent = `Uploaded ${context.title} to library`
         log.appendChild(report)
       } catch (err) {
         console.log(err)
+        const report = document.createElement('li')
+        report.innerHTML = `<pre><code>${err.stack}</pre></code>`
+        log.appendChild(report)
       }
     }
   },
