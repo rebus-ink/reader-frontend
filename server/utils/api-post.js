@@ -1,6 +1,7 @@
 // @flow
 const got = require('got')
 const URL = require('url').URL
+const debug = require('debug')('vonnegut:utils:api-post')
 
 /**
  * A simple wrapper around `got` that fetches the resource using the token for auth, if available.
@@ -29,6 +30,7 @@ async function post (url /*: string */, body/*: any */, token /*: string */) {
       json: true,
       timeout: 1000
     })
+    debug(result)
     return result.body
   } catch (error) {
     console.error(error)

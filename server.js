@@ -5,10 +5,11 @@ const compression = require('compression')
 const cookieSession = require('cookie-session')
 // const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn
 const { securitySetup } = require('./server/security.js')
+const debug = require('debug')('vonnegut:server')
 if (!process.env.DOMAIN) {
   process.env.DOMAIN = process.env.BASE + '/api/'
 }
-
+debug(process.env)
 function setup (authserver) {
   const app = express()
   securitySetup(app)
@@ -53,7 +54,10 @@ function setup (authserver) {
   const apiApp = require('./reader-api/server.js').app
   app.use('/api', apiApp) // This requires multer, @google-cloud/storage, sqlite objection knex pg objection-db-errors objection-guid debug lodash dotenv passport-jwt
 
-  apiApp.initialize()
+  apiApp.initialize().catch(err => {
+    debug(err)
+    throw err
+  })
   app.use(function (req, res, next) {
     res.status(404)
     res.send('Not Found')

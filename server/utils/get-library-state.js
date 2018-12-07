@@ -7,7 +7,13 @@ const debug = require('debug')('vonnegut:utils:get-library-state')
 async function getLibraryState (req, res) {
   const token = req.user.token
   const library = req.user.streams.library
-  const result = await get(library, token)
+  let result
+  try {
+    result = await get(library, token)
+  } catch (err) {
+    debug(err)
+    throw err
+  }
   if (result === null) {
     return result
   }
