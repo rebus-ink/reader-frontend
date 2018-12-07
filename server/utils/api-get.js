@@ -26,8 +26,8 @@ async function get (url /*: string */, token /*: string */) {
   try {
     response = await got(fullURL, options)
   } catch (err) {
-    debug(err)
     debug(response)
+    throw err
   }
   return response.body
 }

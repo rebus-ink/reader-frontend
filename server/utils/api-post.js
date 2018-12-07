@@ -33,8 +33,7 @@ async function post (url /*: string */, body/*: any */, token /*: string */) {
     debug(result)
     return result.body
   } catch (error) {
-    console.error(error)
-    return null
+    throw error
   }
 }
 
