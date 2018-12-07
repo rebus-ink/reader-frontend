@@ -9,7 +9,6 @@ const debug = require('debug')('vonnegut:server')
 if (!process.env.DOMAIN) {
   process.env.DOMAIN = process.env.BASE + '/api/'
 }
-debug(process.env)
 function setup (authserver) {
   const app = express()
   securitySetup(app)
