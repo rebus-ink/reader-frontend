@@ -18,7 +18,7 @@ async function getBookState (req, res) {
   })
   debug(req.params)
   let chapter
-  if (req.param[0]) {
+  if (req.params[0]) {
     chapter = book.documents[req.params[0]]
   } else {
     chapter = book.documentsById[book.orderedItems[0].id]
