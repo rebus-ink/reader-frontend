@@ -161,3 +161,11 @@ summary {
 template {
   display: none;
 }
+
+p {
+  line-height: 1.4;
+  font-size: 0.85rem;
+}
+p+p {
+  text-indent: 1.75rem;
+}
