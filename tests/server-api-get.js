@@ -6,22 +6,26 @@ const fakeGot = sinon.fake.returns(Promise.resolve({ body: fakeResult }))
 const stubs = {
   got: fakeGot
 }
+if (!process.env.DOMAIN) {
+  process.env.DOMAIN = 'https://localhost:4340/api/'
+}
 const { get } = proxyquire('../server/utils/api-get.js', stubs)
 
-tap.todo('api-get', async function (test) {
+tap.test('api-get', async function (test) {
   const result = await get('https://example.com/')
   test.equals(result, fakeResult)
 })
-tap.todo('api-get - with token', async function (test) {
+tap.test('api-get - with token', async function (test) {
   const result = await get('https://example.com/', 'randomtoken')
   test.equals(result, fakeResult)
 })
 
-tap.todo('api-get - errors', async function (test) {
+tap.test('api-get - errors', async function (test) {
   stubs.got = function () {
     throw new Error('Kaboom!')
   }
   const { get } = proxyquire('../server/utils/api-get.js', stubs)
-  const result = await get('https://example.com/')
-  test.notOk(result)
+  return get('https://example.com/').catch(err => {
+    test.equals(err.message, 'Kaboom!')
+  })
 })
