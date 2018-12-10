@@ -8,6 +8,13 @@ if (process.env.DOMAIN.includes('localhost')) {
 } else {
   LOCAL_API = `http://localhost:${process.env.PORT}/api/`
 }
+const Datastore = require('@google-cloud/datastore')
+const namespace = 'rebus-reader-got-cache'
+const datastore = new Datastore({
+  namespace
+})
+const { GKeyV } = require('./gkeyv.js')
+const cache = new GKeyV({ datastore })
 
 /**
  * A simple wrapper around `got` that fetches the resource using the token for auth, if available.
@@ -24,7 +31,10 @@ async function get (url /*: string */, token /*: string */) {
   const options = {
     headers,
     json: true,
-    timeout: 1000
+    timeout: 2000
+  }
+  if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+    options.cache = cache
   }
   // First we normalise the URL
   const canonicalURL = new URL(url, process.env.DOMAIN)
