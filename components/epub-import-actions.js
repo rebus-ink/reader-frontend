@@ -55,8 +55,7 @@ export async function parse (context) {
   // We are going to be generating a TOC from the chapters themselves in the prototype A so getting a proper ToC is not a priority for this release
   // Generate a unique file prefix: `:userId/:bookId`
   // Currently, client-side js doesn't have access to the user id (easy to fix later) so for prototype A we're just going to go for a random id for the book media
-  const userId = document.querySelector('[name="rebus-user-id"]').getAttribute('content')
-  context.bookPrefix = `${userId}-${Math.random().toFixed(6).replace('.', '')}/`
+  context.bookPrefix = `${Math.random().toFixed(8).replace('.', '')}-`
   function getURL (path) {
     return new window.URL(context.bookPrefix + path, BUCKET_URL)
   }
@@ -156,7 +155,8 @@ export async function upload (context, event) {
   // First upload the epub.
   try {
     const data = new window.FormData()
-    data.append('file', context.file)
+    const file = new window.File([context.file], context.bookPrefix + context.file.name, {type: 'application/epub+zip'})
+    data.append('file', file)
     await uploadFile(data)
   } catch (err) {
     console.log(err.response)
@@ -166,11 +166,15 @@ export async function upload (context, event) {
     const resource = context.attachment[index]
     if (resource.mediaType.startsWith('image') || resource.mediaType.startsWith('audio') || resource.mediaType.startsWith('video')) {
       const blob = await zip.file(resource.path).async('blob')
-      const file = new window.File([blob], resource.path, {type: resource.mediaType})
+      const file = new window.File([blob], context.bookPrefix + resource.path, {type: resource.mediaType})
       const data = new window.FormData()
       data.append('file', file)
       try {
-        await uploadFile(data)
+        const result = await uploadFile(data)
+        if (result.url) {
+          resource.activity.url[0].href = result.url
+        }
+        console.log(resource.activity.url[0], result.url)
       } catch (err) {
         console.log(err)
       }

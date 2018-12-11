@@ -15,15 +15,14 @@ router.get('/reader/:bookId/*', ensureLogin, getUserStreams, function (
   res,
   next
 ) {
-  debug(req.user)
+  debug(req.path)
   return getBookState(req, res)
     .then(model => {
-      debug(model)
       if (model.chapter.type !== 'Document') {
-        res.redirect(getAlternate(model.chapter))
+        return res.redirect(getAlternate(model.chapter))
       }
       const render = viperHTML.wire
-      res.send(
+      return res.send(
         pageHead(render, model, req) +
           pageBody(render, model, req) +
           pageFoot(render, model)
@@ -34,7 +33,12 @@ router.get('/reader/:bookId/*', ensureLogin, getUserStreams, function (
 
 function getAlternate (chapter) {
   const urls = arrify(chapter.url)
-  return urls.filter(item => item.rel === 'alternate')[0].href
+  const link = urls.filter(item => item.rel.indexOf('alternate') !== -1)[0]
+  if (link) {
+    return link.href
+  } else {
+    return '/static/placeholder-cover.png'
+  }
 }
 
 module.exports = router

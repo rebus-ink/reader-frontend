@@ -1,3 +1,4 @@
+import { getId } from './utils/get-id.js'
 export const pageHead = (render, model, req) => {
   let token, id, streams
   if (req.user) {
@@ -7,6 +8,13 @@ export const pageHead = (render, model, req) => {
   } else {
     token = id = ''
     streams = {}
+  }
+  let base
+  if (model.chapter) {
+    const url = `/reader/${encodeURIComponent(getId(model.book.id))}/${model.chapter['reader:path']}`
+    base = `<base href="${url}">`
+  } else {
+    base = ''
   }
   return render(model, ':pagehead')`
 <!DOCTYPE html>
@@ -24,6 +32,7 @@ export const pageHead = (render, model, req) => {
 <meta name="rebus-user-id" content="${id}">
 <link href="${streams.outbox}" rel="rebus-outbox">
 <link href="${streams.upload}" rel="rebus-upload">
+${[base]}
 </head>
 <body>`
 }

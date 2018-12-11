@@ -7,9 +7,9 @@ const debug = require('debug')('vonnegut:utils:get-book-state')
 async function getBookState (req, res) {
   const token = req.user.token
   const id = `${process.env.DOMAIN}${req.params.bookId}`
-  debug(id)
+  // debug(id)
   const result = await get(id, token)
-  debug(result)
+  // debug(result)
   if (result === null) {
     return result
   }
