@@ -14,7 +14,7 @@ async function getLibraryState (req, res) {
     debug(err)
     throw err
   }
-  if (result === null) {
+  if (!result) {
     return result
   }
   const books = result.items.map(publication => {

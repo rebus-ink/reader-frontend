@@ -9,7 +9,7 @@ if (process.env.DOMAIN.includes('localhost')) {
   LOCAL_API = `http://localhost:${process.env.PORT}/api/`
 }
 const Datastore = require('@google-cloud/datastore')
-const namespace = 'rebus-reader-got-cache'
+const namespace = 'rebus-reader'
 const datastore = new Datastore({
   namespace
 })
@@ -30,8 +30,7 @@ async function get (url /*: string */, token /*: string */) {
   }
   const options = {
     headers,
-    json: true,
-    timeout: 2000
+    json: true
   }
   if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
     options.cache = cache
@@ -40,7 +39,7 @@ async function get (url /*: string */, token /*: string */) {
   const canonicalURL = new URL(url, process.env.DOMAIN)
   // Then we convert it to the localhost if necessary
   const fullURL = new URL(canonicalURL.pathname, LOCAL_API).href
-  debug(fullURL, token)
+  debug(fullURL)
   let response
   try {
     response = await got(fullURL, options)

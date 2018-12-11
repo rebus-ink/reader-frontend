@@ -32,7 +32,7 @@ async function post (url /*: string */, body/*: any */, token /*: string */) {
     const canonicalURL = new URL(url, process.env.DOMAIN)
     // Then we convert it to the localhost if necessary
     const fullURL = new URL(canonicalURL.pathname, LOCAL_API).href
-    debug(fullURL, token)
+    debug(fullURL)
     const response = await got(fullURL, options)
     const location = response.headers['location']
     const result = await got(location, {
