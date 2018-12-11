@@ -29,16 +29,21 @@ export async function parse (context) {
   // Get the OPF from the zip
   const opf = await context.zip.file(context.opfPath).async('string')
   // Parse the OPF into a DOM
-  const opfDoc = context.opf = parser.parseFromString(opf, 'application/xml')
+  let opfDoc = context.opf = parser.parseFromString(opf, 'application/xml')
+  if (opfDoc.querySelector('parsererror')) {
+    opfDoc = context.opf = parser.parseFromString(opf, 'text/html')
+    context.lang = getText(opfDoc.querySelector('dc\\:language'))
+    context.title = getText(opfDoc.querySelector('dc\\:title'))
+  } else {
+    context.lang = getText(opfDoc.querySelector('language'))
+    // Get the basic title (we'll handle alternate titles and refinements at a later date)
+    context.title = getText(opfDoc.querySelector('title'))
+  }
   const packageElement = opfDoc.querySelector('package')
   const idforid = packageElement.getAttribute('unique-identifier')
   context.identifier = getText(opfDoc.getElementById(idforid))
-  // Knowing the language is important! Let's use a language tag in @context. This language tag doesn't apply to the text contents in _this_ OPF file, for that we need to parse out the xml:lang attribute and use contentMap, summaryMap, and nameMap.
-  context.lang = getText(opfDoc.querySelector('language'))
   // Discover if we're EPUB 2.0 or 3.0 or 3.1. This matters mostly for metadata details as _every_ single version handles metadata a bit differently. Thankfully we aren't supporting those metadata details in this release
   context.epubVersion = packageElement.getAttribute('version')
-  // Get the basic title (we'll handle alternate titles and refinements at a later date)
-  context.title = getText(opfDoc.querySelector('title'))
   // Find the HTML nav file for EPUB 3.0+
   const htmlNavItem = opfDoc.querySelector('[properties~=nav]')
   if (htmlNavItem) {
