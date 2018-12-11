@@ -10,21 +10,7 @@ router.get('/', getUserStreams, function (req, res, next) {
   const render = viperHTML.wire
   if (req.user) {
     debug(req.user)
-    res.send(
-      pageHead(render, {}, req) +
-        `<div class="FrontLayout">
-
-    <form action="/logout" method="POST" class="FrontLayout-child">
-    <button class="Button">Log Out</button>
-    </form>
-    <pre class="FrontLayout-child">${JSON.stringify(
-    req.user,
-    null,
-    4
-  )}</pre>
-        </div>` +
-        pageFoot(render, {}, req)
-    )
+    return res.redirect('/library')
   } else {
     res.send(
       pageHead(render, {}, req) +
