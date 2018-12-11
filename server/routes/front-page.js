@@ -9,7 +9,7 @@ const debug = require('debug')('vonnegut:routes:front-page')
 router.get('/', getUserStreams, function (req, res, next) {
   const render = viperHTML.wire
   if (req.user) {
-    debug(req.user)
+    debug(req.path)
     return res.redirect('/library')
   } else {
     res.send(

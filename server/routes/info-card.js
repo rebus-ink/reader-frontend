@@ -14,9 +14,10 @@ router.get('/library/info/:bookId', ensureLogin, getUserStreams, function (
   res,
   next
 ) {
+  debug(req.path)
   return getBookState(req, res)
     .then(model => {
-      debug(model)
+      debug('got model')
       const render = viperHTML.wire
       res.send(
         pageHead(render, model, req) +

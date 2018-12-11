@@ -18,6 +18,7 @@ router.get('/reader/:bookId/*', ensureLogin, getUserStreams, function (
   debug(req.path)
   return getBookState(req, res)
     .then(model => {
+      debug('got model')
       if (model.chapter.type !== 'Document') {
         return res.redirect(getAlternate(model.chapter))
       }

@@ -40,7 +40,7 @@ async function post (url /*: string */, body/*: any */, token /*: string */) {
       json: true,
       timeout: 1000
     })
-    debug(result)
+    debug('got result')
     return result.body
   } catch (error) {
     throw error

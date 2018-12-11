@@ -7,7 +7,7 @@ const debug = require('debug')('vonnegut:utils:get-book-state')
 async function getBookState (req, res) {
   const token = req.user.token
   const id = `${process.env.DOMAIN}${req.params.bookId}`
-  // debug(id)
+  debug(id)
   const result = await get(id, token)
   // debug(result)
   if (result === null) {
@@ -17,7 +17,6 @@ async function getBookState (req, res) {
   book.attributions = arrify(result.attributedTo).map(attribution => {
     return toBookCardAttribution(result, attribution)
   })
-  debug(req.params)
   let chapterID
   if (req.params[0]) {
     chapterID = book.documents[req.params[0]].id

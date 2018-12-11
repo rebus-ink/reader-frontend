@@ -18,7 +18,6 @@ async function getLibraryState (req, res) {
     return result
   }
   const books = result.items.map(publication => {
-    debug(publication)
     const bookCard = toBookCard(publication)
     bookCard.attributions = arrify(publication.attributedTo).map(
       attribution => {
@@ -27,6 +26,7 @@ async function getLibraryState (req, res) {
     )
     return bookCard
   })
+  debug('got library')
   return { books }
 }
 
