@@ -42,7 +42,8 @@ export async function parse (context) {
   // Find the HTML nav file for EPUB 3.0+
   const htmlNavItem = opfDoc.querySelector('[properties~=nav]')
   if (htmlNavItem) {
-    const htmlNavEntry = context.zip.file(getPath(htmlNavItem.getAttribute('href')), context)
+    console.log(htmlNavItem.getAttribute('href'))
+    const htmlNavEntry = context.zip.file(getPath(htmlNavItem.getAttribute('href'), context))
     context.htmlNav = htmlNavEntry ? await htmlNavEntry.async('string') : null
   }
   // Find the NCX nav file if we don't have an HTML nav
