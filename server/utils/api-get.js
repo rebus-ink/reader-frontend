@@ -46,8 +46,10 @@ async function get (url /*: string */, token /*: string */) {
     debug('error response: ', response)
     throw err
   }
-  debug('response timings, firstByte: ', response.timings.phases.firstByte)
-  debug('response timings, total: ', response.timings.phases.total)
+  if (response && response.timings && response.timings.phases) {
+    debug('response timings, firstByte: ', response.timings.phases.firstByte)
+    debug('response timings, total: ', response.timings.phases.total)
+  }
   const json = JSON.parse(response.body)
   debug('parsed JSON')
   return json

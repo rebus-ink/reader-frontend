@@ -1,7 +1,8 @@
 const tap = require('tap')
 const sinon = require('sinon')
 const proxyquire = require('proxyquire')
-const fakeResult = { id: 'test', type: 'Collection' }
+const fakeResult = `{ "id": "test", "type": "Collection" }`
+const fakeParsedResult = JSON.parse(fakeResult)
 const fakeGot = sinon.fake.returns(Promise.resolve({ body: fakeResult }))
 const stubs = {
   got: fakeGot
@@ -13,11 +14,11 @@ const { get } = proxyquire('../server/utils/api-get.js', stubs)
 
 tap.test('api-get', async function (test) {
   const result = await get('https://example.com/')
-  test.equals(result, fakeResult)
+  test.matches(result, fakeParsedResult)
 })
 tap.test('api-get - with token', async function (test) {
   const result = await get('https://example.com/', 'randomtoken')
-  test.equals(result, fakeResult)
+  test.matches(result, fakeParsedResult)
 })
 
 tap.test('api-get - errors', async function (test) {
