@@ -1,5 +1,8 @@
 const tap = require('tap')
 const proxyquire = require('proxyquire')
+if (!process.env.DOMAIN) {
+  process.env.DOMAIN = process.env.BASE + '/api/'
+}
 let returnData = {
   '@context': [
     'https://www.w3.org/ns/activitystreams',

@@ -1,6 +1,4 @@
 .FrontLayout {
-  display: flex;
-  height: calc(100vh - 32px);
 }
 .FrontLayout-child {
   margin: auto;

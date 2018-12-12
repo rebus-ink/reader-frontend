@@ -15,10 +15,11 @@ router.get('/library/import', ensureLogin, getUserStreams, function (
   res,
   next
 ) {
+  debug(req.path)
   return getImportState(req, res)
     .then(model => {
       const render = viperHTML.wire
-      debug(model)
+      debug('got model')
       res.send(
         pageHead(render, model, req) +
           pageBody(render, model, req) +

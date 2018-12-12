@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken')
 const ms = require('ms')
 const short = require('short-uuid')
 const translator = short()
+const debug = require('debug')('vonnegut:auth:auth-server')
 
 function authserver (options) {
   // Need an oauth=false option that tells us to do the authentication processing in the login route instead of the callback route
@@ -69,6 +70,7 @@ function authserver (options) {
           }
         })
         .catch(err => {
+          debug(err)
           done(err)
         })
     )

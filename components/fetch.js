@@ -24,14 +24,6 @@ async function createPublication (payload) {
   if (!response.ok) {
     throw new HTTPError('POST Error:', response.statusText)
   }
-  const activity = await window.fetch(response.headers.get('location'), {
-    credentials: 'include',
-    headers: new window.Headers({
-      'content-type': 'application/ld+json',
-      'Authorization': `Bearer ${JWT}`
-    })
-  })
-  console.log(await activity.json())
   return response.headers.get('location')
 }
 

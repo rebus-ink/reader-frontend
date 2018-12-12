@@ -10,10 +10,10 @@ const { getLibraryState } = require('../utils/get-library-state.js')
 const debug = require('debug')('vonnegut:routes:library')
 
 router.get('/library', ensureLogin, getUserStreams, function (req, res, next) {
-  debug(req.user)
+  debug(req.path)
   return getLibraryState(req, res)
     .then(model => {
-      debug(model)
+      debug('got model')
       const render = viperHTML.wire
       res.send(
         pageHead(render, model, req) +

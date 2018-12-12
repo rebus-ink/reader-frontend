@@ -28,7 +28,7 @@ function generateToC (publication) {
   const list = arrify(publication.orderedItems).map(chapter => {
     return { id: chapter.id, name: chapter.name, children: [] }
   })
-  debug(list)
+  debug('got toc')
   return list
 }
 module.exports.getToC = getToC

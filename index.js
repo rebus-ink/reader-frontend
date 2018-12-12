@@ -1,7 +1,7 @@
 require = require('esm')(module) // eslint-disable-line
 const { setup } = require('./server.js')
 const morgan = require('morgan')
-const basicAuth = require('express-basic-auth')
+// const basicAuth = require('express-basic-auth')
 const { authserver } = require('./server/auth/auth-server.js')
 
 const Datastore = require('@google-cloud/datastore')
@@ -36,17 +36,17 @@ const app = setup(
 )
 
 // Public staging and dev servers are locked down with a simple basic auth password
-if (
-  process.env.DEPLOY_STAGE === 'staging' ||
-  process.env.DEPLOY_STAGE === 'development'
-) {
-  app.use(
-    basicAuth({
-      challenge: true,
-      users: { admin: process.env.DEV_PASSWORD || 'plasticfantasticsecret' }
-    })
-  )
-}
+// if (
+//   process.env.DEPLOY_STAGE === 'staging' ||
+//   process.env.DEPLOY_STAGE === 'development'
+// ) {
+//   app.use(
+//     basicAuth({
+//       challenge: true,
+//       users: { admin: process.env.DEV_PASSWORD || 'plasticfantasticsecret' }
+//     })
+//   )
+// }
 
 app.use(function (req, res, next) {
   const path = req.path || ''
@@ -64,4 +64,5 @@ app.use(
     }
   })
 )
-app.listen(8080, () => console.log('Listening'))
+const PORT = process.env.PORT || 8080
+app.listen(PORT, () => console.log('Listening'))

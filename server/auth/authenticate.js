@@ -5,9 +5,12 @@ const { get } = require('../utils/api-get')
 const { post } = require('../utils/api-post')
 const jwt = require('jsonwebtoken')
 const ms = require('ms')
+const URL = require('url').URL
+const debug = require('debug')('vonnegut:auth:authenticate')
 
 async function processAuth (user, {storage, tokenStorage}) {
   const storedUser = await storage.get(user.id)
+  debug(storedUser)
   if (!storedUser) {
     // fetch /whoami, if no /whoami, create user and assign to storedUser
     const expiresIn = '30m'
@@ -24,6 +27,7 @@ async function processAuth (user, {storage, tokenStorage}) {
       result = await get('whoami', token)
     } catch (err) {
     }
+    debug(result)
     if (result) {
       const newUser = {id: user.id, reader: result}
       newUser.readerId = new URL(result.id).pathname.split('-')[1]
@@ -34,7 +38,13 @@ async function processAuth (user, {storage, tokenStorage}) {
         type: 'Person',
         summary: `Reader profile for user id ${user.id}`
       }
-      const result = await post('readers', newReader, token)
+      let result
+      try {
+        result = await post('readers', newReader, token)
+      } catch (err) {
+        throw err
+      }
+      debug(result)
       const newUser = {id: user.id, reader: result}
       newUser.readerId = new URL(result.id).pathname.split('-')[1]
       await storage.set(user.id, newUser)
@@ -51,7 +61,10 @@ function authenticate (req, res, next) {
   }
   const {strategy, failureRedirect = '/login', storage, tokenStorage, successRedirect = '/'} = req.app.locals.authOptions
   passport.authenticate(strategy.name, function (err, user) {
-    if (err) { next(err) }
+    if (err) {
+      debug(err)
+      next(err)
+    }
     if (!user) { next(new Error('No user')) }
     return processAuth(user, {strategy, failureRedirect, storage, tokenStorage, successRedirect}).then(user => {
       return req.logIn(user, function (err) {
@@ -63,6 +76,7 @@ function authenticate (req, res, next) {
         res.redirect(returnTo || successRedirect)
       })
     }).catch(err => {
+      debug(err)
       if (err.message === 'No user') {
         return res.redirect(failureRedirect)
       } else {

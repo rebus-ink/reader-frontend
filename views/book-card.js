@@ -8,9 +8,7 @@ export const bookCardView = (render, model = { cover: {} }) => {
   const url = `/library/info/${encodeURIComponent(getId(id))}`
   return render(model, ':bookCard')`
 <div class=${model.isSelected ? selected : notSelected}>
-  <img  class="BookCard-icon" alt="${cover.summary}" src=${cover.url} width=${
-  cover.width
-} height=${cover.height}>
+  <img  class="BookCard-icon" alt="${cover.summary}" src=${cover.url}>
   <div class="BookCard-group">
     <h4 class="BookCard-title"><a href="${url}" class="BookCard-link">${
   model.name

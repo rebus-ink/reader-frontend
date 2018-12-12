@@ -2,6 +2,9 @@ const tap = require('tap')
 const sinon = require('sinon')
 const proxyquire = require('proxyquire')
 const httpMocks = require('node-mocks-http')
+if (!process.env.DOMAIN) {
+  process.env.DOMAIN = process.env.BASE + '/api/'
+}
 const fakeResult = { id: 'exampleUser' }
 const passportAuth = (name, callback) => {
   return (res, req, next) => {

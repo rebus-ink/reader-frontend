@@ -1,3 +1,4 @@
+import { getId } from './utils/get-id.js'
 export const pageHead = (render, model, req) => {
   let token, id, streams
   if (req.user) {
@@ -8,6 +9,13 @@ export const pageHead = (render, model, req) => {
     token = id = ''
     streams = {}
   }
+  let base
+  if (model.chapter) {
+    const url = `/reader/${encodeURIComponent(getId(model.book.id))}/${model.chapter['reader:path']}`
+    base = `<base href="${url}">`
+  } else {
+    base = ''
+  }
   return render(model, ':pagehead')`
 <!DOCTYPE html>
 <html class="no-js">
@@ -15,9 +23,7 @@ export const pageHead = (render, model, req) => {
 <link media="all" rel="stylesheet" href="/static/styles/app.css">
 <title>Rebus Reader</title>
 <script src="/js/document-register-element.js"></script>
-<script src="/js/swup.min.js"></script>
 <script src="/js/jszip.min.js"></script>
-<script src="/components/page-transitions.js" type="module"></script>
 <script src="/components/nav-menu-toggle.js" type="module"></script>
 <script src="/components/fetch.js" type="module"></script>
 <script src="/components/epub-import-actions.js" type="module"></script>
@@ -26,6 +32,7 @@ export const pageHead = (render, model, req) => {
 <meta name="rebus-user-id" content="${id}">
 <link href="${streams.outbox}" rel="rebus-outbox">
 <link href="${streams.upload}" rel="rebus-upload">
+${[base]}
 </head>
 <body>`
 }

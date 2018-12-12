@@ -9,12 +9,14 @@
   "scripts": {
     "test": "tap 'tests/*.js'",
     "dev-test": "onchange 'app/**/*.js' 'server/**/*.js' 'tests/**/*.js' -- onerror \"tap -R classic tests/*.js\"",
-    "dev-server": "DEBUG=hobb:*,vonnegut:* SECRETORKEY=kick-opossum-snowiness ISSUER=auth.reader-api.test NODE_ENV=development BASE=https://localhost:4430 DEPLOY_STAGE=development nodemon dev.js",
+    "dev-server": "GOOGLE_APPLICATION_CREDENTIALS=google-keyfile.json DEBUG=vonnegut:* SECRETORKEY=kick-opossum-snowiness ISSUER=auth.reader-api.test NODE_ENV=development BASE=https://localhost:4430 DEPLOY_STAGE=development nodemon dev.js",
     "fix-things-for-me": "onchange 'styles/**/*.css' 'app/**/*.js' 'server/**/*.js' -- prettier-standard '**/*.{js,md,css}'",
     "start": "node index.js",
     "build-css": "node build-css.js",
     "css-docs": "npm run build-css && rm -rf docs && cp -r static docs && kss --config kss-config.json && echo 'done'",
-    "css-docs-dev": "onchange 'styles/**/*.css' -- npm run css-docs"
+    "css-docs-dev": "onchange 'styles/**/*.css' -- npm run css-docs",
+    "deploy-dev": "gcloud app deploy app-development.yaml",
+    "deploy-staging": "gcloud app deploy app-staging.yaml"
   },
   "repository": {
     "type": "git",
@@ -45,7 +47,7 @@
     "kss": "^3.0.0-beta.23",
     "lint-staged": "^7.2.2",
     "node-mocks-http": "^1.7.3",
-    "nodemon": "^1.18.4",
+    "nodemon": "1.18.7",
     "onchange": "^4.1.0",
     "postcss": "^7.0.2",
     "postcss-calc": "^6.0.1",
@@ -63,7 +65,7 @@
   },
   "dependencies": {
     "@google-cloud/datastore": "^2.0.0",
-    "@google-cloud/storage": "2.3.1",
+    "@google-cloud/storage": "2.3.0",
     "accesscontrol": "^2.2.1",
     "built-in-element": "^0.1.4",
     "compression": "^1.7.3",

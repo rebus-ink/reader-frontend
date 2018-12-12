@@ -7,12 +7,17 @@ const debug = require('debug')('vonnegut:utils:get-library-state')
 async function getLibraryState (req, res) {
   const token = req.user.token
   const library = req.user.streams.library
-  const result = await get(library, token)
-  if (result === null) {
+  let result
+  try {
+    result = await get(library, token)
+  } catch (err) {
+    debug(err)
+    throw err
+  }
+  if (!result) {
     return result
   }
   const books = result.items.map(publication => {
-    debug(publication)
     const bookCard = toBookCard(publication)
     bookCard.attributions = arrify(publication.attributedTo).map(
       attribution => {
@@ -21,6 +26,7 @@ async function getLibraryState (req, res) {
     )
     return bookCard
   })
+  debug('got library')
   return { books }
 }
 

@@ -8,6 +8,7 @@ const options = {
     h4: 'h5',
     h5: 'h6'
   },
+  nonTextTags: [ 'style', 'script', 'textarea', 'title' ],
   allowedTags: sanitizeHtml.defaults.allowedTags.concat([
     'h2',
     'h3',
