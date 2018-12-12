@@ -18,28 +18,8 @@ export const bookCardView = (render, model = { cover: {} }) => {
     render
   )}</p>
     <p class="BookCard-paragraph BookCard-paragraph--tags">
-      ${
-  model.notes
-    ? render(
-      model,
-      ':bookCard-tag--highlight'
-    )`<span class="BookCard-tag BookCard-tag--highlight">${
-      model.notes.length
-    } notes</span>`
-    : ''
-}
-      ${
-  model.tags
-    ? model.tags.map(
-      tag =>
-        render(tag, ':bookCard-tag')`<span class="BookCard-tag">${
-          tag.name
-        }</span>`
-    )
-    : ''
-}
     </p>
-    <p class="BookCard-total">${model.length} pages</p>
+    <p class="BookCard-total"></p>
   </div>
 </div>`
 }

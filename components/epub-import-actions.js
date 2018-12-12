@@ -108,7 +108,7 @@ export async function parse (context) {
   })[0]
   const metaCover = opfDoc.querySelector('meta[name="cover"]')
   const guideCover = opfDoc.querySelector('guide reference[type="cover"]')
-  const linearCover = opfDoc.querySelector('itemref[linear="no"]')
+  const linearCover = opfDoc.querySelector('itemref')
   let cover
   if (propertiesCover) {
     cover = propertiesCover
@@ -120,7 +120,9 @@ export async function parse (context) {
     const coverHTML = context.attachment.filter((item) => {
       return item.path === getPath(guideCover.getAttribute('href'), context)
     })[0]
-    if (coverHTML && coverHTML.path) {
+    if (coverHTML && coverHTML.mediaType.indexOf('image') !== -1) {
+      cover = coverHTML
+    } else if (coverHTML && coverHTML.path) {
       const file = await context.zip.file(decodeURI(coverHTML.path)).async('string')
       const fileDoc = parser.parseFromString(file, 'text/html')
       const imageEl = fileDoc.querySelector('img')
@@ -151,6 +153,12 @@ export async function parse (context) {
   }
   if (cover) {
     context.cover = cover
+  } else {
+    // Just grab the first image in the epub
+    const item = context.attachment.filter(item => {
+      return item.mediaType.indexOf('image/') !== -1
+    })[0]
+    context.cover = item
   }
   // Add link to final OPF destination URL as alternate
   // Add link to uploaded EPUB file as alternate
@@ -250,6 +258,7 @@ export async function create (context, event) {
   if (context.icon) {
     publication.icon = context.icon
   }
+  console.log(publication.icon)
   publication.url = context.url
   const wrapper = {
     '@context': [
