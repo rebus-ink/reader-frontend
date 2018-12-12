@@ -47,7 +47,6 @@ export async function parse (context) {
   // Find the HTML nav file for EPUB 3.0+
   const htmlNavItem = opfDoc.querySelector('[properties~=nav]')
   if (htmlNavItem) {
-    console.log(htmlNavItem.getAttribute('href'))
     const htmlNavEntry = context.zip.file(getPath(htmlNavItem.getAttribute('href'), context))
     context.htmlNav = htmlNavEntry ? await htmlNavEntry.async('string') : null
   }
@@ -73,7 +72,7 @@ export async function parse (context) {
   // Each resource has an `activity` property that is a stub Activity Document object based on its media type and info in OPF with a reference URL based on the OPF URL and the OPF reference. Will either need to use something other than Array.from or add a polyfill later on for older browsers
   context.attachment = Array.from(opfDoc.querySelectorAll('item')).map(item => {
     const path = getPath(item.getAttribute('href'), context)
-    const href = getURL(path)
+    const href = getURL(path).href
     const id = item.getAttribute('id')
     const properties = item.getAttribute('properties') || ''
     return {
@@ -87,7 +86,7 @@ export async function parse (context) {
   // Update HTML toc to use proper URLs
   // Not needed because we're ignoring the HTML toc for Prototype A
   // This adds 'schema:position' to each activity. The API server has to use this to generate the `orderedItems` property as we cannot do so during import. Each item in the `orderedItems` property needs to refer to the id of a document in `attachment` but those ids don't exist until the document has been created serverside. So we need another mechanism.
-  const itemRefs = Array.from(opfDoc.querySelectorAll('itemref'))
+  const itemRefs = Array.from(opfDoc.querySelectorAll('itemref:not([linear="no"])'))
   itemRefs.forEach((element, index) => {
     const item = context.attachment.filter(item => {
       return item.id === element.getAttribute('idref')
@@ -104,15 +103,54 @@ export async function parse (context) {
     }
   })
   // We need to then find the cover (which can be included in a variety of ways, unfortunately)
-  const cover = context.attachment.filter((item) => {
+  const propertiesCover = context.attachment.filter((item) => {
     return item.properties.indexOf('cover-image') !== -1
   })[0]
-  if (cover) {
-    context.icon = {
-      type: 'Image',
-      url: cover.href,
-      mediaType: cover.mediaType
+  const metaCover = opfDoc.querySelector('meta[name="cover"]')
+  const guideCover = opfDoc.querySelector('guide reference[type="cover"]')
+  const linearCover = opfDoc.querySelector('itemref[linear="no"]')
+  let cover
+  if (propertiesCover) {
+    cover = propertiesCover
+  } else if (metaCover) {
+    cover = context.attachment.filter((item) => {
+      return item.id === metaCover.getAttribute('content')
+    })[0]
+  } else if (guideCover) {
+    const coverHTML = context.attachment.filter((item) => {
+      return item.path === getPath(guideCover.getAttribute('href'), context)
+    })[0]
+    if (coverHTML && coverHTML.path) {
+      const file = await context.zip.file(coverHTML.path).async('string')
+      const fileDoc = parser.parseFromString(file, 'text/html')
+      const imageEl = fileDoc.querySelector('img')
+      if (imageEl) {
+        const src = imageEl.getAttribute('src')
+        const url = new window.URL(src, coverHTML.href).href
+        cover = context.attachment.filter((item) => {
+          return item.href === url
+        })[0]
+      }
     }
+  } else if (linearCover) {
+    const item = context.attachment.filter(item => {
+      return item.id === linearCover.getAttribute('idref')
+    })[0]
+    if (item && item.path) {
+      const file = await context.zip.file(item.path).async('string')
+      const fileDoc = parser.parseFromString(file, 'text/html')
+      const imageEl = fileDoc.querySelector('img')
+      if (imageEl) {
+        const src = imageEl.getAttribute('src')
+        const url = new window.URL(src, item.href).href
+        cover = context.attachment.filter((item) => {
+          return item.href === url
+        })[0]
+      }
+    }
+  }
+  if (cover) {
+    context.cover = cover
   }
   // Add link to final OPF destination URL as alternate
   // Add link to uploaded EPUB file as alternate
@@ -135,7 +173,8 @@ export async function process (context, event) {
     const resource = context.attachment[index]
     // Read it from the Zip file
     if (resource.mediaType === 'application/xhtml+xml') {
-      const file = await zip.file(resource.path).async('string')
+      console.log(resource)
+      const file = await zip.file(decodeURI(resource.path)).async('string')
       resource.activity.content = file
       // Just going to use this to extract data, hence the 'text/html'
       const fileDoc = parser.parseFromString(file, 'text/html')
@@ -184,6 +223,14 @@ export async function upload (context, event) {
       } catch (err) {
         console.log(err)
       }
+    }
+  }
+  if (context.cover && context.cover.activity && context.cover.activity.url && context.cover.activity.url[0]) {
+    context.icon = {
+      type: 'Image',
+      summary: 'EPUB Cover',
+      url: context.cover.activity.url[0].href,
+      mediaType: context.cover.mediaType
     }
   }
   return context
