@@ -12,6 +12,7 @@
 # below:
 .git
 .gitignore
-
+# Don't upload the db
+dev.sqlite3
 # Node.js dependencies:
 node_modules/
