@@ -28,7 +28,7 @@ window.customElements.define(
         progress.textContent = ''
         console.log(created)
         const report = document.createElement('li')
-        report.textContent = `Uploaded ${context.title} to library`
+        report.innerHTML = `${context.title} has been added to your library <span class="Import-checkmark">✔️</span>`
         log.appendChild(report)
       } catch (err) {
         console.log(err)

@@ -47,14 +47,14 @@ export async function parse (context) {
   // Find the HTML nav file for EPUB 3.0+
   const htmlNavItem = opfDoc.querySelector('[properties~=nav]')
   if (htmlNavItem) {
-    const htmlNavEntry = context.zip.file(getPath(htmlNavItem.getAttribute('href'), context))
+    const htmlNavEntry = context.zip.file(decodeURI(getPath(htmlNavItem.getAttribute('href'), context)))
     context.htmlNav = htmlNavEntry ? await htmlNavEntry.async('string') : null
   }
   // Find the NCX nav file if we don't have an HTML nav
   if (!context.htmlNav) {
     const ncxId = opfDoc.querySelector('spine').getAttribute('toc')
     const ncxPath = getPath(opfDoc.getElementById(ncxId).getAttribute('href'), context)
-    context.ncx = await context.zip.file(ncxPath).async('string')
+    context.ncx = await context.zip.file(decodeURI(ncxPath)).async('string')
   }
   // Parse NCX file into HTML
   // We are going to be generating a TOC from the chapters themselves in the prototype A so getting a proper ToC is not a priority for this release
@@ -108,7 +108,7 @@ export async function parse (context) {
   })[0]
   const metaCover = opfDoc.querySelector('meta[name="cover"]')
   const guideCover = opfDoc.querySelector('guide reference[type="cover"]')
-  const linearCover = opfDoc.querySelector('itemref[linear="no"]')
+  const linearCover = opfDoc.querySelector('itemref')
   let cover
   if (propertiesCover) {
     cover = propertiesCover
@@ -120,8 +120,10 @@ export async function parse (context) {
     const coverHTML = context.attachment.filter((item) => {
       return item.path === getPath(guideCover.getAttribute('href'), context)
     })[0]
-    if (coverHTML && coverHTML.path) {
-      const file = await context.zip.file(coverHTML.path).async('string')
+    if (coverHTML && coverHTML.mediaType.indexOf('image') !== -1) {
+      cover = coverHTML
+    } else if (coverHTML && coverHTML.path) {
+      const file = await context.zip.file(decodeURI(coverHTML.path)).async('string')
       const fileDoc = parser.parseFromString(file, 'text/html')
       const imageEl = fileDoc.querySelector('img')
       if (imageEl) {
@@ -137,7 +139,7 @@ export async function parse (context) {
       return item.id === linearCover.getAttribute('idref')
     })[0]
     if (item && item.path) {
-      const file = await context.zip.file(item.path).async('string')
+      const file = await context.zip.file(decodeURI(item.path)).async('string')
       const fileDoc = parser.parseFromString(file, 'text/html')
       const imageEl = fileDoc.querySelector('img')
       if (imageEl) {
@@ -173,7 +175,6 @@ export async function process (context, event) {
     const resource = context.attachment[index]
     // Read it from the Zip file
     if (resource.mediaType === 'application/xhtml+xml') {
-      console.log(resource)
       const file = await zip.file(decodeURI(resource.path)).async('string')
       resource.activity.content = file
       // Just going to use this to extract data, hence the 'text/html'
@@ -210,7 +211,7 @@ export async function upload (context, event) {
   for (var index = 0; index < context.attachment.length; index++) {
     const resource = context.attachment[index]
     if (resource.mediaType.startsWith('image') || resource.mediaType.startsWith('audio') || resource.mediaType.startsWith('video')) {
-      const blob = await zip.file(resource.path).async('blob')
+      const blob = await zip.file(decodeURI(resource.path)).async('blob')
       const file = new window.File([blob], context.bookPrefix + resource.path, {type: resource.mediaType})
       const data = new window.FormData()
       data.append('file', file)
@@ -219,7 +220,6 @@ export async function upload (context, event) {
         if (result.url) {
           resource.activity.url[0].href = result.url
         }
-        console.log(resource.activity.url[0], result.url)
       } catch (err) {
         console.log(err)
       }

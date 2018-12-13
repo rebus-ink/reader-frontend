@@ -10,7 +10,7 @@ const { getTags } = require('./getTags.js')
 const { getToC } = require('./getToC.js')
 const { arrify } = require('../utils/arrify.js')
 const { getDocuments, getDocumentsById } = require('./getDocuments.js')
-const debug = require('debug')('vonnegut:utils:toBookCard')
+const debug = require('debug')('vonnegut:state:toBookCard')
 /**
  * Converts an ActivityStreams publication type into an easier to handle BookCard state object.
  */

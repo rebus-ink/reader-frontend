@@ -15,7 +15,7 @@ function authserver (options) {
   options.storage = new Keyv({
     uri: typeof accountStore === 'string' && accountStore,
     store: typeof accountStore !== 'string' && accountStore,
-    namespace: 'rebus-reader-accounts'
+    namespace: process.env.ACCOUNTS_NAMESPACE || 'rebus-reader-accounts'
   })
   const tokenStorage = new Keyv({
     uri: typeof tokenStore === 'string' && tokenStore,
