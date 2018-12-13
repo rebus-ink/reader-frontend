@@ -153,12 +153,6 @@ export async function parse (context) {
   }
   if (cover) {
     context.cover = cover
-  } else {
-    // Just grab the first image in the epub
-    const item = context.attachment.filter(item => {
-      return item.mediaType.indexOf('image/') !== -1
-    })[0]
-    context.cover = item
   }
   // Add link to final OPF destination URL as alternate
   // Add link to uploaded EPUB file as alternate
@@ -181,7 +175,6 @@ export async function process (context, event) {
     const resource = context.attachment[index]
     // Read it from the Zip file
     if (resource.mediaType === 'application/xhtml+xml') {
-      console.log(resource)
       const file = await zip.file(decodeURI(resource.path)).async('string')
       resource.activity.content = file
       // Just going to use this to extract data, hence the 'text/html'
@@ -227,7 +220,6 @@ export async function upload (context, event) {
         if (result.url) {
           resource.activity.url[0].href = result.url
         }
-        console.log(resource.activity.url[0], result.url)
       } catch (err) {
         console.log(err)
       }
@@ -258,7 +250,6 @@ export async function create (context, event) {
   if (context.icon) {
     publication.icon = context.icon
   }
-  console.log(publication.icon)
   publication.url = context.url
   const wrapper = {
     '@context': [
