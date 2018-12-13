@@ -24,6 +24,8 @@ export const pageHead = (render, model, req) => {
 <title>Rebus Reader</title>
 <script src="/js/document-register-element.js"></script>
 <script src="/js/jszip.min.js"></script>
+<script src="/js/swup.min.js"></script>
+<script src="/components/page-transitions.js" type="module"></script>
 <script src="/components/nav-menu-toggle.js" type="module"></script>
 <script src="/components/fetch.js" type="module"></script>
 <script src="/components/epub-import-actions.js" type="module"></script>
