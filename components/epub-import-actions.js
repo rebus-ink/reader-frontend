@@ -210,19 +210,32 @@ export async function upload (context, event) {
   // Then cycle through the attachments and upload images, audio, video
   for (var index = 0; index < context.attachment.length; index++) {
     const resource = context.attachment[index]
-    if (resource.mediaType.startsWith('image') || resource.mediaType.startsWith('audio') || resource.mediaType.startsWith('video')) {
-      const blob = await zip.file(decodeURI(resource.path)).async('blob')
-      const file = new window.File([blob], context.bookPrefix + resource.path, {type: resource.mediaType})
-      const data = new window.FormData()
-      data.append('file', file)
+    const type = getType(resource.mediaType)
+    const blob = await zip.file(decodeURI(resource.path)).async('blob')
+    let sizes
+    if (type === 'image') {
       try {
-        const result = await uploadFile(data)
-        if (result.url) {
-          resource.activity.url[0].href = result.url
-        }
+        sizes = await getImageSizes(blob)
+        console.log(sizes)
       } catch (err) {
         console.log(err)
       }
+    }
+    const file = new window.File([blob], context.bookPrefix + resource.path, {type: resource.mediaType})
+    const data = new window.FormData()
+    data.append('file', file)
+    data.append('type', type)
+    try {
+      const result = await uploadFile(data)
+      if (result.url) {
+        resource.activity.url[0].href = result.url
+      }
+      if (sizes) {
+        resource.activity.url[0].width = sizes.width
+        resource.activity.url[0].height = sizes.height
+      }
+    } catch (err) {
+      console.log(err)
     }
   }
   if (context.cover && context.cover.activity && context.cover.activity.url && context.cover.activity.url[0]) {
@@ -301,6 +314,41 @@ function itemToActivityStub (item) {
   item.summary = `Resource of type ${item.mediaType}`
   item.activity['reader:path'] = item.path
   return item
+}
+
+function getImageSizes (blob) {
+  return new Promise((resolve, reject) => {
+    try {
+      const blobURL = URL.createObjectURL(blob)
+      const img = document.createElement('img')
+      img.src = blobURL
+      img.onload = () => {
+        const width = img.width
+        const height = img.height
+        return resolve({width, height})
+      }
+    } catch (err) {
+      reject(err)
+    }
+  })
+}
+
+function getType (mediaType) {
+  if (mediaType.startsWith('image')) {
+    return 'Image'
+  } else if (mediaType.startsWith('audio')) {
+    return 'Audio'
+  } else if (mediaType.startsWith('video')) {
+    return 'Video'
+  } else if (mediaType === 'text/html') {
+    return 'html'
+  } else if (mediaType === 'application/xhtml+xml') {
+    return 'xhtml'
+  } else if (mediaType === 'application/xml') {
+    return 'xml'
+  } else if (mediaType.startsWith('text')) {
+    return 'generic-text'
+  }
 }
 
 window.actions = {load, parse, process, upload, create}

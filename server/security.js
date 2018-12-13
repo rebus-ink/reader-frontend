@@ -11,7 +11,7 @@ function securitySetup (app) {
           styleSrc: ["'self'", "'unsafe-inline'"],
           connectSrc: ["'self'"],
           objectSrc: ["'none'"],
-          imgSrc: ['*', 'data:', 'https:'],
+          imgSrc: ['*', 'data:', 'https:', 'blob:'],
           frameSrc: [
             'https://www.youtube.com',
             'https://www.youtube-nocookie.com'
