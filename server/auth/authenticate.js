@@ -8,7 +8,7 @@ const ms = require('ms')
 const URL = require('url').URL
 const debug = require('debug')('vonnegut:auth:authenticate')
 
-async function processAuth (user, {storage, tokenStorage}) {
+async function processAuth (user, { storage, tokenStorage }) {
   const storedUser = await storage.get(user.id)
   debug(storedUser)
   if (!storedUser) {
@@ -25,11 +25,10 @@ async function processAuth (user, {storage, tokenStorage}) {
     let result
     try {
       result = await get('whoami', token)
-    } catch (err) {
-    }
+    } catch (err) {}
     debug(result)
     if (result) {
-      const newUser = {id: user.id, reader: result}
+      const newUser = { id: user.id, reader: result }
       newUser.readerId = new URL(result.id).pathname.split('-')[1]
       await storage.set(user.id, newUser)
       return newUser
@@ -45,7 +44,7 @@ async function processAuth (user, {storage, tokenStorage}) {
         throw err
       }
       debug(result)
-      const newUser = {id: user.id, reader: result}
+      const newUser = { id: user.id, reader: result }
       newUser.readerId = new URL(result.id).pathname.split('-')[1]
       await storage.set(user.id, newUser)
       return newUser
@@ -59,30 +58,46 @@ function authenticate (req, res, next) {
   if (req.query.returnTo) {
     req.session.returnTo = req.query.returnTo
   }
-  const {strategy, failureRedirect = '/login', storage, tokenStorage, successRedirect = '/'} = req.app.locals.authOptions
+  const {
+    strategy,
+    failureRedirect = '/login',
+    storage,
+    tokenStorage,
+    successRedirect = '/'
+  } = req.app.locals.authOptions
   passport.authenticate(strategy.name, function (err, user) {
     if (err) {
       debug(err)
       next(err)
     }
-    if (!user) { next(new Error('No user')) }
-    return processAuth(user, {strategy, failureRedirect, storage, tokenStorage, successRedirect}).then(user => {
-      return req.logIn(user, function (err) {
-        if (err) {
-          throw err
-        }
-        const returnTo = req.session.returnTo
-        req.session.returnTo = null
-        res.redirect(returnTo || successRedirect)
-      })
-    }).catch(err => {
-      debug(err)
-      if (err.message === 'No user') {
-        return res.redirect(failureRedirect)
-      } else {
-        next(err)
-      }
+    if (!user) {
+      next(new Error('No user'))
+    }
+    return processAuth(user, {
+      strategy,
+      failureRedirect,
+      storage,
+      tokenStorage,
+      successRedirect
     })
+      .then(user => {
+        return req.logIn(user, function (err) {
+          if (err) {
+            throw err
+          }
+          const returnTo = req.session.returnTo
+          req.session.returnTo = null
+          res.redirect(returnTo || successRedirect)
+        })
+      })
+      .catch(err => {
+        debug(err)
+        if (err.message === 'No user') {
+          return res.redirect(failureRedirect)
+        } else {
+          next(err)
+        }
+      })
   })(req, res, next)
 }
 

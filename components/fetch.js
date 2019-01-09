@@ -1,8 +1,7 @@
-
 class HTTPError extends Error {}
 
 async function get (url) {
-  const response = await window.fetch(url, {header: {}})
+  const response = await window.fetch(url, { header: {} })
   if (!response.ok) {
     throw new HTTPError('Get Error:', response.statusText)
   }
@@ -18,7 +17,7 @@ async function createPublication (payload) {
     body: JSON.stringify(payload),
     headers: new window.Headers({
       'content-type': 'application/ld+json',
-      'Authorization': `Bearer ${JWT}`
+      Authorization: `Bearer ${JWT}`
     })
   })
   if (!response.ok) {
@@ -35,7 +34,7 @@ async function uploadFile (payload) {
     method: 'POST',
     body: payload,
     headers: new window.Headers({
-      'Authorization': `Bearer ${JWT}`
+      Authorization: `Bearer ${JWT}`
     })
   })
   if (!response.ok) {

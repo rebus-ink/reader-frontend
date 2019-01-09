@@ -14,7 +14,7 @@ if (process.env.DOMAIN.includes('localhost')) {
  *
  * At some point this needs to use configurable Keyv cache stores.
  */
-async function post (url /*: string */, body/*: any */, token /*: string */) {
+async function post (url /*: string */, body /*: any */, token /*: string */) {
   let headers
   if (token) {
     headers = {

@@ -7,9 +7,7 @@ function errorHandler (err, req, res, next) {
     'text/html': function () {
       return res
         .status(err.statusCode || 500)
-        .send(
-          `<html><head></head><body><pre>${err.stack}</pre></body></html>`
-        )
+        .send(`<html><head></head><body><pre>${err.stack}</pre></body></html>`)
     },
     'application/json': function () {
       return res.sendStatus(err.statusCode || 500)

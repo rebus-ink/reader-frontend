@@ -6,7 +6,7 @@ const puppeteer = require('puppeteer')
 const bl = require('bl')
 const path = require('path')
 const tap = require('tap')
-const {createHash} = require('crypto')
+const { createHash } = require('crypto')
 const test = tap.test
 
 const COVERAGE_FOLDER = path.join(process.cwd(), '.nyc_output')
@@ -16,9 +16,9 @@ if (global.__coverage__ && !fs.existsSync(COVERAGE_FOLDER)) {
   throw new Error('Coverage is enabled by {cwd}/.nyc_output does not exist')
 }
 
-const outputCoverage = (page) => {
+const outputCoverage = page => {
   return new Promise(async (resolve, reject) => {
-    const dumpCoverage = (payload) => {
+    const dumpCoverage = payload => {
       const cov = JSON.parse(payload)
       fs.writeFileSync(
         path.resolve(COVERAGE_FOLDER, `${Date.now()}.json`),
@@ -27,7 +27,7 @@ const outputCoverage = (page) => {
       )
       return resolve()
     }
-    await page.exposeFunction('dumpCoverage', (payload) => {
+    await page.exposeFunction('dumpCoverage', payload => {
       dumpCoverage(payload)
     })
     await page.evaluate(async () => {
@@ -40,12 +40,17 @@ const index = path.join(__dirname, 'index.html')
 
 /* istanbul ignore next */
 module.exports = (entryPoint, opts = {}) => {
-  const browser = puppeteer.launch({args: ['--no-sandbox']})
+  const browser = puppeteer.launch({ args: ['--no-sandbox'] })
 
   const bundle = new Promise((resolve, reject) => {
     var b = browserify({
       plugin: [
-        [ require('esmify'), { /* ... options ... */ } ]
+        [
+          require('esmify'),
+          {
+            /* ... options ... */
+          }
+        ]
       ]
     })
     /* istanbul ignore else */
@@ -59,11 +64,13 @@ module.exports = (entryPoint, opts = {}) => {
       b.add(entryPoint)
     }
 
-    b.bundle().pipe(bl((err, buff) => {
-      /* istanbul ignore next */
-      if (err) return reject(err)
-      resolve(buff.toString())
-    }))
+    b.bundle().pipe(
+      bl((err, buff) => {
+        /* istanbul ignore next */
+        if (err) return reject(err)
+        resolve(buff.toString())
+      })
+    )
   })
 
   let testCounter = 0
@@ -83,9 +90,13 @@ module.exports = (entryPoint, opts = {}) => {
       /* istanbul ignore next */
       page.on('console', msg => console.log(msg.text()))
       /* istanbul ignore next */
-      page.on('error', err => { throw err })
+      page.on('error', err => {
+        throw err
+      })
       /* istanbul ignore next */
-      page.on('pageerror', msg => { throw new Error(`Page Error: ${msg}`) })
+      page.on('pageerror', msg => {
+        throw new Error(`Page Error: ${msg}`)
+      })
 
       await page.evaluate(() => {
         window.addEventListener('unhandledrejection', event => {
@@ -97,7 +108,7 @@ module.exports = (entryPoint, opts = {}) => {
       })
 
       const code = await bundle
-      await page.addScriptTag({content: code})
+      await page.addScriptTag({ content: code })
 
       /* istanbul ignore else */
       if (global.__coverage__) {
@@ -110,14 +121,18 @@ module.exports = (entryPoint, opts = {}) => {
             }
           })
         } else if (code.indexOf('__coverage__') === -1) {
-          throw new Error('Coverage is enabled but is missing from your bundle.')
+          throw new Error(
+            'Coverage is enabled but is missing from your bundle.'
+          )
         }
 
         const cvobjects = {}
         Object.keys(global.__coverage__).forEach(filename => {
           const hash = createHash('sha1')
           hash.update(filename)
-          const key = parseInt(hash.digest('hex').substr(0, 12), 16).toString(36)
+          const key = parseInt(hash.digest('hex').substr(0, 12), 16).toString(
+            36
+          )
           cvobjects[key] = global.__coverage__[filename]
         })
         await page.exposeFunction('cv_proxy_add', async arr => {
@@ -130,14 +145,17 @@ module.exports = (entryPoint, opts = {}) => {
         })
         await page.evaluate(keys => {
           const createProxy = parents => {
-            return new Proxy({}, {
-              get: (target, name) => 0,
-              set: (obj, prop, value) => {
-                const arr = parents.concat([prop])
-                cv_proxy_add(JSON.stringify(arr))
-                return true
+            return new Proxy(
+              {},
+              {
+                get: (target, name) => 0,
+                set: (obj, prop, value) => {
+                  const arr = parents.concat([prop])
+                  cv_proxy_add(JSON.stringify(arr))
+                  return true
+                }
               }
-            })
+            )
           }
           keys.forEach(key => {
             window[`cov_${key}`] = {

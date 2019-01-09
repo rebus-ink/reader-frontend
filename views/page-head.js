@@ -11,7 +11,9 @@ export const pageHead = (render, model, req) => {
   }
   let base
   if (model.chapter) {
-    const url = `/reader/${encodeURIComponent(getId(model.book.id))}/${model.chapter['reader:path']}`
+    const url = `/reader/${encodeURIComponent(getId(model.book.id))}/${
+      model.chapter['reader:path']
+    }`
     base = `<base href="${url}">`
   } else {
     base = ''

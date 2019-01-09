@@ -72,7 +72,9 @@ function renderToC (render, model, req) {
   debug('rendering ToC')
   return arrify(model.orderedItems).map((chapter, index) => {
     debug(chapter)
-    const url = `/reader/${encodeURIComponent(getId(model.id))}/${chapter['reader:path']}`
+    const url = `/reader/${encodeURIComponent(getId(model.id))}/${
+      chapter['reader:path']
+    }`
     const isSelected =
       req.params.chapter === String(index)
         ? 'NavSidebar-item is-selected'

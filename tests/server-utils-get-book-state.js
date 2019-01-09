@@ -84,7 +84,7 @@ tap.test('get-book-state', async function (test) {
   })
   request.user = { token: 'thing' }
   const response = httpMocks.createResponse()
-  const {book} = await getBookState(request, response)
+  const { book } = await getBookState(request, response)
   test.ok(book.toc)
   test.equals(book.orderedItems.length, 4)
   test.equals(book.totalItems, 4)
