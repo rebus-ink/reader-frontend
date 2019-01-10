@@ -1,5 +1,9 @@
 # reader-frontend
 
+**IMPORTANT: this project is still in the very early stages and is not yet ready for unsolicited contributions. If you are interested in the project, please contact the development team.**
+
+Documentation is lacking. Tests have insufficient coverage. The entire thing is more of a prototype than anything else and the end product will almost certainly look very different. _Hic sunt dracones_.
+
 Front-end for the Rebus Reader system
 
 ## Commit Message Style
