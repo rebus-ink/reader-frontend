@@ -25,8 +25,7 @@ Markup:
 StyleGuide 6.NavSidebar
 
 */
-.NavSidebar,
-#kss-node .kss-sidebar.kss-style {
+.NavSidebar {
   padding: 0;
   margin: 0;
   grid-area: NavSidebar;
@@ -36,8 +35,7 @@ StyleGuide 6.NavSidebar
   z-index: 5;
 }
 
-.NavSidebar-title,
-#kss-node .kss-doc-title {
+.NavSidebar-title {
   color: #333;
   padding: 0.25rem 1rem;
   margin: 0;
@@ -60,8 +58,7 @@ StyleGuide 6.NavSidebar
   font-weight: 600;
 }
 
-.NavSidebar-link,
-#kss-node .kss-sidebar.kss-style nav a {
+.NavSidebar-link {
   font-size: 0.85rem;
   display: block;
   font-weight: 350;
@@ -72,24 +69,22 @@ StyleGuide 6.NavSidebar
   text-decoration: none;
 }
 
-#kss-node .kss-sidebar.kss-style .kss-nav__name,
+/* #kss-node .kss-sidebar.kss-style .kss-nav__name,
 #kss-node .kss-sidebar.kss-style .kss-nav__ref {
   color: inherit;
   font-weight: 350;
-}
+} */
 .is-selected > .NavSidebar-link {
   background-color: white;
   font-weight: 800;
 }
-.NavSidebar-link:hover,
-#kss-node .kss-sidebar.kss-style nav a:hover {
+.NavSidebar-link:hover {
   color: white;
   background-color: var(--link);
   box-shadow: none;
   border-right-color: #003366;
 }
-.NavSidebar-link:focus,
-#kss-node .kss-sidebar.kss-style nav a:focus {
+.NavSidebar-link:focus {
   margin: 0;
   box-shadow: none;
   border-radius: 0;

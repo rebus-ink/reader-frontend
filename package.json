@@ -9,7 +9,7 @@
   "scripts": {
     "test": "tap 'tests/*.js'",
     "dev-test": "onchange 'app/**/*.js' 'server/**/*.js' 'tests/**/*.js' -- onerror \"tap -R classic tests/*.js\"",
-    "dev-server": "GOOGLE_APPLICATION_CREDENTIALS=google-keyfile.json DEBUG=hobb:routes:*,vonnegut:* SECRETORKEY=kick-opossum-snowiness ISSUER=auth.reader-api.test NODE_ENV=development BASE=https://localhost:4430 DEPLOY_STAGE=development nodemon dev.js",
+    "dev-server": "GOOGLE_APPLICATION_CREDENTIALS=google-keyfile.json DEBUG=vonnegut:* SECRETORKEY=kick-opossum-snowiness ISSUER=auth.reader-api.test NODE_ENV=development BASE=https://localhost:4430 DEPLOY_STAGE=development nodemon dev.js",
     "fix-things-for-me": "onchange 'styles/**/*.css' 'app/**/*.js' 'server/**/*.js' -- prettier-standard '**/*.{js,md,css}'",
     "start": "node index.js",
     "build-css": "node build-css.js",
