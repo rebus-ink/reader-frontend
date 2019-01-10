@@ -1,4 +1,3 @@
-
 const { arrify } = require('../utils/arrify.js')
 function getDocuments (publication) {
   const attachments = arrify(publication.attachment)

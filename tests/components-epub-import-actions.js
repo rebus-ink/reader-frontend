@@ -1,9 +1,17 @@
 const path = require('path')
 const cappadonna = require('./utils/cappadonna-modules-fork.js')
-const test = cappadonna(path.join(__dirname, '../components/epub-import-actions.js'), {require: {expose: 'epub-import-actions'}})
+const test = cappadonna(
+  path.join(__dirname, '../components/epub-import-actions.js'),
+  { require: { expose: 'epub-import-actions' } }
+)
 const fs = require('fs')
-const jszip = fs.readFileSync(path.join(__dirname, 'test-files/jszip.js'), {encoding: 'utf8'})
-const testEpub = fs.readFileSync(path.join(__dirname, 'test-files/test-epub.base64.js'), {encoding: 'utf8'})
+const jszip = fs.readFileSync(path.join(__dirname, 'test-files/jszip.js'), {
+  encoding: 'utf8'
+})
+const testEpub = fs.readFileSync(
+  path.join(__dirname, 'test-files/test-epub.base64.js'),
+  { encoding: 'utf8' }
+)
 
 // Test load - file is in event
 test('load', async (page, t) => {
@@ -21,7 +29,9 @@ test('load', async (page, t) => {
     const actions = require('epub-import-actions')
     const context = {}
     try {
-      const result = await actions.load(context, {detail: { file: window.testEpub, base64: true }})
+      const result = await actions.load(context, {
+        detail: { file: window.testEpub, base64: true }
+      })
       t.equals(result.opfPath, 'OEBPS/content.opf')
     } catch (err) {
       console.log(err.message)
@@ -50,10 +60,13 @@ test('parse', async (page, t) => {
       meta.setAttribute('name', 'rebus-user-id')
       meta.setAttribute('content', 'test-value')
       document.head.appendChild(meta)
-      const testEpubBlob = await window.fetch(`data:application/epub+zip;base64,${window.testEpub}`)
+      const testEpubBlob = await window
+        .fetch(`data:application/epub+zip;base64,${window.testEpub}`)
         .then(res => res.blob())
-      const testEpub = new window.File([testEpubBlob], 'test-epub.epub', {type: 'application/epub+zip'})
-      context = await actions.load({}, {detail: { file: testEpub }})
+      const testEpub = new window.File([testEpubBlob], 'test-epub.epub', {
+        type: 'application/epub+zip'
+      })
+      context = await actions.load({}, { detail: { file: testEpub } })
       result = await actions.parse(context)
     } catch (err) {
       console.error(err.message)
@@ -88,14 +101,20 @@ test('parse', async (page, t) => {
     </navMap>
 </ncx>`
     })
-    t.ok(result.opfURL.href.startsWith('https://storage.googleapis.com/rebus-default-bucket/'))
+    t.ok(
+      result.opfURL.href.startsWith(
+        'https://storage.googleapis.com/rebus-default-bucket/'
+      )
+    )
     t.ok(result.opfURL.href.endsWith(result.opfPath))
     t.ok(result.url[0])
     t.notOk(result.icon)
-    t.matches(result.attributedTo, [{
-      type: 'Person',
-      name: 'Baldur Bjarnason'
-    }])
+    t.matches(result.attributedTo, [
+      {
+        type: 'Person',
+        name: 'Baldur Bjarnason'
+      }
+    ])
   })
   t.end()
 })

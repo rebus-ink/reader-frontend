@@ -16,7 +16,7 @@ window.customElements.define(
       progress.textContent = `Loading ${file.name}`
       const log = this.querySelector('[data-upload-log]')
       try {
-        const context = await actions.load({}, {detail: { file }})
+        const context = await actions.load({}, { detail: { file } })
         progress.textContent = `Parsing ${context.title}`
         const parsed = await actions.parse(context)
         progress.textContent = `Processing ${context.title}`
@@ -28,7 +28,9 @@ window.customElements.define(
         progress.textContent = ''
         console.log(created)
         const report = document.createElement('li')
-        report.innerHTML = `${context.title} has been added to your library <span class="Import-checkmark">✔️</span>`
+        report.innerHTML = `${
+          context.title
+        } has been added to your library <span class="Import-checkmark">✔️</span>`
         log.appendChild(report)
       } catch (err) {
         console.log(err)

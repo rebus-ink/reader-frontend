@@ -24,7 +24,7 @@ async function getBookState (req, res) {
     chapterID = book.orderedItems[0].id
   }
   const chapter = await get(chapterID, token)
-  return {chapter, book}
+  return { chapter, book }
 }
 
 module.exports.getBookState = getBookState
