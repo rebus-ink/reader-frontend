@@ -27,6 +27,7 @@ StyleGuide 6.Menu
   background-color: transparent;
   padding: 0;
   margin: 0;
+  z-index: 100;
 }
 .Menu li {
   margin-right: 1rem;
@@ -50,4 +51,7 @@ StyleGuide 6.Menu
 .Menu--center {
   border-right: none;
   border-left: none;
+  position: fixed;
+  top: 0.5rem;
+  left: 1rem;
 }

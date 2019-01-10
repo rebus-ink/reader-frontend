@@ -1,9 +1,8 @@
 .Layout {
   display: grid;
-  grid-template-areas: 'NavSidebar Main';
+  grid-template-areas: "Menu ." "NavSidebar Main";
   grid-template-columns: 200px 1fr;
-  height: 100vh;
-  position: relative;
+  grid-template-rows: 2rem auto;
 }
 
 .Layout--reader {
@@ -11,8 +10,9 @@
 }
 
 .Layout.is-without-menu {
-  grid-template-areas: 'Main';
-  grid-template-columns: 1fr;
+  grid-template-areas: "Menu SecondMenu" "Main Main";
+  grid-template-columns: 200px 1fr;
+  grid-template-rows: 2rem auto;
 }
 
 @media (max-width: 820px) {
