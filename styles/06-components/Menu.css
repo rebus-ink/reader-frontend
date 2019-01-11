@@ -48,7 +48,7 @@ StyleGuide 6.Menu
   border-bottom: none;
 }
 
-.Menu--center {
+.Menu--left {
   border-right: none;
   border-left: none;
   position: fixed;
