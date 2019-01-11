@@ -5,7 +5,7 @@ export const pageBody = (render, model, req) => render(
   ':libraryBody'
 )`<div class="Layout" id="layout">
   ${navSidebarView(render, model, req)}
-  <main class="Import" id="Import" tabindex="-1">
+  <main class="Import" id="Import">
   ${topMenuMain(render, model)}
   <div>
   <h2>Import</h2>

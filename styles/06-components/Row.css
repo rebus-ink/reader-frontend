@@ -6,29 +6,21 @@ Basic row component.
 Markup:
 <div>
 <div class="Row Row--titleRow"><h3 class="Row-title Row-title--cardTitle">This is a card title</h3></div>
-<div class="Row"><div class="Row-group"><h4>Saving Bletchley Park</h4></div><img  class="Row-icon"alt="" src="/styles/cover1.jpg">
-  <div class="Progress Progress--unread">
-  <span class="Progress-page">0</span><span class="Progress-total">of <em>408</em></span>
-  </div></div>
+<div class="Row"><div class="Row-group"><h4>Saving Bletchley Park</h4></div><img  class="Row-icon"alt="" src="/placeholder-cover.png">
+</div>
 <div class="Row">
   <div class="Row-group">
     <h4 class="Row-title">Badass: Making Users Awesome</h4>
     <p class="Row-paragraph"><span href="#" class="Row-attribution">Kathy Sierra</span></p>
   </div>
-  <img  class="Row-icon"alt="" src="/styles/cover2.jpg">
-  <div class="Progress Progress--read">
-  <span class="Progress-page">408</span><span class="Progress-total">of <em>408</em></span>
-  </div>
+  <img  class="Row-icon"alt="" src="/placeholder-cover.png">
 </div>
 <div class="Row is-selectable">
   <div class="Row-group">
     <h4 class="Row-title"><a href="#" class="Row-link">The Half-Life of Joshua Jones</a></h4>
     <p class="Row-paragraph"><span href="#" class="Row-attribution">Danny Scheinmann</span>, <span href="#" class="Row-attribution">John Mitchinson</span> <span class="Row-attributionLabel">(editor)</span> </p>
   </div>
-  <img  class="Row-icon"alt="" src="/styles/cover3.jpg">
-  <div class="Progress">
-  <span class="Progress-page">300</span><span class="Progress-total">of <em>400</em></span>
-  </div>
+  <img  class="Row-icon"alt="" src="/placeholder-cover.png">
 </div>
 <div class="Row is-selected">
   <div class="Row-group">
@@ -36,20 +28,14 @@ Markup:
     <p class="Row-paragraph"><span href="#" class="Row-attribution">Laura Lippman</span></p>
     <p class="Row-paragraph Row-paragraph--tags"><span href="#" class="Row-tag">#suspense</span> <span href="#" class="Row-tag">#femaleauthor</span></p>
   </div>
-  <img  class="Row-icon"alt="" src="/styles/cover4.jpg">
-  <div class="Progress Progress--longBook">
-  <span class="Progress-page">140</span><span class="Progress-total">of <em>1456</em></span>
-  </div>
+  <img  class="Row-icon"alt="" src="/placeholder-cover.png">
 </div>
 <div class="Row">
   <div class="Row-group">
     <h4 class="Row-title">Just Fucking Ship</h4>
     <p class="Row-paragraph"><span href="#" class="Row-attribution">Amy Hoy</span></p>
   </div>
-  <img  class="Row-icon"alt="" src="/styles/cover5.jpg">
-  <div class="Progress Progress--shortBook">
-  <span class="Progress-page">100</span><span class="Progress-total">of <em>130</em></span>
-  </div>
+  <img  class="Row-icon"alt="" src="/placeholder-cover.png">
 </div>
 </div>
 

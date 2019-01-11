@@ -1,7 +1,5 @@
 .Library {
   padding: 0;
-  max-height: 100%;
-  overflow-y: auto;
   grid-area: Main;
   display: grid;
   grid-template-rows: 2rem 1fr;
@@ -11,7 +9,7 @@
 .Library-books {
   display: grid;
   grid-gap: 1rem;
-  padding-top: 1rem;
+  padding-top: 0rem;
   padding-right: 1rem;
 }
 
@@ -19,7 +17,6 @@
   .Library-books {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
 }
@@ -28,7 +25,6 @@
   .Library-books {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
 }

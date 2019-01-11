@@ -1,5 +1,6 @@
 .Chapter {
   padding: 1rem 2rem;
+  grid-area: Main;
 }
 
 .Chapter-body {
