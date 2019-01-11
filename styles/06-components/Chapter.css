@@ -1,6 +1,7 @@
 .Chapter {
   padding: 1rem 2rem;
   grid-area: Main;
+  font-family: 'Source Serif Pro', Helvetica;
 }
 
 .Chapter-body {
