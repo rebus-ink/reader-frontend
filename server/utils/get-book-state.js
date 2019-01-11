@@ -18,7 +18,7 @@ async function getBookState (req, res) {
     return toBookCardAttribution(result, attribution)
   })
   let chapterID
-  if (req.params[0]) {
+  if (req.params[0] && book.documents[req.params[0]]) {
     chapterID = book.documents[req.params[0]].id
   } else {
     chapterID = book.orderedItems[0].id
