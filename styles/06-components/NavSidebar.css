@@ -97,6 +97,9 @@ StyleGuide 6.NavSidebar
 .NavSidebar-item {
   list-style: none;
 }
+.NavSidebar-item:before {
+  content: "\200B"; /* Preserve list semantics in Safari + VoiceOver by adding a zero-width space */
+}
 
 .NavSidebar-item .NavSidebar-item .NavSidebar-link {
   padding: 0.25rem 2rem;
