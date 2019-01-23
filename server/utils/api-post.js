@@ -1,4 +1,3 @@
-// @flow
 const got = require('got')
 const URL = require('url').URL
 const debug = require('debug')('vonnegut:utils:api-post')
