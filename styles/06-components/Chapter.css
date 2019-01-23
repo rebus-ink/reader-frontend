@@ -1,7 +1,89 @@
+/*
+Chapter
+
+Chapter Wrapper
+
+Markup:
+<div class="Chapter {{modifier_class}}">
+<h1 id="default-stylesheet-for-reader">H1 Heading</h1>
+<p>The base stylesheet serves multiple purposes:</p>
+<ol>
+<li>It has to be readable, legible, and well typeset.</li>
+<li>Since one of the reasons why we are going with a no-author-styles approach to the Reader App is to try to leverage the text's semantic structure for active reading, the stylesheet needs to expose that semantic structure using typesetting and design conventions that the reader proper will recognise.</li>
+</ol>
+<h2 id="the-parts">The Parts (H2)</h2>
+<h3 id="the-parts">The Parts (H3)</h3>
+<h4 id="the-parts">The Parts (H4)</h4>
+<h5 id="the-parts">The Parts (H5)</h5>
+<ul>
+<li><strong>Headings:</strong> We need styles for all heading levels, each clearly distinct and with a clear hierarchy.</li>
+<li><strong>Lists</strong>: Do we want to outdent list markers? Might be possible using grid display.</li>
+<li><strong>Block Quotes</strong>: Need to be distinct without adding undue emphasis (i.e. don't increase font size)</li>
+<li><strong>Cite</strong>: Italic.</li>
+<li><strong>Figures</strong>: need a base style plus styles for image, table, and quotation figures.</li>
+<li><strong>Horizontal Rule</strong></li>
+<li><strong>Tables</strong>: need to support table headings both in rows and columns.</li>
+<li><strong>Footnotes</strong>: both blog markup (i.e. <code>rel</code>) and EPUB markup.</li>
+<li><strong>Images and media</strong>.</li>
+<li><strong>Paragraphs</strong>. Text indents.</li>
+<li><strong>Sections and Articles</strong>: Do we treat the beginning and end of sectional content in the same way as we do horizontal rules?</li>
+<li><strong>Definition lists</strong></li>
+<li><strong>Detail/Summary</strong></li>
+<li><strong>Links</strong> - external, internal to book, internal to chapter</li>
+<li>Non-link <strong>anchors</strong></li>
+<li><strong>Linked images</strong> (border plus arrow icon in corner)</li>
+</ul>
+<h3 id="the-layout">The Layout (H3)</h3>
+<p>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</p>
+<p>A six column layout (margin, sidebar, margin, main text, margin, margin buttons)</p>
+<p>Top menu only has three (top left, centre, top right).</p>
+<h2 id="paragraph-style">Paragraph Style</h2>
+<p>Indented or spaced?</p>
+<p>Despite the claims made by those who favour the more traditional <a href="https://practicaltypography.com/first-line-indents.html">first line indent</a> (which includes me), there is no real concrete evidence to indicate the superiority of one method over the other. The studies I've found have generally either been flawed or so small in scale that random noise makes the result less than reliable.</p>
+<hr>
+<p>There is, however a lot to be said for familiarity and convention as the space-between-paragraphs is near universal for scrolled text.</p>
+<p>In addition, most of the arguments in favour of the first line indent claim that it helps keep the reader immersed in the text which is exactly what you don't want for active reading. You want the reader to be engaged but aware of the text as a structure and a construct. Immersion takes you into the text's world and makes you oblivious to the text itself.</p>
+<h1 id="issues">Issues</h1>
+<h2 id="normalisation">Normalisation</h2>
+<p>Since we are creating a web service, sanitising the book's markup is essential to prevent security issues. It's possible to normalise the markup while sanitising but that is risky and prone to just plain breaking the book.</p>
+<h2 id="phishing-and-copying-app-styles">Phishing and copying app styles</h2>
+<p>One aspect we can't overlook is malicious book content posing as native app controls. This shouldn't be much of a problem at the moment as we filter out all form elements and don't allow publisher styles, but it could be an issue with links using an app-specific class selector. It is also an issue preventing us from implementing more interesting ebook form features, long term.</p>
+<p>The simplest solution would be for us to use a distinctive prefix for all of our class selectors and then use the sanitisation library to strip out all classes with that prefix. That should let the publisher use classes for microformats purposes and the like. Alternatively, if we think the only valid non-style, non-JS use of a class are microformats, we could simply add them to a whitelist.</p>
+<h2 id="configuration">Configuration</h2>
+<p>By using CSS custom properties, it should be relatively simple to let the reader customise things like font-size, line-height, column width, and font family.</p>
+<p>One of the big problems with text settings is that they are all <em>inter-related</em>. Line-height and column width are dependent on font size and typeface so the likeliest result of giving the reader granular controls over each variable is that it becomes <em>extremely difficult</em> for the reader to find their optimal setting.</p>
+<p>Other issues:</p>
+<ul>
+<li>The optimal setting for one device may be horrible on another (solved by not syncing text settings to the server but saving them locally).</li>
+<li>The optimal setting for one orientation may be horrible on another. This is an especially acute problem for narrow phone screens that are extremely narrow columns in portrait but as wide as a small tablet in landscape.</li>
+<li>The typeface the user wants may not be available. (Solved by only letting the reader select fonts we know we can embed.)</li>
+<li>The colour theme chosen by the reader may conflict with OS-set colour themes that serve the same purpose. E.g. a sepia toned theme conflicts with the built-in blue light filter and a reading UI dark mode can conflict with the system dark mode.</li>
+</ul>
+<p>To begin with, we're only going to support colour themes through the <code>prefers-color-scheme</code> media selector. This should switch to a dark background and possibly darken images as well (brightening them again when they are hovered over or tapped).</p>
+<p>Column width and line-height should be limited to a few broad categories (extra narrow, narrow, normal, wide, extra wide) where the exact value is dependent on the font size and type-face.</p>
+<p>Column width setting should be disabled when the screen itself is too narrow.</p></div>
+
+
+StyleGuide 6.Chapter
+
+*/
+
 .Chapter {
-  padding: 1rem 2rem;
+  --reader-font-size: 0.85rem;
+  --reader-paragraph-spacing: 0.7rem;
   grid-area: Main;
-  font-family: 'Source Serif Pro', Helvetica;
+  font-family: 'Source Serif Pro', serif;
+  background-color: #fefefc;
+  display: grid;
+  grid-template-columns: 2rem minmax(20rem, 32rem) 1rem;
+  grid-template-areas: 'leftmargin maintext rightmargin';
+  line-height: 1.4;
+  font-size: var(--reader-font-size);
+}
+
+.Chapter > * {
+  grid-column: 2 / 2;
+  max-width: 100%;
 }
 
 .Chapter-body {

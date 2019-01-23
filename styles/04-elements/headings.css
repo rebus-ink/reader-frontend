@@ -1,0 +1,43 @@
+h1 {
+  font-size: 2em;
+  font-size: calc(var(--reader-font-size) * 3);
+  font-weight: 600;
+  margin: 0;
+}
+
+h2 {
+  font-weight: 600;
+  font-size: calc(var(--reader-font-size) * 2);
+  margin: 0;
+}
+h3 {
+  font-weight: 400;
+  font-style: italic;
+  font-size: calc(var(--reader-font-size) * 1.5);
+  margin: 0;
+}
+h4 {
+  font-weight: normal;
+  font-size: calc(var(--reader-font-size) * 1.25);
+  margin: 0;
+}
+h5 {
+  font-weight: normal;
+  font-size: var(--reader-font-size);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+h6 {
+  font-weight: normal;
+  font-size: var(--reader-font-size);
+  margin: 0;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: var(--reader-paragraph-spacing);
+}
