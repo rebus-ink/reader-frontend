@@ -34,3 +34,7 @@
 #kss-node .kss-sidebar.kss-style .kss-nav__menu-child li a {
   padding: 0.25rem 2rem;
 }
+
+.kss-sidebar li {
+  margin: 0;
+}

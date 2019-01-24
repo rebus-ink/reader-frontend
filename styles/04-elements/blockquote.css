@@ -1,0 +1,20 @@
+blockquote {
+  margin-left: 2.5em;
+}
+
+blockquote,
+blockquote p {
+  font-size: 0.75rem;
+  font-size: calc(var(--reader-font-size) * 0.75);
+  line-height: 1.2;
+}
+
+blockquote * + * {
+  margin-top: calc(var(--reader-paragraph-spacing) * 0.5);
+}
+blockquote * {
+  margin-bottom: 0;
+}
+blockquote :first-child {
+  margin: 0;
+}

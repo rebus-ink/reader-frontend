@@ -28,7 +28,7 @@ html.is-animating main * {
   opacity: 0;
 }
 
-main :nth-child(1) {
+/* main :nth-child(1) {
   transition: 0.25s ease-in-out;
 }
 main :nth-child(2) {
@@ -57,4 +57,4 @@ main :nth-child(9) {
 }
 main :nth-child(10) {
   transition: 0.75s ease-in-out;
-}
+} */

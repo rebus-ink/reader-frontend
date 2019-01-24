@@ -167,6 +167,10 @@ p {
   font-size: var(--reader-font-size, 0.85rem);
 }
 
+figcaption {
+  text-align: right;
+  font-style: italic;
+}
 p,
 ol,
 ul,
@@ -177,6 +181,8 @@ table,
 hr,
 section,
 article,
-details {
+details,
+figcaption {
+  margin-top: var(--reader-paragraph-spacing);
   margin-bottom: var(--reader-paragraph-spacing);
 }
