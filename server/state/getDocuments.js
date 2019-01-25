@@ -4,7 +4,7 @@ function getDocuments (publication) {
   const documents = {}
   attachments.forEach(item => {
     const path = item['reader:path']
-    documents[path] = item
+    documents[decodeURIComponent(path)] = item
   })
   return documents
 }
