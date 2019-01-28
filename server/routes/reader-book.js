@@ -1,7 +1,6 @@
 const viperHTML = require('viperhtml')
 const { pageBody } = require('../../views/reader-chapter.js')
-const { pageHead } = require('../../views/page-head.js')
-const { pageFoot } = require('../../views/page-foot.js')
+const { page } = require('../../views/page.js')
 const { ensureLogin } = require('../ensure-login.js')
 const { getUserStreams } = require('../utils/get-user-streams.js')
 const express = require('express')
@@ -19,11 +18,8 @@ router.get('/reader/:bookId', ensureLogin, getUserStreams, function (
     .then(model => {
       debug('got model')
       const render = viperHTML.wire
-      res.send(
-        pageHead(render, model, req) +
-          pageBody(render, model, req) +
-          pageFoot(render, model)
-      )
+      res.set('Content-Type', 'text/html')
+      res.send(page(render, model, req, pageBody))
     })
     .catch(err => next(err))
 })

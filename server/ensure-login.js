@@ -1,6 +1,5 @@
 const viperHTML = require('viperhtml')
-const { pageHead } = require('../views/page-head.js')
-const { pageFoot } = require('../views/page-foot.js')
+const { page } = require('../views/page.js')
 const { login } = require('../views/login.js')
 
 function ensureLogin (req, res, next) {
@@ -8,11 +7,7 @@ function ensureLogin (req, res, next) {
   if (req.user) {
     next()
   } else {
-    res.send(
-      pageHead(render, { returnTo: req.path }, req) +
-        login(render, { returnTo: req.path }) +
-        pageFoot(render, { returnTo: req.path })
-    )
+    res.send(page(render, { returnTo: req.path }, req, login))
   }
 }
 

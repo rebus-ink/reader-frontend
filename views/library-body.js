@@ -3,7 +3,7 @@ import { navSidebarView } from './nav-sidebar.js'
 export const pageBody = (render, model, req) => render(
   model,
   ':libraryBody'
-)`<div class="Layout" id="layout">
+)`<body><div class="Layout" id="layout">
   ${navSidebarView(render, model, req)}
   ${libraryBooksView(render, model)}
-</div>`
+</div></body></html>`

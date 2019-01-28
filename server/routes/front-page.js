@@ -1,6 +1,5 @@
 const viperHTML = require('viperhtml')
-const { pageHead } = require('../../views/page-head.js')
-const { pageFoot } = require('../../views/page-foot.js')
+const { page } = require('../../views/page.js')
 const express = require('express')
 const router = express.Router()
 const { getUserStreams } = require('../utils/get-user-streams.js')
@@ -12,14 +11,18 @@ router.get('/', getUserStreams, function (req, res, next) {
     debug(req.path)
     return res.redirect('/library')
   } else {
+    res.set('Content-Type', 'text/html')
     res.send(
-      pageHead(render, {}, req) +
-        `<div class="FrontLayout">
-    <form action="/login?returnTo=/library" method="POST" class="FrontLayout-child">
-    <button class="Button">Log In</button>
-    </form>
-    </div>` +
-        pageFoot(render, {}, req)
+      page(
+        render,
+        {},
+        req,
+        () => `<div class="FrontLayout">
+      <form action="/login?returnTo=/library" method="POST" class="FrontLayout-child">
+      <button class="Button">Log In</button>
+      </form>
+      </div>`
+      )
     )
   }
 })

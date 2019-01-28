@@ -3,7 +3,8 @@ import { topMenuMain } from './menus-main.js'
 export const pageBody = (render, model, req) => render(
   model,
   ':libraryBody'
-)`<div class="Layout" id="layout">
+)`<body>
+<div class="Layout" id="layout">
   ${navSidebarView(render, model, req)}
   <main class="Import" id="Import">
   ${topMenuMain(render, model)}
@@ -17,4 +18,4 @@ export const pageBody = (render, model, req) => render(
   </form>
   </div>
   </main>
-</div>`
+</div></body>`

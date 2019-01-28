@@ -1,5 +1,5 @@
 import { getId } from './utils/get-id.js'
-export const pageHead = (render, model, req) => {
+export const page = (render, model, req, body) => {
   let token, id, streams
   if (req.user) {
     token = req.user.token
@@ -38,5 +38,6 @@ export const pageHead = (render, model, req) => {
 <link href="${streams.upload}" rel="rebus-upload">
 ${[base]}
 </head>
-<body>`
+${body(render, model, req)}
+</html>`
 }
