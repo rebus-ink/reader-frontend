@@ -1,7 +1,3 @@
-// @flow
-/*::
-import type {Icon, Publication, BookCard} from './types.js.flow'
-*/
 // const { getCover } = require('./getCover.js')
 const { getImage } = require('./getImage.js')
 const { getNotes } = require('./getNotes.js')

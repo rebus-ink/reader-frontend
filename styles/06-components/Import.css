@@ -1,5 +1,6 @@
 .Import {
   margin: 1rem;
+  grid-area: Main;
 }
 .Import p {
   margin: 1rem 0;

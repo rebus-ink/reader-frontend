@@ -32,6 +32,8 @@ StyleGuide 6.NavSidebar
   display: flex;
   flex-direction: column;
   z-index: 5;
+  background-color: white;
+  width: 300px;
 }
 
 .NavSidebar-title {
@@ -94,6 +96,9 @@ StyleGuide 6.NavSidebar
 
 .NavSidebar-item {
   list-style: none;
+}
+.NavSidebar-item:before {
+  content: "\200B"; /* Preserve list semantics in Safari + VoiceOver by adding a zero-width space */
 }
 
 .NavSidebar-item .NavSidebar-item .NavSidebar-link {
