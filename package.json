@@ -73,7 +73,6 @@
     "date-fns": "^1.29.0",
     "debug": "4.1.0",
     "dotenv": "6.1.0",
-    "esm": "^3.0.84",
     "express": "^4.16.3",
     "express-basic-auth": "^1.1.5",
     "got": "^9.2.2",

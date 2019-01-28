@@ -1,8 +1,8 @@
-import { bookCardView } from './book-card.js'
-import { topMenuMain } from './menus-main.js'
-import { arrify } from './util-arrify.js'
+const { bookCardView } = require('./book-card.js')
+const { topMenuMain } = require('./menus-main.js')
+const { arrify } = require('./util-arrify.js')
 // Returns a list of BookCards
-export const libraryBooksView = (render, model) => render(
+module.exports.libraryBooksView = (render, model) => render(
   model,
   ':libraryBooks'
 )`${topMenuMain(render, model)}<main class="Library" id="Library">

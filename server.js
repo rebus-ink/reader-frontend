@@ -1,5 +1,4 @@
 'use strict'
-require = require('esm')(module) // eslint-disable-line
 const express = require('express')
 const compression = require('compression')
 const cookieSession = require('cookie-session')

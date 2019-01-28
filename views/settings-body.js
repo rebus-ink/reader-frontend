@@ -1,6 +1,6 @@
-import { navSidebarView } from './nav-sidebar.js'
-import { topMenuMain } from './menus-main.js'
-export const pageBody = (render, model, req) => render(
+const { navSidebarView } = require('./nav-sidebar.js')
+const { topMenuMain } = require('./menus-main.js')
+module.exports.pageBody = (render, model, req) => render(
   model,
   ':libraryBody'
 )`<body>

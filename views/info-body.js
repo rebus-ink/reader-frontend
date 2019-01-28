@@ -1,7 +1,7 @@
-import { navSidebarView } from './nav-sidebar.js'
-import { infoCardView } from './info-card.js'
-import { returnMenu } from './menus-return.js'
-export const pageBody = (render, model, req) => render(
+const { navSidebarView } = require('./nav-sidebar.js')
+const { infoCardView } = require('./info-card.js')
+const { returnMenu } = require('./menus-return.js')
+module.exports.pageBody = (render, model, req) => render(
   model,
   ':libraryBody'
 )`<body>

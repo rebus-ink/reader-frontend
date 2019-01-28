@@ -1,4 +1,4 @@
-export const navSidebarView = (render, model, req) => {
+module.exports.navSidebarView = (render, model, req) => {
   const isSelected = path => {
     if (path === req.path) {
       return 'NavSidebar-item is-selected'

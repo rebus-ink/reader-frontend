@@ -1,6 +1,6 @@
-import { clean } from '../server/utils/sanitize-state'
+const { clean } = require('../server/utils/sanitize-state')
 
-export const chapterView = (render, model) => {
+module.exports.chapterView = (render, model) => {
   const { chapter = {} } = model
   return render(model, ':chapter')`${[clean(chapter.content)]}`
 }

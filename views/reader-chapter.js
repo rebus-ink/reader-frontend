@@ -1,7 +1,7 @@
-import { tocSidebarView } from './toc-sidebar.js'
-import { chapterView } from './chapter.js'
-import { topMenuMain } from './menus-main.js'
-export const pageBody = (render, model, req) => render(
+const { tocSidebarView } = require('./toc-sidebar.js')
+const { chapterView } = require('./chapter.js')
+const { topMenuMain } = require('./menus-main.js')
+module.exports.pageBody = (render, model, req) => render(
   model,
   ':libraryBody'
 )`<body>

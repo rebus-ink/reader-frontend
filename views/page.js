@@ -1,5 +1,5 @@
-import { getId } from './utils/get-id.js'
-export const page = (render, model, req, body) => {
+const { getId } = require('./utils/get-id.js')
+module.exports.page = (render, model, req, body) => {
   let token, id, streams
   if (req.user) {
     token = req.user.token

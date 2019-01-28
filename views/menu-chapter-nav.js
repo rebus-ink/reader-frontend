@@ -1,4 +1,4 @@
-export const menuChapterNav = (render, model) => render(
+module.exports.menuChapterNav = (render, model) => render(
   model,
   ':menuChapterNav'
 )`<nav class="Menu Menu--top Menu--right">

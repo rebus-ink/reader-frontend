@@ -1,8 +1,8 @@
-import { clean } from '../server/utils/sanitize-state'
-import { arrify } from './util-arrify.js'
-import { getId } from './utils/get-id.js'
+const { clean } = require('../server/utils/sanitize-state')
+const { arrify } = require('./util-arrify.js')
+const { getId } = require('./utils/get-id.js')
 // Need to make sure this has a return link and location markers
-export const tocSidebarView = (render, model, req) => {
+module.exports.tocSidebarView = (render, model, req) => {
   const returnURL = `/library/info/${encodeURIComponent(getId(model.id))}`
   return render(
     model,
