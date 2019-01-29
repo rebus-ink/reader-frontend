@@ -40,7 +40,6 @@ module.exports.infoCardView = (render, model, req) => {
 
 function attributionsMap (attributions = [], render) {
   return attributions.map((attribution, index) => {
-    debug(attribution)
     return render(attribution, ':infoCard-attribution')`<li><span>${
       attribution.name
     }</span> ${attribution.roles.map(
@@ -69,7 +68,6 @@ function attributionsMap (attributions = [], render) {
 function renderToC (render, model, req) {
   debug('rendering ToC')
   return arrify(model.orderedItems).map((chapter, index) => {
-    debug(chapter)
     const url = `/reader/${encodeURIComponent(getId(model.id))}/${
       chapter['reader:path']
     }`

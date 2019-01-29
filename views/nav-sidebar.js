@@ -17,10 +17,9 @@ module.exports.navSidebarView = (render, model, req) => {
   return render(
     model,
     ':navSidebarView'
-  )`<nav class="NavSidebar" id="NavSidebar" aria-labelledby="NavSidebar-title">
+  )`<nav class="NavSidebar" id="NavSidebar">
   ${topMenuMain(render, model)}
-  <h1 class="NavSidebar-title" id="NavSidebar-title">Rebus Reader</h1>
-  <ol>
+  <ol class="NavSidebar-body">
     <li class="${isSelected(
     '/library'
   )}"><a href="/library#Library" class="NavSidebar-link" aria-current=${ariaCurrent(

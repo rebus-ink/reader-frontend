@@ -2,18 +2,18 @@ const { clean } = require('../server/utils/sanitize-state')
 const { arrify } = require('./util-arrify.js')
 const { getId } = require('./utils/get-id.js')
 const { topMenuMain } = require('./menus-main.js')
+// const debug = require('debug')('vonnegut:views:tocSidebar')
 // Need to make sure this has a return link and location markers
 module.exports.tocSidebarView = (render, model, req) => {
-  const returnURL = `/library/info/${encodeURIComponent(getId(model.id))}`
   return render(
     model,
     ':tocSidebarView'
   )`<div class="NavSidebar NavSidebar--toc" id="NavSidebar">
   ${topMenuMain(render, model)}
-  <a href="${returnURL}" class="TextButton TextButton--tocReturn" aria-label="Return to Book Information">&lt; Return</a>
-  <h1 class="NavSidebar-title">${[clean(model.name)]}</h1>
-  <h2 class="NavSidebar-subtitle">Contents</h2>
-  <ol>
+  <a href="/library" class="NavSidebar-link NavSidebar-link--return NavSidebar-body" aria-label="Return to Library">Library</a>
+  <h1 class="NavSidebar-title NavSidebar-body">${[clean(model.name)]}</h1>
+  <h2 class="NavSidebar-subtitle NavSidebar-body">Contents</h2>
+  <ol class="NavSidebar-body">
 ${renderToC(render, model, req)}
   </ol>
 </div>`
@@ -25,7 +25,7 @@ function renderToC (render, model, req) {
       chapter['reader:path']
     }`
     const isSelected =
-      req.params.chapter === String(index)
+      req.params[0] === decodeURIComponent(chapter['reader:path'])
         ? 'NavSidebar-item is-selected'
         : 'NavSidebar-item'
     const ariaCurrent = req.params.chapter === String(index) ? 'page' : false
