@@ -1,3 +1,4 @@
+const { topMenuMain } = require('./menus-main.js')
 module.exports.navSidebarView = (render, model, req) => {
   const isSelected = path => {
     if (path === req.path) {
@@ -17,6 +18,7 @@ module.exports.navSidebarView = (render, model, req) => {
     model,
     ':navSidebarView'
   )`<nav class="NavSidebar" id="NavSidebar" aria-labelledby="NavSidebar-title">
+  ${topMenuMain(render, model)}
   <h1 class="NavSidebar-title" id="NavSidebar-title">Rebus Reader</h1>
   <ol>
     <li class="${isSelected(

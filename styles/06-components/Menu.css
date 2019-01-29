@@ -51,7 +51,4 @@ StyleGuide 6.Menu
 .Menu--left {
   border-right: none;
   border-left: none;
-  position: fixed;
-  top: 0.5rem;
-  left: 1rem;
 }

@@ -1,8 +1,6 @@
 .Library {
   padding: 0;
   grid-area: Main;
-  display: grid;
-  grid-template-rows: 2rem 1fr;
   padding-left: 1rem;
 }
 
@@ -17,7 +15,6 @@
   .Library-books {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -25,6 +22,5 @@
   .Library-books {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    -webkit-overflow-scrolling: touch;
   }
 }
