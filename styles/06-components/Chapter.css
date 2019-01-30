@@ -120,20 +120,7 @@ StyleGuide 6.Chapter
   margin-top: 0;
 }
 .Chapter > figure {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: var(--reader-left-margin) minmax(12em, 37em) minmax(
-      2rem,
-      1fr
-    );
-  padding: var(--reader-paragraph-spacing) 0;
-  background-color: #fafaef;
-}
-
-.Chapter > figure {
-  background-color: #fafaef;
-  border-top: 1px solid #f2f2d5;
-  border-bottom: 1px solid #f2f2d5;
+  padding: calc(var(--reader-paragraph-spacing) * 2) 0;
 }
 
 .Chapter > details[open] > summary {

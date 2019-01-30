@@ -5,12 +5,12 @@ blockquote {
 blockquote,
 blockquote p {
   font-size: 0.75rem;
-  font-size: calc(var(--reader-font-size) * 0.75);
+  font-size: calc(var(--reader-font-size) * 0.85);
   line-height: 1.2;
 }
 
 blockquote * + * {
-  margin-top: calc(var(--reader-paragraph-spacing) * 0.5);
+  margin-top: calc(var(--reader-paragraph-spacing) * 0.85);
 }
 blockquote * {
   margin-bottom: 0;
