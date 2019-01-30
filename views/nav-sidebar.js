@@ -18,7 +18,6 @@ module.exports.navSidebarView = (render, model, req) => {
     model,
     ':navSidebarView'
   )`<nav class="NavSidebar" id="NavSidebar">
-  ${topMenuMain(render, model)}
   <ol class="NavSidebar-body">
     <li class="${isSelected(
     '/library'
