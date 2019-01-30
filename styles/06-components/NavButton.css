@@ -19,7 +19,7 @@
   color: var(--link);
   border: none;
   outline: none;
-  background-color: white;
+  background-color: transparent;
 
   -ms-touch-action: manipulation;
   touch-action: manipulation;

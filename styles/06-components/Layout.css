@@ -6,16 +6,34 @@
 
 .Layout--reader {
   grid-template-columns: 0.3fr 1fr;
+  grid-template-areas:
+    'NavSidebar TopMenu'
+    'NavSidebar Main';
+  grid-template-rows: 2rem auto;
 }
 
 .Layout.is-without-menu {
   grid-template-areas: 'Main';
   grid-template-columns: 1fr;
 }
+.Layout--reader.is-without-menu {
+  grid-template-areas:
+    'TopMenu'
+    'Main';
+  grid-template-columns: 1fr;
+  grid-template-rows: 2rem auto;
+}
 
 @media (max-width: 820px) {
   .Layout {
     grid-template-areas: 'Main';
     grid-template-columns: 1fr;
+  }
+  .Layout--reader {
+    grid-template-areas:
+      'TopMenu'
+      'Main';
+    grid-template-columns: 1fr;
+    grid-template-rows: 2rem auto;
   }
 }

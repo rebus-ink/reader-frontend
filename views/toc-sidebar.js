@@ -1,7 +1,6 @@
 const { clean } = require('../server/utils/sanitize-state')
 const { arrify } = require('./util-arrify.js')
 const { getId } = require('./utils/get-id.js')
-const { topMenuMain } = require('./menus-main.js')
 // const debug = require('debug')('vonnegut:views:tocSidebar')
 // Need to make sure this has a return link and location markers
 module.exports.tocSidebarView = (render, model, req) => {
@@ -9,7 +8,6 @@ module.exports.tocSidebarView = (render, model, req) => {
     model,
     ':tocSidebarView'
   )`<div class="NavSidebar NavSidebar--toc" id="NavSidebar">
-  ${topMenuMain(render, model)}
   <a href="/library" class="NavSidebar-link NavSidebar-link--return NavSidebar-body" aria-label="Return to Library">Library</a>
   <h1 class="NavSidebar-title NavSidebar-body">${[clean(model.name)]}</h1>
   <h2 class="NavSidebar-subtitle NavSidebar-body">Contents</h2>

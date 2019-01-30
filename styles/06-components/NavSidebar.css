@@ -151,8 +151,10 @@ StyleGuide 6.NavSidebar
   grid-template-rows: auto auto auto 1fr;
   grid-template-areas: '. Main MenuButton' '. Main .';
   grid-template-columns: 1rem 1fr var(--left-nav-margin);
+  padding: 0.5rem 0;
+  background-color: #fefefc;
 }
-.Layout .Layout > .NavSidebar--toc > ol {
+.Layout > .NavSidebar--toc > ol {
   grid-column: 1 / 4;
 }
 .NavSidebar--toc .NavSidebar-link {
@@ -201,12 +203,15 @@ StyleGuide 6.NavSidebar
   }
   .Layout.is-with-menu .NavSidebar {
     position: fixed;
-    height: 99vh;
+    top: 2rem;
+    height: calc(100vh - 2rem);
     background-color: white;
     border-right: 1px solid transparent;
     display: grid;
   }
-  .Layout--reader.is-with-menu .NavSidebar {
+  .Layout.is-with-menu .NavSidebar--toc {
     border-right: 1px solid #fafaef;
+    grid-template-columns: 2rem 1fr 2rem;
+    max-width: 600px;
   }
 }

@@ -1,4 +1,3 @@
-const { topMenuMain } = require('./menus-main.js')
 module.exports.navSidebarView = (render, model, req) => {
   const isSelected = path => {
     if (path === req.path) {

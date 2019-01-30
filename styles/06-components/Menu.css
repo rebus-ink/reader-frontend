@@ -52,3 +52,10 @@ StyleGuide 6.Menu
   border-right: none;
   border-left: none;
 }
+.Menu--reader {
+  background-color: #fefefc;
+  border-bottom: 1px solid #fafaef;
+  grid-area: TopMenu;
+  position: sticky;
+  top: 0;
+}
