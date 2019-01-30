@@ -26,8 +26,10 @@ async function processChapter (url) {
     const response = await got(url)
     const window = new JSDOM(response.body).window
     const DOMPurify = createDOMPurify(window)
-    const paragraphs = window.document.body.querySelectorAll('p')
-    paragraphs.forEach(element => {
+    const symbols = window.document.body.querySelectorAll(
+      'p, h1, h2, h3, h4, h5, h6, li, table, dd, dt'
+    )
+    symbols.forEach(element => {
       element.dataset.xpath = getXPath(element)
     })
     const clean = DOMPurify.sanitize(window.document.body, { IN_PLACE: true })
