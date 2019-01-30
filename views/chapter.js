@@ -2,5 +2,6 @@ const { clean } = require('../server/utils/sanitize-state')
 
 module.exports.chapterView = (render, model) => {
   const { chapter = {} } = model
-  return render(model, ':chapter')`${[clean(chapter.content)]}`
+  const content = model.clean ? model.clean : clean(chapter.content)
+  return render(model, ':chapter')`${[content]}`
 }

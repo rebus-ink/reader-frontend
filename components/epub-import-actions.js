@@ -247,7 +247,7 @@ export async function upload (context, event) {
         console.log(err)
       }
     }
-    const filename = context.bookPrefix + resource.path
+    const filename = context.bookPrefix + decodeURI(resource.path)
     const file = new window.File([blob], filename, { type: resource.mediaType })
     const data = new window.FormData()
     data.append('file', file)
