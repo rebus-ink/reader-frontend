@@ -54,7 +54,7 @@ StyleGuide 6.Menu
 }
 .Menu--reader {
   background-color: #fefefc;
-  border-bottom: 1px solid #fafaef;
+  box-shadow: 0px 0px 20px 4px #fefefc;
   grid-area: TopMenu;
   position: sticky;
   top: 0;
