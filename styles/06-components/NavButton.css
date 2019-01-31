@@ -44,13 +44,14 @@ StyleGuide 6.NavButton
   font-size: 0.65rem;
   align-self: start;
   border-radius: 4px;
-  border: 1px solid #ccc;
+  border: 1px solid transparent;
+  background-color: var(--button-background-color);
 }
 .NavButton[aria-expanded='false'] {
   color: black;
 }
 .NavButton[aria-expanded='true'] {
-  background-color: #f6f6f6;
+  border: 1px solid #ccc;
 }
 .NavButton:hover {
   color: white;

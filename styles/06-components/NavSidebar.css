@@ -117,16 +117,16 @@ StyleGuide 6.NavSidebar
   font-size: 0.65rem;
 }
 
-.NavSidebar--toc ol {
+.NavSidebar--toc > ol {
   padding: 0;
   counter-reset: toc-counter;
 }
 
-.NavSidebar--toc ol .NavSidebar-link {
+.NavSidebar--toc > ol .NavSidebar-link {
   counter-increment: toc-counter;
 }
 
-.NavSidebar--toc ol .NavSidebar-link::before {
+.NavSidebar--toc > ol .NavSidebar-link::before {
   content: counter(toc-counter) '. ';
 }
 
@@ -151,7 +151,7 @@ StyleGuide 6.NavSidebar
   grid-template-rows: auto auto auto 1fr;
   grid-template-areas: '. Main MenuButton' '. Main .';
   grid-template-columns: 1rem 1fr var(--left-nav-margin);
-  padding: 0.5rem 0;
+  padding: 0 0 0.5rem;
   background-color: var(--reader-background-color);
 }
 .Layout > .NavSidebar--toc > ol {
@@ -163,10 +163,15 @@ StyleGuide 6.NavSidebar
 .NavSidebar--toc .NavSidebar-body {
   grid-column: 2 / 2;
 }
-.NavSidebar--toc .NavSidebar-link--return {
+.NavSidebar--toc .NavSidebar-menu {
   font-weight: bold;
   padding: 0;
   grid-column: 2/3;
+}
+.NavSidebar--toc .NavSidebar-menu .MenuButton-summary {
+  padding: 0.6rem 0.5rem;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .NavSidebar-body {

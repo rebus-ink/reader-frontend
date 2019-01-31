@@ -112,10 +112,12 @@ StyleGuide 6.Chapter
   font-family: 'Source Serif Pro', serif;
   background-color: var(--reader-background-color);
   display: grid;
-  grid-template-columns: var(--reader-left-margin) minmax(
+  grid-template-columns:
+    var(--reader-left-margin) minmax(
       var(--reader-min-column-width),
       var(--reader-max-column-width)
-    ) minmax(2rem, 1fr);
+    )
+    minmax(3rem, 1fr);
   grid-template-areas: 'leftmargin maintext rightmargin';
   line-height: var(--reader-line-height);
   font-size: var(--reader-font-size);

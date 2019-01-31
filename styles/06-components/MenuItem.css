@@ -1,0 +1,81 @@
+/*
+MenuItem
+
+Basic text button component.
+
+Markup:
+<button class="MenuItem {{modifier_class}}">This is a Text Button</button>
+
+.MenuItem:hover - hover state
+.MenuItem:focus - focus state
+.MenuItem:active - active state
+.MenuItem--disabled - disabled state (also styles the `disabled` attribute)
+.MenuItem--disabled:focus - disabled state (also styles the `disabled` attribute)
+.MenuItem--warning - only click this if you really know what you're doing
+.MenuItem--toggled - toggle state is on
+
+StyleGuide 6.MenuItem
+
+*/
+
+.MenuItem {
+  font-family: var(--sans-fonts);
+  font-weight: 400;
+  flex: 0 1 auto;
+  line-height: 1.2;
+  padding: 0.35rem 1rem;
+
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-align: left;
+  white-space: nowrap;
+  text-decoration: none;
+
+  color: var(--link);
+  border: none;
+  outline: none;
+  background-color: transparent;
+
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  font-size: 0.65rem;
+  display: block;
+}
+.MenuItem:hover {
+  text-decoration: none;
+  box-shadow: none;
+  outline: none;
+  text-decoration: none;
+  background-color: var(--link);
+  color: white;
+}
+
+.MenuItem:active {
+  color: var(--active);
+}
+
+.MenuItem:focus {
+  outline: none;
+  text-decoration: none;
+  background-color: var(--link);
+  color: white;
+  box-shadow: none;
+}
+
+.MenuItem[disabled],
+.MenuItem--disabled,
+.MenuItem[disabled]:hover,
+.MenuItem--disabled:hover {
+  color: var(--disabled);
+  cursor: not-allowed;
+}
+.MenuItem[disabled]:focus,
+.MenuItem--disabled:focus {
+  color: white;
+  border-color: var(--disabled);
+  background-color: var(--disabled);
+  box-shadow: inset 0 0px 2px 0 rgba(0, 66, 98, 0.15);
+}
