@@ -147,12 +147,12 @@ StyleGuide 6.NavSidebar
 }
 .Layout > .NavSidebar--toc {
   display: grid;
-  border-right: 1px solid #fafaef;
+  border-right: 1px solid var(--reader-border-color);
   grid-template-rows: auto auto auto 1fr;
   grid-template-areas: '. Main MenuButton' '. Main .';
   grid-template-columns: 1rem 1fr var(--left-nav-margin);
   padding: 0.5rem 0;
-  background-color: #fefefc;
+  background-color: var(--reader-background-color);
 }
 .Layout > .NavSidebar--toc > ol {
   grid-column: 1 / 4;

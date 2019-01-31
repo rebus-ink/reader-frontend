@@ -88,28 +88,38 @@ StyleGuide 6.Chapter
 
 */
 
-.Chapter {
-  --reader-font-size: 0.85rem;
-  --reader-paragraph-spacing: 0.65rem;
+:root {
+  --reader-font-size: 1rem;
+  --reader-paragraph-spacing: 0.75rem;
   --reader-left-margin: 2rem;
-  grid-area: Main;
-  font-family: 'Source Serif Pro', serif;
-  background-color: #fefefc;
-  display: grid;
-  grid-template-columns: var(--reader-left-margin) minmax(12em, 37em) minmax(
-      2rem,
-      1fr
-    );
-  grid-template-areas: 'leftmargin maintext rightmargin';
-  line-height: 1.4;
-  font-size: var(--reader-font-size);
+  --reader-text-color: #444;
+  --reader-min-column-width: 12em;
+  --reader-max-column-width: 37em;
+  --reader-background-color: #fefefc;
+  --reader-border-color: #fafaef;
+  --reader-line-height: 1.35;
 }
 @media (max-width: 820px) {
-  .Chapter {
-    --reader-font-size: 0.75rem;
-    --reader-paragraph-spacing: 0.55rem;
+  :root {
+    --reader-font-size: 0.85rem;
+    --reader-paragraph-spacing: 0.65rem;
     --reader-left-margin: 2rem;
   }
+}
+
+.Chapter {
+  grid-area: Main;
+  font-family: 'Source Serif Pro', serif;
+  background-color: var(--reader-background-color);
+  display: grid;
+  grid-template-columns: var(--reader-left-margin) minmax(
+      var(--reader-min-column-width),
+      var(--reader-max-column-width)
+    ) minmax(2rem, 1fr);
+  grid-template-areas: 'leftmargin maintext rightmargin';
+  line-height: var(--reader-line-height);
+  font-size: var(--reader-font-size);
+  color: var(--reader-text-color);
 }
 
 .Chapter > *,

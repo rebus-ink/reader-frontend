@@ -162,7 +162,7 @@ template {
 }
 
 p {
-  line-height: 1.4;
+  line-height: var(--reader-line-height);
   font-size: 0.85rem;
   font-size: var(--reader-font-size, 0.85rem);
 }
