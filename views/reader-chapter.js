@@ -11,7 +11,7 @@ module.exports.pageBody = (render, model, req) => render(
 <ul class="Menu-list">
   <li>${topMenuMain(render, model)}</li>
   <li>
-  <details class="MenuButton NavSidebar-menu NavSidebar-body">
+  <details class="MenuButton">
 <summary class="MenuButton-summary">${[clean(model.book.name)]}</summary>
 <ol class="MenuButton-body">
 <li><a href="/library" class="MenuItem">Return to Library</a></li>
@@ -22,7 +22,7 @@ module.exports.pageBody = (render, model, req) => render(
 </ol>
 </details></li>
 <li>
-<details class="MenuButton NavSidebar-menu NavSidebar-body">
+<details class="MenuButton">
 <summary class="MenuButton-summary">Headings</summary>
 <ol class="MenuButton-body">
 <li><a href="/library" class="MenuItem">Return to Library</a></li>
