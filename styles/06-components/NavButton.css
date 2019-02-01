@@ -47,6 +47,9 @@ StyleGuide 6.NavButton
   border: 1px solid transparent;
   background-color: var(--button-background-color);
 }
+.NavButton svg {
+  height: 18px;
+}
 .NavButton[aria-expanded='false'] {
   color: black;
 }

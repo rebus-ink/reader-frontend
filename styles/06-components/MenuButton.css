@@ -36,6 +36,7 @@ StyleGuide 6.MenuButton
   display: inline-block;
   margin: 0;
   padding: 0;
+  z-index: 99;
 }
 .MenuButton-summary {
   font-family: var(--sans-fonts);
@@ -62,7 +63,6 @@ StyleGuide 6.MenuButton
 
   -ms-touch-action: manipulation;
   touch-action: manipulation;
-  text-transform: uppercase;
   font-size: 0.65rem;
   align-self: start;
   border-radius: 4px;
@@ -142,6 +142,7 @@ StyleGuide 6.MenuButton
   border-top-left-radius: 0;
   margin: 0;
   padding: 0.25rem 0;
+  min-width: 100%;
 }
 
 .MenuButton-body--right {

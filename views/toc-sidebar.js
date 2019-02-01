@@ -8,16 +8,6 @@ module.exports.tocSidebarView = (render, model, req) => {
     model,
     ':tocSidebarView'
   )`<div class="NavSidebar NavSidebar--toc" id="NavSidebar">
-  <details class="MenuButton NavSidebar-menu NavSidebar-body">
-<summary class="MenuButton-summary">Library</summary>
-<ol class="MenuButton-body">
-<li><a href="/library" class="MenuItem">Return to Library</a></li>
-<li><hr class="MenuButton-separator"></li>
-<li><a href="${req.path + '?notes=true'}" class="MenuItem">Notes view</a></li>
-<li><a href="${req.path +
-    '?settings=true'}" class="MenuItem">Reading Settings</a></li>
-</ol>
-</details>
   <h1 class="NavSidebar-title NavSidebar-body">${[clean(model.name)]}</h1>
   <h2 class="NavSidebar-subtitle NavSidebar-body">Contents</h2>
   <ol class="NavSidebar-body">

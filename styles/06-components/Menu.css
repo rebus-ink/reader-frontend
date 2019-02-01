@@ -30,7 +30,10 @@ StyleGuide 6.Menu
   z-index: 100;
 }
 .Menu li {
-  margin-right: 1rem;
+  margin: 0 0.25rem;
+}
+.Menu li:first-child {
+  margin-left: var(--reader-left-margin);
 }
 .Menu-list {
   display: flex;
