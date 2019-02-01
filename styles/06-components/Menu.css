@@ -29,10 +29,10 @@ StyleGuide 6.Menu
   margin: 0;
   z-index: 100;
 }
-.Menu li {
+.Menu > ul > li {
   margin: 0 0.25rem;
 }
-.Menu li:first-child {
+.Menu > ul > li:first-child {
   margin-left: var(--reader-left-margin);
 }
 .Menu-list {
