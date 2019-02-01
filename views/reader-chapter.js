@@ -32,6 +32,10 @@ module.exports.pageBody = (render, model, req) => render(
   '?settings=true'}" class="MenuItem">Reading Settings</a></li>
 </ol>
 </details></li>
+</ul>
+<ul class="Layout-floating-buttons">
+<li>
+<button class="Button Button--highlight">Highlight</button></li>
 <li><a href="#" aria-label="Previous chapter" class="ArrowButton ArrowButton--previous"><svg viewBox="0 0 10 10" width="36" height="36" fill="currentColor">
 <path d="m9 4h-4v-2l-4 3 4 3v-2h4z"/>
 </svg></li>

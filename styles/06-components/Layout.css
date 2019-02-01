@@ -5,13 +5,21 @@
 }
 
 .Layout--reader {
-  grid-template-columns: minmax(auto, 0.4fr) 1fr;
+  grid-template-columns: minmax(auto, 400px) 1fr;
   grid-template-areas:
     'NavSidebar TopMenu'
     'NavSidebar Main';
   grid-template-rows: auto auto;
 }
 
+.Layout--reader .Layout-floating-buttons {
+  position: fixed;
+  bottom: 0.5rem;
+  right: 1rem;
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
 .Layout.is-without-menu {
   grid-template-areas: 'Main';
   grid-template-columns: 1fr;

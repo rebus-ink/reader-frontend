@@ -46,6 +46,7 @@ StyleGuide 6.ArrowButton
   font-size: 0.65rem;
   border-radius: 100%;
   background-color: var(--button-background-color);
+  box-shadow: 0 1px 2px 0 rgba(98, 98, 98, 0.5);
 }
 .ArrowButton:hover {
   color: white;
@@ -87,7 +88,7 @@ StyleGuide 6.ArrowButton
   transform: translate(1px, 1px);
 }
 
-.Layout--reader .ArrowButton {
+/* .Layout--reader .ArrowButton {
   position: fixed;
   bottom: 0.5rem;
 }
@@ -96,4 +97,4 @@ StyleGuide 6.ArrowButton
 }
 .Layout--reader .ArrowButton--next {
   right: 1rem;
-}
+} */
