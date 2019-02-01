@@ -32,6 +32,12 @@ module.exports.pageBody = (render, model, req) => render(
   '?settings=true'}" class="MenuItem">Reading Settings</a></li>
 </ol>
 </details></li>
+<li><a href="#" aria-label="Previous chapter" class="ArrowButton ArrowButton--previous"><svg viewBox="0 0 10 10" width="36" height="36" fill="currentColor">
+<path d="m9 4h-4v-2l-4 3 4 3v-2h4z"/>
+</svg></li>
+<li><a href="#" aria-label="Next chapter" class="ArrowButton ArrowButton--next"><svg viewBox="0 0 10 10" width="36" height="36" fill="currentColor">
+<path d="m1 4h4v-2l4 3-4 3v-2h-4z"/>
+</svg></li>
 </ul>
 </nav>
   <main id="chapter" class="Chapter">
