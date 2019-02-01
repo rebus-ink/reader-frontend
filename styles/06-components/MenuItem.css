@@ -43,6 +43,8 @@ StyleGuide 6.MenuItem
   touch-action: manipulation;
   font-size: 0.65rem;
   display: block;
+  display: flex;
+  justify-content: space-between;
 }
 .MenuItem:hover {
   text-decoration: none;

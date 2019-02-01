@@ -24,6 +24,18 @@ Markup:
 <li><button class="MenuItem">This is a Menu Button</button></li>
 <li><button class="MenuItem">This is a Menu Button</button></li>
 </ol>
+</details><details class="MenuButton MenuButton--annotation">
+<summary class="MenuButton-summary MenuButton-summary--annotation" aria-label="Marker">&nbsp;</summary>
+<ol class="MenuButton-body MenuButton-body--right">
+<li><label class="MenuItem"><input type="radio" id="None" name="drone" value="None"
+         checked><span><strong>.</strong> (None)</label></span></li>
+<li><label class="MenuItem"><input type="radio" id="Notable" name="drone" value="Notable"> <span><strong>*</strong> (Notable)</span></label></li>
+<li><label class="MenuItem"><input type="radio" id="Agree" name="drone" value="Agree"> <span><strong>✓</strong> (Agree)</span></label></li>
+<li><label class="MenuItem"><input type="radio" id="Disagree" name="drone" value="Disagree"> <span><strong>x</strong> (Disagree)</span></label></li>
+<li><label class="MenuItem"><input type="radio" id="Maybe" name="drone" value="Maybe"> <span><strong>~</strong> (Maybe)</span></label></li>
+<li><button class="MenuItem">Custom marker...</button></li>
+<li><button class="MenuItem">Add short note...</button></li>
+</ol>
 </details>
 
 StyleGuide 6.MenuButton
@@ -158,4 +170,18 @@ StyleGuide 6.MenuButton
 .MenuButton-separator {
   margin: 0.25rem 0;
   border-color: #e9e9e9;
+}
+
+@media (pointer: fine) {
+  .MenuButton-summary--annotation {
+    color: #666;
+    background-color: transparent;
+  }
+  .MenuButton[open] .MenuButton-summary--annotation {
+    background-color: var(--button-background-color);
+  }
+}
+
+.MenuButton strong {
+  font-weight: 900;
 }
