@@ -1,3 +1,3 @@
 window.swup = new window.Swup({
-  elements: ['main', '#NavSidebar']
+  elements: ['main', '#NavSidebar', '#NavMenu']
 })

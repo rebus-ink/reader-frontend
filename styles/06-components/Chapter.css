@@ -93,7 +93,7 @@ StyleGuide 6.Chapter
   --reader-paragraph-spacing: 0.75rem;
   --reader-left-margin: 2rem;
   --reader-text-color: #444;
-  --reader-min-column-width: 12em;
+  --reader-min-column-width: min-content;
   --reader-max-column-width: 37em;
   --reader-background-color: #fefefc;
   --reader-border-color: #fafaef;
@@ -122,6 +122,10 @@ StyleGuide 6.Chapter
   line-height: var(--reader-line-height);
   font-size: var(--reader-font-size);
   color: var(--reader-text-color);
+}
+.Chapter div {
+  margin-top: var(--reader-paragraph-spacing);
+  margin-bottom: var(--reader-paragraph-spacing);
 }
 
 .Chapter > *,

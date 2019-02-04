@@ -1,13 +1,14 @@
 const { tocSidebarView } = require('./toc-sidebar.js')
 const { chapterView } = require('./chapter.js')
 const { topMenuMain } = require('./menus-main.js')
+const { floatingButtons } = require('./floating-buttons.js')
 const { clean } = require('../server/utils/sanitize-state')
 module.exports.pageBody = (render, model, req) => render(
   model,
   ':libraryBody'
 )`<body class="Layout Layout--reader">
   ${tocSidebarView(render, model.book, req)}
-  <nav class="Menu Menu--reader">
+  <nav class="Menu Menu--reader" id="NavMenu">
 <ul class="Menu-list">
   <li>${topMenuMain(render, model)}</li>
   <li>
@@ -33,16 +34,7 @@ module.exports.pageBody = (render, model, req) => render(
 </ol>
 </details></li>
 </ul>
-<ul class="Layout-floating-buttons">
-<li>
-<button class="Button Button--highlight">Highlight</button></li>
-<li><a href="#" aria-label="Previous chapter" class="ArrowButton ArrowButton--previous"><svg viewBox="0 0 10 10" width="36" height="36" fill="currentColor">
-<path d="m9 4h-4v-2l-4 3 4 3v-2h4z"/>
-</svg></li>
-<li><a href="#" aria-label="Next chapter" class="ArrowButton ArrowButton--next"><svg viewBox="0 0 10 10" width="36" height="36" fill="currentColor">
-<path d="m1 4h4v-2l4 3-4 3v-2h-4z"/>
-</svg></li>
-</ul>
+${floatingButtons(render, model, req)}
 </nav>
   <main id="chapter" class="Chapter">
   ${chapterView(render, model)}</main></body>`

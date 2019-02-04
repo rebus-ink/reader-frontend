@@ -72,6 +72,8 @@ StyleGuide 6.ArrowButton
 .ArrowButton--disabled:hover {
   color: var(--disabled);
   cursor: not-allowed;
+  pointer-events: none;
+  background-color: var(--button-background-color);
 }
 .ArrowButton[disabled]:focus,
 .ArrowButton--disabled:focus {

@@ -5,6 +5,7 @@ module.exports.pageBody = (render, model, req) => render(
 )`<body>
 <div class="Layout" id="layout">
   ${navSidebarView(render, model, req)}
+  <nav class="Menu Menu--reader" id="NavMenu"></nav>
   <main class="Import" id="Import">
   <div>
   <h2>Import</h2>

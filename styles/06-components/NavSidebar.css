@@ -67,6 +67,8 @@ StyleGuide 6.NavSidebar
   box-shadow: none;
   color: var(--link);
   font-family: var(--sans-fonts);
+}
+a.NavSidebar-link {
   text-decoration: none;
 }
 
@@ -79,13 +81,13 @@ StyleGuide 6.NavSidebar
   background-color: white;
   font-weight: 800;
 }
-.NavSidebar-link:hover {
+.NavSidebar .NavSidebar-link:hover {
   color: white;
   background-color: var(--link);
   box-shadow: none;
   border-right-color: #003366;
 }
-.NavSidebar-link:focus {
+.NavSidebar .NavSidebar-link:focus {
   margin: 0;
   box-shadow: none;
   border-radius: 0;

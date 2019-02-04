@@ -5,4 +5,5 @@ module.exports.pageBody = (render, model, req) => render(
   ':libraryBody'
 )`<body class="Layout" id="layout">
   ${navSidebarView(render, model, req)}
+  <nav class="Menu Menu--reader" id="NavMenu"></nav>
   ${libraryBooksView(render, model)}</body></html>`
