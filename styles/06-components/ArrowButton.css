@@ -48,7 +48,7 @@ StyleGuide 6.ArrowButton
   background-color: var(--button-background-color);
   box-shadow: 0 1px 2px 0 rgba(98, 98, 98, 0.5);
 }
-.ArrowButton:hover {
+a.ArrowButton:hover {
   color: white;
   background-color: var(--link);
   text-decoration: none;

@@ -46,6 +46,10 @@ StyleGuide 6.MenuItem
   display: flex;
   justify-content: space-between;
 }
+
+a.MenuItem {
+  text-decoration: none;
+}
 .MenuItem:hover {
   text-decoration: none;
   box-shadow: none;
