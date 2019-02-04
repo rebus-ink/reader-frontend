@@ -24,7 +24,7 @@ router.get('/reader/:bookId/*', ensureLogin, getUserStreams, function (
         return processChapter(getAlternate(model.chapter)).then(clean => {
           model.clean = clean
           const render = viperHTML.wire
-          res.set('Content-Type', 'text/html')
+          res.type('html')
           return res.send(page(render, model, req, pageBody))
         })
       } else {

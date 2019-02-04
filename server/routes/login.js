@@ -20,7 +20,7 @@ router.get('/login', function (req, res, next) {
     res.redirect(req.session.returnTo || '/')
   }
   const render = viperHTML.wire
-  res.set('Content-Type', 'text/html')
+  res.type('html')
   res.send(
     page(
       render,

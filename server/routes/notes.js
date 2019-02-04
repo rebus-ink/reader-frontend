@@ -29,7 +29,7 @@ router.get('/library/notes', ensureLogin, getUserStreams, function (
   return getNotesState(req, res)
     .then(model => {
       const render = viperHTML.wire
-      res.set('Content-Type', 'text/html')
+      res.type('html')
       res.send(page(render, model, req, pageBody))
     })
     .catch(err => next(err))

@@ -19,7 +19,7 @@ router.get('/library/import', ensureLogin, getUserStreams, function (
     .then(model => {
       const render = viperHTML.wire
       debug('got model')
-      res.set('Content-Type', 'text/html')
+      res.type('html')
       res.send(page(render, model, req, pageBody))
     })
     .catch(err => next(err))

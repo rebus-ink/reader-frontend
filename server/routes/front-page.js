@@ -11,7 +11,7 @@ router.get('/', getUserStreams, function (req, res, next) {
     debug(req.path)
     return res.redirect('/library')
   } else {
-    res.set('Content-Type', 'text/html')
+    res.type('html')
     res.send(
       page(
         render,

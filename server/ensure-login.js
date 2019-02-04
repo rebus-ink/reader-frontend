@@ -7,7 +7,8 @@ function ensureLogin (req, res, next) {
   if (req.user) {
     next()
   } else {
-    res.send(page(render, { returnTo: req.path }, req, login))
+    res.type('html')
+    res.send(page(render, { returnTo: req.path }, req, login).toString())
   }
 }
 

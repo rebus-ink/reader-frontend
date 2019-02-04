@@ -1,5 +1,6 @@
 const debug = require('debug')('vonnegut:utils:get-user-streams')
 function getUserStreams (req, res, next) {
+  debug('is this even being called')
   if (req.user) {
     debug(req.user.id)
     const { reader = {} } = req.user

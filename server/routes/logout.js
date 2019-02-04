@@ -8,7 +8,7 @@ const debug = require('debug')('vonnegut:routes:import')
 router.get('/logout', getUserStreams, function (req, res, next) {
   const render = viperHTML.wire
   debug(req.user)
-  res.set('Content-Type', 'text/html')
+  res.type('html')
   res.send(
     page(
       render,
