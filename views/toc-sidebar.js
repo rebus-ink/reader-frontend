@@ -7,13 +7,15 @@ module.exports.tocSidebarView = (render, model, req) => {
   return render(
     model,
     ':tocSidebarView'
-  )`<div class="NavSidebar NavSidebar--toc" id="NavSidebar">
-  <h1 class="NavSidebar-title NavSidebar-body">${[clean(model.name)]}</h1>
-  <h2 class="NavSidebar-subtitle NavSidebar-body">Contents</h2>
+  )`<nav class="NavSidebar NavSidebar--toc" id="NavSidebar" aria-labelledby="navsidebar-label">
+  <p class="NavSidebar-title NavSidebar-body" id="navsidebar-label">${[
+    clean(model.name)
+  ]}</p>
+  <p class="NavSidebar-subtitle NavSidebar-body">Contents</p>
   <ol class="NavSidebar-body">
 ${renderToC(render, model, req)}
   </ol>
-</div>`
+</nav>`
 }
 
 function renderToC (render, model, req) {
