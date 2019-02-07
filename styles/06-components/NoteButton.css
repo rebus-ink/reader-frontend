@@ -1,0 +1,76 @@
+.NoteButton {
+  font-family: var(--sans-fonts);
+  font-size: 1.25rem;
+  flex: 0 1 auto;
+  line-height: 1;
+
+  display: inline-block;
+
+  padding: 0.1rem 0.2rem 0.2rem;
+
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-align: center;
+  white-space: nowrap;
+  text-decoration: none;
+
+  color: var(--link);
+  outline: none;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  background-color: transparent;
+
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  transition: box-shadow 0.15s ease-in-out;
+  position: absolute;
+  left: -1.6rem;
+  bottom: 0;
+}
+
+.NoteButton:hover {
+  color: white;
+  background-color: var(--link);
+}
+
+.NoteButton:focus {
+  outline: none;
+  border-color: #999;
+  background-color: var(--button-background-color);
+}
+
+.NoteButton:active {
+  transform: translate(1px, 1px);
+  color: var(--active);
+  border-color: var(--active);
+  background-color: var(--button-background-color);
+}
+
+.NoteButton[disabled],
+.NoteButton--disabled,
+.NoteButton--disabled:hover {
+  color: white;
+  border-color: var(--disabled);
+  background-color: var(--disabled);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+.NoteButton[disabled]:focus,
+.NoteButton--disabled:focus {
+  border-color: #999;
+  background-color: var(--disabled);
+  box-shadow: inset 0 0px 2px 0 rgba(0, 66, 98, 0.15);
+}
+
+@media (hover: hover) {
+  .NoteButton {
+    opacity: 0;
+  }
+  .NoteButton:focus,
+  :hover > .NoteButton {
+    opacity: 1;
+  }
+}

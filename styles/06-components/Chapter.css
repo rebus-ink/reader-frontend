@@ -98,6 +98,7 @@ StyleGuide 6.Chapter
   --reader-background-color: #fefefc;
   --reader-border-color: #fafaef;
   --reader-line-height: 1.35;
+  --reader-font-family: 'Source Serif Pro', serif;
 }
 @media (max-width: 820px) {
   :root {
@@ -109,7 +110,7 @@ StyleGuide 6.Chapter
 
 .Chapter {
   grid-area: Main;
-  font-family: 'Source Serif Pro', serif;
+  font-family: var(--reader-font-family);
   background-color: var(--reader-background-color);
   display: grid;
   grid-template-columns:
@@ -122,6 +123,7 @@ StyleGuide 6.Chapter
   line-height: var(--reader-line-height);
   font-size: var(--reader-font-size);
   color: var(--reader-text-color);
+  padding-top: 2rem;
 }
 .Chapter div {
   margin-top: var(--reader-paragraph-spacing);
@@ -150,4 +152,13 @@ StyleGuide 6.Chapter
 
 .Chapter-body {
   padding: 1rem 0;
+}
+
+#sidebar {
+  grid-column: 3 / -1;
+  z-index: -1;
+}
+
+[data-xpath] {
+  position: relative;
 }

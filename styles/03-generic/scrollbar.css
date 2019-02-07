@@ -1,4 +1,4 @@
-::-webkit-scrollbar-track {
+/* ::-webkit-scrollbar-track {
   background-color: var(--light);
   border-radius: 0;
   border: none;
@@ -34,4 +34,4 @@
 html {
   scrollbar-face-color: #999;
   scrollbar-track-color: var(--light);
-}
+} */

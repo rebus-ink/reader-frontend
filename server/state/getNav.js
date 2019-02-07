@@ -8,7 +8,6 @@ function getNav (publication, req) {
   const current = items.filter(chapter => {
     return currentPath === decodeURIComponent(chapter['reader:path'])
   })[0]
-  debug(current)
   const index = items.indexOf(current)
   const previous = items[index - 1]
   const next = items[index + 1]

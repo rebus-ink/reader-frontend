@@ -1,0 +1,28 @@
+div.ReaderNote {
+  margin-left: -2rem;
+  padding: 0.5rem;
+  padding-left: calc(var(--sidebar-width) * 0.25 + 2rem);
+  padding-right: calc(var(--sidebar-width) * 0.75);
+  background-color: #ffffba;
+  box-sizing: content-box;
+  width: 100%;
+}
+
+.ReaderNote label,
+.ReaderNote textarea {
+  display: block;
+}
+
+.ReaderNote-textarea {
+  outline: none;
+  background-color: transparent;
+  border: none;
+  padding-left: 1rem;
+  padding-top: 0.35rem;
+  font-family: var(--reader-font-family);
+  width: 100%;
+}
+.ReaderNote-textarea:focus,
+.ReaderNote-textarea:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}

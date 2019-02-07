@@ -24,6 +24,8 @@ module.exports.page = (render, model, req, body) => {
 <head>
 <link media="all" rel="stylesheet" href="/static/styles/app.css">
 <title>Rebus Reader</title>
+<script src="/js/wicked-elements.min.js"></script>
+<script src="/js/lighterhtml.min.js"></script>
 <script src="/js/document-register-element.js"></script>
 <script src="/js/jszip.min.js"></script>
 <script src="/js/swup.min.js"></script>
@@ -32,6 +34,7 @@ module.exports.page = (render, model, req, body) => {
 <script src="/components/fetch.js" type="module"></script>
 <script src="/components/epub-import-actions.js" type="module"></script>
 <script src="/components/epub-import-component.js" type="module"></script>
+<script src="/components/marker.js" type="module"></script>
 <meta name="jwt-meta" content="${token}">
 <meta name="rebus-user-id" content="${id}">
 <link href="${streams.outbox}" rel="rebus-outbox">

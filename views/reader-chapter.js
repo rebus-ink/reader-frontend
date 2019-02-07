@@ -37,4 +37,4 @@ module.exports.pageBody = (render, model, req) => render(
 ${floatingButtons(render, model, req)}
 </nav>
   <main id="chapter" class="Chapter">
-  ${chapterView(render, model)}</main></body>`
+  ${chapterView(render, model)}<div id="sidebar"></div></main></body>`
