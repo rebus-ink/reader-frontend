@@ -26,3 +26,7 @@ div.ReaderNote {
 .ReaderNote-textarea:hover {
   background-color: rgba(255, 255, 255, 0.9);
 }
+
+reader-highlight {
+  background-color: #ffff98;
+}

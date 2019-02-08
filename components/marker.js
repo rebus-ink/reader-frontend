@@ -6,14 +6,15 @@ wickedElements.define('[data-xpath]', {
     this.el = event.currentTarget
     const xpath = this.el.dataset.xpath
     const formId = 'marker-' + xpath
-    const button = html`<button class="NoteButton" is="note-button">+</button>`
+    const button = html`<button class="NoteButton" is="note-button"><svg viewBox="0 0 10 10" fill="currentColor" stroke="transparent" width="20" height="20">
+    <path d="m1 4h8v2h-8zm3-3h2v8h-2z"></path>
+  </svg></button>`
     this.el.appendChild(button)
-    const marker = html`<form data-for-xpath="${xpath}" is="marker-input" class="MarkerInput"><label class="visuallyhidden" for="${formId}">Sidebar Note</label><textarea id="${formId}" class="MarkerInput-textarea"></textarea></form>`
+    const marker = html`<form data-for-xpath="${xpath}" is="marker-input" class="MarkerInput"><textarea id="${formId}" class="MarkerInput-textarea" data-reader="true" aria-label="Sidebar Note"></textarea></form>`
     this.el.appendChild(marker)
     // Find dropdown marker element in sidebar
   },
   onconnected (event) {
-    console.log(this.marker)
     // // add position attributes to marker
   },
   ondisconnected (event) {
@@ -28,7 +29,6 @@ wickedElements.define('#sidebar', {
       '--sidebar-width',
       element.offsetWidth + 'px'
     )
-    console.log(element, element.offsetWidth)
   }
 })
 
@@ -39,6 +39,7 @@ wickedElements.define('[is="marker-input"]', {
     this.textarea.addEventListener('focus', this)
     this.textarea.addEventListener('blur', this)
     this.textarea.addEventListener('paste', this)
+    this.el.dataset.reader = true
   },
   onfocus (event) {
     this.el.classList.add('MarkerInput--focused')
@@ -53,6 +54,7 @@ wickedElements.define('[is="note-button"]', {
   onconnected (event) {
     this.xpath = event.currentTarget.closest('[data-xpath]')
     event.currentTarget.addEventListener('click', this)
+    event.currentTarget.dataset.reader = true
   },
   onclick (event) {
     const { xpath } = this
@@ -81,9 +83,8 @@ wickedElements.define('.MarkerInput-textarea', {
 function note (xpath) {
   const noteId = makeNoteId(xpath)
   const textareaId = noteId + '-textarea'
-  return html`<div class="ReaderNote" id="${noteId}">
-    <label for="${textareaId}" class="visuallyhidden">Note</label>
-    <textarea class="ReaderNote-textarea" id="${textareaId}"></textarea>
+  return html`<div class="ReaderNote" id="${noteId}" data-reader="true">
+    <textarea class="ReaderNote-textarea" id="${textareaId}" data-reader="true" aria-label="Note"></textarea>
   </div>`
 }
 
