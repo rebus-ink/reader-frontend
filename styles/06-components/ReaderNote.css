@@ -1,9 +1,9 @@
 div.ReaderNote {
   margin-left: -2rem;
   padding: 0.5rem;
-  padding-left: calc(var(--sidebar-width) * 0.25 + 2rem);
-  padding-right: calc(var(--sidebar-width) * 0.75);
-  background-color: #ffffba;
+  padding-left: 1rem;
+  padding-right: 2rem;
+  background-color: #ffff98;
   box-sizing: content-box;
   width: 100%;
 }

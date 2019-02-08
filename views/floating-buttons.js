@@ -5,7 +5,7 @@ module.exports.floatingButtons = (render, model, req) => {
   const { next, previous } = book.navigation
   return render(model, ':floatingButtons')`<ul class="Layout-floating-buttons">
   <li>
-  <button class="Button Button--highlight">Highlight</button></li>
+  <button class="Button Button--highlight" is="highlight-button">Highlight</button></li>
   <li>${previousButton(render, book, previous, req)}</li>
   <li>${nextButton(render, book, next, req)}</li>
   </ul>`
