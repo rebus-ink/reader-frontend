@@ -11,6 +11,7 @@ wickedElements.define('[is="highlight-button"]', {
     if (selection.isCollapsed) return null
     for (let index = 0; index < selection.rangeCount; index++) {
       const range = selection.getRangeAt(index)
+      // Empty textareas temporarily while highlighting. then refill
       const rangeString = range.toString()
       console.log(rangeString)
       highlightString(rangeString)
@@ -83,3 +84,10 @@ function highlightString (text) {
 }
 
 window.highlightString = highlightString
+// Get range
+// Split text node at end and start.
+// Iterate to start
+// iterate through range, building fresh sub ranges that don't include ui elements
+// Turn arrays of ranges into flat array of strings.
+// Call highlightString on each string in array.
+// Highlight string root should be main/chapter

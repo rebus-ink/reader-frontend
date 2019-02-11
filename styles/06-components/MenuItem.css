@@ -50,7 +50,8 @@ StyleGuide 6.MenuItem
 a.MenuItem {
   text-decoration: none;
 }
-.MenuItem:hover {
+.MenuItem:hover,
+.MenuItem:link:hover {
   text-decoration: none;
   box-shadow: none;
   outline: none;

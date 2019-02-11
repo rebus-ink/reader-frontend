@@ -71,7 +71,6 @@ StyleGuide 6.MenuButton
   color: var(--link);
   border: none;
   outline: none;
-  background-color: transparent;
 
   -ms-touch-action: manipulation;
   touch-action: manipulation;
@@ -80,7 +79,17 @@ StyleGuide 6.MenuButton
   border-radius: 4px;
   position: relative;
   width: auto;
+  border: 1px solid #e0e0e0;
   background-color: var(--button-background-color);
+  background-image: linear-gradient(
+    -180deg,
+    var(--button-background-color) 0%,
+    #f3f3f3 100%
+  );
+  box-shadow: inset 0 1px 3px 0px rgba(255, 255, 255, 0.75),
+    inset 0 2px 5px 1px hsla(0, 0%, 74.9%, 0.1),
+    0 1px 1px 0 hsla(0, 0%, 54.9%, 0.1);
+  text-shadow: 0 2px 2px rgba(191, 191, 191, 0.2);
 }
 
 .MenuButton-summary {
@@ -109,6 +118,8 @@ StyleGuide 6.MenuButton
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   border-bottom-color: transparent;
+  background-image: none;
+  border-color: transparent;
 }
 .MenuButton-summary:hover,
 .MenuButton[open] .MenuButton-summary:hover {
@@ -116,6 +127,8 @@ StyleGuide 6.MenuButton
   background-color: var(--link);
   text-decoration: none;
   box-shadow: none;
+  background-image: linear-gradient(-180deg, var(--link) 0%, #005580 100%);
+  border: 1px solid #014f75;
 }
 
 .MenuButton-summary:active {
@@ -154,7 +167,7 @@ StyleGuide 6.MenuButton
   border-top-left-radius: 0;
   margin: 0;
   padding: 0.25rem 0;
-  min-width: 100%;
+  min-width: 105%;
 }
 
 .MenuButton-body--right {
