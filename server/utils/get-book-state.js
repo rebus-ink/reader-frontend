@@ -26,6 +26,7 @@ async function getBookState (req, res) {
     chapterID = book.orderedItems[0].id
   }
   const chapter = await get(chapterID, token)
+  debug('chapter got')
   return { chapter, book }
 }
 

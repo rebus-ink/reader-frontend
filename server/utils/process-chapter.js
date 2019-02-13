@@ -1,17 +1,9 @@
 const got = require('got')
 const debug = require('debug')('vonnegut:utils:process-chapter')
-const Datastore = require('@google-cloud/datastore')
-const namespace = 'rebus-reader-chapters'
-const datastore = new Datastore({
-  namespace
-})
-const { GKeyV } = require('./gkeyv.js')
-const store = new GKeyV({ datastore })
+const QuickLRU = require('quick-lru')
+const lru = new QuickLRU({ maxSize: 1000 })
 const Keyv = require('keyv')
-const storage = new Keyv({
-  store,
-  namespace: 'rebus-reader-chapters'
-})
+const storage = new Keyv({ store: lru })
 const createDOMPurify = require('dompurify')
 const { JSDOM } = require('jsdom')
 
@@ -34,6 +26,7 @@ async function processChapter (url) {
     })
     const clean = DOMPurify.sanitize(window.document.body, { IN_PLACE: true })
     await storage.set(url, clean.innerHTML)
+    debug('Chapter processed')
     return clean.innerHTML
   }
 }
