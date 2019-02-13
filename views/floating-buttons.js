@@ -2,7 +2,11 @@ const { getId } = require('./utils/get-id.js')
 // const debug = require('debug')('vonnegut:views:floatingButtons')
 module.exports.floatingButtons = (render, model, req) => {
   const { book } = model
-  const { next, previous } = book.navigation
+  let next, previous
+  if (book.navigation) {
+    next = book.navigation.next
+    previous = book.navigation.previous
+  }
   return render(model, ':floatingButtons')`<ul class="Layout-floating-buttons">
   <li>
   <button class="Button Button--highlight" is="highlight-button">Highlight</button></li>

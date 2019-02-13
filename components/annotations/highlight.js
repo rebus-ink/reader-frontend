@@ -1,5 +1,5 @@
-const wickedElements = window.wickedElements
-const seek = window.seek
+const wickedElements = require('wicked-elements').default
+const seek = require('dom-seek')
 
 wickedElements.define('[is="highlight-button"]', {
   onconnected (event) {
@@ -37,7 +37,7 @@ function highlightString (text) {
     }
     return iterator.referenceNode
   }
-  const start = split(offset)
+  split(offset)
   const end = split(length)
   const nodeCollector = document.createNodeIterator(
     document.body,
@@ -51,7 +51,6 @@ function highlightString (text) {
   // nodes = nodes.filter((node) => !node.parentElement.matches('[data-reader]'))
   let texts = []
   let position = 0
-  let prevNode
   for (var i = 0; i < nodes.length; i++) {
     const node = nodes[i]
     if (!node.parentElement.matches('[data-reader]')) {
@@ -70,7 +69,6 @@ function highlightString (text) {
           .join('')
       )
       position = i
-      prevNode = 'reader-node'
     }
   }
   texts.push(

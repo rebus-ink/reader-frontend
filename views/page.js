@@ -25,20 +25,14 @@ module.exports.page = (render, model, req, body) => {
 <link media="all" rel="stylesheet" href="/js/quill.snow.css">
 <link media="all" rel="stylesheet" href="/static/styles/app.css">
 <title>Rebus Reader</title>
-<script src="/js/wicked-elements.min.js"></script>
-<script src="/js/lighterhtml.min.js"></script>
 <script src="/js/document-register-element.js"></script>
-<script src="/js/jszip.min.js"></script>
 <script src="/js/swup.min.js"></script>
-<script src="/js/dom-seek-bundle.js"></script>
 <script src="/js/quill.min.js"></script>
 <script src="/components/page-transitions.js" type="module"></script>
 <script src="/components/nav-menu-toggle.js" type="module"></script>
 <script src="/components/fetch.js" type="module"></script>
-<script src="/components/epub-import-actions.js" type="module"></script>
-<script src="/components/epub-import-component.js" type="module"></script>
-<script src="/components/marker.js" type="module"></script>
-<script src="/components/highlight.js" type="module"></script>
+<script src="/js/importer.min.js" type="module"></script>
+<script src="/js/annotations.min.js" type="module"></script>
 <meta name="jwt-meta" content="${token}">
 <meta name="rebus-user-id" content="${id}">
 <link href="${streams.outbox}" rel="rebus-outbox">

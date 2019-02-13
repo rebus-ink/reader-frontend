@@ -1,7 +1,7 @@
 const path = require('path')
 const cappadonna = require('./utils/cappadonna-modules-fork.js')
 const test = cappadonna(
-  path.join(__dirname, '../components/epub-import-actions.js'),
+  path.join(__dirname, '../components/importer/epub/actions.js'),
   { require: { expose: 'epub-import-actions' } }
 )
 const fs = require('fs')

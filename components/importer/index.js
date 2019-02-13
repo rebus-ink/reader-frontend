@@ -1,5 +1,4 @@
-const actions = window.actions
-
+const { actions } = require('./epub/actions.js')
 window.customElements.define(
   'epub-import',
   class EpubImportForm extends window.HTMLFormElement {

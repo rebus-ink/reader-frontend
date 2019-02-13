@@ -1,5 +1,5 @@
-const wickedElements = window.wickedElements
-const { html } = window.lighterhtml
+const wickedElements = require('wicked-elements').default
+const { html } = require('lighterhtml')
 
 wickedElements.define('[data-xpath]', {
   init: function (event) {
