@@ -3,6 +3,31 @@ const { html } = require('lighterhtml')
 const xpathObserver = new window.IntersectionObserver(onIntersection, {
   rootMargin: '50px 0px'
 })
+const positionObserver = new window.IntersectionObserver(onPosition, {
+  threshold: 1,
+  rootMargin: '0px 0px -50% 0px'
+})
+
+let highest
+function onPosition (entries) {
+  const nextHighest = entries.reduce((prev, current) => {
+    if (
+      current.intersectionRatio > prev.intersectionRatio &&
+      current.intersectionRatio === 1
+    ) {
+      return current
+    } else {
+      return prev
+    }
+  })
+  if (!highest) {
+    highest = nextHighest
+  } else if (nextHighest.intersectionRatio >= highest.intersectionRatio) {
+    highest = nextHighest
+  }
+  document.getElementById('chapter').dataset.currentPosition =
+    highest.target.dataset.xpath
+}
 
 function onIntersection (entries) {
   entries.forEach(entry => {
@@ -32,6 +57,7 @@ function addAnnotationTools (element) {
 wickedElements.define('[data-xpath]', {
   init: function (event) {
     xpathObserver.observe(event.currentTarget)
+    positionObserver.observe(event.currentTarget)
   },
   onconnected (event) {
     // // add position attributes to marker
