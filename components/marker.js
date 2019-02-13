@@ -97,7 +97,20 @@ wickedElements.define('[is="note-button"]', {
     } else {
       const newNote = note(xpath)
       xpath.parentElement.insertBefore(newNote, xpath.nextSibling)
-      newNote.querySelector('.ReaderNote-textarea').focus()
+      const container = newNote.querySelector('.ReaderNote-textarea')
+      this.inkEditor = new window.Quill(container, {
+        modules: {
+          toolbar: [
+            ['bold', 'italic', 'underline'],
+            ['image', 'code-block'],
+            ['link', 'blockquote'],
+            [{ list: 'ordered' }, { list: 'bullet' }],
+            ['clean']
+          ]
+        },
+        theme: 'snow'
+      })
+      this.inkEditor.focus()
     }
   }
 })
@@ -116,9 +129,12 @@ wickedElements.define('.MarkerInput-textarea', {
 function note (xpath) {
   const noteId = makeNoteId(xpath)
   const textareaId = noteId + '-textarea'
-  return html`<div class="ReaderNote" id="${noteId}" data-reader="true">
-    <textarea class="ReaderNote-textarea" id="${textareaId}" data-reader="true" aria-label="Note"></textarea>
-  </div>`
+  const note = document.createElement('div')
+  note.classList.add('ReaderNote')
+  note.id = noteId
+  note.dataset.reader = 'true'
+  note.innerHTML = `<div class="ReaderNote-textarea" id="${textareaId}" data-reader="true" aria-label="Note"></div>`
+  return note
 }
 
 function makeNoteId (xpath) {

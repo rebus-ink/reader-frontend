@@ -1,8 +1,6 @@
-div.ReaderNote {
+.ReaderNote {
   margin-left: -2rem;
-  padding: 0.5rem;
-  padding-left: 1rem;
-  padding-right: 2rem;
+  padding: 0;
   background-color: #ffff98;
   box-sizing: content-box;
   width: 100%;
@@ -22,10 +20,10 @@ div.ReaderNote {
   font-family: var(--reader-font-family);
   width: 100%;
 }
-.ReaderNote-textarea:focus,
+/* .ReaderNote-textarea:focus,
 .ReaderNote-textarea:hover {
   background-color: rgba(255, 255, 255, 0.9);
-}
+} */
 
 reader-highlight {
   background-color: #ffff98;

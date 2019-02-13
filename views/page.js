@@ -22,6 +22,7 @@ module.exports.page = (render, model, req, body) => {
 <!DOCTYPE html>
 <html class="no-js">
 <head>
+<link media="all" rel="stylesheet" href="/js/quill.snow.css">
 <link media="all" rel="stylesheet" href="/static/styles/app.css">
 <title>Rebus Reader</title>
 <script src="/js/wicked-elements.min.js"></script>
@@ -30,6 +31,7 @@ module.exports.page = (render, model, req, body) => {
 <script src="/js/jszip.min.js"></script>
 <script src="/js/swup.min.js"></script>
 <script src="/js/dom-seek-bundle.js"></script>
+<script src="/js/quill.min.js"></script>
 <script src="/components/page-transitions.js" type="module"></script>
 <script src="/components/nav-menu-toggle.js" type="module"></script>
 <script src="/components/fetch.js" type="module"></script>
