@@ -92,24 +92,22 @@ function addMarker (marker, element, document, DOMPurify) {
   form.classList.add = 'Marker'
   form.id = 'marker-' + xpath
   const textareaId = 'marker-text-' + xpath
-  form.innerHTML = `<div class="Marker-textarea" id="${textareaId}" data-reader="true" aria-label="Sidebar note">${DOMPurify.sanitize(
-    marker.content
-  )}</div>`
+  form.innerHTML = `<div class="Marker-textarea ql-container" id="${textareaId}" data-reader="true" aria-label="Sidebar note"><div class="ql-editor">
+  ${DOMPurify.sanitize(marker.content)}</div></div>`
   element.appendChild(form)
 }
 
 function addNote (note, element, document, DOMPurify) {
   const xpath = element.dataset.xpath
   const form = document.createElement('form')
-  form.setAttribute('is', 'ReaderNote-annotation')
+  form.setAttribute('is', 'reader-note')
   form.dataset.for = xpath
   form.dataset.reader = 'true'
   form.classList.add = 'ReaderNote'
   form.id = 'ReaderNote-' + xpath
   const textareaId = 'ReaderNote-text-' + xpath
-  form.innerHTML = `<div class="ReaderNote-textarea" id="${textareaId}" data-reader="true" aria-label="Sidebar note">${DOMPurify.sanitize(
-    note.content
-  )}</div>`
+  form.innerHTML = `<div class="ReaderNote-textarea ql-container" id="${textareaId}" data-reader="true" aria-label="Note"><div class="ql-editor">
+  ${DOMPurify.sanitize(note.content)}</div></div>`
   element.parentElement.insertBefore(form, element.nextSibling)
 }
 

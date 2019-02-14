@@ -33,5 +33,6 @@
 }
 
 .ql-editor {
-  padding: 0 2rem var(--reader-paragraph-spacing);
+  padding: 0 2rem;
+  padding-bottom: 0.75rem;
 }

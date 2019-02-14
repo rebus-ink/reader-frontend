@@ -4,6 +4,9 @@
   background-color: #ffff98;
   box-sizing: content-box;
   width: 100%;
+  margin-bottom: var(--reader-paragraph-spacing);
+  position: relative;
+  border-top: 0.25rem solid #eded00;
 }
 
 .ReaderNote label,
@@ -22,6 +25,21 @@
 }
 .ReaderNote-textarea {
   background-color: rgba(255, 255, 255, 0.6);
+}
+
+.ReaderNote .ql-toolbar {
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
+  transform: translateY(-200%);
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  background-color: #ffff98;
+  min-width: 70vw;
+}
+.ReaderNote--hasFocus .ql-toolbar {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 reader-highlight {
