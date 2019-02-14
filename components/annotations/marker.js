@@ -42,14 +42,17 @@ function addAnnotationTools (element) {
   const xpath = element.dataset.xpath
   // const formId = 'marker-' + xpath
   // const checkId = 'marker-check-' + xpath
-  const button = html`<button class="NoteButton" is="note-button" aria-label="Add note" data-for="${xpath}"><svg viewBox="0 0 10 10" fill="currentColor" stroke="transparent" width="15" height="15">
-  <path d="m1 4h8v2h-8zm3-3h2v8h-2z"></path>
-</svg></button>`
-  element.appendChild(button)
-  const marker = html`<button class="NoteButton NoteButton--marker" is="marker-button" aria-label="Add marker" data-for="${xpath}"><svg viewBox="0 0 10 10" fill="currentColor" stroke="transparent" width="15" height="15">
-  <path d="m1 4h8v2h-8zm3-3h2v8h-2z"></path>
-</svg></button>`
-  element.appendChild(marker)
+  if (!element.querySelector('.NoteButton')) {
+    const button = html`<button class="NoteButton" is="note-button" aria-label="Add note" data-for="${xpath}"><svg viewBox="0 0 10 10" fill="currentColor" stroke="transparent" width="15" height="15">
+    <path d="m1 4h8v2h-8zm3-3h2v8h-2z"></path>
+  </svg></button>`
+    element.appendChild(button)
+  }
+  if (!element.querySelector('.Marker')) {
+    const marker = html`<button class="NoteButton NoteButton--marker" is="marker-button" aria-label="Add marker" data-for="${xpath}">
+    <span class="NoteButton-body">Add marker</span></button>`
+    element.appendChild(marker)
+  }
 }
 
 wickedElements.define('[data-xpath]', {
@@ -106,17 +109,17 @@ wickedElements.define('#sidebar', {
 wickedElements.define('[is="marker-input"]', {
   onconnected (event) {
     this.el = event.currentTarget
-    this.textarea = event.currentTarget.querySelector('.MarkerInput-textarea')
+    this.textarea = event.currentTarget.querySelector('.Marker-textarea')
     this.textarea.addEventListener('focus', this)
     this.textarea.addEventListener('blur', this)
     this.textarea.addEventListener('paste', this)
     this.el.dataset.reader = true
   },
   onfocus (event) {
-    this.el.classList.add('MarkerInput--focused')
+    this.el.classList.add('Marker--focused')
   },
   onblur (event) {
-    this.el.classList.remove('MarkerInput--focused')
+    this.el.classList.remove('Marker--focused')
     this.textarea.textContent = this.textarea.textContent
   }
 })
@@ -153,14 +156,14 @@ wickedElements.define('[is="note-button"]', {
   }
 })
 
-wickedElements.define('.MarkerInput-textarea', {
+wickedElements.define('.Marker-textarea', {
   onconnected (event) {
     this.el = event.currentTarget
-    this.parent = this.el.closest('.MarkerInput')
+    this.parent = this.el.closest('.Marker')
     this.el.addEventListener('change', this)
   },
   onchange (event) {
-    this.parent.classList.add('MarkerInput--hasContent')
+    this.parent.classList.add('Marker--hasContent')
   }
 })
 

@@ -1,9 +1,5 @@
 const got = require('got')
 const debug = require('debug')('vonnegut:utils:process-chapter')
-const QuickLRU = require('quick-lru')
-const lru = new QuickLRU({ maxSize: 1000 })
-const Keyv = require('keyv')
-const storage = new Keyv({ store: lru })
 const createDOMPurify = require('dompurify')
 const { JSDOM } = require('jsdom')
 const { arrify } = require('../utils/arrify.js')
@@ -11,26 +7,27 @@ const { arrify } = require('../utils/arrify.js')
 async function processChapter (chapter) {
   const url = getAlternate(chapter)
   debug(url)
-  const stored = await storage.get(url)
-  if (stored) {
-    debug('Chapter in storage')
-    return stored
-  } else {
-    debug('Chapter _not_ in storage')
-    const response = await got(url)
-    const window = new JSDOM(response.body).window
-    const DOMPurify = createDOMPurify(window)
-    const symbols = window.document.body.querySelectorAll(
-      'p, h1, h2, h3, h4, h5, h6, li, table, dd, dt'
-    )
-    symbols.forEach(element => {
-      element.dataset.xpath = getXPath(element)
+  debug('Chapter - processing')
+  const response = await got(url)
+  const window = new JSDOM(response.body).window
+  const DOMPurify = createDOMPurify(window)
+  const symbols = window.document.body.querySelectorAll(
+    'p, h1, h2, h3, h4, h5, h6, li, table, dd, dt'
+  )
+  symbols.forEach(element => {
+    element.dataset.xpath = getXPath(element)
+    const annotations = getAnnotations(chapter.replies, element.dataset.xpath)
+    annotations.forEach(annotation => {
+      if (annotation.subType === 'Marker') {
+        addMarker(annotation, element, window.document, DOMPurify)
+      } else {
+        addNote(annotation, element, window.document)
+      }
     })
-    const clean = DOMPurify.sanitize(window.document.body, { IN_PLACE: true })
-    await storage.set(url, clean.innerHTML)
-    debug('Chapter processed')
-    return clean.innerHTML
-  }
+  })
+  const clean = DOMPurify.sanitize(window.document.body, { IN_PLACE: true })
+  debug('Chapter processed')
+  return clean.innerHTML
 }
 
 // Parts of this derived from https://github.com/tilgovi/simple-xpath-position/blob/master/src/xpath.js (MIT Licensed)
@@ -71,6 +68,49 @@ function getAlternate (chapter) {
   } else {
     return '/static/placeholder-cover.png'
   }
+}
+
+function getAnnotations (replies = [], xpath) {
+  return replies.filter(reply => {
+    if (
+      reply['oa:hasSelector'] &&
+      reply['oa:hasSelector'].type === 'XPathSelector'
+    ) {
+      return reply['oa:hasSelector'].value === xpath
+    } else {
+      return false
+    }
+  })
+}
+
+function addMarker (marker, element, document, DOMPurify) {
+  const xpath = element.dataset.xpath
+  const form = document.createElement('form')
+  form.setAttribute('is', 'marker-annotation')
+  form.dataset.for = xpath
+  form.dataset.reader = 'true'
+  form.classList.add = 'Marker'
+  form.id = 'marker-' + xpath
+  const textareaId = 'marker-text-' + xpath
+  form.innerHTML = `<div class="Marker-textarea" id="${textareaId}" data-reader="true" aria-label="Sidebar note">${DOMPurify.sanitize(
+    marker.content
+  )}</div>`
+  element.appendChild(form)
+}
+
+function addNote (note, element, document, DOMPurify) {
+  const xpath = element.dataset.xpath
+  const form = document.createElement('form')
+  form.setAttribute('is', 'ReaderNote-annotation')
+  form.dataset.for = xpath
+  form.dataset.reader = 'true'
+  form.classList.add = 'ReaderNote'
+  form.id = 'ReaderNote-' + xpath
+  const textareaId = 'ReaderNote-text-' + xpath
+  form.innerHTML = `<div class="ReaderNote-textarea" id="${textareaId}" data-reader="true" aria-label="Sidebar note">${DOMPurify.sanitize(
+    note.content
+  )}</div>`
+  element.parentElement.insertBefore(form, element.nextSibling)
 }
 
 module.exports.processChapter = processChapter

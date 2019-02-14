@@ -21,7 +21,7 @@
   outline: none;
   border: none;
   background-color: transparent;
-  border-top: 0.25rem solid #fefe00;
+  border-top: 0.25rem solid #eded00;
   -ms-touch-action: manipulation;
   touch-action: manipulation;
   transition: box-shadow 0.15s ease-in-out;
@@ -32,11 +32,17 @@
 
 .NoteButton--marker {
   border-top: none;
-  border-left: 0.25rem solid #fefe00;
+  border-left: 0.25rem solid #eded00;
+  background-color: rgba(255, 255, 255, 0.6);
   position: absolute;
   left: 100%;
   top: 0;
   bottom: auto;
+}
+.NoteButton-body {
+  text-transform: uppercase;
+  transform: translateY(-100%);
+  font-size: 0.75rem;
 }
 
 .NoteButton:hover {
