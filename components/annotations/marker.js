@@ -40,17 +40,15 @@ function onIntersection (entries) {
 
 function addAnnotationTools (element) {
   const xpath = element.dataset.xpath
-  const formId = 'marker-' + xpath
-  const checkId = 'marker-check-' + xpath
-  const button = html`<button class="NoteButton" is="note-button"><svg viewBox="0 0 10 10" fill="currentColor" stroke="transparent" width="20" height="20">
+  // const formId = 'marker-' + xpath
+  // const checkId = 'marker-check-' + xpath
+  const button = html`<button class="NoteButton" is="note-button" aria-label="Add note" data-for="${xpath}"><svg viewBox="0 0 10 10" fill="currentColor" stroke="transparent" width="15" height="15">
   <path d="m1 4h8v2h-8zm3-3h2v8h-2z"></path>
 </svg></button>`
   element.appendChild(button)
-  const marker = html`<form data-for-xpath="${xpath}" is="marker-input" class="MarkerInput">
-  <input type="checkbox" class="MarkerInput-checkbox visuallyhidden" id="${checkId}">
-  <label for="${checkId}" aria-label="Show sidebar note" class="MarkerInput-toggle">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="m24 1h-24v17h4v5l7-5h13z"/></svg></label>
-  <textarea id="${formId}" aria-label="Sidebar Note" class="MarkerInput-textarea" data-reader="true"></textarea></form>`
+  const marker = html`<button class="NoteButton NoteButton--marker" is="marker-button" aria-label="Add marker" data-for="${xpath}"><svg viewBox="0 0 10 10" fill="currentColor" stroke="transparent" width="15" height="15">
+  <path d="m1 4h8v2h-8zm3-3h2v8h-2z"></path>
+</svg></button>`
   element.appendChild(marker)
 }
 

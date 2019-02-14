@@ -20,10 +20,9 @@
   font-family: var(--reader-font-family);
   width: 100%;
 }
-/* .ReaderNote-textarea:focus,
-.ReaderNote-textarea:hover {
-  background-color: rgba(255, 255, 255, 0.9);
-} */
+.ReaderNote-textarea {
+  background-color: rgba(255, 255, 255, 0.6);
+}
 
 reader-highlight {
   background-color: #ffff98;

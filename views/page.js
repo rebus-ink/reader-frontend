@@ -22,7 +22,6 @@ module.exports.page = (render, model, req, body) => {
 <!DOCTYPE html>
 <html class="no-js">
 <head>
-<link media="all" rel="stylesheet" href="/js/quill.snow.css">
 <link media="all" rel="stylesheet" href="/static/styles/app.css">
 <title>Rebus Reader</title>
 <script src="/js/document-register-element.js"></script>

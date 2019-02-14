@@ -1,12 +1,12 @@
 .NoteButton {
   font-family: var(--sans-fonts);
-  font-size: 1.25rem;
+  font-size: 0.75rem;
   flex: 0 1 auto;
   line-height: 1;
 
   display: inline-block;
 
-  padding: 0.1rem 0.2rem 0.2rem;
+  padding: 0.2rem;
 
   cursor: pointer;
   -webkit-user-select: none;
@@ -19,16 +19,24 @@
 
   color: var(--link);
   outline: none;
-  border-radius: 4px;
-  border: 1px solid transparent;
+  border: none;
   background-color: transparent;
-
+  border-top: 0.25rem solid #fefe00;
   -ms-touch-action: manipulation;
   touch-action: manipulation;
   transition: box-shadow 0.15s ease-in-out;
   position: absolute;
   left: -1.6rem;
   bottom: 0;
+}
+
+.NoteButton--marker {
+  border-top: none;
+  border-left: 0.25rem solid #fefe00;
+  position: absolute;
+  left: 100%;
+  top: 0;
+  bottom: auto;
 }
 
 .NoteButton:hover {
