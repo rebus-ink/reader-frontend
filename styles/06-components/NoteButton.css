@@ -34,9 +34,11 @@
   border-top: none;
   border-left: 0.25rem solid #eded00;
   background-color: rgba(255, 255, 255, 0.6);
-  position: absolute;
-  left: 100%;
-  top: 0;
+  position: relative;
+  padding-left: 0.25rem;
+  top: auto;
+  position: relative;
+  left: auto;
   bottom: auto;
 }
 .NoteButton-body {
@@ -84,7 +86,8 @@
     opacity: 0;
   }
   .NoteButton:focus,
-  :hover > .NoteButton {
+  :hover > .NoteButton,
+  :hover > .Marker > .NoteButton--marker {
     opacity: 1;
   }
 }

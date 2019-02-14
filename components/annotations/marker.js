@@ -49,8 +49,9 @@ function addAnnotationTools (element) {
     element.appendChild(button)
   }
   if (!element.querySelector('.Marker')) {
-    const marker = html`<button class="NoteButton NoteButton--marker" is="marker-button" aria-label="Add marker" data-for="${xpath}">
-    <span class="NoteButton-body">Add marker</span></button>`
+    const marker = html`<div class="Marker"><button class="NoteButton NoteButton--marker" is="marker-button" aria-label="Add marker" data-for="${xpath}"><svg viewBox="0 0 10 10" fill="currentColor" stroke="transparent" width="15" height="15">
+    <path d="m1 4h8v2h-8zm3-3h2v8h-2z"></path>
+  </svg></button></div>`
     element.appendChild(marker)
   }
 }

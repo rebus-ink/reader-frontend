@@ -3,10 +3,13 @@
   left: 100%;
   height: 100%;
   top: 0;
-  padding-left: 1rem;
+  padding-left: 0.5rem;
   z-index: 99;
   width: var(--sidebar-width, auto);
   overflow: visible;
+}
+.Chapter .Marker {
+  margin: 0;
 }
 
 .Marker-textarea {
