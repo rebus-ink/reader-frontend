@@ -6,8 +6,10 @@ const Keyv = require('keyv')
 const storage = new Keyv({ store: lru })
 const createDOMPurify = require('dompurify')
 const { JSDOM } = require('jsdom')
+const { arrify } = require('../utils/arrify.js')
 
-async function processChapter (url) {
+async function processChapter (chapter) {
+  const url = getAlternate(chapter)
   debug(url)
   const stored = await storage.get(url)
   if (stored) {
@@ -59,6 +61,16 @@ function nodePosition (node) {
     if (node.nodeName === name) position += 1
   }
   return position
+}
+
+function getAlternate (chapter) {
+  const urls = arrify(chapter.url)
+  const link = urls.filter(item => item.rel.indexOf('alternate') !== -1)[0]
+  if (link) {
+    return link.href
+  } else {
+    return '/static/placeholder-cover.png'
+  }
 }
 
 module.exports.processChapter = processChapter

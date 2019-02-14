@@ -21,7 +21,7 @@ router.get('/reader/:bookId/*', ensureLogin, getUserStreams, function (
       debug('got model')
       debug(getAlternate(model.chapter))
       if (model.chapter.type === 'Document') {
-        return processChapter(getAlternate(model.chapter)).then(clean => {
+        return processChapter(model.chapter).then(clean => {
           model.clean = clean
           const render = viperHTML.wire
           res.type('html')
