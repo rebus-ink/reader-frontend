@@ -55,7 +55,15 @@ wickedElements.define('[is="add-marker-button"]', {
     const newMarker = marker(this.el)
     const parent = this.el.closest('.Marker')
     const reference = parent.querySelector('.MenuButton')
-    parent.insertBefore(newMarker, reference)
+    const description = this.el.dataset.description
+    const existing = parent.querySelector(
+      `[is="marker-button"][data-description="${description}"]`
+    )
+    if (existing) {
+      parent.removeChild(existing)
+    } else {
+      parent.insertBefore(newMarker, reference)
+    }
   },
   ondisconnected (event) {
     this.el.removeEventListener('click', this)
