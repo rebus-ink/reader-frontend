@@ -12,27 +12,6 @@
   margin: 0;
 }
 
-.Marker-textarea {
-  height: 100%;
-  outline: none;
-  background-color: transparent;
-  border: none;
-  border-left: 1px solid #ccc;
-  padding-left: 1rem;
-  padding-top: 0.35rem;
-  font-family: var(--reader-font-family);
-  font-size: calc(var(--reader-font-size) * 0.75);
-  max-width: 400px;
-  width: 100%;
-}
-.Marker-textarea[contenteditable] {
-  margin: 0;
-}
-.Marker-textarea:focus,
-.Marker-textarea:hover {
-  background-color: rgba(255, 255, 255, 0.9);
-}
-
 .Marker-toggle {
   display: none;
   cursor: pointer;
@@ -82,7 +61,6 @@
 .Marker--hasContent {
   opacity: 1;
 }
-.Marker--hasContent .Marker-textarea {
+.Chapter .Marker--hasContent .MarkerNote-textarea {
   border-left: 0.5rem solid #ffff98;
-  background-color: rgba(255, 255, 255, 0.9);
 }

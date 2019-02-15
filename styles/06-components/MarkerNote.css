@@ -1,0 +1,26 @@
+.MarkerNote .ql-toolbar {
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
+  transform: translateY(-200%);
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  background-color: #ffff98;
+  min-width: 70vw;
+}
+.MarkerNote--hasFocus .ql-toolbar {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.MarkerNote-textarea {
+  background-color: transparent;
+  border: none;
+  border-left: 1px solid #ccc;
+  padding-left: 1rem;
+  padding-top: 0.35rem;
+  font-family: var(--reader-font-family);
+  font-size: calc(var(--reader-font-size) * 0.75);
+  max-width: 400px;
+  width: 100%;
+}
