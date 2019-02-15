@@ -1,36 +1,30 @@
 const wickedElements = require('wicked-elements').default
 
-wickedElements.define('[is="marker-button"]', {
-  onconnected (event) {
-    this.el = event.currentTarget
-    this.el.addEventListener('click', this)
+wickedElements.define('[is="note-button"]', {
+  init (event) {
+    this.element = event.currentTarget.closest('[data-xpath]')
+    event.currentTarget.addEventListener('click', this)
+    event.currentTarget.dataset.reader = true
   },
   onclick (event) {
-    const newMarker = marker(this.el.dataset.for)
-    const parent = this.el.parentElement
-    parent.removeChild(this.el)
-    parent.appendChild(newMarker)
-    window.requestAnimationFrame(function () {
-      newMarker.querySelector('.ql-editor').focus()
-    })
+    const { element } = this
+    const noteElement = document.getElementById(makeNoteId(element))
+    if (noteElement) {
+      noteElement.querySelector('.ql-editor').focus()
+    } else {
+      const newNote = note(element)
+      element.parentElement.insertBefore(newNote, element.nextSibling)
+      window.requestAnimationFrame(function () {
+        newNote.querySelector('.ql-editor').focus()
+      })
+    }
   }
 })
 
-wickedElements.define('.Marker-textarea', {
-  onconnected (event) {
-    this.el = event.currentTarget
-    this.parent = this.el.closest('.Marker')
-    this.el.addEventListener('change', this)
-  },
-  onchange (event) {
-    this.parent.classList.add('Marker--hasContent')
-  }
-})
-
-wickedElements.define('[is="marker-note"]', {
+wickedElements.define('[is="reader-note"]', {
   init (event) {
     const element = (this.el = event.currentTarget)
-    const container = this.el.querySelector('.MarkerNote-textarea')
+    const container = this.el.querySelector('.ReaderNote-textarea')
     this.quill = new window.Quill(container, {
       modules: {
         toolbar: [
@@ -54,7 +48,7 @@ wickedElements.define('[is="marker-note"]', {
       }
     })
     this.quill.on('text-change', function () {
-      element.parentElement.classList.add('Marker--hasContent')
+      element.classList.add('ReaderNote--hasContent')
     })
     const button = document.createElement('button')
     button.textContent = 'Delete'
@@ -67,23 +61,24 @@ wickedElements.define('[is="marker-note"]', {
     this.el.appendChild(button)
   },
   onfocus (element) {
-    element.classList.add('MarkerNote--hasFocus')
+    element.classList.add('ReaderNote--hasFocus')
   },
   onblur (element) {
-    element.classList.remove('MarkerNote--hasFocus')
+    element.classList.remove('ReaderNote--hasFocus')
   }
 })
 
-function marker (xpath) {
+function note (element) {
+  const xpath = element.dataset.xpath
   const form = document.createElement('form')
-  form.setAttribute('is', 'marker-note')
+  form.setAttribute('is', 'reader-note')
   form.dataset.for = xpath
   form.dataset.reader = 'true'
-  form.classList.add('MarkerNote')
-  form.id = 'MarkerNote-' + xpath
-  const textareaId = 'MarkerNote-text-' + xpath
+  form.classList.add('ReaderNote')
+  form.id = 'ReaderNote-' + xpath
+  const textareaId = 'ReaderNote-text-' + xpath
   form.dataset.newNote = 'true'
-  form.innerHTML = `<div class="MarkerNote-textarea" id="${textareaId}" data-reader="true" aria-label="Sidebar note"></div>`
+  form.innerHTML = `<div class="ReaderNote-textarea" id="${textareaId}" data-reader="true" aria-label="Sidebar note"></div>`
   const button = document.createElement('button')
   button.textContent = 'Cancel'
   button.classList.add('TextButton')
@@ -94,4 +89,8 @@ function marker (xpath) {
   button.dataset.noteCancel = 'true'
   form.appendChild(button)
   return form
+}
+
+function makeNoteId (element) {
+  return 'ReaderNote-' + element.dataset.xpath
 }
