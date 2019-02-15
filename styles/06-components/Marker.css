@@ -4,24 +4,31 @@
   height: 100%;
   top: 0;
   padding-left: 0.5rem;
-  z-index: 99;
   width: var(--sidebar-width, auto);
   overflow: visible;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 1.5rem);
+  grid-auto-rows: 1.5rem;
+  grid-gap: 0.25rem;
 }
 .Chapter .Marker {
   margin: 0;
 }
 
 @media (hover: hover) {
-  .Marker {
+  .Marker .MarkerButton,
+  .Marker .MenuButton {
     opacity: 0;
   }
   :hover > .Marker-textarea {
     background-color: rgba(255, 255, 255, 0.9);
   }
-  .Marker--focused,
-  .Marker:focus-within,
-  :hover > .Marker {
+  .Marker--focused .MarkerButton,
+  .Marker:focus-within .MarkerButton,
+  :hover > .Marker .MarkerButton,
+  .Marker--focused .MenuButton,
+  .Marker:focus-within .MenuButton,
+  :hover > .Marker .MenuButton {
     opacity: 1;
   }
 }

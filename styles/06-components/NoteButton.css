@@ -1,84 +1,7 @@
 .NoteButton {
-  font-family: var(--sans-fonts);
-  font-size: 0.75rem;
-  flex: 0 1 auto;
-  line-height: 1;
-
-  display: inline-block;
-
-  padding: 0.2rem;
-
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  text-align: center;
-  white-space: nowrap;
-  text-decoration: none;
-
-  color: var(--link);
-  outline: none;
-  border: none;
-  background-color: transparent;
-  border-top: 0.25rem solid #eded00;
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-  transition: box-shadow 0.15s ease-in-out;
   position: absolute;
-  left: -1.6rem;
-  bottom: 0;
-}
-
-.NoteButton--marker {
-  border-top: none;
-  border-left: 0.25rem solid #eded00;
-  background-color: rgba(255, 255, 255, 0.6);
-  position: relative;
-  padding-left: 0.25rem;
-  top: auto;
-  position: relative;
-  left: auto;
-  bottom: auto;
-}
-.NoteButton-body {
-  text-transform: uppercase;
-  transform: translateY(-100%);
-  font-size: 0.75rem;
-}
-
-.NoteButton:hover {
-  color: white;
-  background-color: var(--link);
-}
-
-.NoteButton:focus {
-  outline: none;
-  border-color: #999;
-  background-color: var(--button-background-color);
-}
-
-.NoteButton:active {
-  transform: translate(1px, 1px);
-  color: var(--active);
-  border-color: var(--active);
-  background-color: var(--button-background-color);
-}
-
-.NoteButton[disabled],
-.NoteButton--disabled,
-.NoteButton--disabled:hover {
-  color: white;
-  border-color: var(--disabled);
-  background-color: var(--disabled);
-  box-shadow: none;
-  cursor: not-allowed;
-}
-.NoteButton[disabled]:focus,
-.NoteButton--disabled:focus {
-  border-color: #999;
-  background-color: var(--disabled);
-  box-shadow: inset 0 0px 2px 0 rgba(0, 66, 98, 0.15);
+  left: -1.8rem;
+  width: auto;
 }
 
 @media (hover: hover) {
@@ -86,8 +9,7 @@
     opacity: 0;
   }
   .NoteButton:focus,
-  :hover > .NoteButton,
-  :hover > .Marker > .NoteButton--marker {
+  :hover > .NoteButton {
     opacity: 1;
   }
 }

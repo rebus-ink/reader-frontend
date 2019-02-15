@@ -1,0 +1,24 @@
+.MenuButton-body.MarkerMenu {
+  padding: 0.5rem;
+}
+
+.MarkerMenu dl {
+  margin: 0;
+}
+
+.MarkerMenu dt {
+  font-family: var(--fonts);
+  text-transform: uppercase;
+  font-size: calc(var(--reader-font-size) * 0.75);
+}
+
+.MarkerMenu ol {
+  list-style: none;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 1.5rem);
+  grid-gap: 0.25rem;
+}
+.MarkerMenu li {
+  width: 2rem;
+}

@@ -1,21 +1,5 @@
 const wickedElements = require('wicked-elements').default
 
-wickedElements.define('[is="marker-button"]', {
-  onconnected (event) {
-    this.el = event.currentTarget
-    this.el.addEventListener('click', this)
-  },
-  onclick (event) {
-    const newMarker = marker(this.el.dataset.for)
-    const parent = this.el.parentElement
-    parent.removeChild(this.el)
-    parent.appendChild(newMarker)
-    window.requestAnimationFrame(function () {
-      newMarker.querySelector('.ql-editor').focus()
-    })
-  }
-})
-
 wickedElements.define('.Marker-textarea', {
   onconnected (event) {
     this.el = event.currentTarget

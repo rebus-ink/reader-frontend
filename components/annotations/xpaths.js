@@ -1,5 +1,6 @@
 const wickedElements = require('wicked-elements').default
 const { html } = require('lighterhtml')
+const { markerMenu } = require('./marker-menu.js')
 const xpathObserver = new window.IntersectionObserver(onIntersection, {
   rootMargin: '50px 0px'
 })
@@ -43,15 +44,13 @@ function addAnnotationTools (element) {
   // const formId = 'marker-' + xpath
   // const checkId = 'marker-check-' + xpath
   if (!element.querySelector('.NoteButton')) {
-    const button = html`<button class="NoteButton" is="note-button" aria-label="Add note" data-for="${xpath}"><svg viewBox="0 0 10 10" fill="currentColor" stroke="transparent" width="15" height="15">
+    const button = html`<button class="Button Button--marker NoteButton" is="note-button" aria-label="Add note" data-for="${xpath}"><svg viewBox="0 0 10 10" fill="currentColor" stroke="transparent" width="15" height="15">
     <path d="m1 4h8v2h-8zm3-3h2v8h-2z"></path>
   </svg></button>`
     element.appendChild(button)
   }
   if (!element.querySelector('.Marker')) {
-    const marker = html`<div class="Marker"><button class="NoteButton NoteButton--marker" is="marker-button" aria-label="Add marker" data-for="${xpath}"><svg viewBox="0 0 10 10" fill="currentColor" stroke="transparent" width="15" height="15">
-    <path d="m1 4h8v2h-8zm3-3h2v8h-2z"></path>
-  </svg></button></div>`
+    const marker = markerMenu(element)
     element.appendChild(marker)
   }
 }

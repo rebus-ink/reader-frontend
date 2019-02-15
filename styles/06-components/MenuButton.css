@@ -168,6 +168,7 @@ StyleGuide 6.MenuButton
   margin: 0;
   padding: 0.25rem 0;
   min-width: 105%;
+  box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.1);
 }
 
 .MenuButton-body--right {
@@ -175,6 +176,7 @@ StyleGuide 6.MenuButton
   right: 0;
   border-top-left-radius: 4px;
   border-top-right-radius: 0;
+  box-shadow: -1px 2px 2px rgba(0, 0, 0, 0.1);
 }
 .MenuButton-body li {
   padding: 0;
@@ -197,4 +199,27 @@ StyleGuide 6.MenuButton
 
 .MenuButton strong {
   font-weight: 900;
+}
+
+.MenuButton--marker,
+.MenuButton--marker .MenuButton-summary {
+  height: 100%;
+}
+.MenuButton--marker .MenuButton-summary {
+  width: 1.5rem;
+  padding: 6px 3px 0;
+}
+
+.MenuButton--marker .MenuButton-summary:after {
+  position: absolute;
+  bottom: 3px;
+  right: 2px;
+}
+
+.MenuButton--marker .MenuButton-body {
+  margin-top: 0;
+  width: var(--sidebar-width);
+  max-width: 260px;
+  min-width: 200px;
+  margin-bottom: 0;
 }
