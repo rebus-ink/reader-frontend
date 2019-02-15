@@ -218,7 +218,7 @@ StyleGuide 6.MenuButton
 
 .MenuButton--marker .MenuButton-body {
   margin-top: 0;
-  width: var(--sidebar-width);
+  width: 11.25rem;
   max-width: 260px;
   min-width: 200px;
   margin-bottom: 0;

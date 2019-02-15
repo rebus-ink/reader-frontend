@@ -8,7 +8,7 @@ function markerMenu (element) {
 </svg></summary>
 <div class="MenuButton-body MenuButton-body--right MarkerMenu">
   <dl>
-    <dt><strong>Markers</strong></dt>
+    <dt>Markers</dt>
   <dd>
     <ol>
     <li>${button('✓', 'agree')}</li>
@@ -17,7 +17,7 @@ function markerMenu (element) {
     <li>${button('*', 'important')}</li>
     </ol>
   </dd>
-    <dt><strong>Hands</strong></dt>
+    <dt>Hands</dt>
   <dd>
     <ol>
     <li>${button('👍', 'thumbs up')}</li>
@@ -26,7 +26,7 @@ function markerMenu (element) {
     <li>${button('👏', 'clapping')}</li>
     </ol>
   </dd>
-  <dt><strong>Smileys</strong></dt>
+  <dt>Smileys</dt>
   <dd>
     <ol>
     <li>${button('🙂', 'slightly smiling face')}</li>
