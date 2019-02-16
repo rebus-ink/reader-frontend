@@ -1,6 +1,6 @@
 const wickedElements = require('wicked-elements').default
 
-wickedElements.define('[is="note-button"]', {
+wickedElements.define('[data-component="note-button"]', {
   init (event) {
     this.element = event.currentTarget.closest('[data-xpath]')
     event.currentTarget.addEventListener('click', this)
@@ -21,7 +21,7 @@ wickedElements.define('[is="note-button"]', {
   }
 })
 
-wickedElements.define('[is="reader-note"]', {
+wickedElements.define('[data-component="reader-note"]', {
   init (event) {
     const element = (this.el = event.currentTarget)
     const container = this.el.querySelector('.ReaderNote-textarea')
@@ -40,6 +40,7 @@ wickedElements.define('[is="reader-note"]', {
     this.toolbar = this.el.querySelector('.ql-toolbar')
     const onFocus = this.onfocus
     const onBlur = this.onblur
+    this.el.classList.remove('ReaderNote--preRendered')
     this.quill.on('selection-change', function (range, oldRange, source) {
       if (range) {
         onFocus(element)
@@ -71,7 +72,7 @@ wickedElements.define('[is="reader-note"]', {
 function note (element) {
   const xpath = element.dataset.xpath
   const form = document.createElement('form')
-  form.setAttribute('is', 'reader-note')
+  form.dataset.component = 'reader-note'
   form.dataset.for = xpath
   form.dataset.reader = 'true'
   form.classList.add('ReaderNote')

@@ -8,6 +8,35 @@ const positionObserver = new window.IntersectionObserver(onPosition, {
   threshold: 1,
   rootMargin: '0px 0px -50% 0px'
 })
+const noteObserver = new window.IntersectionObserver(onNoteAppear, {
+  rootMargin: '50px 0px'
+})
+
+function onNoteAppear (entries) {
+  entries.forEach(entry => {
+    if (entry.intersectionRatio > 0) {
+      noteObserver.unobserve(entry.target)
+      const newNote = entry.target.cloneNode(true)
+      newNote.querySelector('.ql-container').innerHTML = newNote.querySelector(
+        '.ql-editor'
+      ).innerHTML
+      newNote.dataset.component = 'reader-note'
+      entry.target.parentElement.replaceChild(newNote, entry.target)
+    }
+  })
+}
+
+wickedElements.define('.ReaderNote--preRendered', {
+  init: function (event) {
+    noteObserver.observe(event.currentTarget)
+  },
+  onconnected (event) {
+    // // add position attributes to marker
+  },
+  ondisconnected (event) {
+    // remove drop down marker element from sidebar
+  }
+})
 
 let highest
 function onPosition (entries) {
@@ -44,14 +73,15 @@ function addAnnotationTools (element) {
   // const formId = 'marker-' + xpath
   // const checkId = 'marker-check-' + xpath
   if (!element.querySelector('.NoteButton')) {
-    const button = html`<button class="Button Button--marker NoteButton" is="note-button" aria-label="Add note" data-for="${xpath}"><svg viewBox="0 0 10 10" fill="currentColor" stroke="transparent" width="15" height="15">
+    const button = html`<button class="Button Button--marker NoteButton" data-component="note-button" aria-label="Add note" data-for="${xpath}"><svg viewBox="0 0 10 10" fill="currentColor" stroke="transparent" width="15" height="15">
     <path d="m1 4h8v2h-8zm3-3h2v8h-2z"></path>
   </svg></button>`
     element.appendChild(button)
   }
-  if (!element.querySelector('.Marker')) {
-    const marker = markerMenu(element)
-    element.appendChild(marker)
+  const menuContainer = element.querySelector('.Marker')
+  if (menuContainer) {
+    const menu = markerMenu(element)
+    menuContainer.appendChild(menu)
   }
 }
 

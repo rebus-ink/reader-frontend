@@ -2,11 +2,11 @@ const wickedElements = require('wicked-elements').default
 const { html } = require('lighterhtml')
 
 function markerMenu (element) {
-  return html`<div class="Marker"><details class="MenuButton MenuButton--marker">
+  return html`<details class="MenuButton MenuButton--marker">
   <summary class="MenuButton-summary" aria-label="Add marker to sidebar"><svg viewBox="0 0 10 10" fill="currentColor" stroke="transparent" width="15" height="15">
   <path d="m1 4h8v2h-8zm3-3h2v8h-2z"></path>
 </svg></summary>
-<div class="MenuButton-body MenuButton-body--right MarkerMenu">
+<marker-menu class="MenuButton-body MenuButton-body--right MarkerMenu">
   <dl>
     <dt>Markers</dt>
   <dd>
@@ -38,11 +38,36 @@ function markerMenu (element) {
     </ol>
   </dd>
 </dl></div>
-  </details></div>`
+  </details>`
+}
+
+const descriptions = {
+  '✓': 'agree',
+  x: 'disagree',
+  '~': 'interesting',
+  '*': 'important',
+  '👍': 'thumbs up',
+  '👎': 'thumbs down',
+  '✋': 'open hand',
+  '👏': 'clapping',
+  '🙂': 'slightly smiling face',
+  '🤨': 'face with raised eyebrows',
+  '😍': 'smiling face with heart-shaped eyes',
+  '😱': 'face screaming in fear',
+  '😐': 'neutral face',
+  '🙄': 'face with rolling eyes'
+}
+
+function renderMarkers (element) {
+  return marker => {
+    const description = descriptions[marker]
+    const label = `Remove '${description}' sidebar marker`
+    return html`<button class="Button Button--marker" aria-label="${label}" is="marker-button" data-description="${description}">${marker}</button>`
+  }
 }
 
 function button (character, description) {
-  const label = `Add ${description} sidebar marker`
+  const label = `Add '${description}' sidebar marker`
   return html`<button class="Button Button--marker" aria-label="${label}" is="add-marker-button" data-description="${description}">${character}</button>`
 }
 
@@ -73,7 +98,7 @@ wickedElements.define('[is="add-marker-button"]', {
 function marker (element) {
   const description = element.dataset.description
   const character = element.textContent
-  const label = `Remove ${description} sidebar marker`
+  const label = `Remove '${description}' sidebar marker`
   return html`<button class="Button Button--marker" aria-label="${label}" is="marker-button" data-description="${description}">${character}</button>`
 }
 

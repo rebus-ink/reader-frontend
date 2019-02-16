@@ -18,8 +18,7 @@
   outline: none;
   background-color: transparent;
   border: none;
-  padding-left: 1rem;
-  padding-top: 0.35rem;
+  padding-top: 0;
   font-family: var(--reader-font-family);
   width: 100%;
 }
@@ -44,4 +43,9 @@
 
 reader-highlight {
   background-color: #ffff98;
+}
+
+.ReaderNote--preRendered .ql-editor {
+  white-space: normal;
+  word-wrap: normal;
 }

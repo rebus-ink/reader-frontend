@@ -16,12 +16,16 @@ async function processChapter (chapter) {
   )
   symbols.forEach(element => {
     element.dataset.xpath = getXPath(element)
+    const markerContainer = window.document.createElement('span')
+    markerContainer.classList.add('Marker')
+    element.appendChild(markerContainer)
     const annotations = getAnnotations(chapter.replies, element.dataset.xpath)
     annotations.forEach(annotation => {
-      if (annotation.subType === 'Marker') {
-        addMarker(annotation, element, window.document, DOMPurify)
+      if (annotation.summary && !annotation.content) {
+        const marker = addMarker(annotation, window.document)
+        markerContainer.appendChild(marker)
       } else {
-        addNote(annotation, element, window.document)
+        addNote(annotation, element, window.document, DOMPurify)
       }
     })
   })
@@ -83,27 +87,43 @@ function getAnnotations (replies = [], xpath) {
   })
 }
 
-function addMarker (marker, element, document, DOMPurify) {
-  const xpath = element.dataset.xpath
-  const form = document.createElement('form')
-  form.setAttribute('is', 'marker-annotation')
-  form.dataset.for = xpath
-  form.dataset.reader = 'true'
-  form.classList.add = 'Marker'
-  form.id = 'marker-' + xpath
-  const textareaId = 'marker-text-' + xpath
-  form.innerHTML = `<div class="Marker-textarea ql-container" id="${textareaId}" data-reader="true" aria-label="Sidebar note"><div class="ql-editor">
-  ${DOMPurify.sanitize(marker.content)}</div></div>`
-  element.appendChild(form)
+const descriptions = {
+  '✓': 'agree',
+  x: 'disagree',
+  '~': 'interesting',
+  '*': 'important',
+  '👍': 'thumbs up',
+  '👎': 'thumbs down',
+  '✋': 'open hand',
+  '👏': 'clapping',
+  '🙂': 'slightly smiling face',
+  '🤨': 'face with raised eyebrows',
+  '😍': 'smiling face with heart-shaped eyes',
+  '😱': 'face screaming in fear',
+  '😐': 'neutral face',
+  '🙄': 'face with rolling eyes'
+}
+
+function addMarker (marker, document) {
+  const description = descriptions[marker.summary]
+  const label = `Remove '${description}' sidebar marker`
+  const button = document.createElement('button')
+  button.classList.add('Button')
+  button.classList.add('Button--marker')
+  button.setAttribute('aria-label', label)
+  button.setAttribute('is', 'marker-button')
+  button.dataset.description = description
+  button.textContent = marker.summary
+  return button
 }
 
 function addNote (note, element, document, DOMPurify) {
   const xpath = element.dataset.xpath
   const form = document.createElement('form')
-  form.setAttribute('is', 'reader-note')
   form.dataset.for = xpath
   form.dataset.reader = 'true'
-  form.classList.add = 'ReaderNote'
+  form.classList.add('ReaderNote')
+  form.classList.add('ReaderNote--preRendered')
   form.id = 'ReaderNote-' + xpath
   const textareaId = 'ReaderNote-text-' + xpath
   form.innerHTML = `<div class="ReaderNote-textarea ql-container" id="${textareaId}" data-reader="true" aria-label="Note"><div class="ql-editor">
