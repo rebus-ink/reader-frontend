@@ -41,10 +41,6 @@
   transform: translateY(0);
 }
 
-reader-highlight {
-  background-color: #ffff98;
-}
-
 .ReaderNote--preRendered .ql-editor {
   white-space: normal;
   word-wrap: normal;
