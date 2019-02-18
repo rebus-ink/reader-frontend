@@ -9,16 +9,58 @@ wickedElements.define('[is="highlight-button"]', {
   onclick (event) {
     const selection = window.getSelection()
     if (selection.isCollapsed) return null
-    for (let index = 0; index < selection.rangeCount; index++) {
-      const range = selection.getRangeAt(index)
-      // Turn the range into an array of ranges that don't include UI elements
-      const rangeString = range.toString()
-      console.log(rangeString)
-      highlightString(rangeString)
+    let range
+    if (selection.rangeCount > 1) {
+      const endRange = selection.getRangeAt(selection.rangeCount - 1)
+      range = selection.getRangeAt(0)
+      range.setEnd(endRange.endContainer, endRange.endOffset)
+    } else {
+      range = selection.getRangeAt(0)
     }
+    const texts = getTexts(range)
+    texts.forEach(rangeString => highlightString(rangeString))
+    console.log(texts)
     selection.collapseToStart()
   }
 })
+
+function getTexts (range) {
+  const end = range.endContainer
+  const start = range.startContainer
+  const iterator = document.createNodeIterator(
+    document.getElementById('chapter'),
+    window.NodeFilter.SHOW_ALL
+  )
+  while (iterator.referenceNode !== start) {
+    iterator.nextNode()
+  }
+  const ranges = []
+  let newRange = document.createRange()
+  newRange.setStart(range.startContainer, range.startOffset)
+  while (iterator.referenceNode !== end) {
+    const ref = iterator.referenceNode
+    if (newRange && ref.matches && ref.matches('[data-reader]')) {
+      newRange.setEndBefore(ref)
+      ranges.push(newRange)
+      newRange = undefined
+      iterator.nextNode()
+    } else if (ref.parentElement.closest('[data-reader]')) {
+      iterator.nextNode()
+    } else if (!newRange) {
+      newRange = document.createRange()
+      newRange.setStartBefore(ref)
+      iterator.nextNode()
+    } else {
+      iterator.nextNode()
+    }
+  }
+  if (newRange) {
+    newRange.setEnd(end, range.endOffset)
+    ranges.push(newRange)
+  }
+  const texts = ranges.map(range => range.toString())
+  return texts
+}
 
 function highlightString (text) {
   const offset = document.body.textContent.indexOf(text)
@@ -55,6 +97,7 @@ function highlightString (text) {
     if (!node.parentElement.closest('[data-reader]')) {
       // Create a highlight
       const highlight = document.createElement('reader-highlight')
+      highlight.dataset.reader = true
 
       // Wrap it around the text node
       node.parentNode.replaceChild(highlight, node)
