@@ -50,8 +50,6 @@ function highlightString (text) {
     nodes.push(nodeCollector.nextNode())
   }
   // nodes = nodes.filter((node) => !node.parentElement.matches('[data-reader]'))
-  let texts = []
-  let position = 0
   for (var i = 0; i < nodes.length; i++) {
     const node = nodes[i]
     if (!node.parentElement.closest('[data-reader]')) {
@@ -61,25 +59,8 @@ function highlightString (text) {
       // Wrap it around the text node
       node.parentNode.replaceChild(highlight, node)
       highlight.appendChild(node)
-    } else {
-      texts.push(
-        nodes
-          .slice(position, i)
-          .filter(node => !node.parentElement.matches('[data-reader]'))
-          .map(node => node.nodeValue)
-          .join('')
-      )
-      position = i
     }
   }
-  texts.push(
-    nodes
-      .slice(position)
-      .filter(node => !node.parentElement.matches('[data-reader]'))
-      .map(node => node.nodeValue)
-      .join('')
-  )
-  console.log(texts)
 }
 
 window.highlightString = highlightString
