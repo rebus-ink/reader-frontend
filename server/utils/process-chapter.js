@@ -18,6 +18,7 @@ async function processChapter (chapter) {
     element.dataset.xpath = getXPath(element)
     const markerContainer = window.document.createElement('span')
     markerContainer.classList.add('Marker')
+    markerContainer.dataset.reader = 'true'
     element.appendChild(markerContainer)
     const annotations = getAnnotations(chapter.replies, element.dataset.xpath)
     annotations.forEach(annotation => {

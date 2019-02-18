@@ -11,11 +11,12 @@ wickedElements.define('[is="highlight-button"]', {
     if (selection.isCollapsed) return null
     for (let index = 0; index < selection.rangeCount; index++) {
       const range = selection.getRangeAt(index)
-      // Empty textareas temporarily while highlighting. then refill
+      // Turn the range into an array of ranges that don't include UI elements
       const rangeString = range.toString()
       console.log(rangeString)
       highlightString(rangeString)
     }
+    selection.collapseToStart()
   }
 })
 
@@ -53,7 +54,7 @@ function highlightString (text) {
   let position = 0
   for (var i = 0; i < nodes.length; i++) {
     const node = nodes[i]
-    if (!node.parentElement.matches('[data-reader]')) {
+    if (!node.parentElement.closest('[data-reader]')) {
       // Create a highlight
       const highlight = document.createElement('reader-highlight')
 
