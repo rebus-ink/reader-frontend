@@ -30,8 +30,8 @@ module.exports.page = (render, model, req, body) => {
 <script src="/components/page-transitions.js" type="module"></script>
 <script src="/components/nav-menu-toggle.js" type="module"></script>
 <script src="/components/fetch.js" type="module"></script>
-<script src="/js/importer.min.js" type="module"></script>
-<script src="/js/annotations.min.js" type="module"></script>
+<script src="/js/importer.js" type="module"></script>
+<script src="/js/annotations.js" type="module"></script>
 <meta name="jwt-meta" content="${token}">
 <meta name="rebus-user-id" content="${id}">
 <link href="${streams.outbox}" rel="rebus-outbox">

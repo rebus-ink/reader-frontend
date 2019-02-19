@@ -1,0 +1,5 @@
+import './highlight.js'
+import './marker.js'
+import './sidebar.js'
+import './xpaths.js'
+import './notes.js'

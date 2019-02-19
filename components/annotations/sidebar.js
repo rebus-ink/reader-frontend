@@ -1,4 +1,4 @@
-const wickedElements = require('wicked-elements').default
+import wickedElements from 'wicked-elements'
 // From https://developer.mozilla.org/en-US/docs/Web/Events/resize
 function throttle (type, name, obj) {
   obj = obj || window

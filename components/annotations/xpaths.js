@@ -1,6 +1,7 @@
-const wickedElements = require('wicked-elements').default
-const { html } = require('lighterhtml')
-const { markerMenu } = require('./marker-menu.js')
+import wickedElements from 'wicked-elements'
+import { html } from 'lighterhtml'
+import { markerMenu } from './marker-menu.js'
+
 const xpathObserver = new window.IntersectionObserver(onIntersection, {
   rootMargin: '50px 0px'
 })

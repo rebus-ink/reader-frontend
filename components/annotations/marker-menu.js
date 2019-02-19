@@ -1,5 +1,5 @@
-const wickedElements = require('wicked-elements').default
-const { html } = require('lighterhtml')
+import wickedElements from 'wicked-elements'
+import { html } from 'lighterhtml'
 
 function markerMenu (element) {
   return html`<details class="MenuButton MenuButton--marker">
@@ -116,4 +116,4 @@ wickedElements.define('[is="marker-button"]', {
   }
 })
 
-module.exports.markerMenu = markerMenu
+export { markerMenu }

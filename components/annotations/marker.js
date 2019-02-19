@@ -1,4 +1,4 @@
-const wickedElements = require('wicked-elements').default
+import wickedElements from 'wicked-elements'
 
 wickedElements.define('.Marker-textarea', {
   onconnected (event) {

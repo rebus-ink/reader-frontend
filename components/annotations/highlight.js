@@ -1,5 +1,5 @@
-const wickedElements = require('wicked-elements').default
-const seek = require('dom-seek')
+import wickedElements from 'wicked-elements'
+import seek from 'dom-seek'
 let rangeId = 0
 
 wickedElements.define('reader-highlight', {

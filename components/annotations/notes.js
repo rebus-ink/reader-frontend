@@ -1,4 +1,4 @@
-const wickedElements = require('wicked-elements').default
+import wickedElements from 'wicked-elements'
 
 wickedElements.define('[data-component="note-button"]', {
   init (event) {

@@ -390,4 +390,4 @@ function getType (mediaType) {
   }
 }
 
-module.exports.actions = { load, parse, process, upload, create }
+export const actions = { load, parse, process, upload, create }
