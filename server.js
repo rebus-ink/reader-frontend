@@ -48,6 +48,7 @@ function setup (authserver) {
   app.use('/', require('./server/routes/info-card.js'))
   app.use('/', require('./server/routes/reader-book.js'))
   app.use('/', require('./server/routes/reader-chapter.js'))
+  app.use('/', require('./server/routes/refresh-token.js'))
 
   const apiApp = require('./reader-api/server.js').app
   app.use('/api', apiApp) // This requires multer, @google-cloud/storage, sqlite objection knex pg objection-db-errors objection-guid debug lodash dotenv passport-jwt
