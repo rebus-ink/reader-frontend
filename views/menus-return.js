@@ -1,4 +1,4 @@
-export const returnMenu = (render, model, req) => {
+module.exports.returnMenu = (render, model, req) => {
   let returnURL
   if (req && req.query && req.query.returnToPage) {
     returnURL = `/library/${req.query.returnToPage}`

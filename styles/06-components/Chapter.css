@@ -88,18 +88,46 @@ StyleGuide 6.Chapter
 
 */
 
-.Chapter {
-  --reader-font-size: 0.85rem;
-  --reader-paragraph-spacing: 0.65rem;
+:root {
+  --reader-font-size: 1rem;
+  --reader-paragraph-spacing: 0.75rem;
   --reader-left-margin: 2rem;
+  --reader-text-color: #444;
+  --reader-min-column-width: min-content;
+  --reader-max-column-width: 37em;
+  --reader-background-color: #fefefc;
+  --reader-border-color: #fafaef;
+  --reader-line-height: 1.35;
+  --reader-font-family: 'Source Serif Pro', serif;
+}
+@media (max-width: 820px) {
+  :root {
+    --reader-font-size: 0.85rem;
+    --reader-paragraph-spacing: 0.65rem;
+    --reader-left-margin: 2rem;
+  }
+}
+
+.Chapter {
   grid-area: Main;
-  font-family: 'Source Serif Pro', serif;
-  background-color: #fefefc;
+  font-family: var(--reader-font-family);
+  background-color: var(--reader-background-color);
   display: grid;
-  grid-template-columns: var(--reader-left-margin) minmax(18em, 37em) 1fr;
+  grid-template-columns:
+    var(--reader-left-margin) minmax(
+      var(--reader-min-column-width),
+      var(--reader-max-column-width)
+    )
+    minmax(3rem, 1fr);
   grid-template-areas: 'leftmargin maintext rightmargin';
-  line-height: 1.4;
+  line-height: var(--reader-line-height);
   font-size: var(--reader-font-size);
+  color: var(--reader-text-color);
+  padding-top: 2rem;
+}
+.Chapter div {
+  margin-top: var(--reader-paragraph-spacing);
+  margin-bottom: var(--reader-paragraph-spacing);
 }
 
 .Chapter > *,
@@ -110,17 +138,7 @@ StyleGuide 6.Chapter
   margin-top: 0;
 }
 .Chapter > figure {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: 2rem minmax(18em, 37em) 1fr;
-  padding: var(--reader-paragraph-spacing) 0;
-  background-color: #fafaef;
-}
-
-.Chapter > figure {
-  background-color: #fafaef;
-  border-top: 1px solid #f2f2d5;
-  border-bottom: 1px solid #f2f2d5;
+  padding: calc(var(--reader-paragraph-spacing) * 2) 0;
 }
 
 .Chapter > details[open] > summary {
@@ -134,4 +152,13 @@ StyleGuide 6.Chapter
 
 .Chapter-body {
   padding: 1rem 0;
+}
+
+#sidebar {
+  grid-column: 3 / -1;
+  z-index: -1;
+}
+
+[data-xpath] {
+  position: relative;
 }

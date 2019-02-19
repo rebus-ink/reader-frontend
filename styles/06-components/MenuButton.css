@@ -1,0 +1,225 @@
+/*
+MenuButton
+
+Toggles ToC on or off.
+
+Markup:
+<details class="MenuButton">
+<summary class="MenuButton-summary">Menu Button</summary>
+<ol class="MenuButton-body">
+<li><button class="MenuItem">This is a Menu Button</button></li>
+<li><a href="#" class="MenuItem">This is a Menu Link</a href="#"></li>
+<li><hr class="MenuButton-separator"></li>
+<li><button class="MenuItem">This is a Menu Button</button></li>
+<li><button class="MenuItem">This is a Menu Button</button></li>
+<li><button class="MenuItem">This is a Menu Button</button></li>
+</ol>
+</details><details class="MenuButton">
+<summary class="MenuButton-summary">Menu Right</summary>
+<ol class="MenuButton-body MenuButton-body--right">
+<li><button class="MenuItem">This is a Menu Button</button></li>
+<li><button class="MenuItem">This is a Menu Button</button></li>
+<li><button class="MenuItem">This is a Menu Button</button></li>
+<li><button class="MenuItem">This is a Menu Button</button></li>
+<li><button class="MenuItem">This is a Menu Button</button></li>
+<li><button class="MenuItem">This is a Menu Button</button></li>
+</ol>
+</details><details class="MenuButton MenuButton--annotation">
+<summary class="MenuButton-summary MenuButton-summary--annotation" aria-label="Marker">&nbsp;</summary>
+<ol class="MenuButton-body MenuButton-body--right">
+<li><label class="MenuItem"><input type="radio" id="None" name="drone" value="None"
+         checked><span><strong>.</strong> (None)</label></span></li>
+<li><label class="MenuItem"><input type="radio" id="Notable" name="drone" value="Notable"> <span><strong>*</strong> (Notable)</span></label></li>
+<li><label class="MenuItem"><input type="radio" id="Agree" name="drone" value="Agree"> <span><strong>✓</strong> (Agree)</span></label></li>
+<li><label class="MenuItem"><input type="radio" id="Disagree" name="drone" value="Disagree"> <span><strong>x</strong> (Disagree)</span></label></li>
+<li><label class="MenuItem"><input type="radio" id="Maybe" name="drone" value="Maybe"> <span><strong>~</strong> (Maybe)</span></label></li>
+<li><button class="MenuItem">Custom marker...</button></li>
+<li><button class="MenuItem">Add short note...</button></li>
+</ol>
+</details>
+
+StyleGuide 6.MenuButton
+
+*/
+
+.MenuButton {
+  position: relative;
+  width: auto;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  z-index: 99;
+}
+.MenuButton-summary {
+  font-family: var(--sans-fonts);
+  font-weight: 400;
+  flex: 0 1 auto;
+  line-height: 1.2;
+
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-align: center;
+  white-space: nowrap;
+  text-decoration: none;
+
+  color: var(--link);
+  border: none;
+  outline: none;
+
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  font-size: 0.65rem;
+  align-self: start;
+  border-radius: 4px;
+  position: relative;
+  width: auto;
+  border: 1px solid #e0e0e0;
+  background-color: var(--button-background-color);
+  background-image: linear-gradient(
+    -180deg,
+    var(--button-background-color) 0%,
+    #f3f3f3 100%
+  );
+  box-shadow: inset 0 1px 3px 0px rgba(255, 255, 255, 0.75),
+    inset 0 2px 5px 1px hsla(0, 0%, 74.9%, 0.1),
+    0 1px 1px 0 hsla(0, 0%, 54.9%, 0.1);
+  text-shadow: 0 2px 2px rgba(191, 191, 191, 0.2);
+}
+
+.MenuButton-summary {
+  list-style: none;
+}
+.MenuButton-summary::-webkit-details-marker {
+  display: none;
+}
+
+.MenuButton-summary:after {
+  border: 4px solid transparent;
+  border-top-color: currentcolor;
+  content: '';
+  display: inline-block;
+  height: 0;
+  vertical-align: -2px;
+  width: 0;
+  margin-left: 3px;
+}
+.MenuButton[aria-expanded='false'] {
+  color: black;
+}
+.MenuButton[aria-expanded='true'],
+.MenuButton[open] .MenuButton-summary {
+  background-color: var(--button-background-color);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-color: transparent;
+  background-image: none;
+  border-color: transparent;
+}
+.MenuButton-summary:hover,
+.MenuButton[open] .MenuButton-summary:hover {
+  color: white;
+  background-color: var(--link);
+  text-decoration: none;
+  box-shadow: none;
+  background-image: linear-gradient(-180deg, var(--link) 0%, #005580 100%);
+  border: 1px solid #014f75;
+}
+
+.MenuButton-summary:active {
+  color: var(--active);
+}
+
+.MenuButton-summary:focus,
+.MenuButton[open] .MenuButton-summary:focus {
+  outline: none;
+  text-decoration: none;
+  background-color: var(--link);
+  color: white;
+}
+
+.MenuButton[disabled],
+.MenuButton--disabled,
+.MenuButton[disabled]:hover,
+.MenuButton--disabled:hover {
+  color: var(--disabled);
+  cursor: not-allowed;
+}
+.MenuButton[disabled]:focus,
+.MenuButton--disabled:focus {
+  color: white;
+  border-color: var(--disabled);
+  background-color: var(--disabled);
+  box-shadow: inset 0 0px 2px 0 rgba(0, 66, 98, 0.15);
+}
+
+.MenuButton-body {
+  position: absolute;
+  background-color: var(--button-background-color);
+  z-index: 99;
+  list-style: none;
+  border-radius: 4px;
+  border-top-left-radius: 0;
+  margin: 0;
+  padding: 0.25rem 0;
+  min-width: 105%;
+  box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.MenuButton-body--right {
+  left: inherit;
+  right: 0;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 0;
+  box-shadow: -1px 2px 2px rgba(0, 0, 0, 0.1);
+}
+.MenuButton-body li {
+  padding: 0;
+  margin: 0;
+}
+.MenuButton-separator {
+  margin: 0.25rem 0;
+  border-color: #e9e9e9;
+}
+
+@media (pointer: fine) {
+  .MenuButton-summary--annotation {
+    color: #666;
+    background-color: transparent;
+  }
+  .MenuButton[open] .MenuButton-summary--annotation {
+    background-color: var(--button-background-color);
+  }
+}
+
+.MenuButton strong {
+  font-weight: 900;
+}
+
+.MenuButton--marker,
+.MenuButton--marker .MenuButton-summary {
+  height: 100%;
+}
+.MenuButton--marker .MenuButton-summary {
+  width: 1.5rem;
+  padding: 6px 3px 0;
+}
+
+.MenuButton--marker .MenuButton-summary:after {
+  position: absolute;
+  bottom: 3px;
+  right: 2px;
+}
+
+.MenuButton--marker .MenuButton-body {
+  margin-top: 0;
+  width: 11.25rem;
+  max-width: 260px;
+  min-width: 200px;
+  margin-bottom: 0;
+}

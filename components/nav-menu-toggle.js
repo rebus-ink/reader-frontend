@@ -11,14 +11,18 @@ window.customElements.define(
     get menu () {
       return document.getElementById(this.dataset.menuId)
     }
+    get menuBody () {
+      return document
+        .getElementById(this.dataset.menuId)
+        .querySelector('.NavSidebar-body')
+    }
     updateVisibility () {
       this.checkVisibility()
       this.setAttribute('aria-expanded', this.visible)
-      this.innerText = this.visible ? 'Hide Menu' : 'Show Menu'
     }
     checkVisibility () {
       if (
-        window.getComputedStyle(this.menu).getPropertyValue('display') ===
+        window.getComputedStyle(this.menuBody).getPropertyValue('display') ===
         'none'
       ) {
         this.visible = false
@@ -37,7 +41,6 @@ window.customElements.define(
       }
       this.visible = !this.visible
       this.setAttribute('aria-expanded', this.visible)
-      this.innerText = this.visible ? 'Hide Menu' : 'Show Menu'
     }
   },
   { extends: 'button' }

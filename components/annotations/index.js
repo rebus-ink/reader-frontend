@@ -1,0 +1,5 @@
+require('./highlight.js')
+require('./marker.js')
+require('./sidebar.js')
+require('./xpaths.js')
+require('./notes.js')

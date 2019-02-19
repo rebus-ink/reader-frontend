@@ -1,0 +1,125 @@
+/*
+Arrow Button
+
+Basic Arrow button component.
+
+Markup:
+<a href="#" aria-label="Previous chapter" class="ArrowButton  {{modifier_class}} ArrowButton--previous"><svg viewBox="0 0 10 10" width="24" height="24" fill="currentColor">
+<path d="m9 4h-4v-2l-4 3 4 3v-2h4z"/>
+</svg></a><a href="#" aria-label="Next chapter" class="ArrowButton  {{modifier_class}} ArrowButton--next"><svg viewBox="0 0 10 10" width="24" height="24" fill="currentColor">
+<path d="m1 4h4v-2l4 3-4 3v-2h-4z"/>
+</svg></a>
+
+.ArrowButton:hover - hover state
+.ArrowButton:focus - focus state
+.ArrowButton:active - active state
+.ArrowButton--disabled - disabled state (also styles the `disabled` attribute)
+.ArrowButton--disabled:focus - disabled state (also styles the `disabled` attribute)
+
+StyleGuide 6.ArrowButton
+
+*/
+
+.ArrowButton {
+  font-family: var(--sans-fonts);
+  font-weight: 400;
+  flex: 0 1 auto;
+  line-height: 1.2;
+
+  display: inline-block;
+  padding: 5px;
+
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-align: center;
+  white-space: nowrap;
+  text-decoration: none;
+
+  color: var(--link);
+  outline: none;
+
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  font-size: 0.65rem;
+  border-radius: 100%;
+  box-shadow: 0 1px 2px 0 rgba(98, 98, 98, 0.5);
+  border: 1px solid #e0e0e0;
+  background-color: var(--button-background-color);
+  background-image: linear-gradient(
+    -180deg,
+    var(--button-background-color) 0%,
+    #f3f3f3 100%
+  );
+  box-shadow: inset 0 1px 3px 0px rgba(255, 255, 255, 0.75),
+    inset 0 2px 5px 1px hsla(0, 0%, 74.9%, 0.1),
+    0 1px 2px 0 rgba(98, 98, 98, 0.5);
+  text-shadow: 0 2px 2px rgba(191, 191, 191, 0.2);
+  transition: none;
+}
+a.ArrowButton:hover {
+  color: white;
+  background-color: var(--link);
+  text-decoration: none;
+  background-image: none;
+  box-shadow: 0 1px 2px 0 rgba(98, 98, 98, 0.5);
+  border-color: transparent;
+  transition: none;
+}
+
+.ArrowButton:active {
+  color: var(--active);
+}
+
+.ArrowButton:focus {
+  outline: none;
+  text-decoration: none;
+  background-color: var(--link);
+  border-color: #999;
+  transition: none;
+}
+.ArrowButton:link:focus {
+  color: var(--link);
+  transition: none;
+}
+.ArrowButton:link:focus:hover {
+  color: white;
+  transition: none;
+}
+
+.ArrowButton[disabled],
+.ArrowButton--disabled,
+.ArrowButton[disabled]:hover,
+.ArrowButton--disabled:hover {
+  color: var(--disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+  background-color: var(--button-background-color);
+}
+.ArrowButton[disabled]:focus,
+.ArrowButton--disabled:focus {
+  color: white;
+  border-color: var(--disabled);
+  background-color: var(--disabled);
+  box-shadow: inset 0 0px 2px 0 rgba(0, 66, 98, 0.15);
+}
+
+.ArrowButton--previous svg {
+  transform: translate(-1px, 1px);
+}
+.ArrowButton--next svg {
+  transform: translate(1px, 1px);
+}
+
+/* .Layout--reader .ArrowButton {
+  position: fixed;
+  bottom: 0.5rem;
+}
+.Layout--reader .ArrowButton--previous {
+  right: 5rem;
+}
+.Layout--reader .ArrowButton--next {
+  right: 1rem;
+} */

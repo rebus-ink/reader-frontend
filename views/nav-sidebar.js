@@ -1,4 +1,4 @@
-export const navSidebarView = (render, model, req) => {
+module.exports.navSidebarView = (render, model, req) => {
   const isSelected = path => {
     if (path === req.path) {
       return 'NavSidebar-item is-selected'
@@ -16,9 +16,8 @@ export const navSidebarView = (render, model, req) => {
   return render(
     model,
     ':navSidebarView'
-  )`<nav class="NavSidebar" id="NavSidebar" aria-labelledby="NavSidebar-title">
-  <h1 class="NavSidebar-title" id="NavSidebar-title">Rebus Reader</h1>
-  <ol>
+  )`<nav class="NavSidebar" id="NavSidebar">
+  <ol class="NavSidebar-body">
     <li class="${isSelected(
     '/library'
   )}"><a href="/library#Library" class="NavSidebar-link" aria-current=${ariaCurrent(

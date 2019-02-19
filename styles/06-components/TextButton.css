@@ -44,7 +44,7 @@ StyleGuide 6.TextButton
   -ms-touch-action: manipulation;
   touch-action: manipulation;
   text-transform: uppercase;
-  font-size: .65rem;
+  font-size: 0.65rem;
   border-bottom: solid 3px transparent;
 }
 .TextButton:hover {
@@ -106,5 +106,35 @@ StyleGuide 6.TextButton
 .TextButton--toggled {
   background-color: var(--light);
   padding: 5px 5px 4px;
-  border-radius: .2rem;
+  border-radius: 0.2rem;
+}
+
+.ReaderNote--hasContent .TextButton--noteButton {
+  display: none;
+}
+.TextButton--noteButton {
+  position: absolute;
+  bottom: 0;
+  right: 1rem;
+  opacity: 0;
+}
+.TextButton--noteDelete {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  right: 1rem;
+  color: var(--primary);
+  opacity: 0;
+}
+.ReaderNote--hasContent .TextButton--noteDelete {
+  display: inline-block;
+}
+
+.ReaderNote--hasFocus .TextButton--noteDelete,
+.ReaderNote--hasFocus .TextButton--noteButton,
+.TextButton--noteButton:focus,
+.TextButton--noteDelete:focus,
+.TextButton--noteButton:hover,
+.TextButton--noteDelete:hover {
+  opacity: 1;
 }

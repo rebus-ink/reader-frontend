@@ -1,23 +1,47 @@
 .Layout {
   display: grid;
-  grid-template-areas: "Menu ." "NavSidebar Main";
-  grid-template-columns: 300px 1fr;
-  grid-template-rows: 2rem auto;
+  grid-template-areas: 'NavSidebar Main';
+  grid-template-columns: min-content 1fr;
 }
 
 .Layout--reader {
-  grid-template-columns: 0.3fr 1fr;
+  grid-template-columns: minmax(min-content, auto) 1fr;
+  grid-template-areas:
+    'NavSidebar TopMenu'
+    'NavSidebar Main';
+  grid-template-rows: auto auto;
 }
 
+.Layout--reader .Layout-floating-buttons {
+  position: fixed;
+  bottom: 0.5rem;
+  right: 1rem;
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
 .Layout.is-without-menu {
-  grid-template-areas: "Menu SecondMenu" "Main Main";
-  grid-template-columns: 200px 1fr;
-  grid-template-rows: 2rem auto;
+  grid-template-areas: 'Main';
+  grid-template-columns: 1fr;
+}
+.Layout--reader.is-without-menu {
+  grid-template-areas:
+    'TopMenu'
+    'Main';
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
 }
 
 @media (max-width: 820px) {
   .Layout {
     grid-template-areas: 'Main';
     grid-template-columns: 1fr;
+  }
+  .Layout--reader {
+    grid-template-areas:
+      'TopMenu'
+      'Main';
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
   }
 }

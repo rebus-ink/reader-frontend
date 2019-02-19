@@ -1,4 +1,3 @@
-require = require('esm')(module) // eslint-disable-line
 const { setup } = require('./server.js')
 const morgan = require('morgan')
 // const basicAuth = require('express-basic-auth')

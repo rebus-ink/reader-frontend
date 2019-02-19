@@ -1,13 +1,11 @@
-// import distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
-// import { clean } from '../server/utils/sanitize-state'
-import { getId } from './utils/get-id.js'
-import { arrify } from './util-arrify.js'
+const { getId } = require('./utils/get-id.js')
+const { arrify } = require('./util-arrify.js')
 const debug = require('debug')('vonnegut:views:infocard')
 
-export const infoCardView = (render, model, req) => {
+module.exports.infoCardView = (render, model, req) => {
   const { cover = {}, id = '' } = model.book
   const book = model.book
-  debug(book)
+  debug('got model')
   const url = `/reader/${encodeURIComponent(getId(id))}`
   return render(book, ':infoCard')`<div class="InfoCard">
 <div class="InfoCard-title">
@@ -42,7 +40,6 @@ export const infoCardView = (render, model, req) => {
 
 function attributionsMap (attributions = [], render) {
   return attributions.map((attribution, index) => {
-    debug(attribution)
     return render(attribution, ':infoCard-attribution')`<li><span>${
       attribution.name
     }</span> ${attribution.roles.map(
@@ -71,7 +68,6 @@ function attributionsMap (attributions = [], render) {
 function renderToC (render, model, req) {
   debug('rendering ToC')
   return arrify(model.orderedItems).map((chapter, index) => {
-    debug(chapter)
     const url = `/reader/${encodeURIComponent(getId(model.id))}/${
       chapter['reader:path']
     }`

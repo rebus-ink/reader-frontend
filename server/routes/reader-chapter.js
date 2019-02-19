@@ -1,13 +1,13 @@
 const viperHTML = require('viperhtml')
 const { pageBody } = require('../../views/reader-chapter.js')
-const { pageHead } = require('../../views/page-head.js')
-const { pageFoot } = require('../../views/page-foot.js')
+const { page } = require('../../views/page.js')
 const { ensureLogin } = require('../ensure-login.js')
 const { getUserStreams } = require('../utils/get-user-streams.js')
 const express = require('express')
 const router = express.Router()
 const { getBookState } = require('../utils/get-book-state.js')
 const { arrify } = require('../utils/arrify.js')
+const { processChapter } = require('../utils/process-chapter.js')
 const debug = require('debug')('vonnegut:routes:chapter')
 
 router.get('/reader/:bookId/*', ensureLogin, getUserStreams, function (
@@ -19,15 +19,18 @@ router.get('/reader/:bookId/*', ensureLogin, getUserStreams, function (
   return getBookState(req, res)
     .then(model => {
       debug('got model')
-      if (model.chapter.type !== 'Document') {
+      debug(getAlternate(model.chapter))
+      if (model.chapter.type === 'Document') {
+        return processChapter(model.chapter).then(clean => {
+          model.clean = clean
+          const render = viperHTML.wire
+          res.type('html')
+          debug('got chapter')
+          return res.send(page(render, model, req, pageBody))
+        })
+      } else {
         return res.redirect(getAlternate(model.chapter))
       }
-      const render = viperHTML.wire
-      return res.send(
-        pageHead(render, model, req) +
-          pageBody(render, model, req) +
-          pageFoot(render, model)
-      )
     })
     .catch(err => next(err))
 })

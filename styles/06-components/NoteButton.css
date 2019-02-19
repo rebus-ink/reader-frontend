@@ -1,0 +1,15 @@
+.NoteButton {
+  position: absolute;
+  left: -1.8rem;
+  width: auto;
+}
+
+@media (hover: hover) {
+  .NoteButton {
+    opacity: 0;
+  }
+  .NoteButton:focus,
+  :hover > .NoteButton {
+    opacity: 1;
+  }
+}

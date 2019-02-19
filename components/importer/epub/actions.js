@@ -1,12 +1,13 @@
+const JSZip = window.JSZip
 const BUCKET_URL = 'https://storage.googleapis.com/rebus-default-bucket/'
 
 // Context should be empty to begin with. Event should be a custom 'import:load' event. Its 'detail' property has only one property: 'file'
-export async function load (context = {}, event) {
+async function load (context = {}, event) {
   // First we load the zip file and add it to the context. This loads it into memory so will fail with very large ebooks
   const { base64 = false, file, DOMAIN } = event.detail
   context.file = file
   context.DOMAIN = DOMAIN
-  context.zip = await window.JSZip.loadAsync(file, { base64 })
+  context.zip = await JSZip.loadAsync(file, { base64 })
   // Then we find the META-INF/container.xml information file. This file tells us where the actual OPF file is.
   const container = await context.zip
     .file('META-INF/container.xml')
@@ -28,7 +29,7 @@ export async function load (context = {}, event) {
 // Do we need an unload action at some point? Or will de-referencing the context handle that?
 
 // This action parses the OPF and gets nav files from the zip in context and parses them into the 'publication' property as a 'rebus:Publication' type.
-export async function parse (context) {
+async function parse (context) {
   const parser = new window.DOMParser()
   // Get the OPF from the zip
   const opf = await context.zip.file(context.opfPath).async('string')
@@ -187,7 +188,7 @@ export async function parse (context) {
 }
 
 // This action goes through all of the remaining html files in the epub, processes them for type
-export async function process (context, event) {
+async function process (context, event) {
   // Get the zip
   const zip = context.zip
   const parser = new window.DOMParser()
@@ -213,7 +214,7 @@ export async function process (context, event) {
 }
 
 // This uploads the initial file and all attachments using the file upload endpoint.
-export async function upload (context, event) {
+async function upload (context, event) {
   const uploadFile = window.uploadFile
   const zip = context.zip
   // Another future feature is getting media sizes as they are being uploaded
@@ -247,7 +248,7 @@ export async function upload (context, event) {
         console.log(err)
       }
     }
-    const filename = context.bookPrefix + resource.path
+    const filename = context.bookPrefix + decodeURI(resource.path)
     const file = new window.File([blob], filename, { type: resource.mediaType })
     const data = new window.FormData()
     data.append('file', file)
@@ -283,7 +284,7 @@ export async function upload (context, event) {
 }
 
 // Finally, this action prepares and submits the completed publication activity to the user's outbox.
-export async function create (context, event) {
+async function create (context, event) {
   const createPublication = window.createPublication
   const publication = {
     type: 'reader:Publication',
@@ -389,4 +390,4 @@ function getType (mediaType) {
   }
 }
 
-window.actions = { load, parse, process, upload, create }
+module.exports.actions = { load, parse, process, upload, create }

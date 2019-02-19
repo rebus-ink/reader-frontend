@@ -1,4 +1,3 @@
-require = require('esm')(module) // eslint-disable-line
 const tap = require('tap')
 const render = require('viperhtml').wire
 

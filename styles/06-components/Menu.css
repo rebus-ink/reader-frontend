@@ -27,18 +27,23 @@ StyleGuide 6.Menu
   background-color: transparent;
   padding: 0;
   margin: 0;
-  z-index: 100;
+  z-index: 99;
 }
-.Menu li {
-  margin-right: 1rem;
+.Menu > ul > li {
+  margin: 0 0.25rem;
+}
+.Menu > ul > li:first-child {
+  margin-left: var(--reader-left-margin);
 }
 .Menu-list {
   display: flex;
   list-style: none;
   font-size: 0.85rem;
   align-items: center;
-  padding: 0 1rem 0 0;
   height: 100%;
+  padding: 0.25rem 0;
+
+  margin: 0;
 }
 
 .Menu--top {
@@ -51,7 +56,10 @@ StyleGuide 6.Menu
 .Menu--left {
   border-right: none;
   border-left: none;
-  position: fixed;
-  top: 0.5rem;
-  left: 1rem;
+}
+.Menu--reader {
+  background-color: #fefefc;
+  grid-area: TopMenu;
+  position: sticky;
+  top: 0;
 }

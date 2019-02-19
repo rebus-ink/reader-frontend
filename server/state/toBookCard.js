@@ -4,13 +4,14 @@ const { getNotes } = require('./getNotes.js')
 const { getStacks } = require('./getStacks.js')
 const { getTags } = require('./getTags.js')
 const { getToC } = require('./getToC.js')
+const { getNav } = require('./getNav.js')
 const { arrify } = require('../utils/arrify.js')
 const { getDocuments, getDocumentsById } = require('./getDocuments.js')
 const debug = require('debug')('vonnegut:state:toBookCard')
 /**
  * Converts an ActivityStreams publication type into an easier to handle BookCard state object.
  */
-function toBookCard (publication /*: Publication */) /*: BookCard */ {
+function toBookCard (publication) {
   debug(publication.id)
   const icons = arrify(publication.icon)
   const placeholdercover = {

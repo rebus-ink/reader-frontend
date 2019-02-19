@@ -1,4 +1,3 @@
-require = require('esm')(module) // eslint-disable-line
 const https = require('https')
 const fs = require('fs')
 const { setup } = require('./server.js')

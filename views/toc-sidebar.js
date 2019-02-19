@@ -1,20 +1,21 @@
-import { clean } from '../server/utils/sanitize-state'
-import { arrify } from './util-arrify.js'
-import { getId } from './utils/get-id.js'
+const { clean } = require('../server/utils/sanitize-state')
+const { arrify } = require('./util-arrify.js')
+const { getId } = require('./utils/get-id.js')
+// const debug = require('debug')('vonnegut:views:tocSidebar')
 // Need to make sure this has a return link and location markers
-export const tocSidebarView = (render, model, req) => {
-  const returnURL = `/library/info/${encodeURIComponent(getId(model.id))}`
+module.exports.tocSidebarView = (render, model, req) => {
   return render(
     model,
     ':tocSidebarView'
-  )`<div class="NavSidebar NavSidebar--toc" id="NavSidebar">
-  <a href="${returnURL}" class="TextButton TextButton--tocReturn" aria-label="Return to Book Information">&lt; Return</a>
-  <h1 class="NavSidebar-title">${[clean(model.name)]}</h1>
-  <h2 class="NavSidebar-subtitle">Contents</h2>
-  <ol>
+  )`<nav class="NavSidebar NavSidebar--toc" id="NavSidebar" aria-labelledby="navsidebar-label">
+  <p class="NavSidebar-title NavSidebar-body" id="navsidebar-label">${[
+    clean(model.name)
+  ]}</p>
+  <p class="NavSidebar-subtitle NavSidebar-body">Contents</p>
+  <ol class="NavSidebar-body">
 ${renderToC(render, model, req)}
   </ol>
-</div>`
+</nav>`
 }
 
 function renderToC (render, model, req) {
@@ -23,7 +24,7 @@ function renderToC (render, model, req) {
       chapter['reader:path']
     }`
     const isSelected =
-      req.params.chapter === String(index)
+      req.params[0] === decodeURIComponent(chapter['reader:path'])
         ? 'NavSidebar-item is-selected'
         : 'NavSidebar-item'
     const ariaCurrent = req.params.chapter === String(index) ? 'page' : false

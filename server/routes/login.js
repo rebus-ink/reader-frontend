@@ -1,6 +1,5 @@
 const viperHTML = require('viperhtml')
-const { pageHead } = require('../../views/page-head.js')
-const { pageFoot } = require('../../views/page-foot.js')
+const { page } = require('../../views/page.js')
 const passport = require('passport')
 const express = require('express')
 const router = express.Router()
@@ -21,14 +20,18 @@ router.get('/login', function (req, res, next) {
     res.redirect(req.session.returnTo || '/')
   }
   const render = viperHTML.wire
+  res.type('html')
   res.send(
-    pageHead(render, {}, req) +
-      `<div class="FrontLayout">
-  <form action="/login?returnTo=/library" method="POST">
-  <button class="Button">Log In</button>
-  </form>
-  </div>` +
-      pageFoot(render)
+    page(
+      render,
+      {},
+      req,
+      () => `<div class="FrontLayout">
+    <form action="/login?returnTo=/library" method="POST">
+    <button class="Button">Log In</button>
+    </form>
+    </div>`
+    )
   )
 })
 

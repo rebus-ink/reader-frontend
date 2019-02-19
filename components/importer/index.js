@@ -1,5 +1,4 @@
-const actions = window.actions
-
+const { actions } = require('./epub/actions.js')
 window.customElements.define(
   'epub-import',
   class EpubImportForm extends window.HTMLFormElement {
@@ -12,7 +11,8 @@ window.customElements.define(
     }
     async handleEvent (event) {
       const file = this.fileInput.files[0]
-      const progress = this.querySelector('[data-upload-progress')
+      const progress = this.querySelector('[data-upload-progress]')
+      console.log(file.name)
       progress.textContent = `Loading ${file.name}`
       const log = this.querySelector('[data-upload-log]')
       try {

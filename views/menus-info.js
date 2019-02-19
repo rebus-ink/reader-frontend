@@ -1,4 +1,4 @@
-export const topMenuInfo = (render, model) => render(
+module.exports.topMenuInfo = (render, model) => render(
   model,
   ':topMenuInfo'
 )`<nav class="Menu Menu--top Menu--right">

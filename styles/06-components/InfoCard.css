@@ -401,9 +401,6 @@ StyleGuide 6.4
 .InfoCard-contents li {
   line-height: 1.25rem;
 }
-.InfoCard-contents li:before {
-  content: "\200B"; /* Preserving list semantics in Safari + VoiceOver by adding zero-width space */
-}
 .InfoCard-contents .BookCard-session {
   line-height: 1;
 }
