@@ -26,7 +26,7 @@ test('load', async (page, t) => {
     console.log(error.message)
   }
   await page.evaluate(async () => {
-    const actions = require('epub-import-actions')
+    const { actions } = require('epub-import-actions')
     const context = {}
     try {
       const result = await actions.load(context, {
@@ -53,7 +53,7 @@ test('parse', async (page, t) => {
     console.log(error.message)
   }
   await page.evaluate(async () => {
-    const actions = require('epub-import-actions')
+    const { actions } = require('epub-import-actions')
     let context, result
     try {
       const meta = document.createElement('meta')
