@@ -391,3 +391,7 @@ function getType (mediaType) {
 }
 
 export const actions = { load, parse, process, upload, create }
+
+if (typeof module === 'object') {
+  module.exports.actions = actions
+}
