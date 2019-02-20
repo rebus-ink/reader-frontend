@@ -139,6 +139,12 @@ StyleGuide 6.MenuButton
 .MenuButton[open] .MenuButton-summary:focus {
   outline: none;
   text-decoration: none;
+  border-color: #999;
+}
+
+.MenuButton[open] .MenuButton-summary:focus {
+  outline: none;
+  text-decoration: none;
   background-color: var(--link);
   color: white;
 }

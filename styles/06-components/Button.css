@@ -227,7 +227,7 @@ StyleGuide 6.Button
 }
 
 @media (hover: hover) {
-  .Marker .Button--marker {
+  .Marker > .Button--marker {
     background-color: #ffffcb;
     box-shadow: none;
     text-shadow: none;

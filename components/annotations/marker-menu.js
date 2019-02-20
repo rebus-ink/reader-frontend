@@ -89,6 +89,7 @@ wickedElements.define('[is="add-marker-button"]', {
     } else {
       parent.insertBefore(newMarker, reference)
     }
+    parent.querySelector('details').open = false
   },
   ondisconnected (event) {
     this.el.removeEventListener('click', this)
