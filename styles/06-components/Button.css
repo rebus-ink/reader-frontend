@@ -248,3 +248,7 @@ StyleGuide 6.Button
     text-shadow: 0 2px 2px rgba(191, 191, 191, 0.2);
   }
 }
+
+.Button.Button--marker:focus {
+  border-color: #999;
+}
