@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
   token = metaEl.getAttribute('content')
 })
 
-export async function getJWT () {
+async function getJWT () {
   const decoded = jwtDecode(token)
   const date = new Date(decoded * 1000).getTime()
   const nowish = Date.now().getTime() - 60000
@@ -52,12 +52,13 @@ async function refreshJWT () {
   return response.json()
 }
 
-export function getOutbox () {
+// TODO: replace these two with cached calls to profile. Or an 'endpoints' endpoint?
+// Or maybe this is fine as we aren't going to be doing SPA-style logins?
+function getOutbox () {
   const metaEl = document.querySelector('[rel="rebus-outbox"]')
   return metaEl.getAttribute('href')
 }
-
-export function getUpload () {
+function getUpload () {
   const metaEl = document.querySelector('[rel="rebus-upload"]')
   return metaEl.getAttribute('href')
 }
@@ -94,7 +95,7 @@ export async function create (payload) {
   return response.headers.get('location')
 }
 
-export async function uploadFile (payload) {
+export async function upload (payload) {
   const JWT = await getJWT()
   const upload = getUpload()
   const response = await window.fetch(upload, {
