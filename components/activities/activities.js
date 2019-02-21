@@ -20,20 +20,29 @@ should be initially based on fetch.js
 */
 import jwtDecode from 'jwt-decode'
 
-class HTTPError extends Error {}
+export class HTTPError extends Error {}
 let token
 document.addEventListener('DOMContentLoaded', function (event) {
-  const metaEl = document.querySelector('[name="jwt-meta"]')
-  token = metaEl.getAttribute('content')
+  loadToken()
 })
 
+export function loadToken () {
+  const metaEl = document.querySelector('[name="jwt-meta"]')
+  token = metaEl.getAttribute('content')
+}
+
 async function getJWT () {
-  const decoded = jwtDecode(token)
-  const date = new Date(decoded * 1000).getTime()
-  const nowish = Date.now().getTime() - 60000
-  if (date > nowish) {
+  if (!token) {
     const response = await refreshJWT()
     token = response.token
+  } else {
+    const decoded = jwtDecode(token)
+    const date = decoded.exp * 1000
+    const nowish = Date.now() + 60000
+    if (date < nowish) {
+      const response = await refreshJWT()
+      token = response.token
+    }
   }
   return token
 }
@@ -47,7 +56,7 @@ async function refreshJWT () {
     })
   })
   if (!response.ok) {
-    throw new HTTPError('POST Error:', response.statusText)
+    throw new HTTPError('JWT Refresh Error:', response.statusText)
   }
   return response.json()
 }
@@ -76,10 +85,10 @@ export async function get (url) {
   }
   return response.json()
 }
-
 export async function create (payload) {
   const JWT = await getJWT()
   const outbox = getOutbox()
+  payload = wrap(payload)
   const response = await window.fetch(outbox, {
     credentials: 'include',
     method: 'POST',
@@ -114,4 +123,19 @@ export async function upload (payload) {
     throw err
   }
   return response.json()
+}
+
+function wrap (payload) {
+  if (payload.type !== 'Create') {
+    return {
+      '@context': [
+        'https://www.w3.org/ns/activitystreams',
+        { reader: 'https://rebus.foundation/ns/reader' }
+      ],
+      type: 'Create',
+      object: payload
+    }
+  } else {
+    return payload
+  }
 }
