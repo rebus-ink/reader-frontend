@@ -124,6 +124,7 @@ StyleGuide 6.Chapter
   font-size: var(--reader-font-size);
   color: var(--reader-text-color);
   padding-top: 2rem;
+  min-height: calc(100vh - 2rem);
 }
 .Chapter div {
   margin-top: var(--reader-paragraph-spacing);

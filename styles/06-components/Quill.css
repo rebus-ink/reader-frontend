@@ -17,6 +17,7 @@
 .ql-editor,
 .ql-container {
   height: auto;
+  min-height: 100%;
 }
 
 .ql-editor:focus {
