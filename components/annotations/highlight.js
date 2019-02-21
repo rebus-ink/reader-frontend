@@ -1,5 +1,6 @@
 import wickedElements from 'wicked-elements'
 import seek from 'dom-seek'
+import { saveQuoteNote } from './save-note-event.js'
 let rangeId = 0
 
 wickedElements.define('reader-highlight', {
@@ -81,15 +82,49 @@ wickedElements.define('[is="highlight-button"]', {
     } else {
       range = selection.getRangeAt(0)
     }
-    const texts = getTexts(range)
+    if (range.startContainer.parentElement.closest('[data-reader]')) {
+      return null
+    }
+    const ranges = getRanges(range)
+    const html = serializeRange(range)
+    const texts = ranges.map(range => range.toString())
     texts.forEach(rangeString => highlightString(rangeString, rangeId))
-    rangeId = rangeId + 1
-    console.log(texts)
+    const note = `<blockquote>${html}</blockquote>`
+    let startXpath
+    if (range.startContainer.closest) {
+      startXpath = range.startContainer.closest('[data-xpath]').dataset.xpath
+    } else {
+      startXpath = range.startContainer.parentElement.closest('[data-xpath]')
+        .dataset.xpath
+    }
+    let endXpath
+    if (range.endContainer.closest) {
+      endXpath = range.endContainer.closest('[data-xpath]').dataset.xpath
+    } else {
+      endXpath = range.endContainer.parentElement.closest('[data-xpath]')
+        .dataset.xpath
+    }
+    saveQuoteNote(note, texts, startXpath, endXpath, rangeId)
+    // Clean up
     selection.collapseToStart()
+    rangeId = rangeId + 1
   }
 })
 
-function getTexts (range) {
+function serializeRange (range) {
+  const placeholder = document.createElement('div')
+  const fragment = range.cloneContents()
+  fragment.querySelectorAll('[data-reader]').forEach(element => {
+    element.parentElement.removeChild(element)
+  })
+  fragment.querySelectorAll('reader-highlight').forEach(element => {
+    element.replaceWith(element.textContent)
+  })
+  placeholder.appendChild(fragment)
+  return placeholder.innerHTML
+}
+
+function getRanges (range) {
   const end = range.endContainer
   const start = range.startContainer
   const iterator = document.createNodeIterator(
@@ -123,8 +158,7 @@ function getTexts (range) {
     newRange.setEnd(end, range.endOffset)
     ranges.push(newRange)
   }
-  const texts = ranges.map(range => range.toString())
-  return texts
+  return ranges
 }
 
 function highlightString (text, rangeId) {
@@ -159,10 +193,12 @@ function highlightString (text, rangeId) {
   // nodes = nodes.filter((node) => !node.parentElement.matches('[data-reader]'))
   for (var i = 0; i < nodes.length; i++) {
     const node = nodes[i]
-    if (!node.parentElement.closest('[data-reader]')) {
+    if (
+      !node.parentElement.closest('[data-reader]') &&
+      !node.parentElement.closest('reader-highlight')
+    ) {
       // Create a highlight
       const highlight = document.createElement('reader-highlight')
-      highlight.dataset.reader = true
       highlight.dataset.rangeId = rangeId
       highlight.classList.add('Highlight')
 
@@ -174,10 +210,3 @@ function highlightString (text, rangeId) {
 }
 
 window.highlightString = highlightString
-// Get range
-// Split text node at end and start.
-// Iterate to start
-// iterate through range, building fresh sub ranges that don't include ui elements
-// Turn arrays of ranges into flat array of strings.
-// Call highlightString on each string in array.
-// Highlight string root should be main/chapter

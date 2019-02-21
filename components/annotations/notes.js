@@ -1,4 +1,5 @@
 import wickedElements from 'wicked-elements'
+import { saveXpathNote, updateXpathNote } from './save-note-event.js'
 
 wickedElements.define('[data-component="note-button"]', {
   init (event) {
@@ -50,6 +51,7 @@ wickedElements.define('[data-component="reader-note"]', {
     })
     this.quill.on('text-change', function () {
       element.classList.add('ReaderNote--hasContent')
+      element.dataset.saved = 'false'
     })
     const button = document.createElement('button')
     button.textContent = 'Delete'
@@ -66,6 +68,19 @@ wickedElements.define('[data-component="reader-note"]', {
   },
   onblur (element) {
     element.classList.remove('ReaderNote--hasFocus')
+    if (element.dataset.actId) {
+      updateXpathNote(
+        element.querySelector('.ql-editor').innerHTML,
+        element.dataset.for,
+        element.dataset.actId
+      )
+    } else {
+      saveXpathNote(
+        element.querySelector('.ql-editor').innerHTML,
+        element.dataset.for
+      )
+    }
+    element.dataset.saved = 'true'
   }
 })
 
