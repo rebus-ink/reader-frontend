@@ -6,6 +6,7 @@
   "engines": {
     "node": "^8.0.0"
   },
+  "style": "static/styles/app.css",
   "scripts": {
     "test": "tap 'tests/*.js'",
     "dev-test": "onchange 'app/**/*.js' 'server/**/*.js' 'tests/**/*.js' -- onerror \"tap -R classic tests/*.js\"",
