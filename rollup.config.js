@@ -4,14 +4,20 @@ import commonjs from 'rollup-plugin-commonjs'
 import { terser } from 'rollup-plugin-terser'
 
 export default {
-  input: ['components/importer/importer.js', 'components/annotations/annotations.js'],
-  output: {
-    dir: 'js',
+  input: 'app/index.js',
+  output: [{
+    dir: 'js/module',
     format: 'es',
     sourcemap: true
-  },
+  }, {
+    dir: 'js/nomodule',
+    format: 'system',
+    sourcemap: true
+  }],
   plugins: [
-    resolve(),
+    resolve({
+      browser: true
+    }),
     commonjs(),
     terser()
   ]
