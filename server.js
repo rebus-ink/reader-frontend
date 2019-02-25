@@ -40,6 +40,8 @@ function setup (authserver) {
   app.use(authserver)
 
   // Routes
+  const csurf = require('csurf')
+  app.use(csurf())
   app.use('/', require('./server/routes/front-page.js'))
   app.use('/', require('./server/routes/library.js'))
   app.use('/', require('./server/routes/settings.js'))

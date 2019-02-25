@@ -48,11 +48,13 @@ async function getJWT () {
 }
 
 async function refreshJWT () {
+  const csurf = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
   const response = await window.fetch('/refresh-token', {
     credentials: 'include',
     method: 'POST',
     headers: new window.Headers({
-      'content-type': 'application/ld+json'
+      'content-type': 'application/ld+json',
+      'csrf-token': csurf
     })
   })
   if (!response.ok) {
@@ -71,6 +73,10 @@ function getUpload () {
   const metaEl = document.querySelector('[rel="rebus-upload"]')
   return metaEl.getAttribute('href')
 }
+function getLibrary () {
+  const metaEl = document.querySelector('[rel="rebus-library"]')
+  return metaEl.getAttribute('href')
+}
 
 export async function get (url) {
   const JWT = await getJWT()
@@ -85,6 +91,12 @@ export async function get (url) {
   }
   return response.json()
 }
+
+export async function library () {
+  const url = getLibrary()
+  return get(url)
+}
+
 export async function create (payload) {
   const JWT = await getJWT()
   const outbox = getOutbox()
