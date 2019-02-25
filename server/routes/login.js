@@ -1,5 +1,5 @@
 const viperHTML = require('viperhtml')
-const { page } = require('../../views/page.js')
+const { page } = require('../../views/login-page.js')
 const passport = require('passport')
 const express = require('express')
 const router = express.Router()
