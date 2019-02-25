@@ -7,7 +7,7 @@ function securitySetup (app) {
       contentSecurityPolicy: {
         directives: {
           defaultSrc: ["'self'"],
-          scriptSrc: ["'self'"],
+          scriptSrc: ["'self'", "'unsafe-inline'"], // For now
           styleSrc: ["'self'", "'unsafe-inline'"],
           connectSrc: ["'self'"],
           objectSrc: ["'none'"],
