@@ -37,6 +37,7 @@
     "@commitlint/cli": "^7.1.2",
     "@commitlint/config-conventional": "^7.1.2",
     "autoprefixer": "^9.1.5",
+    "babel-eslint": "^10.0.1",
     "bl": "2.1.2",
     "browserify": "^16.2.3",
     "browserify-istanbul": "3.0.1",
@@ -94,6 +95,7 @@
     "got": "^9.2.2",
     "helmet": "^3.13.0",
     "hyperhtml": "2.18.0",
+    "hyperhtml-app": "^0.2.3",
     "js-yaml": "^3.12.0",
     "jsdom": "^13.2.0",
     "jsonwebtoken": "^8.3.0",
@@ -119,6 +121,7 @@
     "short-uuid": "^3.0.0",
     "sqlite": "3.0.0",
     "swup": "^1.7.9",
+    "systemjs": "^3.0.0",
     "viperhtml": "^2.16.0",
     "wicked-elements": "0.3.1"
   },
