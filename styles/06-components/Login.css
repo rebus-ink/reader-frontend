@@ -1,0 +1,8 @@
+.login body {
+  display: flex;
+  height: 100vh;
+}
+
+.Login {
+  margin: auto;
+}
