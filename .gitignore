@@ -73,3 +73,5 @@ keyv-file
 app-staging.yaml
 reader-api/
 dev.sqlite3
+js/module
+js/nomodule
