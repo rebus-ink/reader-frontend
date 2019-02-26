@@ -130,7 +130,8 @@
     "ignore": [
       "node_modules/**",
       "flow-typed/**"
-    ]
+    ],
+    "parser": "babel-eslint"
   },
   "nodemonConfig": {
     "ignore": [
