@@ -11,9 +11,10 @@ export function library (context) {
     <h1 class="Library-title">${title}</h1>
     <nav class="Library-buttons">
     <ol class="Library-buttons-list">
+      <!-- Add create Stack here and log out -->
     <li class="Library-buttons-item"><a href="/Import" class="MenuItem">Import</a></li>
     </ol></nav>
-    <p class="Library-info">${bookCount} items in collection</p>
+    <p class="Library-info">${bookCount} items in collection<!--turn collection here into a drop down to select stack--></p>
   </div>
   <div class="Library-books">${arrify(context.items).map(book =>
     bookCard(book)

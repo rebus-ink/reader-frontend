@@ -7,7 +7,7 @@ function getUserStreams (req, res, next) {
       profile: reader.id,
       outbox: reader.outbox,
       streams: `${reader.id}/streams`,
-      upload: `${process.env.DOMAIN}file-upload`
+      upload: `${process.env.DOMAIN}/file-upload`
     }
     if (
       reader &&

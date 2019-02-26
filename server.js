@@ -6,7 +6,7 @@ const cookieSession = require('cookie-session')
 const { securitySetup } = require('./server/security.js')
 const debug = require('debug')('vonnegut:server')
 if (!process.env.DOMAIN) {
-  process.env.DOMAIN = process.env.BASE + '/api/'
+  process.env.DOMAIN = process.env.BASE
 }
 function setup (authserver) {
   const app = express()
@@ -30,7 +30,7 @@ function setup (authserver) {
   app.use(compression())
   app.use('/static', express.static('static'))
   app.use('/js', express.static('js'))
-  app.use('/components', express.static('components'))
+  app.use('/app', express.static('app'))
 
   // Make sure the session doesn't expire as long as there is activity
   app.use(function (req, res, next) {
@@ -41,19 +41,18 @@ function setup (authserver) {
 
   // Routes
   const csurf = require('csurf')
-  app.use(csurf())
-  app.use('/', require('./server/routes/front-page.js'))
-  app.use('/', require('./server/routes/library.js'))
-  app.use('/', require('./server/routes/settings.js'))
-  app.use('/', require('./server/routes/notes.js'))
-  app.use('/', require('./server/routes/import.js'))
-  app.use('/', require('./server/routes/info-card.js'))
-  app.use('/', require('./server/routes/reader-book.js'))
-  app.use('/', require('./server/routes/reader-chapter.js'))
-  app.use('/', require('./server/routes/refresh-token.js'))
+  app.use('/', csurf(), require('./server/routes/front-page.js'))
+  app.use('/', csurf(), require('./server/routes/library.js'))
+  app.use('/', csurf(), require('./server/routes/settings.js'))
+  app.use('/', csurf(), require('./server/routes/notes.js'))
+  app.use('/', csurf(), require('./server/routes/import.js'))
+  app.use('/', csurf(), require('./server/routes/info-card.js'))
+  app.use('/', csurf(), require('./server/routes/reader-book.js'))
+  app.use('/', csurf(), require('./server/routes/reader-chapter.js'))
+  app.use('/', csurf(), require('./server/routes/refresh-token.js'))
 
   const apiApp = require('./reader-api/server.js').app
-  app.use('/api', apiApp) // This requires multer, @google-cloud/storage, sqlite objection knex pg objection-db-errors objection-guid debug lodash dotenv passport-jwt
+  app.use('/', apiApp) // This requires multer, @google-cloud/storage, sqlite objection knex pg objection-db-errors objection-guid debug lodash dotenv passport-jwt
 
   apiApp.initialize().catch(err => {
     debug(err)

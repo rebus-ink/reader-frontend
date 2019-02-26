@@ -4,7 +4,8 @@ const selected = 'BookCard is-selectable is-selected'
 
 export function bookCard (book) {
   const { icon = {} } = book
-  const url = `/reader/${encodeURIComponent(book.id)}`
+  const pathname = new URL(book.id).pathname
+  const url = `/reader${pathname}`
   return html`
 <div class=${book.isSelected ? selected : notSelected}>
   <img  class="BookCard-icon" alt="${icon.summary}" src=${icon.url}>

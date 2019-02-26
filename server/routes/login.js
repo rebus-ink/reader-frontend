@@ -26,7 +26,7 @@ router.get('/login', function (req, res, next) {
       render,
       {},
       req,
-      () => `<div class="FrontLayout">
+      render => render()`<div class="FrontLayout">
     <form action="/login?returnTo=/library" method="POST">
     <button class="Button">Log In</button>
     </form>
