@@ -11,6 +11,46 @@
   padding-right: 1rem;
 }
 
+.Library-header {
+  display: grid;
+  grid-template-areas:
+    'title buttons'
+    'info info';
+  margin: 1rem 1rem 1rem 0;
+}
+.Library-title {
+  grid-area: title;
+  line-height: 1;
+  font-size: 4rem;
+  align-self: end;
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+.Library-buttons {
+  grid-area: buttons;
+}
+.Library-buttons-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: min-content min-content;
+  justify-content: end;
+  margin: 0;
+  padding: 0;
+}
+.Library-buttons-item {
+  margin: 0;
+  padding: 0;
+}
+
+.Library-info {
+  grid-area: info;
+  margin: 0;
+  line-height: 2rem;
+  text-transform: uppercase;
+  color: #666;
+}
+
 @media (min-width: 820px) {
   .Library-books {
     display: grid;

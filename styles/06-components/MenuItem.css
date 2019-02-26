@@ -41,10 +41,11 @@ StyleGuide 6.MenuItem
 
   -ms-touch-action: manipulation;
   touch-action: manipulation;
-  font-size: 0.65rem;
+  font-size: 1rem;
   display: block;
   display: flex;
   justify-content: space-between;
+  text-transform: uppercase;
 }
 
 a.MenuItem {
