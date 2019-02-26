@@ -66,9 +66,8 @@ StyleGuide 6.3
 }
 
 .BookCard-group {
-  padding: 1rem 0 0.25rem;
+  padding: 0 0.25rem;
   margin: 0 1rem;
-  margin-bottom: -1px;
   display: flex;
   flex-direction: column;
 }
@@ -198,6 +197,10 @@ StyleGuide 6.3
 .BookCard-session-pages {
   font-style: normal;
   font-weight: 600;
+}
+
+a.BookCard-link {
+  text-decoration: none;
 }
 
 @supports (display: grid) {

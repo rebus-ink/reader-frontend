@@ -1,7 +1,7 @@
 .Library {
   padding: 0;
   grid-area: Main;
-  padding-left: 1rem;
+  padding: 0 0 1rem 1rem;
 }
 
 .Library-books {
