@@ -49,6 +49,7 @@ function setup (authserver) {
   app.use('/', csurf(), require('./server/routes/info-card.js'))
   app.use('/', csurf(), require('./server/routes/reader-book.js'))
   app.use('/', csurf(), require('./server/routes/reader-chapter.js'))
+  app.use('/', csurf(), require('./server/routes/process-chapter.js'))
   app.use('/', csurf(), require('./server/routes/refresh-token.js'))
 
   const apiApp = require('./reader-api/server.js').app

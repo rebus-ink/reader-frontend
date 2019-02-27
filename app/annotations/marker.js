@@ -57,25 +57,3 @@ wickedElements.define('[is="marker-note"]', {
     element.classList.remove('MarkerNote--hasFocus')
   }
 })
-
-function marker (xpath) {
-  const form = document.createElement('form')
-  form.setAttribute('is', 'marker-note')
-  form.dataset.for = xpath
-  form.dataset.reader = 'true'
-  form.classList.add('MarkerNote')
-  form.id = 'MarkerNote-' + xpath
-  const textareaId = 'MarkerNote-text-' + xpath
-  form.dataset.newNote = 'true'
-  form.innerHTML = `<div class="MarkerNote-textarea" id="${textareaId}" data-reader="true" aria-label="Sidebar note"></div>`
-  const button = document.createElement('button')
-  button.textContent = 'Cancel'
-  button.classList.add('TextButton')
-  button.classList.add('TextButton--noteButton')
-  button.addEventListener('click', event => {
-    form.parentElement.removeChild(form)
-  })
-  button.dataset.noteCancel = 'true'
-  form.appendChild(button)
-  return form
-}

@@ -41,31 +41,6 @@ function markerMenu (element) {
   </details>`
 }
 
-const descriptions = {
-  '✓': 'agree',
-  x: 'disagree',
-  '~': 'interesting',
-  '*': 'important',
-  '👍': 'thumbs up',
-  '👎': 'thumbs down',
-  '✋': 'open hand',
-  '👏': 'clapping',
-  '🙂': 'slightly smiling face',
-  '🤨': 'face with raised eyebrows',
-  '😍': 'smiling face with heart-shaped eyes',
-  '😱': 'face screaming in fear',
-  '😐': 'neutral face',
-  '🙄': 'face with rolling eyes'
-}
-
-function renderMarkers (element) {
-  return marker => {
-    const description = descriptions[marker]
-    const label = `Remove '${description}' sidebar marker`
-    return html`<button class="Button Button--marker" aria-label="${label}" is="marker-button" data-description="${description}">${marker}</button>`
-  }
-}
-
 function button (character, description) {
   const label = `Add '${description}' sidebar marker`
   return html`<button class="Button Button--marker" aria-label="${label}" is="add-marker-button" data-description="${description}">${character}</button>`

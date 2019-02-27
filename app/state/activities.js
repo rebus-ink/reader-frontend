@@ -19,6 +19,8 @@ should be initially based on fetch.js
 
 */
 import jwtDecode from 'jwt-decode'
+import {getAlternate} from './get-alternate.js'
+import {processChapter} from './process-chapter.js'
 
 export class HTTPError extends Error {}
 let token
@@ -92,9 +94,25 @@ export async function get (url) {
   return response.json()
 }
 
-export async function library () {
+export function library () {
   const url = getLibrary()
   return get(url)
+}
+
+export function book (bookId) {
+  const url = `/${bookId}`
+  return get(url)
+}
+
+export async function chapter (doc) {
+  const alt = getAlternate(doc)
+  const response = await window.fetch(`/process-chapter?resource=${encodeURIComponent(alt)}`)
+  if (!response.ok) {
+    throw new HTTPError('Get Error:', response.statusText)
+  }
+  const text = await response.json()
+  const chapter = processChapter(text.chapter, doc)
+  return chapter
 }
 
 export async function create (payload) {

@@ -90,21 +90,21 @@ wickedElements.define('[is="highlight-button"]', {
     const texts = ranges.map(range => range.toString())
     texts.forEach(rangeString => highlightString(rangeString, rangeId))
     const note = `<blockquote>${html}</blockquote>`
-    let startXpath
+    let startLocation
     if (range.startContainer.closest) {
-      startXpath = range.startContainer.closest('[data-xpath]').dataset.xpath
+      startLocation = range.startContainer.closest('[data-location]').dataset.location
     } else {
-      startXpath = range.startContainer.parentElement.closest('[data-xpath]')
-        .dataset.xpath
+      startLocation = range.startContainer.parentElement.closest('[data-location]')
+        .dataset.location
     }
-    let endXpath
+    let endLocation
     if (range.endContainer.closest) {
-      endXpath = range.endContainer.closest('[data-xpath]').dataset.xpath
+      endLocation = range.endContainer.closest('[data-location]').dataset.location
     } else {
-      endXpath = range.endContainer.parentElement.closest('[data-xpath]')
-        .dataset.xpath
+      endLocation = range.endContainer.parentElement.closest('[data-location]')
+        .dataset.location
     }
-    saveQuoteNote(note, texts, startXpath, endXpath, rangeId)
+    saveQuoteNote(note, texts, startLocation, endLocation, rangeId)
     // Clean up
     selection.collapseToStart()
     rangeId = rangeId + 1

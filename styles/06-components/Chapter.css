@@ -160,6 +160,7 @@ StyleGuide 6.Chapter
   z-index: -1;
 }
 
+[data-location],
 [data-xpath] {
   position: relative;
 }

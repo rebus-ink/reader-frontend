@@ -1,9 +1,10 @@
 import wickedElements from 'wicked-elements'
 import { saveXpathNote, updateXpathNote } from './save-note-event.js'
+import Quill from 'quill'
 
 wickedElements.define('[data-component="note-button"]', {
   init (event) {
-    this.element = event.currentTarget.closest('[data-xpath]')
+    this.element = event.currentTarget.closest('[data-location]')
     event.currentTarget.addEventListener('click', this)
     event.currentTarget.dataset.reader = true
   },
@@ -26,7 +27,7 @@ wickedElements.define('[data-component="reader-note"]', {
   init (event) {
     const element = (this.el = event.currentTarget)
     const container = this.el.querySelector('.ReaderNote-textarea')
-    this.quill = new window.Quill(container, {
+    this.quill = new Quill(container, {
       modules: {
         toolbar: [
           ['bold', 'italic', 'underline'],
@@ -85,7 +86,7 @@ wickedElements.define('[data-component="reader-note"]', {
 })
 
 function note (element) {
-  const xpath = element.dataset.xpath
+  const xpath = element.dataset.location
   const form = document.createElement('form')
   form.dataset.component = 'reader-note'
   form.dataset.for = xpath
@@ -108,5 +109,5 @@ function note (element) {
 }
 
 function makeNoteId (element) {
-  return 'ReaderNote-' + element.dataset.xpath
+  return 'ReaderNote-' + element.dataset.location
 }
