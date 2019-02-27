@@ -44,11 +44,14 @@
 }
 
 .Library-info {
-  grid-area: info;
   margin: 0;
   line-height: 2rem;
   text-transform: uppercase;
   color: #666;
+}
+
+.Library-info--right {
+  text-align: right;
 }
 
 @media (min-width: 820px) {

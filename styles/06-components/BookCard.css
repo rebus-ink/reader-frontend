@@ -48,9 +48,9 @@ StyleGuide 6.3
 /* .BookCard:first-child {
   border-top: 1px solid #f0f0f0;
 } */
-.BookCard.is-selectable {
+/* .BookCard.is-selectable {
   cursor: pointer;
-}
+} */
 .BookCard-link {
   text-decoration: none;
   font-weight: inherit;
@@ -61,8 +61,8 @@ StyleGuide 6.3
 }
 
 .BookCard-group {
-  padding: 0 0.25rem;
-  margin: 0 1rem;
+  margin: 0;
+  padding: 0 0.5rem;
   display: flex;
   flex-direction: column;
 }
@@ -196,13 +196,59 @@ StyleGuide 6.3
 
 a.BookCard-link {
   text-decoration: none;
+  position: relative;
+  text-transform: uppercase;
 }
+
+/* .BookCard-link::before {
+  background-color: hsla(0,0%,94.1%,.35);
+  bottom: 1px;
+  content: "";
+  left: -15px;
+  position: absolute;
+  right: -15px;
+  top: 1px;
+  transform: rotate(-2deg);
+  z-index: -1;
+}
+
+.BookCard:nth-child(1n) .BookCard-link::before {
+  transform: rotate(-2deg);
+}
+.BookCard:nth-child(2n) .BookCard-link::before {
+  transform: rotate(2deg);
+}
+.BookCard:nth-child(3n) .BookCard-link::before {
+  transform: rotate(-3deg);
+}
+.BookCard:nth-child(4n) .BookCard-link::before {
+  transform: rotate(3deg);
+}
+.BookCard:nth-child(5n) .BookCard-link::before {
+  transform: rotate(-1deg);
+}
+.BookCard:nth-child(6n) .BookCard-link::before {
+  transform: rotate(1deg);
+}
+.BookCard:nth-child(7n)  .BookCard-link::before {
+  transform: rotate(-4deg);
+}
+.BookCard:nth-child(8n) .BookCard-link::before {
+  transform: rotate(4deg);
+}
+.BookCard:nth-child(9n)  .BookCard-link::before {
+  transform: rotate(-3deg);
+}
+
+.BookCard-link:hover::before {
+  background-color: hsla(200, 100%, 30%, 0.3);
+} */
 
 @supports (display: grid) {
   .BookCard {
     display: grid;
     grid-auto-rows: auto;
-    grid-template-columns: 0.5fr 1fr;
+    grid-template-columns: max-content 1fr;
   }
   .BookCard-icon {
     display: block;

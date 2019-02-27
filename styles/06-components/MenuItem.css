@@ -37,7 +37,7 @@ StyleGuide 6.MenuItem
   color: var(--link);
   border: none;
   outline: none;
-  background-color: transparent;
+  background-color: hsla(0, 0%, 94.1%, 0.6);
 
   -ms-touch-action: manipulation;
   touch-action: manipulation;
@@ -46,6 +46,8 @@ StyleGuide 6.MenuItem
   display: flex;
   justify-content: space-between;
   text-transform: uppercase;
+  position: relative;
+  z-index: 1;
 }
 
 a.MenuItem {
@@ -87,3 +89,19 @@ a.MenuItem {
   background-color: var(--disabled);
   box-shadow: inset 0 0px 2px 0 rgba(0, 66, 98, 0.15);
 }
+
+/* .MenuItem::before {
+  background-color: hsla(0, 0%, 94.1%, 0.6);
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: -8px;
+  top: 5px;
+  right: -8px;
+  bottom: 4px;
+  transform: rotate(4deg);
+}
+
+.MenuItem:hover::before {
+  background-color: hsla(200, 100%, 30%, 0.5);
+} */
