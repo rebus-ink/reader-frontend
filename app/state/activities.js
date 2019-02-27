@@ -104,13 +104,38 @@ export function book (bookId) {
   return get(url)
 }
 
+const cache = new Map()
+export async function cacheBook (book) {
+  for (let index = 0; index < book.orderedItems.length; index++) {
+    const doc = book.orderedItems[index]
+    const alt = getAlternate(doc)
+    const cached = cache.get(alt)
+    if (!cached) {
+      console.log(`caching ${alt}`)
+      const response = await window.fetch(`/process-chapter?resource=${encodeURIComponent(alt)}`)
+      if (!response.ok) {
+        throw new HTTPError('Get Error:', response.statusText)
+      }
+      const text = await response.json()
+      cache.set(alt, text)
+    }
+  }
+}
+
 export async function chapter (doc) {
   const alt = getAlternate(doc)
-  const response = await window.fetch(`/process-chapter?resource=${encodeURIComponent(alt)}`)
-  if (!response.ok) {
-    throw new HTTPError('Get Error:', response.statusText)
+  const cached = cache.get(alt)
+  let text
+  if (cached) {
+    console.log('got from cache')
+    text = cached
+  } else {
+    const response = await window.fetch(`/process-chapter?resource=${encodeURIComponent(alt)}`)
+    if (!response.ok) {
+      throw new HTTPError('Get Error:', response.statusText)
+    }
+    text = await response.json()
   }
-  const text = await response.json()
   const chapter = processChapter(text.chapter, doc)
   return chapter
 }
