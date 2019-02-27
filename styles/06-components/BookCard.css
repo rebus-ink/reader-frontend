@@ -56,11 +56,6 @@ StyleGuide 6.3
   font-weight: inherit;
 }
 
-.BookCard.is-selectable:hover {
-  background-color: #fafafa;
-  cursor: pointer;
-  /* This class should only be added by the JS code that enables BookCard selection */
-}
 .BookCard.is-selected {
   background-color: #f9f9f9;
 }
@@ -95,7 +90,7 @@ StyleGuide 6.3
 
 .BookCard-attribution {
   font-weight: 400;
-  font-variant-caps: small-caps;
+  font-style: italic;
   text-decoration: none;
   color: #666;
 }
