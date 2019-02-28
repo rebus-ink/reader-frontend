@@ -1,3 +1,4 @@
+
 import { actions } from './epub/actions.js'
 window.customElements.define(
   'epub-import',
@@ -5,6 +6,7 @@ window.customElements.define(
     connectedCallback () {
       this.addEventListener('change', this)
       this.fileInput = this.querySelector('input[type="file"]')
+      console.log('importer connected')
     }
     disconnectedCallback () {
       this.removeEventListener('change', this)

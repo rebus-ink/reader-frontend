@@ -4,6 +4,7 @@ import {render} from 'lighterhtml'
 import {library} from './components/library.js'
 import {chapter} from './components/chapter.js'
 import '@github/details-menu-element'
+import {importPage} from './importer/import-page.js'
 
 const app = hyperApp()
 const body = document.body
@@ -14,8 +15,10 @@ app.get('/', function (context) {
 })
 
 app.get('/library/import', async function (context) {
-  await import('/js/jszip.min.js')
   await import('./importer.js')
+  body.setAttribute('class', 'Layout')
+  body.id = 'layout'
+  render(body, () => importPage())
   console.log('Welcome')
 })
 

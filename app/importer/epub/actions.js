@@ -1,5 +1,5 @@
+import JSZip from 'jszip/dist/jszip'
 
-const JSZip = window.JSZip
 const BUCKET_URL = 'https://storage.googleapis.com/rebus-default-bucket/'
 
 // Context should be empty to begin with. Event should be a custom 'import:load' event. Its 'detail' property has only one property: 'file'
@@ -392,7 +392,3 @@ function getType (mediaType) {
 }
 
 export const actions = { load, parse, process, upload, create }
-
-if (typeof module === 'object') {
-  module.exports.actions = actions
-}

@@ -1,5 +1,5 @@
 const viperHTML = require('viperhtml')
-const { pageBody } = require('../../views/import-body.js')
+const { pageBody } = require('../../views/render-body.js')
 const { page } = require('../../views/page.js')
 const { ensureLogin } = require('../ensure-login.js')
 const { getUserStreams } = require('../utils/get-user-streams.js')
