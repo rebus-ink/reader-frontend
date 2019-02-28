@@ -16,7 +16,7 @@
   grid-template-areas:
     'title buttons'
     'info info';
-  margin: 1rem 1rem 1rem 0;
+  margin: 3rem 1rem 4rem 0;
 }
 .Library-title {
   grid-area: title;

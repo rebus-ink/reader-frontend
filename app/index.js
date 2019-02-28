@@ -25,6 +25,10 @@ app.get('/library', async function (context) {
     const books = await activities.library()
     body.setAttribute('class', 'Layout')
     body.id = 'layout'
+    const query = (new URL(document.location)).searchParams
+    if (query && query.get('order')) {
+      books.items = sortBooks(books.items, query)
+    }
     render(body, () => library(books))
   } catch (err) {
     console.error(err)
@@ -68,4 +72,21 @@ async function reader (book, data, params) {
   render(body, () => chapter(state))
 }
 
-app.navigate(window.location.pathname)
+function sortBooks (items, query) {
+  const order = query.get('order')
+  if (order === 'alpha') {
+    items = items.sort((first, second) => {
+      console.log(first.name, second.name)
+      return first.name.localeCompare(second.name)
+    })
+  }
+  const direction = query.get('desc')
+  if (direction) {
+    items = items.reverse()
+  }
+  return items
+}
+
+document.body.addEventListener('reader:navigation', event => app.navigate(event.detail.path))
+
+app.navigate(window.location.pathname + window.location.search)
