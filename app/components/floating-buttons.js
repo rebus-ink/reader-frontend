@@ -5,7 +5,6 @@ import {arrify} from '../utils/arrify.js'
 export function floatingButtons (state) {
   const { book, params } = state
   const navigation = getNav(book, params)
-  console.log(navigation)
   let next, previous
   if (navigation) {
     next = navigation.next

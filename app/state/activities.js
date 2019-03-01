@@ -130,9 +130,9 @@ export async function getChapter (doc, bookId) {
   }
 }
 
-export async function chapter (doc) {
-  const alt = getAlternate(doc)
-  return processChapter(cache.get(alt), doc)
+export async function chapter (doc, bookId) {
+  const chapter = await getChapter(doc, bookId)
+  return processChapter(chapter, doc)
 }
 
 export async function create (payload) {

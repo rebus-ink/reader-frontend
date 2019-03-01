@@ -47,7 +47,6 @@ app.get('/reader/:bookId/:bookPath+', async function (context) {
   await import('./annotations.js')
   const book = await activities.book(context.params.bookId)
   const current = book.orderedItems.filter(chapter => chapter['reader:path'] === context.params.bookPath)[0]
-  await activities.cacheBook(book, context.params.bookId)
   return reader(book, current, context.params)
 })
 
@@ -60,7 +59,6 @@ app.get('/reader/:bookId', async function (context) {
     const first = book.orderedItems[0]
     app.navigate(`${window.location.pathname}/${first['reader:path']}`, {replace: true}) // Need to repeat chapter rendering here.
     context.params.bookPath = first['reader:path']
-    activities.cacheBook(book, context.params.bookId)
     return reader(book, first, context.params)
   } catch (err) {
     console.error(err)
@@ -70,7 +68,8 @@ app.get('/reader/:bookId', async function (context) {
 async function reader (book, data, params) {
   body.setAttribute('class', 'Layout Layout--reader')
   body.id = 'layout'
-  const dom = await activities.chapter(data)
+  data = await activities.get(data.id)
+  const dom = await activities.chapter(data, params.bookId)
   const state = {dom, data, params, book}
   render(body, () => chapter(state))
 }
