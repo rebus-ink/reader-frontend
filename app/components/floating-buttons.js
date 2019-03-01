@@ -60,7 +60,6 @@ function url (params, chapter) {
 
 function getNav (book, params) {
   const currentPath = params.bookPath
-  console.log(params)
   const items = arrify(book.orderedItems)
   const current = items.filter(chapter => {
     return currentPath === chapter['reader:path']

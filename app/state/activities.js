@@ -105,39 +105,34 @@ export function book (bookId) {
 }
 
 const cache = new Map()
-export async function cacheBook (book) {
+export async function cacheBook (book, bookId) {
+  const texts = []
   for (let index = 0; index < book.orderedItems.length; index++) {
     const doc = book.orderedItems[index]
-    const alt = getAlternate(doc)
-    const cached = cache.get(alt)
-    if (!cached) {
-      console.log(`caching ${alt}`)
-      const response = await window.fetch(`/process-chapter?resource=${encodeURIComponent(alt)}`)
-      if (!response.ok) {
-        throw new HTTPError('Get Error:', response.statusText)
-      }
-      const text = await response.json()
-      cache.set(alt, text)
+    texts.push(getChapter(doc, bookId))
+  }
+  return Promise.all(texts)
+}
+
+export async function getChapter (doc, bookId) {
+  const alt = getAlternate(doc)
+  const cached = cache.get(alt)
+  if (!cached) {
+    const response = await window.fetch(`/process-chapter?resource=${encodeURIComponent(alt)}&path=${doc['reader:path']}&bookId=${bookId}`)
+    if (!response.ok) {
+      throw new HTTPError('Get Error:', response.statusText)
     }
+    const text = await response.json()
+    cache.set(alt, text.chapter)
+    return text.chapter
+  } else {
+    return cached
   }
 }
 
 export async function chapter (doc) {
   const alt = getAlternate(doc)
-  const cached = cache.get(alt)
-  let text
-  if (cached) {
-    console.log('got from cache')
-    text = cached
-  } else {
-    const response = await window.fetch(`/process-chapter?resource=${encodeURIComponent(alt)}`)
-    if (!response.ok) {
-      throw new HTTPError('Get Error:', response.statusText)
-    }
-    text = await response.json()
-  }
-  const chapter = processChapter(text.chapter, doc)
-  return chapter
+  return processChapter(cache.get(alt), doc)
 }
 
 export async function create (payload) {

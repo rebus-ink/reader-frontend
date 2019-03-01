@@ -4,7 +4,6 @@ import { tocButton } from './toc-button.js'
 import { floatingButtons } from './floating-buttons.js'
 
 export function chapter (state) {
-  console.log(state)
   const {dom, book} = state
   return html`${tocSidebar(state)}
   <nav class="Menu Menu--reader" id="NavMenu">
