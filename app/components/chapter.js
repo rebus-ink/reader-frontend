@@ -15,16 +15,9 @@ export function chapter (state) {
 <ol class="MenuButton-body">
 <li><a href="/library" class="MenuItem">Return to Library</a></li>
 <li><hr class="MenuButton-separator"></li>
-<li><a href="${window.location.pathname + '?notes=true'}" class="MenuItem">Notes view</a></li>
-<li><a href="${window.location.pathname +
-  '?settings=true'}" class="MenuItem">Reading Settings</a></li>
-</ol>
-</details></li>
-<li>
-<details class="MenuButton">
-<summary class="MenuButton-summary">Headings</summary>
-<ol class="MenuButton-body">
-<li><a href="/library" class="MenuItem">Return to Library</a></li>
+<li><button disabled href="${window.location.pathname + '?notes=true'}" class="MenuItem">Notes view</button></li>
+<li><button disabled href="${window.location.pathname +
+  '?settings=true'}" class="MenuItem">Reading Settings</button></li>
 </ol>
 </details></li>
 </ul>

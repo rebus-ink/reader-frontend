@@ -37,15 +37,13 @@ StyleGuide 6.MenuItem
   color: var(--link);
   border: none;
   outline: none;
-  background-color: hsla(0, 0%, 94.1%, 0.6);
 
   -ms-touch-action: manipulation;
   touch-action: manipulation;
-  font-size: 1rem;
+  font-size: 0.65rem;
   display: block;
   display: flex;
   justify-content: space-between;
-  text-transform: uppercase;
   position: relative;
   z-index: 1;
 }
@@ -79,6 +77,7 @@ a.MenuItem {
 .MenuItem--disabled,
 .MenuItem[disabled]:hover,
 .MenuItem--disabled:hover {
+  background-color: transparent;
   color: var(--disabled);
   cursor: not-allowed;
 }
@@ -105,3 +104,9 @@ a.MenuItem {
 .MenuItem:hover::before {
   background-color: hsla(200, 100%, 30%, 0.5);
 } */
+
+.MenuItem--library {
+  font-size: 1rem;
+  text-transform: uppercase;
+  background-color: hsla(0, 0%, 94.1%, 0.6);
+}

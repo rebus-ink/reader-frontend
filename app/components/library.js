@@ -14,7 +14,7 @@ export function library (context) {
     <nav class="Library-buttons">
     <ol class="Library-buttons-list">
     <!-- <li class="Library-buttons-item"><a href="/Import" class="MenuItem">Create Collection</a></li> -->
-    <li class="Library-buttons-item"><a href="/library/import" class="MenuItem">Import</a></li>
+    <li class="Library-buttons-item"><a href="/library/import" class="MenuItem MenuItem--library">Import</a></li>
     <!-- <li class="Library-buttons-item"><a href="/logout" class="MenuItem">Sign Out</a></li> -->
     </ol></nav>
     <p class="Library-info">${bookCount} items in collection</p>
