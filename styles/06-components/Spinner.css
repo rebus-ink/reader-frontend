@@ -1,0 +1,24 @@
+[data-loading='true']::before {
+  background-color: #ccc;
+  border-radius: 100%;
+  content: '';
+  display: block;
+  height: 0.5rem;
+  position: fixed;
+  right: 0.25rem;
+  top: 0.5rem;
+  z-index: 200;
+  width: 0.5rem;
+  animation-duration: 1s;
+  animation-name: pulse;
+  animation-iteration-count: infinite;
+}
+@keyframes pulse {
+  from {
+    background-color: transparent;
+  }
+
+  to {
+    background-color: #ccc;
+  }
+}

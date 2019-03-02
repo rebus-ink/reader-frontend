@@ -1,10 +1,10 @@
 import hyperApp from 'hyperhtml-app'
 import * as activities from './state/activities.js'
-import {render} from 'lighterhtml'
-import {library} from './components/library.js'
-import {chapter} from './components/chapter.js'
+import {render, html} from 'lighterhtml'
+import {chapter} from './views/chapter.js'
 import '@github/details-menu-element'
 import {importPage} from './importer/import-page.js'
+import './components/library.js'
 
 const app = hyperApp()
 const body = document.body
@@ -25,14 +25,10 @@ app.get('/library/import', async function (context) {
 app.get('/library', async function (context) {
   console.log('Welcome to library')
   try {
-    const books = await activities.library()
     body.setAttribute('class', 'Layout')
     body.id = 'layout'
     const query = (new URL(document.location)).searchParams
-    if (query && query.get('order')) {
-      books.items = sortBooks(books.items, query)
-    }
-    render(body, () => library(books))
+    render(body, () => html`<main class="Library" id="Library" data-component="library" data-sort-order=${query.get('order') || null}  data-sort-desc=${query.get('desc') || null}></main>`)
   } catch (err) {
     console.error(err)
   }
@@ -72,20 +68,6 @@ async function reader (book, data, params) {
   const dom = await activities.chapter(data, params.bookId)
   const state = {dom, data, params, book}
   render(body, () => chapter(state))
-}
-
-function sortBooks (items, query) {
-  const order = query.get('order')
-  if (order === 'alpha') {
-    items = items.sort((first, second) => {
-      return first.name.localeCompare(second.name)
-    })
-  }
-  const direction = query.get('desc')
-  if (direction) {
-    items = items.reverse()
-  }
-  return items
 }
 
 document.body.addEventListener('reader:navigation', event => app.navigate(event.detail.path))
