@@ -28,7 +28,7 @@ app.get('/library', async function (context) {
     body.setAttribute('class', 'Layout')
     body.id = 'layout'
     const query = (new URL(document.location)).searchParams
-    render(body, () => html`<main class="Library" id="Library" data-component="library" data-sort-order=${query.get('order') || null}  data-sort-desc=${query.get('desc') || null}></main>`)
+    render(body, () => html`<main class="Library" id="Library" data-component="library" data-sort-order=${query.get('order') || 'added'}  data-sort-desc=${query.get('desc') || null}></main>`)
   } catch (err) {
     console.error(err)
   }
