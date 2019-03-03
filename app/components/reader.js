@@ -7,13 +7,18 @@ import * as activities from '../state/activities.js'
 wickedElements.define('[data-component="reader"]', {
   async onconnected (event) {
     this.element = event.currentTarget
+    this.element.id = 'reader'
     this.cache = new Map()
-    this.templates = new Map()
     this.render()
     const {chapterId, bookId, bookPath} = this.element.dataset
     if (chapterId && bookId) {
       this.book = await activities.book(bookId)
-      const data = await activities.get(chapterId)
+      const items = this.book.orderedItems
+      for (let index = 0; index < items.length; index++) {
+        const chapter = items[index]
+        this.cache.set(chapter.id, await activities.get(chapter.id))
+      }
+      const data = this.cache.get(chapterId)
       const dom = await activities.chapter(data, bookId)
       this.state = {data, dom, bookPath, chapterId, bookId, book: this.book}
     }
@@ -29,14 +34,22 @@ wickedElements.define('[data-component="reader"]', {
   },
   async onattributechanged (event) {
     const {attributeName, oldValue, newValue} = event
-    if (attributeName === 'data-current-position' && oldValue !== newValue) {
+    if (attributeName === 'data-current-position') {
+      if (oldValue === newValue) { return }
       const target = document.querySelector(`[data-location="${newValue}"]`)
-      if (target) { target.scrollIntoView({behaviour: 'smooth'}) }
+      if (target !== this.currentElement) {
+        if (this.currentElement) {
+          this.currentElement.classList.remove('is-position')
+        }
+        this.currentElement = target
+        this.currentElement.classList.add('is-position')
+      }
+      // if (target) { target.scrollIntoView({behaviour: 'smooth'}) }
     } else {
       this.state = null
       this.render()
       const {chapterId, bookId, bookPath} = this.element.dataset
-      const data = await activities.get(chapterId)
+      const data = this.cache.get(chapterId)
       const dom = await activities.chapter(data, bookId)
       this.state = {data, dom, bookPath, chapterId, bookId, book: this.book}
       this.render()
