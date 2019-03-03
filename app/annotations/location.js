@@ -22,7 +22,7 @@ function onPosition (entries) {
   } else if (nextHighest.intersectionRatio >= highest.intersectionRatio) {
     highest = nextHighest
   }
-  document.getElementById('chapter').dataset.currentPosition =
+  document.getElementById('reader').dataset.currentPosition =
     highest.target.dataset.location
 }
 
