@@ -110,3 +110,7 @@ a.MenuItem {
   text-transform: uppercase;
   background-color: hsla(0, 0%, 94.1%, 0.6);
 }
+
+.is-selected .MenuItem {
+  font-weight: 600;
+}

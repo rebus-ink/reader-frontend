@@ -51,14 +51,13 @@ StyleGuide 6.MenuButton
   z-index: 99;
 }
 .MenuButton-summary {
-  font-family: var(--sans-fonts);
-  font-weight: 400;
+  font-weight: 500;
   flex: 0 1 auto;
   line-height: 1.2;
 
   display: inline-block;
   padding: 0.25rem 0.5rem;
-
+  margin-left: -0.5rem;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -74,11 +73,13 @@ StyleGuide 6.MenuButton
 
   -ms-touch-action: manipulation;
   touch-action: manipulation;
-  font-size: 0.65rem;
   align-self: start;
   border-radius: 4px;
   position: relative;
   width: auto;
+  font-family: var(--reader-font-family);
+  font-style: italic;
+  font-size: 0.85rem;
 }
 
 .MenuButton-summary {
@@ -96,7 +97,7 @@ StyleGuide 6.MenuButton
   height: 0;
   vertical-align: -2px;
   width: 0;
-  margin-left: 3px;
+  margin-left: 6px;
 }
 .MenuButton[aria-expanded='false'] {
   color: black;
@@ -117,7 +118,6 @@ StyleGuide 6.MenuButton
   text-decoration: none;
   box-shadow: none;
   background-image: linear-gradient(-180deg, var(--link) 0%, #005580 100%);
-  border: 1px solid #014f75;
 }
 
 .MenuButton-summary:active {
@@ -161,16 +161,28 @@ StyleGuide 6.MenuButton
   border-radius: 4px;
   border-top-left-radius: 0;
   margin: 0;
+  margin-left: -0.5rem;
   padding: 0.25rem 0;
-  min-width: 105%;
+  min-width: 110%;
   box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.1);
+  max-height: calc(100vh - 2.5rem);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .MenuButton-body ol {
-  list-style: none;
-  padding: 0 1rem;
+  counter-reset: menu-contents;
   margin: 0;
-  font-size: 0.75rem;
 }
+
+.MenuButton-body ol .MenuItem {
+  counter-increment: menu-contents;
+  display: block;
+  padding: 0.25rem 1rem;
+}
+.MenuButton-body ol .MenuItem::before {
+  content: counter(menu-contents) '. ';
+}
+
 .MenuButton-body a {
   text-decoration: none;
 }
