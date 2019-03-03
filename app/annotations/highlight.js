@@ -53,6 +53,8 @@ wickedElements.define('[is="remove-highlight-button"]', {
         const fragment = range.extractContents()
         element.parentElement.replaceChild(fragment, element)
       })
+    this.element.blur()
+    this.element.disabled = true
   },
   'onreader:highlight-selected': function (event) {
     console.log(event)

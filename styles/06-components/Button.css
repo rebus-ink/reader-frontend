@@ -212,12 +212,24 @@ StyleGuide 6.Button
   width: calc(100% - 2.5rem);
 }
 
-.Button--highlight {
+.Button--floating {
   text-transform: uppercase;
+  background-image: none;
   font-weight: 600;
-  box-shadow: inset 0 1px 3px 0 hsla(0, 0%, 100%, 0.75),
-    inset 0 2px 5px 1px hsla(0, 0%, 74.9%, 0.1),
-    0 1px 2px 0 rgba(98, 98, 98, 0.5);
+  box-shadow: 0px 1px 2px 0 rgba(98, 98, 98, 0.25);
+  padding: 0.25rem;
+}
+.Button--floating:link,
+.Button--floating:visited {
+  border-color: #e0e0e0;
+}
+
+.Button--floating:link:hover,
+.Button--floating:visited:hover {
+  color: white;
+}
+.Button--floating[disabled] {
+  display: none;
 }
 
 .Button--marker {
