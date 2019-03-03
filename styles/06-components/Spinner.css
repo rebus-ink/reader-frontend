@@ -1,24 +1,22 @@
-[data-loading='true']::before {
-  background-color: #ccc;
-  border-radius: 100%;
-  content: '';
-  display: block;
-  height: 0.5rem;
-  position: fixed;
-  right: 0.25rem;
-  top: 0.5rem;
-  z-index: 200;
-  width: 0.5rem;
-  animation-duration: 1s;
-  animation-name: pulse;
-  animation-iteration-count: infinite;
+.Spinner {
+  text-align: center;
+  height: 5rem;
 }
-@keyframes pulse {
+.Spinner svg {
+  height: 1.25rem;
+  width: 1.25rem;
+  animation-duration: 1s;
+  animation-name: rotate;
+  animation-iteration-count: infinite;
+  opacity: 0.5;
+}
+
+@keyframes rotate {
   from {
-    background-color: transparent;
+    transform: rotate(0deg);
   }
 
   to {
-    background-color: #ccc;
+    transform: rotate(360deg);
   }
 }

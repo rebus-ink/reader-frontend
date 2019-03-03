@@ -67,26 +67,3 @@
     grid-template-columns: 1fr 1fr 1fr;
   }
 }
-
-.Library-loading {
-  text-align: center;
-  height: 5rem;
-}
-.Library-loading svg {
-  height: 2.5rem;
-  width: 2.5rem;
-  animation-duration: 1s;
-  animation-name: rotate;
-  animation-iteration-count: infinite;
-  opacity: 0.5;
-}
-
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}

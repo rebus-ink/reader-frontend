@@ -1,10 +1,10 @@
 import hyperApp from 'hyperhtml-app'
 import * as activities from './state/activities.js'
 import {render, html} from 'lighterhtml'
-import {chapter} from './views/chapter.js'
 import '@github/details-menu-element'
 import {importPage} from './importer/import-page.js'
 import './components/library.js'
+import './components/reader.js'
 
 const app = hyperApp()
 const body = document.body
@@ -62,12 +62,9 @@ app.get('/reader/:bookId', async function (context) {
 })
 
 async function reader (book, data, params) {
-  body.setAttribute('class', 'Layout Layout--reader')
+  body.setAttribute('class', '')
   body.id = 'layout'
-  data = await activities.get(data.id)
-  const dom = await activities.chapter(data, params.bookId)
-  const state = {dom, data, params, book}
-  render(body, () => chapter(state))
+  render(body, () => html`<div class="Layout Layout--reader" data-component="reader" data-chapter-id="${data.id}" data-book-id="${params.bookId}" data-book-path="${params.bookPath}"></div>`)
 }
 
 document.body.addEventListener('reader:navigation', event => app.navigate(event.detail.path))

@@ -3,7 +3,9 @@ import {html} from 'lighterhtml'
 import {arrify} from '../utils/arrify.js'
 
 export function floatingButtons (state) {
-  const { book, params } = state
+  const { book, bookId, bookPath } = state
+  const params = {bookId, bookPath}
+  state.params = params
   const navigation = getNav(book, params)
   let next, previous
   if (navigation) {

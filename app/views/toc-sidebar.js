@@ -15,16 +15,16 @@ ${renderToC(state)}
 }
 
 function renderToC (state) {
-  const {book, params} = state
+  const {book, bookId, bookPath} = state
   return arrify(book.orderedItems).map((chapter, index) => {
-    const url = `/reader/${params.bookId}/${
+    const url = `/reader/${bookId}/${
       chapter['reader:path']
     }`
     const isSelected =
-      params.bookPath === chapter['reader:path']
+      bookPath === chapter['reader:path']
         ? 'NavSidebar-item is-selected'
         : 'NavSidebar-item'
-    const ariaCurrent = params.bookPath ? 'page' : false
+    const ariaCurrent = bookPath ? 'page' : false
     return html`<li class="${isSelected}"><a href="${url}" class="NavSidebar-link" aria-current=${ariaCurrent}>${
       chapter.name
     }</a></li>`
