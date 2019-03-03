@@ -33,7 +33,7 @@ export function processChapter (doc, chapter) {
         addNote(annotation, element, window.document, DOMPurify)
       }
     })
-    addAnnotationTools(element)
+    // addAnnotationTools(element)
   })
   return clean
 }
