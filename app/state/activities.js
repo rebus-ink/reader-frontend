@@ -20,7 +20,6 @@ should be initially based on fetch.js
 */
 import jwtDecode from 'jwt-decode'
 import {getAlternate} from './get-alternate.js'
-import {processChapter} from './process-chapter.js'
 
 export class HTTPError extends Error {}
 
@@ -116,14 +115,6 @@ export function book (bookId) {
   const url = `/${bookId}`
   return get(url)
 }
-// export async function cacheBook (book, bookId) {
-//   const texts = []
-//   for (let index = 0; index < book.orderedItems.length; index++) {
-//     const doc = book.orderedItems[index]
-//     texts.push(getChapter(doc, bookId))
-//   }
-//   return Promise.all(texts)
-// }
 
 export async function getChapterMarkup (doc, bookId) {
   const alt = getAlternate(doc)
@@ -134,11 +125,6 @@ export async function getChapterMarkup (doc, bookId) {
   const text = await response.json()
   return text.chapter
 }
-
-// export async function chapter (doc, bookId) {
-//   const chapter = await getChapterMarkup(doc, bookId)
-//   return processChapter(chapter, doc)
-// }
 
 export async function create (payload) {
   const JWT = await getJWT()
@@ -191,4 +177,3 @@ function wrap (payload) {
     return payload
   }
 }
-function test (thing) { console.log(thing) } // unused

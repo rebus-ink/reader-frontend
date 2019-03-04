@@ -4,8 +4,7 @@ import * as activities from './state/activities.js'
 import {render, html} from 'lighterhtml'
 import '@github/details-menu-element'
 import {importPage} from './importer/import-page.js'
-import './components/library.js'
-import './components/reader.js'
+import './components/components.js'
 
 const app = hyperApp()
 const body = document.body
