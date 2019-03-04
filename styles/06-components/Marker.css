@@ -3,39 +3,99 @@
   left: 100%;
   height: 100%;
   top: 0;
-  padding-left: 0.5rem;
+  padding-left: 10px;
+  margin-left: 10px;
   width: var(--sidebar-width, auto);
   overflow: visible;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 1.5rem);
-  grid-auto-rows: 1.5rem;
-  grid-gap: 0.25rem;
+  display: flex;
+  flex-direction: row;
+  border-left: 3px solid #eee;
 }
 .Chapter .Marker {
   margin: 0;
+  margin-left: 10px;
+}
+.Marker-textarea {
+  background-color: transparent;
+  font-style: italic;
+  font-family: var(--reader-font-family);
+  font-size: calc(var(--reader-font-size) * 0.85);
+  border: none;
+  line-height: 1.25;
+  width: 100%;
+}
+
+.no-sidebar .Marker-textarea {
+  display: none;
+}
+.Marker--expanded .Marker-textarea {
+  display: none;
+}
+.Marker .Marker-button {
+  display: none;
+}
+.no-sidebar .Marker-button {
+  display: inline-block;
 }
 
 @media (hover: hover) {
-  .Marker .MarkerButton,
-  .Marker .MenuButton {
+  .Marker {
     opacity: 0;
   }
   :hover > .Marker-textarea {
     background-color: rgba(255, 255, 255, 0.9);
   }
-  .Marker--focused .MarkerButton,
-  .Marker:focus-within .MarkerButton,
-  :hover > .Marker .MarkerButton,
-  .Marker--focused .MenuButton,
-  .Marker:focus-within .MenuButton,
-  :hover > .Marker .MenuButton {
+  .Marker--focused,
+  .Marker:focus-within,
+  :hover > .Marker {
     opacity: 1;
   }
 }
-
-.Marker--hasContent {
-  opacity: 1;
-}
 .Chapter .Marker--hasContent .MarkerNote-textarea {
   border-left: 0.5rem solid #ffff98;
+}
+.Marker--hasContent {
+  opacity: 1;
+  border-left: 3px solid transparent;
+}
+
+.no-sidebar .Marker--hasContent {
+  border-left: 3px solid #eded00;
+}
+.Marker-button {
+  font-family: var(--sans-fonts);
+  font-weight: 400;
+  flex: 0 1 auto;
+  line-height: 1.2;
+
+  display: inline-block;
+  padding: 0;
+
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-align: center;
+  white-space: nowrap;
+  text-decoration: none;
+
+  color: var(--link);
+  border: none;
+  outline: none;
+  background-color: transparent;
+
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  position: absolute;
+  border-radius: 5px;
+}
+
+.Marker-button:hover {
+  color: var(--hover);
+  text-decoration: none;
+  box-shadow: none;
+  background-color: #f0f0f0;
 }

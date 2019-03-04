@@ -1,6 +1,5 @@
 import DOMPurify from 'dompurify'
-import { html } from 'lighterhtml'
-import { markerMenu } from '../annotations/marker-menu.js'
+import {html} from 'lighterhtml'
 
 const purifyConfig = {
   KEEP_CONTENT: false,
@@ -81,34 +80,8 @@ function getAnnotations (replies = [], xpath) {
   })
 }
 
-const descriptions = {
-  '✓': 'agree',
-  x: 'disagree',
-  '~': 'interesting',
-  '*': 'important',
-  '👍': 'thumbs up',
-  '👎': 'thumbs down',
-  '✋': 'open hand',
-  '👏': 'clapping',
-  '🙂': 'slightly smiling face',
-  '🤨': 'face with raised eyebrows',
-  '😍': 'smiling face with heart-shaped eyes',
-  '😱': 'face screaming in fear',
-  '😐': 'neutral face',
-  '🙄': 'face with rolling eyes'
-}
-
 function addMarker (marker, document) {
-  const description = descriptions[marker.summary]
-  const label = `Remove '${description}' sidebar marker`
-  const button = document.createElement('button')
-  button.classList.add('Button')
-  button.classList.add('Button--marker')
-  button.setAttribute('aria-label', label)
-  button.setAttribute('is', 'marker-button')
-  button.dataset.description = description
-  button.textContent = marker.summary
-  return button
+  return html`<textarea class="Marker-textarea" aria-label="Sidebar note">${marker.summary}</textarea>`
 }
 
 function addNote (note, element, document, DOMPurify) {
@@ -123,19 +96,4 @@ function addNote (note, element, document, DOMPurify) {
   form.innerHTML = `<div class="ReaderNote-textarea ql-container" id="${textareaId}" data-reader="true" aria-label="Note">
   ${DOMPurify.sanitize(note.content)}</div>`
   element.parentElement.insertBefore(form, element.nextSibling)
-}
-
-function addAnnotationTools (element) {
-  const xpath = element.dataset.location
-  if (!element.querySelector('.NoteButton')) {
-    const button = html`<button class="Button Button--marker NoteButton" data-component="note-button" aria-label="Add note" data-for="${xpath}"><svg viewBox="0 0 10 10" fill="currentColor" stroke="transparent" width="15" height="15">
-    <path d="m1 4h8v2h-8zm3-3h2v8h-2z"></path>
-  </svg></button>`
-    element.appendChild(button)
-  }
-  const menuContainer = element.querySelector('.Marker')
-  if (menuContainer) {
-    const menu = markerMenu(element)
-    menuContainer.appendChild(menu)
-  }
 }
