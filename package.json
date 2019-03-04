@@ -98,6 +98,7 @@
     "hobb-api": "github:RebusFoundation/reader-api",
     "hyperhtml": "2.18.0",
     "hyperhtml-app": "^0.2.3",
+    "intersection-observer": "^0.5.1",
     "js-yaml": "^3.12.0",
     "jsdom": "^13.2.0",
     "jsonwebtoken": "^8.3.0",

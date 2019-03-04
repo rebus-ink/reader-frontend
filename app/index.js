@@ -1,4 +1,5 @@
 import hyperApp from 'hyperhtml-app'
+import 'intersection-observer'
 import * as activities from './state/activities.js'
 import {render, html} from 'lighterhtml'
 import '@github/details-menu-element'
