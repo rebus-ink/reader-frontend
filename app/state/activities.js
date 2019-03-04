@@ -23,6 +23,15 @@ import {getAlternate} from './get-alternate.js'
 import {processChapter} from './process-chapter.js'
 
 export class HTTPError extends Error {}
+
+function postError (response) {
+  const err = new HTTPError('POST Error:', response.statusText)
+  err.statusCode = response.status
+  err.headers = response.headers
+  err.response = response
+  return err
+}
+
 let token
 document.addEventListener('DOMContentLoaded', function (event) {
   loadToken()
@@ -50,7 +59,11 @@ async function getJWT () {
 }
 
 async function refreshJWT () {
-  const csurf = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+  const csurfMeta = document.querySelector('meta[name="csrf-token"]')
+  let csurf
+  if (csurfMeta) {
+    csurf = csurfMeta.getAttribute('content')
+  }
   const response = await window.fetch('/refresh-token', {
     credentials: 'include',
     method: 'POST',
@@ -103,37 +116,29 @@ export function book (bookId) {
   const url = `/${bookId}`
   return get(url)
 }
+// export async function cacheBook (book, bookId) {
+//   const texts = []
+//   for (let index = 0; index < book.orderedItems.length; index++) {
+//     const doc = book.orderedItems[index]
+//     texts.push(getChapter(doc, bookId))
+//   }
+//   return Promise.all(texts)
+// }
 
-const cache = new Map()
-export async function cacheBook (book, bookId) {
-  const texts = []
-  for (let index = 0; index < book.orderedItems.length; index++) {
-    const doc = book.orderedItems[index]
-    texts.push(getChapter(doc, bookId))
-  }
-  return Promise.all(texts)
-}
-
-export async function getChapter (doc, bookId) {
+export async function getChapterMarkup (doc, bookId) {
   const alt = getAlternate(doc)
-  const cached = cache.get(alt)
-  if (!cached) {
-    const response = await window.fetch(`/process-chapter?resource=${encodeURIComponent(alt)}&path=${doc['reader:path']}&bookId=${bookId}`)
-    if (!response.ok) {
-      throw new HTTPError('Get Error:', response.statusText)
-    }
-    const text = await response.json()
-    cache.set(alt, text.chapter)
-    return text.chapter
-  } else {
-    return cached
+  const response = await window.fetch(`/process-chapter?resource=${encodeURIComponent(alt)}&path=${doc['reader:path']}&bookId=${bookId}`)
+  if (!response.ok) {
+    throw new HTTPError('Get Error:', response.statusText)
   }
+  const text = await response.json()
+  return text.chapter
 }
 
-export async function chapter (doc, bookId) {
-  const chapter = await getChapter(doc, bookId)
-  return processChapter(chapter, doc)
-}
+// export async function chapter (doc, bookId) {
+//   const chapter = await getChapterMarkup(doc, bookId)
+//   return processChapter(chapter, doc)
+// }
 
 export async function create (payload) {
   const JWT = await getJWT()
@@ -166,10 +171,7 @@ export async function upload (payload) {
     })
   })
   if (!response.ok) {
-    const err = new HTTPError('POST Error:', response.statusText)
-    err.statusCode = response.status
-    err.headers = response.headers
-    err.response = response
+    const err = postError(response)
     throw err
   }
   return response.json()
@@ -189,3 +191,4 @@ function wrap (payload) {
     return payload
   }
 }
+function test (thing) { console.log(thing) } // unused

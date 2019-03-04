@@ -60,7 +60,7 @@
 .Marker--hasContent .Marker-textarea {
   background-image: linear-gradient(
     to bottom,
-    #ffff98 0 0.4rem,
+    #ffffcb 0 0.4rem,
     transparent 0.5rem 100%
   );
 }

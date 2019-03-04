@@ -3,23 +3,29 @@ import {render} from 'lighterhtml'
 import { chapter } from '../views/chapter.js'
 import { chapterLoading } from '../views/chapter-loading.js'
 import * as activities from '../state/activities.js'
+import {processChapter} from '../state/process-chapter.js'
 
 wickedElements.define('[data-component="reader"]', {
   async onconnected (event) {
     this.element = event.currentTarget
     this.element.id = 'reader'
-    this.cache = new Map()
+    const chapters = this.chapters = new Map()
+    const chapterMarkup = this.chapterMarkup = new Map()
     this.render()
     const {chapterId, bookId, bookPath} = this.element.dataset
     if (chapterId && bookId) {
       this.book = await activities.book(bookId)
       const items = this.book.orderedItems
+      const chapterData = []
       for (let index = 0; index < items.length; index++) {
         const chapter = items[index]
-        this.cache.set(chapter.id, await activities.get(chapter.id))
+        chapterData.push(activities.get(chapter.id).then(chapter => chapters.set(chapter.id, chapter)))
+        chapterData.push(activities.getChapterMarkup(chapter, bookId).then(markup => chapterMarkup.set(chapter.id, markup)))
       }
-      const data = this.cache.get(chapterId)
-      const dom = await activities.chapter(data, bookId)
+      await Promise.all(chapterData)
+      const data = this.chapters.get(chapterId)
+      const markup = this.chapterMarkup.get(chapterId)
+      const dom = processChapter(markup, data)
       this.state = {data, dom, bookPath, chapterId, bookId, book: this.book}
     }
     this.render()
@@ -49,8 +55,9 @@ wickedElements.define('[data-component="reader"]', {
       this.state = null
       this.render()
       const {chapterId, bookId, bookPath} = this.element.dataset
-      const data = this.cache.get(chapterId)
-      const dom = await activities.chapter(data, bookId)
+      const data = this.chapters.get(chapterId)
+      const markup = this.chapterMarkup.get(chapterId)
+      const dom = processChapter(markup, data)
       this.state = {data, dom, bookPath, chapterId, bookId, book: this.book}
       this.render()
     }
