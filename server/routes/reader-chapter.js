@@ -8,8 +8,9 @@ const router = express.Router()
 const debug = require('debug')('vonnegut:routes:chapter')
 const { getBookState } = require('../utils/get-book-state.js')
 const { arrify } = require('../utils/arrify.js')
+const csurf = require('csurf')
 
-router.get('/reader/:bookId/*', ensureLogin, getUserStreams, function (
+router.get('/reader/:bookId/*', ensureLogin, csurf(), getUserStreams, function (
   req,
   res,
   next
