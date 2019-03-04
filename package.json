@@ -95,6 +95,7 @@
     "express-basic-auth": "^1.1.5",
     "got": "^9.2.2",
     "helmet": "^3.13.0",
+    "hobb-api": "github:RebusFoundation/reader-api",
     "hyperhtml": "2.18.0",
     "hyperhtml-app": "^0.2.3",
     "js-yaml": "^3.12.0",
