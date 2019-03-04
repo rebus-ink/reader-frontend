@@ -20,9 +20,9 @@
   font-family: var(--reader-font-family);
   width: 100%;
 }
-.ReaderNote-textarea {
+/* .ReaderNote-textarea {
   background-color: rgba(255, 255, 255, 0.6);
-}
+} */
 
 .ReaderNote .ql-toolbar {
   opacity: 0;
