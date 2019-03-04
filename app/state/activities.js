@@ -106,6 +106,14 @@ export async function get (url) {
   return response.json()
 }
 
+const notes = new Map()
+export function saveNote (note) {
+  notes.set(note.id, note)
+}
+export function note (id) {
+  return notes.get(id)
+}
+
 export function library () {
   const url = getLibrary()
   return get(url)
@@ -143,6 +151,27 @@ export async function create (payload) {
     throw new HTTPError('POST Error:', response.statusText)
   }
   return response.headers.get('location')
+}
+
+export async function createAndGetId (payload) {
+  const location = await create(payload)
+  console.log(location)
+  const JWT = await getJWT()
+  const response = await window.fetch(location, {
+    headers: new window.Headers({
+      'content-type': 'application/ld+json',
+      Authorization: `Bearer ${JWT}`
+    })
+  })
+  if (!response.ok) {
+    throw new HTTPError('Get Error:', response.statusText)
+  }
+  const json = await response.json()
+  if (json.type === 'Note') {
+    saveNote(json)
+  }
+  console.log(json)
+  return json.id
 }
 
 export async function upload (payload) {

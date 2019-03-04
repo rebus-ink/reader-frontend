@@ -23,12 +23,20 @@ wickedElements.define('[data-component="reader"]', {
         chapterData.push(activities.getChapterMarkup(chapter, bookId).then(markup => chapterMarkup.set(chapter.id, markup)))
       }
       await Promise.all(chapterData)
+      this.buildNotes()
       const data = this.chapters.get(chapterId)
       const markup = this.chapterMarkup.get(chapterId)
       const dom = processChapter(markup, data)
       this.state = {data, dom, bookPath, chapterId, bookId, book: this.book}
     }
     this.render()
+  },
+  buildNotes () {
+    this.chapters.forEach(chapter => {
+      if (chapter.replies) {
+        chapter.replies.forEach(note => activities.saveNote(note))
+      }
+    })
   },
   ondisconnected (event) { },
   render () {
