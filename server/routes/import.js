@@ -6,10 +6,11 @@ const { getUserStreams } = require('../utils/get-user-streams.js')
 const express = require('express')
 const router = express.Router()
 const debug = require('debug')('vonnegut:routes:import')
+const csurf = require('csurf')
 
 const getImportState = () => Promise.resolve({})
 
-router.get('/library/import', ensureLogin, getUserStreams, function (
+router.get('/library/import', csurf(), ensureLogin, getUserStreams, function (
   req,
   res,
   next
