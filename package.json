@@ -137,7 +137,8 @@
   },
   "nodemonConfig": {
     "ignore": [
-      "test/*"
+      "test/*",
+      "app/*"
     ]
   },
   "husky": {

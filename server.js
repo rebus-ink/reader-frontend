@@ -52,10 +52,10 @@ function setup (authserver) {
   app.use('/', require('./server/routes/process-chapter.js'))
   app.use('/', require('./server/routes/refresh-token.js'))
 
-  const apiApp = require('./reader-api/server.js').app
+  const apiApp = require('hobb-api/server.js').app
   app.use('/', apiApp) // This requires multer, @google-cloud/storage, sqlite objection knex pg objection-db-errors objection-guid debug lodash dotenv passport-jwt
 
-  apiApp.initialize().catch(err => {
+  apiApp.initialize(true).catch(err => {
     debug(err)
     throw err
   })
