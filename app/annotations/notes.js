@@ -1,6 +1,18 @@
 import wickedElements from 'wicked-elements'
-import { saveXpathNote, updateXpathNote } from './save-note-event.js'
+import {render, html} from 'lighterhtml'
 import Quill from 'quill'
+import * as activities from '../state/activities.js'
+import DOMPurify from 'dompurify'
+
+const purifyConfig = {
+  KEEP_CONTENT: false,
+  RETURN_DOM_FRAGMENT: true,
+  RETURN_DOM_IMPORT: true,
+  FORBID_TAGS: ['style', 'link'],
+  FORBID_ATTR: ['style']
+}
+
+const undoContent = new Map()
 
 wickedElements.define('[data-component="note-button"]', {
   init (event) {
@@ -25,8 +37,39 @@ wickedElements.define('[data-component="note-button"]', {
 
 wickedElements.define('[data-component="reader-note"]', {
   init (event) {
-    const element = (this.el = event.currentTarget)
-    const container = this.el.querySelector('.ReaderNote-textarea')
+    this.element = event.currentTarget
+    if (this.noteId) {
+      this.state = activities.note(this.noteId)
+    }
+    this.render()
+  },
+  get id () {
+    return this.element.id
+  },
+  get toolbar () {
+    return this.element.querySelector('.ql-toolbar')
+  },
+  get noteId () {
+    return this.element.dataset.noteId
+  },
+  set noteId (value) {
+    this.element.dataset.noteId = value
+  },
+  get saved () {
+    return this.element.dataset.saved
+  },
+  set saved (value) {
+    this.element.dataset.saved = value
+  },
+  onclick (event) {
+    const button = event.currentTarget
+    if (button.dataset.noteDelete) {
+      this.remove(event)
+    }
+  },
+  onconnected () {
+    const element = this.element
+    const container = this.element.querySelector('.ReaderNote-textarea')
     this.quill = new Quill(container, {
       modules: {
         toolbar: [
@@ -39,47 +82,89 @@ wickedElements.define('[data-component="reader-note"]', {
       },
       theme: 'snow'
     })
-    this.toolbar = this.el.querySelector('.ql-toolbar')
-    const onFocus = this.onfocus
-    const onBlur = this.onblur
-    this.el.classList.remove('ReaderNote--preRendered')
-    this.quill.on('selection-change', function (range, oldRange, source) {
+    this.element.classList.remove('ReaderNote--preRendered')
+    this.quill.on('selection-change', (range, oldRange, source) => {
       if (range) {
-        onFocus(element)
+        this.onfocus(element)
       } else {
-        onBlur(element)
+        this.onblur(element)
       }
     })
-    this.quill.on('text-change', function () {
+    this.quill.on('text-change', () => {
       element.classList.add('ReaderNote--hasContent')
-      element.dataset.saved = 'false'
+      this.saved = 'false'
     })
-    const button = document.createElement('button')
-    button.textContent = 'Delete'
-    button.classList.add('TextButton')
-    button.classList.add('TextButton--noteDelete')
-    button.addEventListener('click', event => {
-      this.el.parentElement.removeChild(this.el)
-    })
-    button.dataset.noteDelete = 'true'
-    this.el.appendChild(button)
+  },
+  render () {
+    render(this.element, () => this.view())
+  },
+  view () {
+    const state = this.state
+    let deleteText
+    if (state && state.id) {
+      deleteText = 'Delete'
+    } else {
+      deleteText = 'Cancel'
+    }
+    const xpath = this.element.dataset.for
+    let content
+    if (state && state.content) {
+      content = state.content
+    } else if (undoContent.get(xpath)) {
+      content = undoContent.get(xpath)
+    }
+    let dom = DOMPurify.sanitize(content, purifyConfig)
+    return html`<div class="ReaderNote-textarea ql-container ql-snow" id="${this.id + '-textarea'}" data-reader="true" aria-label="Note">${[dom]}</div><button class="TextButton TextButton--noteDelete" data-note-delete="true" onclick="${this}">${deleteText}</button>`
   },
   onfocus (element) {
     element.classList.add('ReaderNote--hasFocus')
   },
-  onblur (element) {
-    element.classList.remove('ReaderNote--hasFocus')
-    if (element.dataset.actId) {
-      updateXpathNote(
-        element.querySelector('.ql-editor').innerHTML,
-        element.dataset.for,
-        element.dataset.actId
-      )
+  remove (event) {
+    if (this.noteId) {
+      const xpath = this.element.dataset.for
+      const element = this.element
+      const payload = {
+        type: 'Note',
+        id: this.noteId
+      }
+      undoContent.set(xpath, this.element.querySelector('.ql-editor').innerHTML)
+      // Find nearest note button, save content to button
+      return activities.deleteActivity(payload).then(() => element.parentElement.removeChild(element))
     } else {
-      saveXpathNote(
-        element.querySelector('.ql-editor').innerHTML,
-        element.dataset.for
-      )
+      this.element.parentElement.removeChild(this.element)
+    }
+  },
+  onblur () {
+    const element = this.element
+    const xpath = element.dataset.for
+    const content = element.querySelector('.ql-editor').innerHTML
+    const chapter = element.closest('[data-component="reader"]')
+    const inReplyTo = chapter.dataset.chapterId
+    const context = chapter.dataset.bookId
+    element.classList.remove('ReaderNote--hasFocus')
+    const payload = {
+      type: 'Note',
+      'oa:hasSelector': {
+        type: 'XPathSelector',
+        value: xpath
+      },
+      inReplyTo,
+      context,
+      content
+    }
+    // Create note
+    if (!this.noteId && content !== '<p><br></p>' && content.length > 0) {
+      return activities.createAndGetId(payload).then(id => {
+        this.noteId = id
+        this.element.querySelector('[data-note-delete]').textContent = 'Delete'
+      })
+    // Or update it
+    } else if (this.noteId && content.length > 0 && this.state) {
+      // if we have an id, compare with old and if necessary update note
+      payload.id = this.noteId
+      if (this.state.content !== content) {
+        return activities.update(payload)
+      }
     }
     element.dataset.saved = 'true'
   }
@@ -87,25 +172,14 @@ wickedElements.define('[data-component="reader-note"]', {
 
 function note (element) {
   const xpath = element.dataset.location
-  const form = document.createElement('form')
-  form.dataset.component = 'reader-note'
-  form.dataset.for = xpath
-  form.dataset.reader = 'true'
-  form.classList.add('ReaderNote')
-  form.id = 'ReaderNote-' + xpath
-  const textareaId = 'ReaderNote-text-' + xpath
-  form.dataset.newNote = 'true'
-  form.innerHTML = `<div class="ReaderNote-textarea" id="${textareaId}" data-reader="true" aria-label="Sidebar note"></div>`
-  const button = document.createElement('button')
-  button.textContent = 'Cancel'
-  button.classList.add('TextButton')
-  button.classList.add('TextButton--noteButton')
-  button.addEventListener('click', event => {
-    form.parentElement.removeChild(form)
-  })
-  button.dataset.noteCancel = 'true'
-  form.appendChild(button)
-  return form
+  const div = document.createElement('div')
+  div.dataset.component = 'reader-note'
+  div.dataset.for = xpath
+  div.dataset.reader = 'true'
+  div.classList.add('ReaderNote')
+  div.id = 'ReaderNote-' + xpath
+  div.dataset.newNote = 'true'
+  return div
 }
 
 function makeNoteId (element) {

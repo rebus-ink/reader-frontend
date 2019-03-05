@@ -53,14 +53,12 @@ function getAnnotations (replies = [], xpath) {
 
 function addNote (note, element, document, DOMPurify) {
   const xpath = element.dataset.location
-  const form = document.createElement('form')
-  form.dataset.for = xpath
-  form.dataset.reader = 'true'
-  form.dataset.component = 'reader-note'
-  form.classList.add('ReaderNote')
-  form.id = 'ReaderNote-' + xpath
-  const textareaId = 'ReaderNote-text-' + xpath
-  form.innerHTML = `<div class="ReaderNote-textarea ql-container" id="${textareaId}" data-reader="true" aria-label="Note">
-  ${DOMPurify.sanitize(note.content)}</div>`
-  element.parentElement.insertBefore(form, element.nextSibling)
+  const div = document.createElement('div')
+  div.dataset.for = xpath
+  div.dataset.reader = 'true'
+  div.dataset.component = 'reader-note'
+  div.dataset.noteId = note.id
+  div.classList.add('ReaderNote')
+  div.id = 'ReaderNote-' + xpath
+  element.parentElement.insertBefore(div, element.nextSibling)
 }

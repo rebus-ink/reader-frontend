@@ -43,6 +43,7 @@ wickedElements.define('reader-markers', {
     this.element.classList.add('Marker--visible')
   },
   onchange (event) {
+    event.stopImmediatePropagation()
     const element = this.element
     element.classList.add('Marker--hasContent')
     const xpath = element.dataset.for

@@ -168,7 +168,6 @@ export function deleteActivity (payload) {
 
 export async function createAndGetId (payload) {
   const location = await create(payload)
-  console.log(location)
   const JWT = await getJWT()
   const response = await window.fetch(location, {
     headers: new window.Headers({
@@ -183,7 +182,6 @@ export async function createAndGetId (payload) {
   if (json.type === 'Note') {
     saveNote(json)
   }
-  console.log(json)
   return json.id
 }
 
