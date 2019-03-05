@@ -133,15 +133,13 @@ export async function getChapterMarkup (doc, bookId) {
   const text = await response.json()
   return text.chapter
 }
-
-export async function create (payload) {
+export async function saveActivity (action) {
   const JWT = await getJWT()
   const outbox = getOutbox()
-  payload = wrap(payload)
   const response = await window.fetch(outbox, {
     credentials: 'include',
     method: 'POST',
-    body: JSON.stringify(payload),
+    body: JSON.stringify(action),
     headers: new window.Headers({
       'content-type': 'application/ld+json',
       Authorization: `Bearer ${JWT}`
@@ -151,6 +149,21 @@ export async function create (payload) {
     throw new HTTPError('POST Error:', response.statusText)
   }
   return response.headers.get('location')
+}
+
+export function create (payload) {
+  const action = wrap(payload, 'Create')
+  return saveActivity(action)
+}
+
+export function update (payload) {
+  const action = wrap(payload, 'Update')
+  return saveActivity(action)
+}
+
+export function deleteActivity (payload) {
+  const action = wrap(payload, 'Delete')
+  return saveActivity(action)
 }
 
 export async function createAndGetId (payload) {
@@ -192,14 +205,14 @@ export async function upload (payload) {
   return response.json()
 }
 
-function wrap (payload) {
-  if (payload.type !== 'Create') {
+function wrap (payload, type) {
+  if (payload.type !== type) {
     return {
       '@context': [
         'https://www.w3.org/ns/activitystreams',
         { reader: 'https://rebus.foundation/ns/reader' }
       ],
-      type: 'Create',
+      type,
       object: payload
     }
   } else {
