@@ -1,4 +1,5 @@
 import {html} from 'lighterhtml'
+import {arrify} from '../utils/arrify.js'
 const notSelected = 'BookCard is-selectable'
 const selected = 'BookCard is-selectable is-selected'
 
@@ -24,6 +25,7 @@ export function bookCard (book) {
 }
 
 function attributionsMap (attributions = []) {
+  attributions = arrify(attributions)
   return attributions.map((attribution, index) => {
     return html`<span class="BookCard-attribution">${
       attribution.name
