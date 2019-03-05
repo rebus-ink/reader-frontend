@@ -1,5 +1,4 @@
 import DOMPurify from 'dompurify'
-import {html} from 'lighterhtml'
 
 const purifyConfig = {
   KEEP_CONTENT: false,
@@ -19,15 +18,17 @@ export function processChapter (doc, chapter) {
     if (element.tagName.toLowerCase() === 'img') {
       element = element.parentElement
     }
+    const xpath = element.dataset.location
     const markerContainer = window.document.createElement('reader-markers')
     markerContainer.classList.add('Marker')
     markerContainer.dataset.reader = 'true'
+    markerContainer.dataset.for = xpath
     element.appendChild(markerContainer)
     const annotations = getAnnotations(chapter.replies, element.dataset.location)
+    console.log(annotations)
     annotations.forEach(annotation => {
       if (annotation.summary && !annotation.content) {
-        const marker = addMarker(annotation, window.document)
-        markerContainer.appendChild(marker)
+        markerContainer.dataset.noteId = annotation.id
       } else {
         addNote(annotation, element, window.document, DOMPurify)
       }
@@ -36,36 +37,6 @@ export function processChapter (doc, chapter) {
   })
   return clean
 }
-
-// // Parts of this derived from https://github.com/tilgovi/simple-xpath-position/blob/master/src/xpath.js (MIT Licensed)
-// function getXPath (element) {
-//   if (!element) {
-//     return null
-//   } else if (element.id) {
-//     return `//*[@id=${element.id}]`
-//   } else {
-//     const root = element.ownerDocument
-//     let path = '/'
-//     while (element !== root) {
-//       if (!element) {
-//         throw new Error('Element not contained by root')
-//       }
-//       path = `/${element.tagName.toLowerCase()}[${nodePosition(
-//         element
-//       )}]${path}`
-//       element = element.parentNode
-//     }
-//     return path.replace(/\/$/, '')
-//   }
-// }
-// function nodePosition (node) {
-//   let name = node.nodeName
-//   let position = 1
-//   while ((node = node.previousSibling)) {
-//     if (node.nodeName === name) position += 1
-//   }
-//   return position
-// }
 
 function getAnnotations (replies = [], xpath) {
   return replies.filter(reply => {
@@ -78,10 +49,6 @@ function getAnnotations (replies = [], xpath) {
       return false
     }
   })
-}
-
-function addMarker (marker, document) {
-  return html`<textarea class="Marker-textarea" aria-label="Sidebar note">${marker.summary}</textarea>`
 }
 
 function addNote (note, element, document, DOMPurify) {
