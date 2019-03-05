@@ -1,5 +1,5 @@
 import JSZip from 'jszip/dist/jszip'
-
+import {create as createPublication, upload as uploadFile} from '../../state/activities.js'
 const BUCKET_URL = 'https://storage.googleapis.com/rebus-default-bucket/'
 
 // Context should be empty to begin with. Event should be a custom 'import:load' event. Its 'detail' property has only one property: 'file'
@@ -216,7 +216,6 @@ async function process (context, event) {
 
 // This uploads the initial file and all attachments using the file upload endpoint.
 async function upload (context, event) {
-  const uploadFile = window.uploadFile
   const zip = context.zip
   // Another future feature is getting media sizes as they are being uploaded
   // There are security implications for hosting unmodified html, css, and js files on a domain we control. So, we're only going to upload images and media. The long term solution is to sanitize the svg
@@ -286,7 +285,6 @@ async function upload (context, event) {
 
 // Finally, this action prepares and submits the completed publication activity to the user's outbox.
 async function create (context, event) {
-  const createPublication = window.createPublication
   const publication = {
     type: 'reader:Publication',
     name: context.title
