@@ -75,6 +75,7 @@
     "tinyify": "^2.5.0",
     "uglify-js": "^3.4.9"
   },
+  "@pika/web": {"webDependencies": ["built-in-element", "document-register-element", "dompurify", "hyperhtml", "wicked-elements"]},
   "dependencies": {
     "@github/details-menu-element": "^0.9.0",
     "@google-cloud/datastore": "^2.0.0",

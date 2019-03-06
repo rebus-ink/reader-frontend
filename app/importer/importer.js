@@ -1,4 +1,5 @@
 
+import './zip.js'
 import { actions } from './epub/actions.js'
 window.customElements.define(
   'epub-import',

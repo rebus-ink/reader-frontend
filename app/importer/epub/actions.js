@@ -1,4 +1,4 @@
-import JSZip from 'jszip/dist/jszip'
+
 import {create as createPublication, upload as uploadFile} from '../../state/activities.js'
 const BUCKET_URL = 'https://storage.googleapis.com/rebus-default-bucket/'
 
@@ -8,7 +8,7 @@ async function load (context = {}, event) {
   const { base64 = false, file, DOMAIN } = event.detail
   context.file = file
   context.DOMAIN = DOMAIN
-  context.zip = await JSZip.loadAsync(file, { base64 })
+  context.zip = await window.JSZip.loadAsync(file, { base64 })
   // Then we find the META-INF/container.xml information file. This file tells us where the actual OPF file is.
   const container = await context.zip
     .file('META-INF/container.xml')
@@ -223,49 +223,38 @@ async function upload (context, event) {
   // First upload the epub.
   try {
     const data = new window.FormData()
-    const filename = context.bookPrefix + context.file.name
+    const filename = context.file.name
     const file = new window.File([context.file], filename, {
       type: 'application/epub+zip'
     })
-    console.log(file.name)
-    data.append('file', file)
-    data.append('name', filename)
-    await uploadFile(data)
+    data.append('files', file)
+    const result = await uploadFile(data)
+    context.url[0].href = result[filename]
   } catch (err) {
     console.log(err.response)
   }
   // Then cycle through the attachments and upload images, audio, video
+  const paths = {}
+  const data = new window.FormData()
   for (var index = 0; index < context.attachment.length; index++) {
     const resource = context.attachment[index]
-    const type = getType(resource.mediaType)
     const blob = await zip.file(decodeURI(resource.path)).async('blob')
-    let sizes
-    if (type === 'image') {
-      try {
-        sizes = await getImageSizes(blob)
-        console.log(sizes)
-      } catch (err) {
-        console.log(err)
-      }
-    }
-    const filename = context.bookPrefix + decodeURI(resource.path)
+    const extension = decodeURI(resource.path).split('.').pop()
+    const filename = `${index}.${extension}`
+    paths[filename] = resource
     const file = new window.File([blob], filename, { type: resource.mediaType })
-    const data = new window.FormData()
-    data.append('file', file)
-    data.append('type', type)
-    data.append('name', filename)
-    try {
-      const result = await uploadFile(data)
-      if (result.url) {
-        resource.activity.url[0].href = result.url
+    data.append('files', file)
+  }
+  try {
+    const result = await uploadFile(data)
+    Object.keys(result).forEach(prop => {
+      if (paths[prop]) {
+        const resource = paths[prop]
+        resource.activity.url[0].href = result[prop]
       }
-      if (sizes) {
-        resource.activity.url[0].width = sizes.width
-        resource.activity.url[0].height = sizes.height
-      }
-    } catch (err) {
-      console.log(err)
-    }
+    })
+  } catch (err) {
+    console.log(err)
   }
   if (
     context.cover &&
@@ -352,41 +341,6 @@ function itemToActivityStub (item) {
   item.summary = `Resource of type ${item.mediaType}`
   item.activity['reader:path'] = item.path
   return item
-}
-
-function getImageSizes (blob) {
-  return new Promise((resolve, reject) => {
-    try {
-      const blobURL = URL.createObjectURL(blob)
-      const img = document.createElement('img')
-      img.src = blobURL
-      img.onload = () => {
-        const width = img.width
-        const height = img.height
-        return resolve({ width, height })
-      }
-    } catch (err) {
-      reject(err)
-    }
-  })
-}
-
-function getType (mediaType) {
-  if (mediaType.startsWith('image')) {
-    return 'Image'
-  } else if (mediaType.startsWith('audio')) {
-    return 'Audio'
-  } else if (mediaType.startsWith('video')) {
-    return 'Video'
-  } else if (mediaType === 'text/html') {
-    return 'html'
-  } else if (mediaType === 'application/xhtml+xml') {
-    return 'xhtml'
-  } else if (mediaType === 'application/xml') {
-    return 'xml'
-  } else if (mediaType.startsWith('text')) {
-    return 'generic-text'
-  }
 }
 
 export const actions = { load, parse, process, upload, create }
