@@ -4,6 +4,7 @@ import { chapter } from '../views/chapter.js'
 import { chapterLoading } from '../views/chapter-loading.js'
 import * as activities from '../state/activities.js'
 import {processChapter} from '../state/process-chapter.js'
+import { highlightNote } from '../annotations/highlight-actions.js'
 
 wickedElements.define('[data-component="reader"]', {
   async onconnected (event) {
@@ -30,6 +31,7 @@ wickedElements.define('[data-component="reader"]', {
       this.state = {data, dom, bookPath, chapterId, bookId, book: this.book}
     }
     this.render()
+    highlightNotes(this.state.data)
   },
   buildNotes () {
     this.chapters.forEach(chapter => {
@@ -72,3 +74,17 @@ wickedElements.define('[data-component="reader"]', {
   },
   attributeFilter: ['data-book-id', 'data-chapter-id', 'data-current-position']
 })
+
+function highlightNotes (chapter) {
+  const highlights = chapter.replies.filter(reply => {
+    const selector = reply['oa:hasSelector']
+    if (selector.type === 'RangeSelector') {
+      return true
+    } else if (selector.start || selector.end) {
+      return true
+    } else {
+      return false
+    }
+  })
+  highlights.map(note => highlightNote(note))
+}

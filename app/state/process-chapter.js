@@ -25,7 +25,6 @@ export function processChapter (doc, chapter) {
     markerContainer.dataset.for = xpath
     element.appendChild(markerContainer)
     const annotations = getAnnotations(chapter.replies, element.dataset.location)
-    console.log(annotations)
     annotations.forEach(annotation => {
       if (annotation.summary && !annotation.content) {
         markerContainer.dataset.noteId = annotation.id
@@ -42,7 +41,9 @@ function getAnnotations (replies = [], xpath) {
   return replies.filter(reply => {
     if (
       reply['oa:hasSelector'] &&
-      reply['oa:hasSelector'].type === 'XPathSelector'
+      reply['oa:hasSelector'].type === 'XPathSelector' &&
+      !reply['oa:hasSelector'].start &&
+      !reply['oa:hasSelector'].end
     ) {
       return reply['oa:hasSelector'].value === xpath
     } else {
