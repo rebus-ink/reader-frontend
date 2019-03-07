@@ -1,5 +1,6 @@
 const { getId } = require('./utils/get-id.js')
 module.exports.page = (render, model, req, body) => {
+  console.log(req.user)
   let token, id, streams
   if (req.user) {
     token = req.user.token
@@ -37,12 +38,8 @@ if (!window.supportsDynamicImport) {
 }
 </script>`
   ]}
-<meta name="jwt-meta" content="${token}">
 <meta name="csrf-token" content="${req.csrfToken()}">
-<meta name="rebus-user-id" content="${id}">
-<link href="${streams.outbox}" rel="rebus-outbox">
-<link href="${streams.library}" rel="rebus-library">
-<link href="${streams.upload}" rel="rebus-upload">
+<meta name="rebus-user-id" content="${req.user.id}" id="sub-user-id">
 ${[base]}
 </head>
 ${body(render, model, req)}

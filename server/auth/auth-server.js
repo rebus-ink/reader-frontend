@@ -10,13 +10,8 @@ const debug = require('debug')('vonnegut:auth:auth-server')
 
 function authserver (options) {
   // Need an oauth=false option that tells us to do the authentication processing in the login route instead of the callback route
-  const { strategy, accountStore, tokenStore } = options
+  const { strategy, tokenStore } = options
   // Storage setup
-  options.storage = new Keyv({
-    uri: typeof accountStore === 'string' && accountStore,
-    store: typeof accountStore !== 'string' && accountStore,
-    namespace: process.env.ACCOUNTS_NAMESPACE || 'rebus-reader-accounts'
-  })
   const tokenStorage = new Keyv({
     uri: typeof tokenStore === 'string' && tokenStore,
     store: typeof tokenStore !== 'string' && tokenStore,
@@ -33,8 +28,7 @@ function authserver (options) {
   passport.deserializeUser((id, done) => {
     // This function should be extracted and unit tested
     return (
-      options.storage
-        .get(id)
+      Promise.resolve()
         // Get JWT from namespaced token store
         .then((user = {}) => {
           return tokenStorage.get(id).then(token => {
@@ -79,7 +73,11 @@ function authserver (options) {
   app.use(passport.session())
   app.locals.authOptions = options
 
-  app.get('/callback', authenticate, function (req, res, next) {
+  app.get('/callback', passport.authenticate('auth0', {}), function (
+    req,
+    res,
+    next
+  ) {
     res.redirect(req.session.returnTo || '/')
   })
 

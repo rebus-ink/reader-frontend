@@ -32,15 +32,6 @@ function postError (response) {
 }
 
 let token
-document.addEventListener('DOMContentLoaded', function (event) {
-  loadToken()
-})
-
-export function loadToken () {
-  const metaEl = document.querySelector('[name="jwt-meta"]')
-  token = metaEl.getAttribute('content')
-}
-
 async function getJWT () {
   if (!token) {
     const response = await refreshJWT()
@@ -79,17 +70,54 @@ async function refreshJWT () {
 
 // TODO: replace these two with cached calls to profile. Or an 'endpoints' endpoint?
 // Or maybe this is fine as we aren't going to be doing SPA-style logins?
-function getOutbox () {
-  const metaEl = document.querySelector('[rel="rebus-outbox"]')
-  return metaEl.getAttribute('href')
+async function getOutbox () {
+  const profile = await getProfile()
+  return profile.outbox
 }
-function getUpload () {
-  const metaEl = document.querySelector('[rel="rebus-upload"]')
-  return metaEl.getAttribute('href')
+async function getUpload () {
+  const profile = await getProfile()
+  return `${profile.id}/file-upload`
 }
-function getLibrary () {
-  const metaEl = document.querySelector('[rel="rebus-library"]')
-  return metaEl.getAttribute('href')
+async function getLibrary () {
+  const profile = await getProfile()
+  return profile.streams.items[0].id
+}
+let profile
+async function getProfile () {
+  if (profile) { return profile }
+  const JWT = await getJWT()
+  const response = await window.fetch('/whoami', {
+    headers: new window.Headers({
+      'content-type': 'application/ld+json',
+      Authorization: `Bearer ${JWT}`
+    })
+  })
+  if (response.ok) {
+    profile = await response.json()
+  } else if (response.status === 404) {
+    const sub = document.getElementById('sub-user-id').getAttribute('content')
+    const newReader = {
+      type: 'Person',
+      summary: `Reader profile for user id ${sub}`
+    }
+    const response = await window.fetch('/readers', {
+      credentials: 'include',
+      method: 'POST',
+      body: JSON.stringify(newReader),
+      headers: new window.Headers({
+        'content-type': 'application/ld+json',
+        Authorization: `Bearer ${JWT}`
+      })
+    })
+    if (!response.ok) {
+      throw new HTTPError('POST Error:', response.statusText)
+    }
+    const reader = await get(response.headers.get('location'))
+    profile = reader
+  } else {
+    window.alert('Logging in failed')
+  }
+  return profile
 }
 
 export async function get (url) {
@@ -114,8 +142,8 @@ export function note (id) {
   return notes.get(id)
 }
 
-export function library () {
-  const url = getLibrary()
+export async function library () {
+  const url = await getLibrary()
   return get(url)
 }
 
@@ -135,7 +163,7 @@ export async function getChapterMarkup (doc, bookId) {
 }
 export async function saveActivity (action) {
   const JWT = await getJWT()
-  const outbox = getOutbox()
+  const outbox = await getOutbox()
   const response = await window.fetch(outbox, {
     credentials: 'include',
     method: 'POST',
@@ -187,7 +215,7 @@ export async function createAndGetId (payload) {
 
 export async function upload (payload) {
   const JWT = await getJWT()
-  const upload = getUpload()
+  const upload = await getUpload()
   const response = await window.fetch(upload, {
     credentials: 'include',
     method: 'POST',

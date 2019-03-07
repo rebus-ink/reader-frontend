@@ -34,6 +34,7 @@ wickedElements.define('[data-location]', {
     // // add position attributes to marker
   },
   ondisconnected (event) {
+    positionObserver.unobserve(event.currentTarget)
     // remove drop down marker element from sidebar
   }
 })
