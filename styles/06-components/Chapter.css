@@ -89,12 +89,12 @@ StyleGuide 6.Chapter
 */
 
 :root {
-  --reader-font-size: 1rem;
+  --reader-font-size: 1.1rem;
   --reader-paragraph-spacing: 0.75rem;
   --reader-left-margin: 2rem;
   --reader-text-color: #444;
-  --reader-min-column-width: min-content;
-  --reader-max-column-width: 30em;
+  --reader-min-column-width: 15rem;
+  --reader-max-column-width: 35em;
   --reader-background-color: #fefefc;
   --reader-border-color: #fafaef;
   --reader-line-height: 1.35;
@@ -121,10 +121,7 @@ StyleGuide 6.Chapter
   background-color: var(--reader-background-color);
   display: grid;
   grid-template-columns:
-    var(--reader-left-margin) minmax(
-      var(--reader-min-column-width),
-      var(--reader-max-column-width)
-    )
+    var(--reader-left-margin) minmax(var(--reader-min-column-width), 2fr)
     minmax(3rem, 1fr);
   grid-template-areas: 'leftmargin maintext rightmargin';
   line-height: var(--reader-line-height);
@@ -133,33 +130,29 @@ StyleGuide 6.Chapter
   padding-top: 2rem;
   min-height: calc(100vh - 2rem);
 }
-.Chapter div {
+
+.Chapter-body div {
   margin-top: var(--reader-paragraph-spacing);
   margin-bottom: var(--reader-paragraph-spacing);
 }
 
-.Chapter > *,
-.Chapter > figure > *,
-.Chapter > details > * {
-  grid-column: 2 / 2;
-  max-width: 100%;
-  margin-top: 0;
-}
-.Chapter > figure {
+.Chapter-body figure {
   padding: calc(var(--reader-paragraph-spacing) * 2) 0;
 }
 
-.Chapter > details[open] > summary {
+.Chapter-body details[open] > summary {
   background-color: transparent;
   border: none;
 }
 
-.Chapter > figure > figcaption:last-child {
+.Chapter-body figure > figcaption:last-child {
   margin-bottom: 0;
 }
 
 .Chapter-body {
-  padding: 1rem 0;
+  grid-area: maintext;
+  min-width: var(--reader-min-column-width);
+  max-width: var(--reader-max-column-width);
 }
 
 #sidebar {

@@ -12,5 +12,6 @@ export function chapter (state) {
 ${floatingButtons(state)}
 </nav>
   <main id="chapter" class="Chapter">
-  ${dom}<div id="sidebar"></div></main></body>`
+    <div class="Chapter-body">${dom}</div>
+  <div id="sidebar"></div></main></body>`
 }
