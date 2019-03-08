@@ -5,6 +5,9 @@ const selected = 'BookCard is-selectable is-selected'
 
 export function bookCard (book) {
   const { icon = {} } = book
+  if (!icon.url) {
+    icon.url = '/static/placeholder-cover.jpg'
+  }
   const pathname = new URL(book.id).pathname
   const url = `/reader${pathname}`
   return html`
