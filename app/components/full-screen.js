@@ -8,17 +8,23 @@ wickedElements.define('[data-component="full-screen"]', {
   onconnected (event) {
     this.element.addEventListener('click', this)
     this.body = document.getElementById('layout')
+    if (!document.fullscreenEnabled) {
+      this.element.disabled = true
+    }
+    document.addEventListener('fullscreenchange', this)
     this.render()
   },
   ondisconnected (event) {
     this.element.removeEventListener('click', this)
   },
-  async onclick (event) {
+  onclick (event) {
     if (document.fullscreenElement) {
-      await document.exitFullscreen()
+      return document.exitFullscreen()
     } else if (document.fullscreenEnabled) {
-      await this.body.requestFullscreen()
+      return this.body.requestFullscreen()
     }
+  },
+  onfullscreenchange (event) {
     this.render()
   },
   render () {
