@@ -255,6 +255,7 @@ async function upload (context, event) {
     })
   } catch (err) {
     console.log(err)
+    throw err
   }
   if (
     context.cover &&
