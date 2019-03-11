@@ -5,7 +5,7 @@
   line-height: 1.2;
 
   display: inline-block;
-  padding: 0;
+  padding: 2px;
 
   cursor: pointer;
   -webkit-user-select: none;
@@ -16,7 +16,6 @@
   white-space: nowrap;
   text-decoration: none;
 
-  color: var(--link);
   border: none;
   outline: none;
   background-color: transparent;
@@ -26,24 +25,16 @@
   text-transform: uppercase;
   font-size: 0.65rem;
   position: absolute;
-  left: -1rem;
+  left: calc(var(--reader-left-margin) * -1);
   width: auto;
-  bottom: -1rem;
+  bottom: -22px;
+  background-color: #f9f9f9;
+  color: #999;
 }
 
 .NoteButton:hover {
-  color: var(--hover);
+  color: white;
   text-decoration: none;
   box-shadow: none;
-  background-color: #f0f0f0;
-}
-
-@media (hover: hover) {
-  .NoteButton {
-    opacity: 0;
-  }
-  .NoteButton:focus,
-  :hover > .NoteButton {
-    opacity: 1;
-  }
+  background-color: var(--hover);
 }

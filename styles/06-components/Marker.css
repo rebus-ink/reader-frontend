@@ -7,22 +7,23 @@
   margin-left: 5px;
   width: var(--sidebar-width, auto);
   overflow: visible;
-  display: flex;
-  flex-direction: row;
+  display: block;
   border: none;
+  z-index: 0;
 }
 .Chapter .Marker {
   margin: 0;
   margin-left: 10px;
 }
 .Marker-textarea {
-  background-color: transparent;
+  background-color: var(--reader-background-color);
   font-style: italic;
   font-family: var(--reader-font-family);
   font-size: calc(var(--reader-font-size) * 0.85);
   border: none;
   line-height: 1.25;
   width: 100%;
+  resize: none;
 }
 .no-sidebar .Marker-textarea {
   display: none;
@@ -37,25 +38,13 @@
   display: inline-block;
 }
 
-@media (hover: hover) {
-  .Marker {
-    opacity: 0;
-  }
-  .Marker--focused,
-  .Marker:focus-within,
-  :hover > .Marker {
-    opacity: 1;
-  }
-  :hover > .Marker--hasContent {
-    border: none;
-  }
-}
 /* .Chapter .Marker--hasContent .MarkerNote-textarea {
   border-left: 0.5rem solid #ffff98;
 } */
 .Marker--hasContent {
   opacity: 1;
   border: none;
+  z-index: 1;
 }
 .Marker--hasContent .Marker-textarea {
   background-image: linear-gradient(
@@ -104,4 +93,12 @@
   text-decoration: none;
   box-shadow: none;
   background-color: #f0f0f0;
+}
+.Marker-textarea:hover {
+  background-color: #f0f0f0;
+}
+.Marker-textarea:focus {
+  background-color: white;
+  box-shadow: 0px 0px 0px 1px #ddd;
+  outline: none;
 }
