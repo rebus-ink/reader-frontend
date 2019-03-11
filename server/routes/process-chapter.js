@@ -6,7 +6,6 @@ const got = require('got')
 const debug = require('debug')('vonnegut:routes:process-chapter')
 const createDOMPurify = require('dompurify')
 const { JSDOM } = require('jsdom')
-const URL = require('url').URL
 const csurf = require('csurf')
 
 const purifyConfig = {
@@ -27,11 +26,13 @@ router.get(
     const base = `${process.env.BASE}/reader/${req.query.bookId}/${
       req.query.path
     }`
-    const prefix = `${process.env.BASE}/reader/${req.query.bookId}`
     debug(base)
     try {
       const resource = req.query.resource
       const response = await got(resource)
+      if (response.statusCode === 404) {
+        return res.sendStatus(404)
+      }
       const window = new JSDOM(response.body, { url: base }).window
       const DOMPurify = createDOMPurify(window)
       const symbols = window.document.body.querySelectorAll(
@@ -43,14 +44,6 @@ router.get(
         }
         element.dataset.location = getXPath(element)
       })
-      const links = window.document.body.querySelectorAll('[href]')
-      links.forEach(link => {
-        const href = new URL(link.href)
-        const hash = href.hash
-        const hashPrefix = link.href.replace(prefix, '')
-        href.hash = hash.replace('#', `#${hashPrefix}:`)
-        link.setAttribute('href', href.href)
-      })
       const media = window.document.body.querySelectorAll('[src]')
       media.forEach(link => {
         link.setAttribute('src', link.src)
@@ -59,7 +52,7 @@ router.get(
       debug('Chapter processed')
       return res.send({ chapter: clean.innerHTML })
     } catch (err) {
-      res.status(404)
+      return res.sendStatus(404)
     }
   }
 )

@@ -1,5 +1,6 @@
 import hyperApp from 'hyperhtml-app'
 import 'intersection-observer'
+import 'details-dialog-element'
 import * as activities from './state/activities.js'
 import {render, html} from 'lighterhtml'
 import '@github/details-menu-element'
@@ -28,7 +29,7 @@ app.get('/library', async function (context) {
     body.setAttribute('class', 'Layout')
     body.id = 'layout'
     const query = (new URL(document.location)).searchParams
-    render(body, () => html`<main class="Library" id="Library" data-component="library" data-sort-order=${query.get('order') || 'added'}  data-sort-desc=${query.get('desc') || null}></main>`)
+    render(body, () => html`<main class="Library" id="Library" data-component="library" data-sort-order=${query.get('order') || 'added'}  data-sort-desc=${query.get('desc') || null} data-tag=${query.get('tag')}></main>`)
   } catch (err) {
     console.error(err)
   }
@@ -61,12 +62,32 @@ app.get('/reader/:bookId', async function (context) {
   }
 })
 
+app.get('/login', function (context) {
+  const returnTo = `/login?${
+    encodeURIComponent(window.location.pathname + window.location.search)}`
+  render(document.body, () => html`<div class="FrontLayout">
+  <form action="${returnTo}" method="POST">
+  <button class="Button">Log In</button>
+  </form>
+  </div>`)
+})
+
+app.get('/logout', function (context) {
+  render(document.body, () => html`<div class="FrontLayout">
+  <form action="/logout" method="POST">
+  <button class="Button" onclick=${activities.logout()}>Log Out</button>
+  </form>
+  </div>`)
+})
+
 async function reader (book, data, params) {
   body.setAttribute('class', '')
   body.id = 'layout'
-  render(body, () => html`<div class="Layout Layout--reader" data-component="reader" data-chapter-id="${data.id}" data-book-id="${params.bookId}" data-book-path="${params.bookPath}"></div>`)
+  render(body, () => html`<div class="Layout Layout--reader" data-component="reader" data-chapter-id="${data.id}" data-book-id="${params.bookId}" data-book-path="${params.bookPath}" data-target="${window.location.hash}"></div>`)
 }
 
 document.body.addEventListener('reader:navigation', event => app.navigate(event.detail.path))
+
+document.body.addEventListener('reader:login', event => app.navigate('/login'))
 
 app.navigate(window.location.pathname + window.location.search)
