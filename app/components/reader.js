@@ -10,35 +10,21 @@ wickedElements.define('[data-component="reader"]', {
   async onconnected (event) {
     this.element = event.currentTarget
     this.element.id = 'reader'
-    const chapters = this.chapters = new Map()
-    const chapterMarkup = this.chapterMarkup = new Map()
     this.render()
     const {chapterId, bookId, bookPath} = this.element.dataset
     if (chapterId && bookId) {
       this.book = await activities.book(bookId)
-      const items = this.book.orderedItems
-      const chapterData = []
-      for (let index = 0; index < items.length; index++) {
-        const chapter = items[index]
-        chapterData.push(activities.get(chapter.id).then(chapter => chapters.set(chapter.id, chapter)))
-        chapterData.push(activities.getChapterMarkup(chapter, bookId).then(markup => chapterMarkup.set(chapter.id, markup)))
+      const data = await activities.get(chapterId)
+      if (data.replies) {
+        data.replies.forEach(note => activities.saveNote(note))
       }
-      await Promise.all(chapterData)
-      this.buildNotes()
-      const data = this.chapters.get(chapterId)
-      const markup = this.chapterMarkup.get(chapterId)
+      const markup = await activities.getChapterMarkup(data, bookId)
       const dom = processChapter(markup, data)
       this.state = {data, dom, bookPath, chapterId, bookId, book: this.book}
     }
     this.render()
+    this.handleTarget()
     highlightNotes(this.state.data)
-  },
-  buildNotes () {
-    this.chapters.forEach(chapter => {
-      if (chapter.replies) {
-        chapter.replies.forEach(note => activities.saveNote(note))
-      }
-    })
   },
   ondisconnected (event) { },
   render () {
@@ -48,31 +34,44 @@ wickedElements.define('[data-component="reader"]', {
       render(this.element, () => chapterLoading())
     }
   },
-  async onattributechanged (event) {
-    const {attributeName, oldValue, newValue} = event
-    if (attributeName === 'data-current-position') {
-      if (oldValue === newValue) { return }
-      const target = document.querySelector(`[data-location="${newValue}"]`)
-      if (target !== this.currentElement) {
+  handleTarget (oldValue) {
+    const targetValue = this.element.dataset.target
+    if (oldValue === targetValue) { return }
+    let target
+    if (targetValue[0] === '#') {
+      target = document.querySelector(targetValue)
+    } else {
+      target = document.querySelector(`[data-location="${targetValue}"]`)
+      if (target && target !== this.currentElement) {
         if (this.currentElement) {
           this.currentElement.classList.remove('is-position')
         }
         this.currentElement = target
         this.currentElement.classList.add('is-position')
       }
-      // if (target) { target.scrollIntoView({behaviour: 'smooth'}) }
-    } else {
+    }
+    if (target) { target.scrollIntoView() }
+  },
+  async onattributechanged (event) {
+    const {attributeName, oldValue} = event
+    if (attributeName === 'data-target') {
+      this.handleTarget(oldValue)
+    } else if (attributeName === 'data-book-id' || attributeName === 'data-chapter-id') {
       this.state = null
       this.render()
       const {chapterId, bookId, bookPath} = this.element.dataset
-      const data = this.chapters.get(chapterId)
-      const markup = this.chapterMarkup.get(chapterId)
+      const data = await activities.get(chapterId)
+      if (data.replies) {
+        data.replies.forEach(note => activities.saveNote(note))
+      }
+      const markup = await activities.getChapterMarkup(data, bookId)
       const dom = processChapter(markup, data)
       this.state = {data, dom, bookPath, chapterId, bookId, book: this.book}
       this.render()
+      this.handleTarget()
     }
   },
-  attributeFilter: ['data-book-id', 'data-chapter-id', 'data-current-position']
+  attributeFilter: ['data-book-id', 'data-chapter-id', 'data-current-position', 'data-target']
 })
 
 function highlightNotes (chapter) {
