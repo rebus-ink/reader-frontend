@@ -48,6 +48,10 @@ async function getJWT () {
   return token
 }
 
+export function logout () {
+  token = null
+}
+
 async function refreshJWT () {
   const csurfMeta = document.querySelector('meta[name="csrf-token"]')
   let csurf
@@ -62,6 +66,12 @@ async function refreshJWT () {
       'csrf-token': csurf
     })
   })
+  if (response.status === 403) {
+    document.body.dispatchEvent(
+      new window.CustomEvent('reader:login', {
+        detail: { response }
+      }))
+  }
   if (!response.ok) {
     throw new HTTPError('JWT Refresh Error:', response.statusText)
   }
@@ -83,7 +93,7 @@ async function getLibrary () {
   return profile.streams.items[0].id
 }
 let profile
-async function getProfile () {
+export async function getProfile () {
   if (profile) { return profile }
   const JWT = await getJWT()
   const response = await window.fetch('/whoami', {
@@ -119,6 +129,10 @@ async function getProfile () {
   }
   return profile
 }
+export async function updateProfile () {
+  profile = await get(profile.id)
+  return profile
+}
 
 export async function get (url) {
   const JWT = await getJWT()
@@ -142,14 +156,24 @@ export function note (id) {
   return notes.get(id)
 }
 
-export async function library () {
-  const url = await getLibrary()
+export async function library (tag) {
+  const url = new URL(await getLibrary())
+  if (tag) {
+    url.searchParams.set('stack', tag)
+  }
   return get(url)
 }
-
-export function book (bookId) {
+const bookCache = {}
+export async function book (bookId) {
   const url = `/${bookId}`
-  return get(url)
+  if (url === bookCache.id) {
+    return bookCache.data
+  } else {
+    const data = await get(url)
+    bookCache.id = url
+    bookCache.data = data
+    return data
+  }
 }
 
 export async function getChapterMarkup (doc, bookId) {
@@ -181,6 +205,10 @@ export async function saveActivity (action) {
 
 export function create (payload) {
   const action = wrap(payload, 'Create')
+  return saveActivity(action)
+}
+export function add (payload) {
+  const action = wrap(payload, 'Add')
   return saveActivity(action)
 }
 
