@@ -29,7 +29,7 @@ wickedElements.define('#sidebar', {
   setSize () {
     const size = this.element.offsetWidth
     document.body.style.setProperty('--sidebar-width', size - 20 + 'px')
-    if (size < 200) {
+    if (size < 120) {
       document.body.classList.add('no-sidebar')
     } else {
       document.body.classList.remove('no-sidebar')

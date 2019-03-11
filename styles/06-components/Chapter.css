@@ -104,7 +104,7 @@ StyleGuide 6.Chapter
   :root {
     --reader-font-size: 0.85rem;
     --reader-paragraph-spacing: 0.65rem;
-    --reader-left-margin: 1rem;
+    --reader-left-margin: 1.5rem;
   }
 }
 @media (max-width: 550px) {
