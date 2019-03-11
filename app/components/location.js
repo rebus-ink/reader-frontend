@@ -24,6 +24,7 @@ function onPosition (entries) {
   }
   document.getElementById('reader').dataset.currentPosition =
     highest.target.dataset.location
+  window.location.hash = '#' + highest.target.dataset.location
 }
 
 wickedElements.define('[data-location]', {

@@ -83,7 +83,16 @@ app.get('/logout', function (context) {
 async function reader (book, data, params) {
   body.setAttribute('class', '')
   body.id = 'layout'
-  render(body, () => html`<div class="Layout Layout--reader" data-component="reader" data-chapter-id="${data.id}" data-book-id="${params.bookId}" data-book-path="${params.bookPath}" data-target="${window.location.hash}"></div>`)
+  const reader = document.getElementById('reader')
+  let target
+  if (window.location.hash.startsWith('#/') && !reader) {
+    target = window.location.hash.replace('#', '')
+  } else if (window.location.hash.startsWith('#/') && reader) {
+    target = ''
+  } else {
+    target = window.location.hash
+  }
+  render(body, () => html`<div class="Layout Layout--reader" data-component="reader" data-chapter-id="${data.id}" data-book-id="${params.bookId}" data-book-path="${params.bookPath}" data-target="${target}"></div>`)
 }
 
 document.body.addEventListener('reader:navigation', event => app.navigate(event.detail.path))
