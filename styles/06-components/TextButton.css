@@ -109,32 +109,17 @@ StyleGuide 6.TextButton
   border-radius: 0.2rem;
 }
 
-.ReaderNote--hasContent .TextButton--noteButton {
-  display: none;
-}
-.TextButton--noteButton {
-  position: absolute;
-  bottom: 0;
-  right: 1rem;
-  opacity: 0;
-}
 .TextButton--noteDelete {
-  display: none;
   position: absolute;
   bottom: 0;
   right: 1rem;
   color: var(--primary);
   opacity: 0;
-}
-.ReaderNote--hasContent .TextButton--noteDelete {
-  display: inline-block;
+  pointer-events: none;
 }
 
 .ReaderNote--hasFocus .TextButton--noteDelete,
-.ReaderNote--hasFocus .TextButton--noteButton,
-.TextButton--noteButton:focus,
-.TextButton--noteDelete:focus,
-.TextButton--noteButton:hover,
-.TextButton--noteDelete:hover {
+.TextButton--noteDelete:focus {
   opacity: 1;
+  pointer-events: auto;
 }

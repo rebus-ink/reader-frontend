@@ -7,8 +7,9 @@ const express = require('express')
 const router = express.Router()
 const { getBookState } = require('../utils/get-book-state.js')
 const debug = require('debug')('vonnegut:routes:book')
+const csurf = require('csurf')
 
-router.get('/reader/:bookId', ensureLogin, getUserStreams, function (
+router.get('/reader/:bookId', ensureLogin, csurf(), getUserStreams, function (
   req,
   res,
   next

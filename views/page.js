@@ -1,5 +1,6 @@
 const { getId } = require('./utils/get-id.js')
 module.exports.page = (render, model, req, body) => {
+  console.log(req.user)
   let token, id, streams
   if (req.user) {
     token = req.user.token
@@ -25,17 +26,20 @@ module.exports.page = (render, model, req, body) => {
 <link media="all" rel="stylesheet" href="/static/styles/app.css">
 <title>Rebus Reader</title>
 <script src="/js/document-register-element.js"></script>
-<script src="/js/swup.min.js"></script>
-<script src="/js/quill.min.js"></script>
-<script src="/components/page-transitions.js" type="module"></script>
-<script src="/components/nav-menu-toggle.js" type="module"></script>
-<script src="/components/fetch.js" type="module"></script>
-<script src="/js/importer.min.js" type="module"></script>
-<script src="/js/annotations.min.js" type="module"></script>
-<meta name="jwt-meta" content="${token}">
-<meta name="rebus-user-id" content="${id}">
-<link href="${streams.outbox}" rel="rebus-outbox">
-<link href="${streams.upload}" rel="rebus-upload">
+<script src="/js/s.min.js"></script>
+${[
+    `<script>
+import('/js/module/index.js');
+window.supportsDynamicImport = true
+</script>
+<script>
+if (!window.supportsDynamicImport) {
+  System.import('/js/nomodule/index.js')
+}
+</script>`
+  ]}
+<meta name="csrf-token" content="${req.csrfToken()}">
+<meta name="rebus-user-id" content="${req.user.id}" id="sub-user-id">
 ${[base]}
 </head>
 ${body(render, model, req)}

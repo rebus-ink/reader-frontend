@@ -1,12 +1,10 @@
 .ReaderNote {
-  margin-left: -2rem;
   padding: 0;
   background-color: #ffff98;
   box-sizing: content-box;
   width: 100%;
-  margin-bottom: var(--reader-paragraph-spacing);
+  margin: var(--reader-paragraph-spacing) 0;
   position: relative;
-  border-top: 0.25rem solid #eded00;
 }
 
 .ReaderNote label,
@@ -22,9 +20,9 @@
   font-family: var(--reader-font-family);
   width: 100%;
 }
-.ReaderNote-textarea {
+/* .ReaderNote-textarea {
   background-color: rgba(255, 255, 255, 0.6);
-}
+} */
 
 .ReaderNote .ql-toolbar {
   opacity: 0;

@@ -1,4 +1,5 @@
-const JSZip = window.JSZip
+
+import {create as createPublication, upload as uploadFile} from '../../state/activities.js'
 const BUCKET_URL = 'https://storage.googleapis.com/rebus-default-bucket/'
 
 // Context should be empty to begin with. Event should be a custom 'import:load' event. Its 'detail' property has only one property: 'file'
@@ -7,7 +8,7 @@ async function load (context = {}, event) {
   const { base64 = false, file, DOMAIN } = event.detail
   context.file = file
   context.DOMAIN = DOMAIN
-  context.zip = await JSZip.loadAsync(file, { base64 })
+  context.zip = await window.JSZip.loadAsync(file, { base64 })
   // Then we find the META-INF/container.xml information file. This file tells us where the actual OPF file is.
   const container = await context.zip
     .file('META-INF/container.xml')
@@ -215,7 +216,6 @@ async function process (context, event) {
 
 // This uploads the initial file and all attachments using the file upload endpoint.
 async function upload (context, event) {
-  const uploadFile = window.uploadFile
   const zip = context.zip
   // Another future feature is getting media sizes as they are being uploaded
   // There are security implications for hosting unmodified html, css, and js files on a domain we control. So, we're only going to upload images and media. The long term solution is to sanitize the svg
@@ -223,49 +223,39 @@ async function upload (context, event) {
   // First upload the epub.
   try {
     const data = new window.FormData()
-    const filename = context.bookPrefix + context.file.name
+    const filename = context.file.name
     const file = new window.File([context.file], filename, {
       type: 'application/epub+zip'
     })
-    console.log(file.name)
-    data.append('file', file)
-    data.append('name', filename)
-    await uploadFile(data)
+    data.append('files', file)
+    const result = await uploadFile(data)
+    context.url[0].href = result[filename]
   } catch (err) {
     console.log(err.response)
   }
   // Then cycle through the attachments and upload images, audio, video
+  const paths = {}
+  const data = new window.FormData()
   for (var index = 0; index < context.attachment.length; index++) {
     const resource = context.attachment[index]
-    const type = getType(resource.mediaType)
     const blob = await zip.file(decodeURI(resource.path)).async('blob')
-    let sizes
-    if (type === 'image') {
-      try {
-        sizes = await getImageSizes(blob)
-        console.log(sizes)
-      } catch (err) {
-        console.log(err)
-      }
-    }
-    const filename = context.bookPrefix + decodeURI(resource.path)
+    const extension = decodeURI(resource.path).split('.').pop()
+    const filename = `${index}.${extension}`
+    paths[filename] = resource
     const file = new window.File([blob], filename, { type: resource.mediaType })
-    const data = new window.FormData()
-    data.append('file', file)
-    data.append('type', type)
-    data.append('name', filename)
-    try {
-      const result = await uploadFile(data)
-      if (result.url) {
-        resource.activity.url[0].href = result.url
+    data.append('files', file)
+  }
+  try {
+    const result = await uploadFile(data)
+    Object.keys(result).forEach(prop => {
+      if (paths[prop]) {
+        const resource = paths[prop]
+        resource.activity.url[0].href = result[prop]
       }
-      if (sizes) {
-        resource.activity.url[0].width = sizes.width
-        resource.activity.url[0].height = sizes.height
-      }
-    } catch (err) {
-      console.log(err)
-    }
+    })
+  } catch (err) {
+    console.log(err)
+    throw err
   }
   if (
     context.cover &&
@@ -285,7 +275,6 @@ async function upload (context, event) {
 
 // Finally, this action prepares and submits the completed publication activity to the user's outbox.
 async function create (context, event) {
-  const createPublication = window.createPublication
   const publication = {
     type: 'reader:Publication',
     name: context.title
@@ -355,39 +344,4 @@ function itemToActivityStub (item) {
   return item
 }
 
-function getImageSizes (blob) {
-  return new Promise((resolve, reject) => {
-    try {
-      const blobURL = URL.createObjectURL(blob)
-      const img = document.createElement('img')
-      img.src = blobURL
-      img.onload = () => {
-        const width = img.width
-        const height = img.height
-        return resolve({ width, height })
-      }
-    } catch (err) {
-      reject(err)
-    }
-  })
-}
-
-function getType (mediaType) {
-  if (mediaType.startsWith('image')) {
-    return 'Image'
-  } else if (mediaType.startsWith('audio')) {
-    return 'Audio'
-  } else if (mediaType.startsWith('video')) {
-    return 'Video'
-  } else if (mediaType === 'text/html') {
-    return 'html'
-  } else if (mediaType === 'application/xhtml+xml') {
-    return 'xhtml'
-  } else if (mediaType === 'application/xml') {
-    return 'xml'
-  } else if (mediaType.startsWith('text')) {
-    return 'generic-text'
-  }
-}
-
-module.exports.actions = { load, parse, process, upload, create }
+export const actions = { load, parse, process, upload, create }

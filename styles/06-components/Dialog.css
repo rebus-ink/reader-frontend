@@ -1,0 +1,74 @@
+.Dialog {
+  display: inline-block;
+  margin: 0;
+  text-align: right;
+}
+
+.Dialog > summary {
+  list-style: none;
+}
+.Dialog > summary::-webkit-details-marker {
+  display: none;
+}
+.Dialog details-dialog {
+  width: 600px;
+}
+
+.Dialog[open] > summary {
+  cursor: default;
+}
+.Dialog[open] > summary:before {
+  content: ' ';
+  background: rgba(0, 0, 0, 0.3);
+  display: block;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 3;
+}
+
+.Dialog-body {
+  display: grid;
+  grid-template-areas: 'header header' 'label .' 'input input' 'cancel save';
+  grid-template-rows: 4rem 1fr 2rem;
+  grid-column-gap: 2rem;
+  grid-row-gap: 0.25rem;
+  padding: 1rem;
+  border-radius: 0.25rem;
+  border: 1px solid #e0e0e0;
+  background-color: var(--button-background-color);
+  background-image: linear-gradient(
+    -180deg,
+    var(--button-background-color) 0%,
+    #f3f3f3 100%
+  );
+  box-shadow: inset 0 1px 3px 0px rgba(255, 255, 255, 0.75),
+    inset 0 2px 5px 1px hsla(0, 0%, 74.9%, 0.1),
+    0 1px 1px 0 hsla(0, 0%, 54.9%, 0.1);
+  text-shadow: 0 2px 2px rgba(191, 191, 191, 0.2);
+  z-index: 4;
+}
+.Dialog-title {
+  grid-area: header;
+  text-align: center;
+  margin: 0;
+  font-size: 2rem;
+}
+
+.Dialog-label {
+  grid-area: label;
+  text-align: left;
+}
+
+.Dialog-input {
+  grid-area: input;
+}
+
+.Dialog-cancel {
+  grid-area: cancel;
+}
+.Dialog-save {
+  grid-area: save;
+}

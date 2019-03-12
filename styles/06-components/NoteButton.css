@@ -1,15 +1,40 @@
 .NoteButton {
+  font-family: var(--sans-fonts);
+  font-weight: 400;
+  flex: 0 1 auto;
+  line-height: 1.2;
+
+  display: inline-block;
+  padding: 2px;
+
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-align: center;
+  white-space: nowrap;
+  text-decoration: none;
+
+  border: none;
+  outline: none;
+  background-color: transparent;
+
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  text-transform: uppercase;
+  font-size: 0.65rem;
   position: absolute;
-  left: -1.8rem;
+  left: calc(var(--reader-left-margin) * -1);
   width: auto;
+  bottom: -22px;
+  background-color: #f9f9f9;
+  color: #999;
 }
 
-@media (hover: hover) {
-  .NoteButton {
-    opacity: 0;
-  }
-  .NoteButton:focus,
-  :hover > .NoteButton {
-    opacity: 1;
-  }
+.NoteButton:hover {
+  color: white;
+  text-decoration: none;
+  box-shadow: none;
+  background-color: var(--hover);
 }

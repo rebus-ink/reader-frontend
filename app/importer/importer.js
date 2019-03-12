@@ -1,10 +1,13 @@
-const { actions } = require('./epub/actions.js')
+
+import './zip.js'
+import { actions } from './epub/actions.js'
 window.customElements.define(
   'epub-import',
   class EpubImportForm extends window.HTMLFormElement {
     connectedCallback () {
       this.addEventListener('change', this)
       this.fileInput = this.querySelector('input[type="file"]')
+      console.log('importer connected')
     }
     disconnectedCallback () {
       this.removeEventListener('change', this)

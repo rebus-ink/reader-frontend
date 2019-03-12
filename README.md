@@ -19,3 +19,7 @@ The other rules are as [described here](https://github.com/marionebl/commitlint/
 Code should be written in the [Standard]() style and even if it isn't, `prettier-standard` is run on commit to convert the code into Standard style.
 
 (I don't particularly prefer Standard style over any other variety, but we need a coding style and that one's as good as any other and comes with a bunch of ready-made tools.)
+
+## Icons
+
+The icons are from or based on [ICONSVG](https://iconsvg.xyz/), MIT Licensed. ICONSVG icons are in turn based on the great [Feather icon set](https://feathericons.com/?ref=iconsvg).

@@ -4,8 +4,10 @@ const express = require('express')
 const router = express.Router()
 const { getUserStreams } = require('../utils/get-user-streams.js')
 const debug = require('debug')('vonnegut:routes:front-page')
+const csurf = require('csurf')
+const { ensureLogin } = require('../ensure-login.js')
 
-router.get('/', getUserStreams, function (req, res, next) {
+router.get('/', ensureLogin, getUserStreams, csurf(), function (req, res, next) {
   const render = viperHTML.wire
   if (req.user) {
     debug(req.path)

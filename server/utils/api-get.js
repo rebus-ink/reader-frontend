@@ -1,12 +1,7 @@
 const got = require('got')
 const debug = require('debug')('vonnegut:utils:api-get')
 const URL = require('url').URL
-let LOCAL_API
-if (process.env.DOMAIN.includes('localhost')) {
-  LOCAL_API = process.env.DOMAIN
-} else {
-  LOCAL_API = `http://localhost:${process.env.PORT}/api/`
-}
+let LOCAL_API = process.env.BASE
 const Datastore = require('@google-cloud/datastore')
 const namespace = 'rebus-reader'
 const datastore = new Datastore({

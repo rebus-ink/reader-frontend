@@ -4,6 +4,14 @@ const createDOMPurify = require('dompurify')
 const { JSDOM } = require('jsdom')
 const { arrify } = require('../utils/arrify.js')
 
+const purifyConfig = {
+  KEEP_CONTENT: false,
+  IN_PLACE: true,
+  FORBID_TAGS: ['style', 'link'],
+  FORBID_ATTR: ['style'],
+  ADD_TAGS: ['reader-markers']
+}
+
 async function processChapter (chapter) {
   const url = getAlternate(chapter)
   debug(url)
@@ -12,11 +20,14 @@ async function processChapter (chapter) {
   const window = new JSDOM(response.body).window
   const DOMPurify = createDOMPurify(window)
   const symbols = window.document.body.querySelectorAll(
-    'p, h1, h2, h3, h4, h5, h6, li, table, dd, dt'
+    'p, h1, h2, h3, h4, h5, h6, li, table, dd, dt, div > img:only-child, figure > img'
   )
   symbols.forEach(element => {
+    if (element.tagName.toLowerCase() === 'img') {
+      element = element.parentElement
+    }
     element.dataset.xpath = getXPath(element)
-    const markerContainer = window.document.createElement('span')
+    const markerContainer = window.document.createElement('reader-markers')
     markerContainer.classList.add('Marker')
     markerContainer.dataset.reader = 'true'
     element.appendChild(markerContainer)
@@ -30,7 +41,7 @@ async function processChapter (chapter) {
       }
     })
   })
-  const clean = DOMPurify.sanitize(window.document.body, { IN_PLACE: true })
+  const clean = DOMPurify.sanitize(window.document.body, purifyConfig)
   debug('Chapter processed')
   return clean.innerHTML
 }

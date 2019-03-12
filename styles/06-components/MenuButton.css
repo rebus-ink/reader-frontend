@@ -48,17 +48,21 @@ StyleGuide 6.MenuButton
   display: inline-block;
   margin: 0;
   padding: 0;
-  z-index: 99;
+  z-index: 1;
 }
+
+.MenuButton[open] {
+  z-index: 2;
+}
+
 .MenuButton-summary {
-  font-family: var(--sans-fonts);
-  font-weight: 400;
+  font-weight: 500;
   flex: 0 1 auto;
   line-height: 1.2;
 
   display: inline-block;
   padding: 0.25rem 0.5rem;
-
+  margin-left: -0.5rem;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -74,22 +78,13 @@ StyleGuide 6.MenuButton
 
   -ms-touch-action: manipulation;
   touch-action: manipulation;
-  font-size: 0.65rem;
   align-self: start;
   border-radius: 4px;
   position: relative;
   width: auto;
-  border: 1px solid #e0e0e0;
-  background-color: var(--button-background-color);
-  background-image: linear-gradient(
-    -180deg,
-    var(--button-background-color) 0%,
-    #f3f3f3 100%
-  );
-  box-shadow: inset 0 1px 3px 0px rgba(255, 255, 255, 0.75),
-    inset 0 2px 5px 1px hsla(0, 0%, 74.9%, 0.1),
-    0 1px 1px 0 hsla(0, 0%, 54.9%, 0.1);
-  text-shadow: 0 2px 2px rgba(191, 191, 191, 0.2);
+  font-family: var(--reader-font-family);
+  font-style: italic;
+  font-size: 0.85rem;
 }
 
 .MenuButton-summary {
@@ -107,7 +102,7 @@ StyleGuide 6.MenuButton
   height: 0;
   vertical-align: -2px;
   width: 0;
-  margin-left: 3px;
+  margin-left: 6px;
 }
 .MenuButton[aria-expanded='false'] {
   color: black;
@@ -128,7 +123,6 @@ StyleGuide 6.MenuButton
   text-decoration: none;
   box-shadow: none;
   background-image: linear-gradient(-180deg, var(--link) 0%, #005580 100%);
-  border: 1px solid #014f75;
 }
 
 .MenuButton-summary:active {
@@ -136,6 +130,12 @@ StyleGuide 6.MenuButton
 }
 
 .MenuButton-summary:focus,
+.MenuButton[open] .MenuButton-summary:focus {
+  outline: none;
+  text-decoration: none;
+  border-color: #999;
+}
+
 .MenuButton[open] .MenuButton-summary:focus {
   outline: none;
   text-decoration: none;
@@ -161,14 +161,37 @@ StyleGuide 6.MenuButton
 .MenuButton-body {
   position: absolute;
   background-color: var(--button-background-color);
-  z-index: 99;
+  z-index: 1;
   list-style: none;
   border-radius: 4px;
   border-top-left-radius: 0;
   margin: 0;
+  margin-left: -0.5rem;
   padding: 0.25rem 0;
-  min-width: 105%;
+  min-width: 110%;
   box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.1);
+  max-height: calc(100vh - 2.5rem);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+}
+.MenuButton-body ol {
+  counter-reset: menu-contents;
+  margin: 0;
+}
+
+.MenuButton-body ol .MenuItem {
+  counter-increment: menu-contents;
+  display: block;
+  padding: 0.25rem 1rem;
+}
+.MenuButton-body ol .MenuItem::before {
+  content: counter(menu-contents) '. ';
+}
+
+.MenuButton-body a {
+  text-decoration: none;
 }
 
 .MenuButton-body--right {
@@ -222,4 +245,26 @@ StyleGuide 6.MenuButton
   max-width: 260px;
   min-width: 200px;
   margin-bottom: 0;
+}
+
+.MenuButton--bookCard {
+  display: inline-block;
+}
+
+.MenuButton--bookCard .MenuButton-summary::after {
+  display: none;
+}
+
+.MenuButton--bookCard .MenuButton-body {
+  min-width: auto;
+  overflow: visible;
+}
+.MenuButton--bookCard .MenuItem {
+  background-color: transparent;
+}
+.MenuButton--bookCard .MenuButton-summary {
+  font-family: var(--fonts);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.6rem;
 }

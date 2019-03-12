@@ -186,3 +186,17 @@ figcaption {
   margin-top: var(--reader-paragraph-spacing);
   margin-bottom: var(--reader-paragraph-spacing);
 }
+b,
+strong,
+b > *,
+strong > * {
+  font-weight: 600;
+}
+
+svg,
+img {
+  max-height: 88vh;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+}

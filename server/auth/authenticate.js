@@ -9,48 +9,43 @@ const URL = require('url').URL
 const debug = require('debug')('vonnegut:auth:authenticate')
 
 async function processAuth (user, { storage, tokenStorage }) {
-  const storedUser = await storage.get(user.id)
-  debug(storedUser)
-  if (!storedUser) {
-    // fetch /whoami, if no /whoami, create user and assign to storedUser
-    const expiresIn = '30m'
-    const token = jwt.sign({ sub: user.id }, process.env.SECRETORKEY, {
-      algorithm: 'HS256',
-      expiresIn,
-      jwtid: translator.new(),
-      audience: process.env.AUDIENCE,
-      issuer: process.env.ISSUER
-    })
-    await tokenStorage.set(user.id, token, ms(expiresIn))
+  // fetch /whoami, if no /whoami, create user and assign to storedUser
+  debug('authenticate called')
+  const expiresIn = '30m'
+  const token = jwt.sign({ sub: user.id }, process.env.SECRETORKEY, {
+    algorithm: 'HS256',
+    expiresIn,
+    jwtid: translator.new(),
+    audience: process.env.AUDIENCE,
+    issuer: process.env.ISSUER
+  })
+  await tokenStorage.set(user.id, token, ms(expiresIn))
+  let result
+  try {
+    result = await get('whoami', token)
+  } catch (err) {}
+  debug(result)
+  if (result) {
+    const newUser = { id: user.id, reader: result }
+    newUser.readerId = new URL(result.id).pathname.split('-')[1]
+    await storage.set(user.id, newUser)
+    return newUser
+  } else {
+    const newReader = {
+      type: 'Person',
+      summary: `Reader profile for user id ${user.id}`
+    }
     let result
     try {
-      result = await get('whoami', token)
-    } catch (err) {}
-    debug(result)
-    if (result) {
-      const newUser = { id: user.id, reader: result }
-      newUser.readerId = new URL(result.id).pathname.split('-')[1]
-      await storage.set(user.id, newUser)
-      return newUser
-    } else {
-      const newReader = {
-        type: 'Person',
-        summary: `Reader profile for user id ${user.id}`
-      }
-      let result
-      try {
-        result = await post('readers', newReader, token)
-      } catch (err) {
-        throw err
-      }
-      debug(result)
-      const newUser = { id: user.id, reader: result }
-      newUser.readerId = new URL(result.id).pathname.split('-')[1]
-      await storage.set(user.id, newUser)
-      return newUser
+      result = await post('readers', newReader, token)
+    } catch (err) {
+      throw err
     }
-  } else {
-    return storedUser
+    debug(result)
+    const newUser = { id: user.id, reader: result }
+    newUser.readerId = new URL(result.id).pathname.split('-')[1]
+    await storage.set(user.id, newUser)
+    return newUser
   }
 }
 
