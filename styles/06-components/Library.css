@@ -13,9 +13,7 @@
 
 .Library-header {
   display: grid;
-  grid-template-areas:
-    'title buttons'
-    'info info';
+  grid-template-areas: 'title buttons';
   margin: 3rem 1rem 4rem 0;
 }
 .Library-title {
@@ -39,19 +37,32 @@
   padding: 0;
 }
 .Library-buttons-item {
-  margin: 0;
+  margin: 0 0.5rem;
   padding: 0;
 }
 
 .Library-info {
   margin: 0;
   line-height: 2rem;
-  text-transform: uppercase;
-  color: #666;
+  color: #888;
+  grid-column: 1 / -1;
+}
+.Library-tags {
+  grid-column: 1 / -1;
+  margin: 0.5rem 0 1rem;
+  position: relative;
 }
 
-.Library-info--right {
-  text-align: right;
+.Library-tag-dialog {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: auto;
+}
+
+.Library-info--order {
+  text-transform: uppercase;
+  font-style: normal;
 }
 
 @media (min-width: 820px) {

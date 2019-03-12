@@ -36,8 +36,10 @@ test('get - error refreshing token', async (page, t) => {
     window.document.head.appendChild(meta)
     const { activities, fetchMock } = require('mockedActivities')
     const fakeDoc = { id: 'fake-document', type: 'Document' }
+    const profile = { id: '/reader-user-id' }
     fetchMock.post('/refresh-token', 500)
     fetchMock.get('express:/api/:document', fakeDoc)
+    fetchMock.get('/whoami', profile)
     try {
       await activities.get('/api/document-with-an-id')
     } catch (err) {
@@ -56,10 +58,12 @@ test('get - no token', async (page, t) => {
     window.document.head.appendChild(meta)
     const { activities, fetchMock } = require('mockedActivities')
     const fakeDoc = { id: 'fake-document', type: 'Document' }
+    const profile = { id: '/reader-user-id' }
     fetchMock.post('/refresh-token', () => {
       return { token }
     })
     fetchMock.get('express:/api/:document', fakeDoc)
+    fetchMock.get('/whoami', profile)
     const document = await activities.get('/api/document-with-an-id')
     t.match(document, fakeDoc)
     t.ok(fetchMock.called('/refresh-token'))
@@ -80,12 +84,13 @@ test('get - embedded expired token', async (page, t) => {
     meta.setAttribute('content', token)
     window.document.head.appendChild(meta)
     const { activities, fetchMock } = require('mockedActivities')
-    activities.loadToken()
     const fakeDoc = { id: 'fake-document', type: 'Document' }
+    const profile = { id: '/reader-user-id' }
     fetchMock.post('/refresh-token', () => {
       return { token: 'should-be-called' }
     })
     fetchMock.get('express:/api/:document', fakeDoc)
+    fetchMock.get('/whoami', profile)
     const document = await activities.get('/api/document-with-an-id')
     t.match(document, fakeDoc)
     // t.notOk(fetchMock.called('/refresh-token'))
@@ -101,15 +106,12 @@ test('get - embedded expired token', async (page, t) => {
 
 test('create', async (page, t) => {
   await page.evaluate(async token => {
-    const meta = window.document.createElement('link')
-    meta.setAttribute('rel', 'rebus-outbox')
-    meta.setAttribute('href', '/api/outbox')
-    window.document.head.appendChild(meta)
     const { activities, fetchMock } = require('mockedActivities')
     const fakeDoc = {
       type: 'Create',
       object: { type: 'Document', content: 'Loads!' }
     }
+    const profile = { id: '/reader-user-id', outbox: '/api/outbox' }
     fetchMock.post('/refresh-token', () => {
       return { token }
     })
@@ -117,6 +119,7 @@ test('create', async (page, t) => {
       status: 200,
       headers: { location: '/api/activity-id' }
     })
+    fetchMock.get('/whoami', profile)
     const location = await activities.create(fakeDoc)
     t.equals(location, '/api/activity-id')
     const authHeader = fetchMock
@@ -131,12 +134,9 @@ test('create', async (page, t) => {
 
 test('create - unwrapped', async (page, t) => {
   await page.evaluate(async token => {
-    const meta = window.document.createElement('link')
-    meta.setAttribute('rel', 'rebus-outbox')
-    meta.setAttribute('href', '/api/outbox')
-    window.document.head.appendChild(meta)
     const { activities, fetchMock } = require('mockedActivities')
     const fakeDoc = { type: 'Document', content: 'Loads!' }
+    const profile = { id: '/reader-user-id', outbox: '/api/outbox' }
     fetchMock.post('/refresh-token', () => {
       return { token }
     })
@@ -144,6 +144,7 @@ test('create - unwrapped', async (page, t) => {
       status: 200,
       headers: { location: '/api/activity-id' }
     })
+    fetchMock.get('/whoami', profile)
     const location = await activities.create(fakeDoc)
     t.equals(location, '/api/activity-id')
     const authHeader = fetchMock
@@ -158,19 +159,17 @@ test('create - unwrapped', async (page, t) => {
 
 test('create - error', async (page, t) => {
   await page.evaluate(async token => {
-    const meta = window.document.createElement('link')
-    meta.setAttribute('rel', 'rebus-outbox')
-    meta.setAttribute('href', '/api/outbox')
-    window.document.head.appendChild(meta)
     const { activities, fetchMock } = require('mockedActivities')
     const fakeDoc = {
       type: 'Create',
       object: { type: 'Document', content: 'Loads!' }
     }
+    const profile = { id: '/reader-user-id', outbox: '/api/outbox' }
     fetchMock.post('/refresh-token', () => {
       return { token }
     })
     fetchMock.post('/api/outbox', 500)
+    fetchMock.get('/whoami', profile)
     try {
       await activities.create(fakeDoc)
     } catch (err) {
@@ -184,16 +183,18 @@ test('upload - error', async (page, t) => {
   await page.evaluate(async token => {
     const meta = window.document.createElement('link')
     meta.setAttribute('rel', 'rebus-upload')
-    meta.setAttribute('href', '/api/upload')
+    meta.setAttribute('href', '/reader-user-id/file-upload')
     window.document.head.appendChild(meta)
     const { activities, fetchMock } = require('mockedActivities')
     const testFile = new window.File(['text file'], 'test.txt', {
       type: 'text/plain'
     })
+    const profile = { id: '/reader-user-id' }
     fetchMock.post('/refresh-token', () => {
       return { token }
     })
-    fetchMock.post('/api/upload', 500)
+    fetchMock.post('/reader-user-id/file-upload', 500)
+    fetchMock.get('/whoami', profile)
     try {
       await activities.upload(testFile)
     } catch (err) {
@@ -207,17 +208,19 @@ test('upload', async (page, t) => {
   await page.evaluate(async token => {
     const meta = window.document.createElement('link')
     meta.setAttribute('rel', 'rebus-upload')
-    meta.setAttribute('href', '/api/upload')
+    meta.setAttribute('href', '/reader-user-id/file-upload')
     window.document.head.appendChild(meta)
     const { activities, fetchMock } = require('mockedActivities')
     const testFile = new window.File(['text file'], 'test.txt', {
       type: 'text/plain'
     })
     const fakeResponse = { url: 'https://example.com/fake-url' }
+    const profile = { id: '/reader-user-id' }
     fetchMock.post('/refresh-token', () => {
       return { token }
     })
-    fetchMock.post('/api/upload', fakeResponse)
+    fetchMock.post('/reader-user-id/file-upload', fakeResponse)
+    fetchMock.get('/whoami', profile)
     const response = await activities.upload(testFile)
     t.match(fakeResponse, response)
   }, generateToken())

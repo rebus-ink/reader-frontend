@@ -26,7 +26,7 @@
 
 .ql-snow .ql-tooltip {
   margin-top: -0.75rem;
-  z-index: 200;
+  z-index: 3;
 }
 
 .ql-toolbar.ql-snow {

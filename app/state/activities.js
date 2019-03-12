@@ -212,6 +212,10 @@ export function add (payload) {
   return saveActivity(action)
 }
 
+export function remove (payload) {
+  return saveActivity(payload)
+}
+
 export function update (payload) {
   const action = wrap(payload, 'Update')
   return saveActivity(action)
