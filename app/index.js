@@ -98,5 +98,48 @@ async function reader (book, data, params) {
 document.body.addEventListener('reader:navigation', event => app.navigate(event.detail.path))
 
 document.body.addEventListener('reader:login', event => app.navigate('/login'))
+document.body.addEventListener('reader:error', event => renderErr(event.detail.error))
+// window.onerror = function (message, source, lineno, colno, err) {
+//   console.log('onerror called')
+//   renderErr(err)
+// }
+
+// window.onunhandledrejection = function (event) {
+//   console.log('onunhandledrejection called')
+//   renderErr(event.reason)
+// }
+
+async function renderErr (err) {
+  console.error(err)
+  console.log(err.response)
+  const {response = {}} = err
+  let text
+  if (response && response.text) {
+    text = await response.text()
+  }
+  console.log(text)
+  const report = `
+  
+  -----------
+  message: ${err.message}
+  error type: ${err.httpMethod}
+  request url: ${response.url}
+  response status: ${response.status}
+  response message: ${text}
+  location: ${err.fileName}:${err.lineNumber}:${err.columnNumber} 
+  stack: ${err.stack}
+  -----------`
+  body.classList.remove('Layout')
+  render(body, () => errorView(report))
+}
+
+function errorView (report) {
+  console.log(report)
+  return html`<div class="ErrorLayout">
+      <h1>Oh no! Things blew up!</h1>
+      <p>The following error made everything unhappy:</p>
+        <textarea class="ErrorReport">${report}</textarea>
+</div>`
+}
 
 app.navigate(window.location.pathname + window.location.search)

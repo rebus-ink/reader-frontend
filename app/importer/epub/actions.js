@@ -230,7 +230,8 @@ async function upload (context, event) {
     const result = await uploadFile(data)
     context.url[0].href = result[filename]
   } catch (err) {
-    console.log(err.response)
+    err.httpMethod = 'Parser'
+    throw err
   }
   // Then cycle through the attachments and upload images, audio, video
   const paths = {}
@@ -253,7 +254,7 @@ async function upload (context, event) {
       }
     })
   } catch (err) {
-    console.log(err)
+    err.httpMethod = 'Parser'
     throw err
   }
   if (

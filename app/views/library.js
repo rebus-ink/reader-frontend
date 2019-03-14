@@ -24,7 +24,7 @@ export function library (context) {
   <details-dialog class="Dialog-body">
     <p class="Dialog-title">Create Collection</p>
     <label for="collection-name" class="Dialog-label">Name</label>
-    <input type="text" name="CollectionName" id="collection-name" size="25" class="Dialog-input">
+    <input type="text" name="CollectionName" id="collection-name" size="25" class="Dialog-input" autocomplete="off" autofocus>
     <button type="button" data-close-dialog class="TextButton Dialog-cancel">Cancel</button>
     <button type="button" data-close-dialog class="Button Dialog-save" onclick=${sendEvent}>Create Collection</button>
   </details-dialog>

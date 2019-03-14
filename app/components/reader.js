@@ -5,6 +5,7 @@ import { chapterLoading } from '../views/chapter-loading.js'
 import * as activities from '../state/activities.js'
 import {processChapter} from '../state/process-chapter.js'
 import { highlightNote } from '../annotations/highlight-actions.js'
+import {errorEvent} from '../utils/error-event.js'
 
 wickedElements.define('[data-component="reader"]', {
   async onconnected (event) {
@@ -13,14 +14,18 @@ wickedElements.define('[data-component="reader"]', {
     this.render()
     const {chapterId, bookId, bookPath} = this.element.dataset
     if (chapterId && bookId) {
-      this.book = await activities.book(bookId)
-      const data = await activities.get(chapterId)
-      if (data.replies) {
-        data.replies.forEach(note => activities.saveNote(note))
+      try {
+        this.book = await activities.book(bookId)
+        const data = await activities.get(chapterId)
+        if (data.replies) {
+          data.replies.forEach(note => activities.saveNote(note))
+        }
+        const markup = await activities.getChapterMarkup(data, bookId)
+        const dom = processChapter(markup, data)
+        this.state = {data, dom, bookPath, chapterId, bookId, book: this.book}
+      } catch (err) {
+        return errorEvent(err)
       }
-      const markup = await activities.getChapterMarkup(data, bookId)
-      const dom = processChapter(markup, data)
-      this.state = {data, dom, bookPath, chapterId, bookId, book: this.book}
     }
     this.render()
     this.handleTarget()
@@ -60,13 +65,17 @@ wickedElements.define('[data-component="reader"]', {
       this.state = null
       this.render()
       const {chapterId, bookId, bookPath} = this.element.dataset
-      const data = await activities.get(chapterId)
-      if (data.replies) {
-        data.replies.forEach(note => activities.saveNote(note))
+      try {
+        const data = await activities.get(chapterId)
+        if (data.replies) {
+          data.replies.forEach(note => activities.saveNote(note))
+        }
+        const markup = await activities.getChapterMarkup(data, bookId)
+        const dom = processChapter(markup, data)
+        this.state = {data, dom, bookPath, chapterId, bookId, book: this.book}
+      } catch (err) {
+        return errorEvent(err)
       }
-      const markup = await activities.getChapterMarkup(data, bookId)
-      const dom = processChapter(markup, data)
-      this.state = {data, dom, bookPath, chapterId, bookId, book: this.book}
       this.render()
       this.handleTarget()
     }
