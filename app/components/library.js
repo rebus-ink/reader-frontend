@@ -52,7 +52,11 @@ wickedElements.define('[data-component="library"]', {
       this.state = await activities.library()
       this.render()
     } catch (err) {
-      errorEvent(err)
+      if (err.response && err.response.status === 400) {
+        this.render()
+      } else {
+        errorEvent(err)
+      }
     }
   },
   'onreader:add-to-collection': async function (event) {
