@@ -49,7 +49,7 @@ wickedElements.define('[data-component="library"]', {
     const payload = event.detail.collection
     try {
       await activities.create(payload)
-      this.state = await activities.library()
+      this.state = await activities.library(this.element.dataset.tag)
       this.render()
     } catch (err) {
       if (err.response && err.response.status === 400) {
@@ -74,7 +74,7 @@ wickedElements.define('[data-component="library"]', {
     }
     try {
       await activities.add(payload)
-      this.state = await activities.library()
+      this.state = await activities.library(this.element.dataset.tag)
       this.render()
     } catch (err) {
       errorEvent(err)
@@ -95,7 +95,7 @@ wickedElements.define('[data-component="library"]', {
     }
     try {
       await activities.remove(payload)
-      this.state = await activities.library()
+      this.state = await activities.library(this.element.dataset.tag)
       this.render()
     } catch (err) {
       errorEvent(err)
