@@ -199,7 +199,6 @@ async function process (context, event) {
     // Read it from the Zip file
     if (resource.mediaType === 'application/xhtml+xml') {
       const file = await zip.file(decodeURI(resource.path)).async('string')
-      resource.activity.content = file
       // Just going to use this to extract data, hence the 'text/html'
       const fileDoc = parser.parseFromString(file, 'text/html')
       // Let's get the name! The first H1 would be the most sensible place to find it
