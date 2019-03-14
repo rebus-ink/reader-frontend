@@ -37,9 +37,7 @@ window.customElements.define(
         } has been added to your library <span class="Import-checkmark">✔️</span>`
         log.appendChild(report)
       } catch (err) {
-        if (err.httpMethod === 'Parser') {
-          errorEvent(err)
-        }
+        errorEvent(err)
       }
     }
   },

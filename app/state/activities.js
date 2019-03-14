@@ -20,11 +20,15 @@ should be initially based on fetch.js
 */
 import jwtDecode from 'jwt-decode'
 import {getAlternate} from './get-alternate.js'
-import {createError} from '../utils/http-error.js'
-import {errorEvent} from '../utils/error-event.js'
-import ky from 'ky'
+import {HTTPError} from '../utils/http-error.js'
 
-const TIMEOUT = 30000
+async function fetchWrap (...args) {
+  const response = await window.fetch(...args)
+  if (!response.ok) {
+    throw new HTTPError('Activities Request', response.statusText, response)
+  }
+  return response
+}
 
 let token
 async function getJWT () {
@@ -68,7 +72,7 @@ async function refreshJWT () {
       }))
   }
   if (!response.ok) {
-    throw createError('POST/JWT Refresh', response.statusText, response)
+    throw new HTTPError('POST/JWT Refresh', response.statusText, response)
   }
   return response.json()
 }
@@ -106,7 +110,7 @@ export async function getProfile () {
       summary: `Reader profile for user id ${sub}`
     }
     try {
-      const response = await ky('/readers', {
+      const response = await fetchWrap('/readers', {
         credentials: 'include',
         method: 'POST',
         body: JSON.stringify(newReader),
@@ -119,7 +123,7 @@ export async function getProfile () {
       profile = reader
     } catch (err) {
       err.httpMethod = 'POST/Create Profile'
-      throw errorEvent(err)
+      throw err
     }
   } else {
     window.alert('Logging in failed')
@@ -134,7 +138,7 @@ export async function updateProfile () {
 export async function get (url) {
   const JWT = await getJWT()
   try {
-    const response = await ky(url, {
+    const response = await fetchWrap(url, {
       headers: new window.Headers({
         'content-type': 'application/ld+json',
         Authorization: `Bearer ${JWT}`
@@ -142,7 +146,7 @@ export async function get (url) {
     })
     return response.json()
   } catch (err) {
-    throw errorEvent(err)
+    throw err
   }
 }
 
@@ -177,19 +181,19 @@ export async function book (bookId) {
 export async function getChapterMarkup (doc, bookId) {
   const alt = getAlternate(doc)
   try {
-    const response = await ky(`/process-chapter?resource=${encodeURIComponent(alt)}&path=${doc['reader:path']}&bookId=${bookId}`)
+    const response = await fetchWrap(`/process-chapter?resource=${encodeURIComponent(alt)}&path=${doc['reader:path']}&bookId=${bookId}`)
     const text = await response.json()
     return text.chapter
   } catch (err) {
     err.httpMethod = 'GET/Processed Chapter'
-    throw errorEvent(err)
+    throw err
   }
 }
 export async function saveActivity (action) {
   const JWT = await getJWT()
   const outbox = await getOutbox()
   try {
-    const response = await ky(outbox, {
+    const response = await fetchWrap(outbox, {
       credentials: 'include',
       method: 'POST',
       body: JSON.stringify(action),
@@ -201,7 +205,7 @@ export async function saveActivity (action) {
     return response.headers.get('location')
   } catch (err) {
     err.httpMethod = 'POST/Outbox'
-    throw errorEvent(err)
+    throw err
   }
 }
 
@@ -232,7 +236,7 @@ export async function createAndGetId (payload) {
   const location = await create(payload)
   const JWT = await getJWT()
   try {
-    const response = await ky(location, {
+    const response = await fetchWrap(location, {
       headers: new window.Headers({
         'content-type': 'application/ld+json',
         Authorization: `Bearer ${JWT}`
@@ -245,7 +249,7 @@ export async function createAndGetId (payload) {
     return json.id
   } catch (err) {
     err.httpMethod = 'GET/Created Activity'
-    throw errorEvent(err)
+    throw err
   }
 }
 
@@ -253,10 +257,9 @@ export async function upload (payload) {
   const JWT = await getJWT()
   const upload = await getUpload()
   try {
-    const response = await ky(upload, {
+    const response = await fetchWrap(upload, {
       credentials: 'include',
       method: 'POST',
-      timeout: TIMEOUT,
       body: payload,
       headers: new window.Headers({
         Authorization: `Bearer ${JWT}`
@@ -265,7 +268,7 @@ export async function upload (payload) {
     return response.json()
   } catch (err) {
     err.httpMethod = 'POST/Upload Media'
-    throw errorEvent(err)
+    throw err
   }
 }
 

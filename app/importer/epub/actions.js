@@ -1,11 +1,6 @@
 
 import {create as createPublication, upload as uploadFile} from '../../state/activities.js'
-import {createError} from '../../utils/http-error.js'
 const BUCKET_URL = 'https://storage.googleapis.com/rebus-default-bucket/'
-
-function createParserError (message) {
-  return createError('Parser', message)
-}
 
 // Context should be empty to begin with. Event should be a custom 'import:load' event. Its 'detail' property has only one property: 'file'
 async function load (context = {}, event) {
@@ -21,7 +16,7 @@ async function load (context = {}, event) {
   // I really shouldn't be using a regexp here but it works for the prototype. Should be replaced by proper parsing ASAP.
   const result = container.match(/full-path="([^"]+)"/)
   if (!result[1]) {
-    createParserError('No OPF path found')
+    throw new Error('No OPF path found')
   }
   // We save the full path to the opf
   context.opfPath = result[1]

@@ -119,24 +119,26 @@ async function renderErr (err) {
   }
   console.log(text)
   const report = `
+  
+  -----------
   message: ${err.message}
   error type: ${err.httpMethod}
   request url: ${response.url}
   response status: ${response.status}
   response message: ${text}
   location: ${err.fileName}:${err.lineNumber}:${err.columnNumber} 
-  stack: ${err.stack}`
+  stack: ${err.stack}
+  -----------`
+  body.classList.remove('Layout')
   render(body, () => errorView(report))
 }
 
 function errorView (report) {
   console.log(report)
-  return html`<div class="FrontLayout">
+  return html`<div class="ErrorLayout">
       <h1>Oh no! Things blew up!</h1>
       <p>The following error made everything unhappy:</p>
-      <pre><code>
-        ${report}
-      </code></pre>
+        <textarea class="ErrorReport">${report}</textarea>
 </div>`
 }
 
