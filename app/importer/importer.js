@@ -1,6 +1,7 @@
 
 import './zip.js'
 import { actions } from './epub/actions.js'
+import {errorEvent} from '../utils/error-event.js'
 window.customElements.define(
   'epub-import',
   class EpubImportForm extends window.HTMLFormElement {
@@ -36,10 +37,9 @@ window.customElements.define(
         } has been added to your library <span class="Import-checkmark">✔️</span>`
         log.appendChild(report)
       } catch (err) {
-        console.log(err)
-        const report = document.createElement('li')
-        report.innerHTML = `<pre><code>${err.stack}</pre></code>`
-        log.appendChild(report)
+        if (err.httpMethod === 'Parser') {
+          errorEvent(err)
+        }
       }
     }
   },

@@ -3,14 +3,19 @@ import {render} from 'lighterhtml'
 import {library} from '../views/library.js'
 import {libraryLoading} from '../views/library-loading.js'
 import * as activities from '../state/activities.js'
+import {errorEvent} from '../utils/error-event.js'
 
 wickedElements.define('[data-component="library"]', {
   async onconnected (event) {
     this.element = event.currentTarget
     this.render()
-    this.state = await activities.library(this.element.dataset.tag)
-    this.reader = await activities.getProfile()
-    this.render()
+    try {
+      this.state = await activities.library(this.element.dataset.tag)
+      this.reader = await activities.getProfile()
+      this.render()
+    } catch (err) {
+      return errorEvent(err)
+    }
     document.body.addEventListener('reader:create-collection', this)
     document.body.addEventListener('reader:add-to-collection', this)
     document.body.addEventListener('reader:remove-from-collection', this)
@@ -32,15 +37,23 @@ wickedElements.define('[data-component="library"]', {
   async onattributechanged (event) {
     const {attributeName} = event
     if (attributeName === 'data-tag') {
-      this.state = await activities.library(this.element.dataset.tag)
+      try {
+        this.state = await activities.library(this.element.dataset.tag)
+      } catch (err) {
+        return errorEvent(err)
+      }
     }
     this.render()
   },
   'onreader:create-collection': async function (event) {
     const payload = event.detail.collection
-    await activities.create(payload)
-    this.state = await activities.library()
-    this.render()
+    try {
+      await activities.create(payload)
+      this.state = await activities.library()
+      this.render()
+    } catch (err) {
+      errorEvent(err)
+    }
   },
   'onreader:add-to-collection': async function (event) {
     console.log(event)
@@ -57,11 +70,11 @@ wickedElements.define('[data-component="library"]', {
     }
     try {
       await activities.add(payload)
+      this.state = await activities.library()
+      this.render()
     } catch (err) {
-      console.error(err)
+      errorEvent(err)
     }
-    this.state = await activities.library()
-    this.render()
   },
   'onreader:remove-from-collection': async function (event) {
     console.log(event)
@@ -78,11 +91,11 @@ wickedElements.define('[data-component="library"]', {
     }
     try {
       await activities.remove(payload)
+      this.state = await activities.library()
+      this.render()
     } catch (err) {
-      console.error(err)
+      errorEvent(err)
     }
-    this.state = await activities.library()
-    this.render()
   },
   attributeFilter: ['data-sort-desc', 'data-sort-order', 'data-tag']
 })

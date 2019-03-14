@@ -1,6 +1,11 @@
 
 import {create as createPublication, upload as uploadFile} from '../../state/activities.js'
+import {createError} from '../../utils/http-error.js'
 const BUCKET_URL = 'https://storage.googleapis.com/rebus-default-bucket/'
+
+function createParserError (message) {
+  return createError('Parser', message)
+}
 
 // Context should be empty to begin with. Event should be a custom 'import:load' event. Its 'detail' property has only one property: 'file'
 async function load (context = {}, event) {
@@ -16,7 +21,7 @@ async function load (context = {}, event) {
   // I really shouldn't be using a regexp here but it works for the prototype. Should be replaced by proper parsing ASAP.
   const result = container.match(/full-path="([^"]+)"/)
   if (!result[1]) {
-    throw new Error('No OPF path found')
+    createParserError('No OPF path found')
   }
   // We save the full path to the opf
   context.opfPath = result[1]
@@ -199,7 +204,6 @@ async function process (context, event) {
     // Read it from the Zip file
     if (resource.mediaType === 'application/xhtml+xml') {
       const file = await zip.file(decodeURI(resource.path)).async('string')
-      resource.activity.content = file
       // Just going to use this to extract data, hence the 'text/html'
       const fileDoc = parser.parseFromString(file, 'text/html')
       // Let's get the name! The first H1 would be the most sensible place to find it
@@ -231,7 +235,8 @@ async function upload (context, event) {
     const result = await uploadFile(data)
     context.url[0].href = result[filename]
   } catch (err) {
-    console.log(err.response)
+    err.httpMethod = 'Parser'
+    throw err
   }
   // Then cycle through the attachments and upload images, audio, video
   const paths = {}
@@ -254,7 +259,7 @@ async function upload (context, event) {
       }
     })
   } catch (err) {
-    console.log(err)
+    err.httpMethod = 'Parser'
     throw err
   }
   if (

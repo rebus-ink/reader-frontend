@@ -20,16 +20,11 @@ should be initially based on fetch.js
 */
 import jwtDecode from 'jwt-decode'
 import {getAlternate} from './get-alternate.js'
+import {createError} from '../utils/http-error.js'
+import {errorEvent} from '../utils/error-event.js'
+import ky from 'ky'
 
-export class HTTPError extends Error {}
-
-function postError (response) {
-  const err = new HTTPError('POST Error:', response.statusText)
-  err.statusCode = response.status
-  err.headers = response.headers
-  err.response = response
-  return err
-}
+const TIMEOUT = 30000
 
 let token
 async function getJWT () {
@@ -73,7 +68,7 @@ async function refreshJWT () {
       }))
   }
   if (!response.ok) {
-    throw new HTTPError('JWT Refresh Error:', response.statusText)
+    throw createError('POST/JWT Refresh', response.statusText, response)
   }
   return response.json()
 }
@@ -110,20 +105,22 @@ export async function getProfile () {
       type: 'Person',
       summary: `Reader profile for user id ${sub}`
     }
-    const response = await window.fetch('/readers', {
-      credentials: 'include',
-      method: 'POST',
-      body: JSON.stringify(newReader),
-      headers: new window.Headers({
-        'content-type': 'application/ld+json',
-        Authorization: `Bearer ${JWT}`
+    try {
+      const response = await ky('/readers', {
+        credentials: 'include',
+        method: 'POST',
+        body: JSON.stringify(newReader),
+        headers: new window.Headers({
+          'content-type': 'application/ld+json',
+          Authorization: `Bearer ${JWT}`
+        })
       })
-    })
-    if (!response.ok) {
-      throw new HTTPError('POST Error:', response.statusText)
+      const reader = await get(response.headers.get('location'))
+      profile = reader
+    } catch (err) {
+      err.httpMethod = 'POST/Create Profile'
+      throw errorEvent(err)
     }
-    const reader = await get(response.headers.get('location'))
-    profile = reader
   } else {
     window.alert('Logging in failed')
   }
@@ -136,16 +133,17 @@ export async function updateProfile () {
 
 export async function get (url) {
   const JWT = await getJWT()
-  const response = await window.fetch(url, {
-    headers: new window.Headers({
-      'content-type': 'application/ld+json',
-      Authorization: `Bearer ${JWT}`
+  try {
+    const response = await ky(url, {
+      headers: new window.Headers({
+        'content-type': 'application/ld+json',
+        Authorization: `Bearer ${JWT}`
+      })
     })
-  })
-  if (!response.ok) {
-    throw new HTTPError('Get Error:', response.statusText)
+    return response.json()
+  } catch (err) {
+    throw errorEvent(err)
   }
-  return response.json()
 }
 
 const notes = new Map()
@@ -178,29 +176,33 @@ export async function book (bookId) {
 
 export async function getChapterMarkup (doc, bookId) {
   const alt = getAlternate(doc)
-  const response = await window.fetch(`/process-chapter?resource=${encodeURIComponent(alt)}&path=${doc['reader:path']}&bookId=${bookId}`)
-  if (!response.ok) {
-    throw new HTTPError('Get Error:', response.statusText)
+  try {
+    const response = await ky(`/process-chapter?resource=${encodeURIComponent(alt)}&path=${doc['reader:path']}&bookId=${bookId}`)
+    const text = await response.json()
+    return text.chapter
+  } catch (err) {
+    err.httpMethod = 'GET/Processed Chapter'
+    throw errorEvent(err)
   }
-  const text = await response.json()
-  return text.chapter
 }
 export async function saveActivity (action) {
   const JWT = await getJWT()
   const outbox = await getOutbox()
-  const response = await window.fetch(outbox, {
-    credentials: 'include',
-    method: 'POST',
-    body: JSON.stringify(action),
-    headers: new window.Headers({
-      'content-type': 'application/ld+json',
-      Authorization: `Bearer ${JWT}`
+  try {
+    const response = await ky(outbox, {
+      credentials: 'include',
+      method: 'POST',
+      body: JSON.stringify(action),
+      headers: new window.Headers({
+        'content-type': 'application/ld+json',
+        Authorization: `Bearer ${JWT}`
+      })
     })
-  })
-  if (!response.ok) {
-    throw new HTTPError('POST Error:', response.statusText)
+    return response.headers.get('location')
+  } catch (err) {
+    err.httpMethod = 'POST/Outbox'
+    throw errorEvent(err)
   }
-  return response.headers.get('location')
 }
 
 export function create (payload) {
@@ -229,38 +231,42 @@ export function deleteActivity (payload) {
 export async function createAndGetId (payload) {
   const location = await create(payload)
   const JWT = await getJWT()
-  const response = await window.fetch(location, {
-    headers: new window.Headers({
-      'content-type': 'application/ld+json',
-      Authorization: `Bearer ${JWT}`
+  try {
+    const response = await ky(location, {
+      headers: new window.Headers({
+        'content-type': 'application/ld+json',
+        Authorization: `Bearer ${JWT}`
+      })
     })
-  })
-  if (!response.ok) {
-    throw new HTTPError('Get Error:', response.statusText)
+    const json = await response.json()
+    if (json.type === 'Note') {
+      saveNote(json)
+    }
+    return json.id
+  } catch (err) {
+    err.httpMethod = 'GET/Created Activity'
+    throw errorEvent(err)
   }
-  const json = await response.json()
-  if (json.type === 'Note') {
-    saveNote(json)
-  }
-  return json.id
 }
 
 export async function upload (payload) {
   const JWT = await getJWT()
   const upload = await getUpload()
-  const response = await window.fetch(upload, {
-    credentials: 'include',
-    method: 'POST',
-    body: payload,
-    headers: new window.Headers({
-      Authorization: `Bearer ${JWT}`
+  try {
+    const response = await ky(upload, {
+      credentials: 'include',
+      method: 'POST',
+      timeout: TIMEOUT,
+      body: payload,
+      headers: new window.Headers({
+        Authorization: `Bearer ${JWT}`
+      })
     })
-  })
-  if (!response.ok) {
-    const err = postError(response)
-    throw err
+    return response.json()
+  } catch (err) {
+    err.httpMethod = 'POST/Upload Media'
+    throw errorEvent(err)
   }
-  return response.json()
 }
 
 function wrap (payload, type) {
