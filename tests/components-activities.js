@@ -43,7 +43,7 @@ test('get - error refreshing token', async (page, t) => {
     try {
       await activities.get('/api/document-with-an-id')
     } catch (err) {
-      t.equals(err.message, 'JWT Refresh Error:')
+      t.equals(err.httpMethod, 'POST/JWT Refresh')
     }
     t.notOk(fetchMock.called('express:/api/:document'))
   })
@@ -173,7 +173,7 @@ test('create - error', async (page, t) => {
     try {
       await activities.create(fakeDoc)
     } catch (err) {
-      t.equals(err.message, 'POST Error:')
+      t.equals(err.httpMethod, 'POST/Outbox')
     }
   }, generateToken())
   t.end()
@@ -198,7 +198,7 @@ test('upload - error', async (page, t) => {
     try {
       await activities.upload(testFile)
     } catch (err) {
-      t.equals(err.message, 'POST Error:')
+      t.equals(err.httpMethod, 'POST/Upload Media')
     }
   }, generateToken())
   t.end()
