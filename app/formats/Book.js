@@ -1,10 +1,16 @@
-
+let activities
 export class Book {
   constructor () {
     this._props = {}
   }
+  static activities (mod) {
+    activities = mod
+  }
   async initAsync (file) {
     this._props.file = file
+  }
+  get activities () {
+    return activities
   }
   get readingOrder () {
     return this._props['readingOrder']

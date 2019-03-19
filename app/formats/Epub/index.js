@@ -2,7 +2,7 @@ import {Book} from '../Book.js'
 import {formData} from './formData.js'
 import {load} from './load.js'
 
-class EpubBook extends Book {
+export class Epub extends Book {
   async initAsync (event) {
     try {
       this._props = await load(this._props, event)
@@ -16,8 +16,9 @@ class EpubBook extends Book {
       return null
     }
   }
-  uploadMedia (upload) {
+  uploadMedia () {
     // returns an array of FormData objects to upload
+    const upload = this.activities.upload
     return formData(this._props, upload)
   }
   get activity () {
@@ -37,6 +38,6 @@ class EpubBook extends Book {
 }
 
 export function createBook (event) {
-  const book = new EpubBook()
+  const book = new Epub()
   return book.initAsync(event)
 }

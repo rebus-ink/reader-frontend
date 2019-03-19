@@ -1,9 +1,8 @@
 const path = require('path')
 const cappadonna = require('./utils/cappadonna-modules-fork.js')
-const test = cappadonna(
-  path.join(__dirname, '../app/formats/EpubBook/index.js'),
-  { require: { expose: 'epubbook' } }
-)
+const test = cappadonna(path.join(__dirname, '../app/formats/Epub/index.js'), {
+  require: { expose: 'epub' }
+})
 const fs = require('fs')
 const jszip = fs.readFileSync(path.join(__dirname, 'test-files/jszip.js'), {
   encoding: 'utf8'
@@ -54,7 +53,7 @@ test('load', async (page, t) => {
     console.log('error: ', error.message)
   }
   await page.evaluate(async testactivity => {
-    const { createBook } = require('epubbook')
+    const { createBook } = require('epub')
     try {
       const book = await createBook({
         detail: {
@@ -83,7 +82,8 @@ test('load: propertiesEpub', async (page, t) => {
   }
   await page.evaluate(
     async (testactivity, epub, key, testActivityAfter) => {
-      const { createBook } = require('epubbook')
+      const { createBook, Epub } = require('epub')
+      Epub.activities({ upload: uploadMock })
       testactivity.url[0].href = 'http://example.com/' + key
       testactivity.attachment.push({
         type: 'Image',
@@ -134,7 +134,7 @@ test('load: propertiesEpub', async (page, t) => {
         })
 
         t.matches(testactivity, book.activity)
-        t.ok(await book.uploadMedia(uploadMock))
+        t.ok(await book.uploadMedia())
         t.matches(testActivityAfter, book.activity)
       } catch (err) {
         console.log('error: ', err.message)
@@ -174,7 +174,8 @@ Object.keys(testepubs).forEach(key => {
     }
     await page.evaluate(
       async (testactivity, epub, key, guideAttachment) => {
-        const { createBook } = require('epubbook')
+        const { createBook, Epub } = require('epub')
+        Epub.activities({ upload: uploadMock })
         testactivity.url[0].href = 'http://example.com/' + key
         testactivity.attachment.push({
           type: 'Image',
@@ -226,7 +227,7 @@ Object.keys(testepubs).forEach(key => {
           })
 
           t.matches(testactivity, book.activity)
-          t.ok(await book.uploadMedia(uploadMock))
+          t.ok(await book.uploadMedia())
         } catch (err) {
           console.log('error: ', err.message)
           t.error(err)
