@@ -232,6 +232,26 @@ export function deleteActivity (payload) {
   return saveActivity(action)
 }
 
+export async function processURL (url) {
+  const csurfMeta = document.querySelector('meta[name="csrf-token"]')
+  let csurf
+  if (csurfMeta) {
+    csurf = csurfMeta.getAttribute('content')
+  }
+  const response = await window.fetch(`/process-url?url=${encodeURIComponent(url)}`, {
+    credentials: 'include',
+    method: 'POST',
+    headers: new window.Headers({
+      'content-type': 'application/ld+json',
+      'csrf-token': csurf
+    })
+  })
+  const json = await response.json()
+  console.log(json)
+  return json
+}
+window.processURL = processURL
+
 export async function createAndGetId (payload) {
   const location = await create(payload)
   const JWT = await getJWT()
