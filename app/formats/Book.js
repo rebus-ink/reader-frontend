@@ -57,8 +57,8 @@ export class Book {
     return this.activity
   }
   get activity () {
-    const {attachment, orderedCollection, totalItems, url, attributedTo, id, tag, tags, icon, name} = this._props
-    return {attachment, orderedCollection, totalItems, url, attributedTo, id, tag, tags, icon, name}
+    const {attachment, orderedCollection, totalItems, url, attributedTo, id, tag, tags, icon, name, updated, published} = this._props
+    return {attachment, orderedCollection, totalItems, url, attributedTo, id, tag, tags, icon, name, updated, published}
   }
 }
 
