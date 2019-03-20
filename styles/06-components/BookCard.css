@@ -45,6 +45,17 @@ StyleGuide 6.3
   justify-content: space-between;
   position: relative;
 }
+
+/* .BookCard::before {
+  content: ' ';
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.08) 5%, rgba(255, 255, 255, 0.08) 10%, rgba(0, 0, 0, 0.06) 15%, rgba(255, 255, 255, 0.08) 28%, rgba(0, 0, 0, 0.03) 32%, rgba(255, 255, 255, 0) 50%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 30px;
+  display: block;
+} */
 /* .BookCard:first-child {
   border-top: 1px solid #f0f0f0;
 } */
@@ -255,6 +266,8 @@ a.BookCard-link {
     width: 100%;
     max-height: none;
     object-fit: contain;
+    width: 6rem;
+    height: 8.5rem;
   }
   /* .BookCard-session {
     display: grid;
