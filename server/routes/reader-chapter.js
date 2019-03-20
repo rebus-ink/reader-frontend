@@ -2,7 +2,6 @@ const viperHTML = require('viperhtml')
 const { pageBody } = require('../../views/render-body.js')
 const { page } = require('../../views/page.js')
 const { ensureLogin } = require('../ensure-login.js')
-const { getUserStreams } = require('../utils/get-user-streams.js')
 const express = require('express')
 const router = express.Router()
 const debug = require('debug')('vonnegut:routes:chapter')
@@ -10,11 +9,7 @@ const { getBookState } = require('../utils/get-book-state.js')
 const { arrify } = require('../utils/arrify.js')
 const csurf = require('csurf')
 
-router.get('/reader/:bookId/*', ensureLogin, csurf(), getUserStreams, function (
-  req,
-  res,
-  next
-) {
+router.get('/reader/:bookId/*', ensureLogin, csurf(), function (req, res, next) {
   debug(req.path)
   return getBookState(req, res)
     .then(model => {
