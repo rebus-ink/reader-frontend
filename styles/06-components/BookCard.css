@@ -266,6 +266,7 @@ a.BookCard-link {
     width: 100%;
     max-height: none;
     object-fit: contain;
+    object-position: top left;
     width: 6rem;
     height: 8.5rem;
   }
