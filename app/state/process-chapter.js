@@ -80,7 +80,6 @@ function getXPath (element) {
   } else {
     let path = '/'
     while (element) {
-      console.log(element)
       if (!element.tagName) {
         path = `/html[1]/body[1]${path}`
       } else {

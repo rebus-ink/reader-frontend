@@ -41,6 +41,10 @@ if (!window.supportsDynamicImport) {
 <meta name="csrf-token" content="${req.csrfToken()}">
 <meta name="rebus-user-id" content="${req.user.id}" id="sub-user-id">
 ${[base]}
+<link rel="icon" 
+      type="image/png" 
+      href="/static/rebus-ink-square-512.png">
+      <link rel="apple-touch-icon" sizes="512x512" href="/static/rebus-ink-square-512.png">
 </head>
 ${body(render, model, req)}
 </html>`
