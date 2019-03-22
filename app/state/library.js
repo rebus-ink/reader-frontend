@@ -3,6 +3,7 @@ import * as activities from '../activities.js'
 import {Book} from '../formats/Book.js'
 import {ActivityBook} from '../formats/ActivityBook.js'
 import {Article} from '../formats/Article.js'
+import {Epub} from '../formats/Epub/index.js'
 const bus = nanobus()
 
 let context = {
@@ -70,8 +71,8 @@ export function removeListener (eventName, listener) {
 
 export async function preview ({file, url}) {
   if (file && file.type === 'application/epub+zip') {
-    const formats = await import('./formats.js') // Need to make sure this gets generated. Also need to figure out how to test this.
-    const preview = new formats.Epub()
+    await import('./zip.js')
+    const preview = new Epub()
     return preview.initAsync({ file, DOMAIN: `${window.location.protocol}//${window.location.host}/`, fileName: file.name })
   } else if (url) {
     const preview = new Article()
