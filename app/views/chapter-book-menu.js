@@ -17,7 +17,7 @@ export function bookMenu (state) {
   </details>`
 }
 
-function renderToC (state) {
+export function renderToC (state) {
   const {book, bookId, bookPath} = state
   return arrify(book.orderedItems).map((chapter, index) => {
     const url = `/reader/${bookId}/${

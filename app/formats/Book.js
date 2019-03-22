@@ -1,78 +1,52 @@
+import nanobus from 'nanobus'
+const bus = nanobus()
+
+// The primary purpose of the Book class is to provide messaging features and the activities interface.
+
 let activities
 export class Book {
-  constructor () {
-    this._props = {}
+  constructor (publication = {}) {
+    // We will need to convert between web publications and activities at some point.
+    this.publication = publication
   }
   static activities (mod) {
     activities = mod
   }
-  async initAsync (file) {
-    this._props.file = file
+  emit (eventName, data) {
+    return bus.emit(eventName, data)
+  }
+  // This should use nanobus
+  // Events:
+  // - `changed`: This book has changed
+  // - `chapter`: a chapter has been fetched
+  // - `pending-change`: change in state of one of the pending updates.
+  // - `added-to-collection`: the book has been added to a collection
+  // - `removed-from-collection`:  the book has been removed from a collection
+  // - `deleted`: the book has been deleted
+  // - `preview`: a preview for the book
+  // - `error`: something went wrong
+  on (eventName, listener) {
+    return bus.on(eventName, listener)
+  }
+  once (eventName, listener) {
+    return bus.once(eventName, listener)
+  }
+  removeListener (eventName, listener) {
+    return bus.removeListener(eventName, listener)
   }
   get activities () {
     return activities
   }
-  get readingOrder () {
-    return this._props['readingOrder']
-  }
-  get resources () {
-    return this._props['resources']
-  }
-  get links () {
-    return this._props['links']
-  }
-  get tags () {
-    return this._props['tags']
-  }
-  get creator () {
-    return this._props['creator']
-  }
-  get url () {
-    return this._props['url']
-  }
-  get type () {
-    return this._props['type']
-  }
-  get id () {
-    return this._props['id']
-  }
-  get name () {
-    return this._props['name']
-  }
-  get cover () {
-    // this should get cover from the resources list and extract html. If not there then extract from url
-    return this._props['cover']
-  }
-  uploadMedia (upload) {
-    return null
-  }
-  get contents () {
-    // this should get contents from the resources list and extract html
-  }
-  get publication () {
-    const {readingOrder, resources, links, creator, url, type, id, name, cover} = this
-    return {readingOrder, resources, links, creator, url, type, id, name, cover}
-  }
   toJSON () {
-    return this.activity
+    return this.publication
   }
-  get activity () {
-    const {attachment, orderedCollection, totalItems, url, attributedTo, id, tag, tags, icon, name, updated, published} = this._props
-    return {attachment, orderedCollection, totalItems, url, attributedTo, id, tag, tags, icon, name, updated, published}
-  }
-}
-
-export class ActivityBook extends Book {
-  constructor (activity) {
-    super()
-    this._props = activity
-    this._props.resources = this._props.attachment
-    this._props.readingOrder = this._props.orderedCollection
-    this._props.links = this._props.url
-    this._props.creator = this._props.attributedTo
-    this._props.cover = this._props.icon
-    if (this._props.tag) {
-      this._props.tags = this._props.tag
+  get base () {
+    if (this._url) {
+      return this._url
+    } else {
+      const id = new URL(this.id, window.location)
+      this._url = `${window.location.protocol}//${window.location.host}/reader${id.pathname}/`
+      return this._url
     }
   }
 }
