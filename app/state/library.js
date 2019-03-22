@@ -1,6 +1,8 @@
 import nanobus from 'nanobus'
 import * as activities from '../activities.js'
-import {ActivityBook, Book} from '../formats/Book.js'
+import {Book} from '../formats/Book.js'
+import {ActivityBook} from '../formats/ActivityBook.js'
+import {Article} from '../formats/Article.js'
 const bus = nanobus()
 
 let context = {
@@ -66,14 +68,35 @@ export function removeListener (eventName, listener) {
   bus.removeListener(eventName, listener)
 }
 
-export async function preview ({file, url}) {}
-
-// Array of book objects being uploaded
-//
-export async function pending () {}
-export async function add (book) {}
-//
-// Figure out imports!
+export async function preview ({file, url}) {
+  if (file && file.type === 'application/epub+zip') {
+    const formats = await import('./formats.js') // Need to make sure this gets generated. Also need to figure out how to test this.
+    const preview = new formats.Epub()
+    return preview.initAsync({ file, DOMAIN: `${window.location.protocol}//${window.location.host}/`, fileName: file.name })
+  } else if (url) {
+    const preview = new Article()
+    return preview.initAsync(url)
+  } else {
+    return null
+  }
+}
+const uploads = new Set()
+export async function pending () {
+  return Array.from(uploads)
+}
+export async function add (book) {
+  uploads.add(book)
+  try {
+    await book.uploadMedia()
+    const activity = book.activity
+    book.id = await context.activities.createAndGetId(activity)
+    uploads.delete(book)
+    bus.emit('added', book)
+  } catch (err) {
+    err.book = book
+    bus.emit('error', err)
+  }
+}
 
 function sortBooks (items, query) {
   const order = query.order
