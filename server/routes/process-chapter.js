@@ -50,6 +50,7 @@ router.get('/process-chapter', ensureLogin, csurf(), async function (
     debug('Chapter processed')
     return res.send({ chapter: clean.innerHTML })
   } catch (err) {
+    debug(err)
     return res.sendStatus(404)
   }
 })
