@@ -30,10 +30,10 @@ export function library (context) {
   </details-dialog>
 </details></div>
 <p class="Library-info Library-info--order">Ordered by <select class="LibrarySelect" onchange="${orderChange}">
-<option value="${path}" selected=${!query.get('order')}>Date added</option>
-<option value="${`${path}?order=added&desc=true`}" selected=${query.get('order') === 'added' && query.get('desc') === 'true'}>Date added, reversed</option>
-<option value="${`${path}?order=alpha`}" selected=${query.get('order') === 'alpha' && !query.get('desc')}>Alphabetical</option>
-<option value="${`${path}?order=alpha&desc=true`}" selected=${query.get('order') === 'alpha' && query.get('desc') === 'true'}>Alphabetical, reversed</option>
+<option value="${path}" selected=${!query.get('order')}>Date descending</option>
+<option value="${`${path}?order=added&desc=true`}" selected=${query.get('order') === 'added' && query.get('desc') === 'true'}>Date added, ascending</option>
+<option value="${`${path}?order=alpha`}" selected=${query.get('order') === 'alpha' && !query.get('desc')}>A-Z</option>
+<option value="${`${path}?order=alpha&desc=true`}" selected=${query.get('order') === 'alpha' && query.get('desc') === 'true'}>Z-A</option>
 </select></p>
 <p class="Library-info">${bookCount} items in “${query.get('tag') || 'All'}”</p>
     
