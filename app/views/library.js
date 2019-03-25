@@ -84,6 +84,7 @@ function orderChange (event) {
 }
 function sendEvent (event) {
   const name = document.getElementById('collection-name').value
+  document.getElementById('collection-name').value = ''
   const payload = {
     type: 'reader:Stack',
     name
