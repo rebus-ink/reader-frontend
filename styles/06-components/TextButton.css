@@ -38,7 +38,6 @@ StyleGuide 6.TextButton
 
   color: var(--link);
   border: none;
-  outline: none;
   background-color: transparent;
 
   -ms-touch-action: manipulation;
@@ -59,7 +58,6 @@ StyleGuide 6.TextButton
 }
 
 .TextButton:focus {
-  outline: none;
   text-decoration: none;
   background-color: var(--link);
   color: white;
