@@ -30,7 +30,7 @@ function view (state) {
   <details-menu role="menu" class="MenuButton-body MenuButton-body--right">
   <button role="menuitem" class="MenuItem">New collection...</button>
   <button role="menuitem" disabled class="MenuItem">Edit collections...</button>
-  <a  role="menuitem" href="/logout" class="MenuItem">Log out</a></details-menu>
+  <a role="menuitem" href="/logout" class="MenuItem">Log out</a></details-menu>
   </details></li></ol></div>
   <ol class="App-nav-list">${allView(state)}
 ${arrify(state.tags).map(tag => tagView(tag, state))}</ol>`

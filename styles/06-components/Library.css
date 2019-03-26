@@ -70,7 +70,7 @@
 
 .BookCard-attribution {
   font-weight: 400;
-  font-style: italic;
+  font-variant-caps: all-small-caps;
   text-decoration: none;
   color: #666;
 }
@@ -86,7 +86,7 @@ a.BookCard-link {
   line-height: 0.75rem;
   font-weight: 300;
   margin-top: 0.25rem;
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   --local-font-size: 0.65rem;
 }
 .BookCard-paragraph--tags {
