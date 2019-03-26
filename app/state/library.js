@@ -1,10 +1,11 @@
-import nanobus from 'nanobus'
+
 import * as activities from '../activities.js'
 import {Book} from '../formats/Book.js'
 import {ActivityBook} from '../formats/ActivityBook.js'
 import {Article} from '../formats/Article.js'
 import {Epub} from '../formats/Epub/index.js'
-const bus = nanobus()
+import EventEmitter from 'eventemitter3'
+const bus = new EventEmitter()
 
 let context = {
   activities
