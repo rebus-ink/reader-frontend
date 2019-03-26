@@ -7,7 +7,6 @@ wickedElements.define('[data-component="full-screen"]', {
   },
   onconnected (event) {
     this.element.addEventListener('click', this)
-    this.body = document.getElementById('layout')
     if (!document.fullscreenEnabled) {
       this.element.disabled = true
     }
@@ -21,7 +20,7 @@ wickedElements.define('[data-component="full-screen"]', {
     if (document.fullscreenElement) {
       return document.exitFullscreen()
     } else if (document.fullscreenEnabled) {
-      return this.body.requestFullscreen()
+      return document.body.requestFullscreen()
     }
   },
   onfullscreenchange (event) {
