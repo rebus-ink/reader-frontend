@@ -2,10 +2,11 @@ import wickedElements from 'wicked-elements'
 import {render, html} from 'lighterhtml'
 import {on} from '../state/main.js'
 import {arrify} from '../utils/arrify.js'
+import MicroModal from 'micromodal'
+import {logoutModal} from '../components/logout-login-modals.js'
 
 wickedElements.define('[data-component="library-nav"]', {
   async onconnected (event) {
-    console.log(event)
     on('state', (state) => this.setState(state))
     this.element = event.currentTarget
     this.render()
@@ -30,7 +31,10 @@ function view (state) {
   <details-menu role="menu" class="MenuButton-body MenuButton-body--right">
   <button role="menuitem" class="MenuItem">New collection...</button>
   <button role="menuitem" disabled class="MenuItem">Edit collections...</button>
-  <a role="menuitem" href="/logout" class="MenuItem">Log out</a></details-menu>
+  <button role="menuitem" href="/logout" class="MenuItem" onclick="${() => {
+    logoutModal(document.getElementById('modal-1'))
+    MicroModal.show('modal-1')
+  }}">Sign out</button></details-menu>
   </details></li></ol></div>
   <ol class="App-nav-list">${allView(state)}
 ${arrify(state.tags).map(tag => tagView(tag, state))}</ol>`

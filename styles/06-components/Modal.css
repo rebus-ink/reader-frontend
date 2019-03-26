@@ -1,0 +1,56 @@
+.Modal {
+  display: none;
+}
+
+.Modal.is-open {
+  display: block;
+}
+
+.Modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 4;
+}
+.Modal-container {
+  background-color: #fff;
+  padding: 1rem 2rem;
+  max-width: 95vw;
+  max-height: 100vh;
+  border-radius: 4px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  position: relative;
+}
+.Modal-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}
+.Modal-close.App-button {
+  font-size: 1.25rem;
+  line-height: 1rem;
+  transform: translateY(-2px);
+}
+
+.Modal-content {
+  display: flex;
+}
+.Modal-content > * {
+  margin: auto;
+}
+
+.Modal-title {
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.25;
+  box-sizing: border-box;
+  text-transform: uppercase;
+  margin: 0 2rem 1rem;
+}

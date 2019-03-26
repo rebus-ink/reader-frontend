@@ -5,7 +5,6 @@ import {on} from '../state/main.js'
 
 wickedElements.define('[data-component="library-shelf"]', {
   async onconnected (event) {
-    console.log(event)
     on('state', (state) => this.setState(state))
     this.element = event.currentTarget
     this.render()

@@ -205,3 +205,7 @@ button:focus {
   outline: 1px solid #3333331a;
   outline-offset: 1px;
 }
+
+[aria-hidden='true'] {
+  display: none;
+}
