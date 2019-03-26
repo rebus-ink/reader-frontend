@@ -42,7 +42,6 @@ StyleGuide 6.Button
   text-decoration: none;
 
   color: var(--link);
-  outline: none;
   border-radius: 4px;
   -ms-touch-action: manipulation;
   touch-action: manipulation;
@@ -77,12 +76,12 @@ StyleGuide 6.Button
   text-decoration: none;
   border-color: #ddd;
 }
-
+/* 
 .Button:focus,
 .Button:link:focus {
   outline: none;
   border-color: #999;
-}
+} */
 
 .Button:active,
 .Button:link:active {
@@ -104,12 +103,12 @@ StyleGuide 6.Button
   background-color: var(--link);
   background-image: none;
 }
-.Button--primary:focus {
+/* .Button--primary:focus {
   border-color: var(--link);
   outline: none;
   background-color: var(--link);
   box-shadow: rgb(255, 255, 255) 0px 0px 0px 1px, 0px 0px 0px 3px var(--link);
-}
+} */
 
 .Button-icon--primary,
 .Button-icon--primary:link,
@@ -221,6 +220,10 @@ StyleGuide 6.Button
   font-weight: 600;
   box-shadow: 0px 1px 2px 0 rgba(98, 98, 98, 0.25);
   padding: 0.25rem;
+  z-index: 3;
+  border: none;
+  box-shadow: none;
+  background-color: var(--main-background-color);
 }
 .Button--floating:link,
 .Button--floating:visited {

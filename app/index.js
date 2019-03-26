@@ -6,6 +6,8 @@ import {render, html} from 'lighterhtml'
 import '@github/details-menu-element'
 import {importPage} from './importer/import-page.js'
 import './components/components.js'
+import './library/index.js'
+import {setContext} from './state/main.js'
 
 const app = hyperApp()
 const body = document.body
@@ -26,14 +28,27 @@ app.get('/library/import', async function (context) {
 app.get('/library', async function (context) {
   console.log('Welcome to library')
   try {
-    body.setAttribute('class', 'Layout')
-    body.id = 'layout'
     const query = (new URL(document.location)).searchParams
-    render(body, () => html`<main class="Library" id="Library" data-component="library" data-sort-order=${query.get('order') || 'added'}  data-sort-desc=${query.get('desc') || null} data-tag=${query.get('tag')}></main>`)
+    mainView({main: 'library', left: 'library-nav', right: 'library-shelf', menu: 'library-menu'}, {params: context.params, query})
   } catch (err) {
     console.error(err)
   }
 })
+
+function mainView ({main, left, right, menu}, context) {
+  setContext(context)
+  body.setAttribute('class', 'App')
+  body.id = 'app'
+  const mainList = `${main} App-main`
+  const leftList = `${left} App-sidebar App-sidebar--left`
+  const rightList = `${right} App-sidebar App-sidebar--right`
+  const menuList = `${menu} App-menu App-menu--center`
+  render(body, () => html`
+  <nav class="${leftList}" id="left-sidebar" data-component="${left}"><ol class="App-nav-list"><li></li></ol></nav>
+  <nav class="${menuList}" data-component="${menu}"><ol class="App-menu-list"><li><button class="App-button" data-component="sidebar-toggle" data-sidebar='left-sidebar' aria-label="Show left sidebar" aria-expanded="true"><svg fill="none" stroke="currentColor" stroke-width="2" width="24" height="24" viewBox="0 0 24 24"><rect width="18" height="18" x="4" y="4"></rect><line y1="4" x2="9" x1="9" y2="22"></line></svg></button></li><li><button class="App-button" data-component="sidebar-toggle" data-sidebar='right-sidebar' aria-label="Show right sidebar" aria-expanded="true"><svg fill="none" stroke="currentColor" stroke-width="2" width="24" height="24" viewBox="0 0 24 24"><rect width="18" height="18" x="4" y="4"></rect><line y1="4" x2="17" x1="17" y2="22"></line></svg></button></li></ol></nav>
+  <aside class="${rightList}" data-component="${right}" id="right-sidebar"><ol class="App-nav-list"><li></li></ol></aside>
+  <main class="${mainList}" id="main" data-component="${main}"></main>`)
+}
 
 app.get('/library/notes', async function (context) {
   console.log('Welcome to notes')

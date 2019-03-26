@@ -74,7 +74,6 @@ StyleGuide 6.MenuButton
 
   color: var(--link);
   border: none;
-  outline: none;
 
   -ms-touch-action: manipulation;
   touch-action: manipulation;
@@ -83,7 +82,6 @@ StyleGuide 6.MenuButton
   position: relative;
   width: auto;
   font-family: var(--reader-font-family);
-  font-style: italic;
   font-size: 0.85rem;
 }
 
@@ -94,16 +92,6 @@ StyleGuide 6.MenuButton
   display: none;
 }
 
-.MenuButton-summary:after {
-  border: 4px solid transparent;
-  border-top-color: currentcolor;
-  content: '';
-  display: inline-block;
-  height: 0;
-  vertical-align: -2px;
-  width: 0;
-  margin-left: 6px;
-}
 .MenuButton[aria-expanded='false'] {
   color: black;
 }
@@ -131,13 +119,11 @@ StyleGuide 6.MenuButton
 
 .MenuButton-summary:focus,
 .MenuButton[open] .MenuButton-summary:focus {
-  outline: none;
   text-decoration: none;
   border-color: #999;
 }
 
 .MenuButton[open] .MenuButton-summary:focus {
-  outline: none;
   text-decoration: none;
   background-color: var(--link);
   color: white;
