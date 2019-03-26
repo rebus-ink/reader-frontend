@@ -29,15 +29,15 @@ app.get('/library', async function (context) {
   console.log('Welcome to library')
   try {
     const query = (new URL(document.location)).searchParams
-    mainView({main: 'library', left: 'library-nav', right: 'library-shelf', menu: 'library-menu'}, {params: context.params, query})
+    mainView({main: 'library', left: 'library-nav', right: 'library-shelf', menu: 'library-menu', container: 'library-container'}, {params: context.params, query})
   } catch (err) {
     console.error(err)
   }
 })
 
-function mainView ({main, left, right, menu}, context) {
+function mainView ({main, left, right, menu, container}, context) {
   setContext(context)
-  body.setAttribute('class', 'App')
+  body.setAttribute('class', 'App ' + container)
   body.id = 'app'
   const mainList = `${main} App-main`
   const leftList = `${left} App-sidebar App-sidebar--left`
