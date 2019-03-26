@@ -1,6 +1,8 @@
 import wickedElements from 'wicked-elements'
 import {render, html} from 'lighterhtml'
 import {on} from '../state/main.js'
+import {addArticleModal} from './add-article-modal.js'
+import MicroModal from 'micromodal'
 // import {arrify} from '../utils/arrify.js'
 
 wickedElements.define('[data-component="library-shelf"]', {
@@ -27,7 +29,10 @@ function view (state) {
   <div class="App-menu"><ol class="App-menu-list"><li><details class="MenuButton">
   <summary class="MenuButton-summary App-button" aria-label="Upload actions">...</summary>
   <details-menu role="menu" class="MenuButton-body">
-  <button role="menuitem" class="MenuItem">Add web article...</button>
+  <button role="menuitem" class="MenuItem" onclick="${() => {
+    addArticleModal(document.getElementById('modal-1'))
+    MicroModal.show('modal-1')
+  }}">Add web article...</button>
   <button role="menuitem" class="MenuItem">Upload file...</button>
   <button role="menuitem" disabled class="MenuItem">Clear finished uploads</button>
   </details-menu>
