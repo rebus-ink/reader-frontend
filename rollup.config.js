@@ -16,6 +16,7 @@ export default {
   }],
   plugins: [
     resolve({
+      preferBuiltins: false,
       browser: true
     }),
     commonjs(),

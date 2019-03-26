@@ -1,5 +1,5 @@
-import nanobus from 'nanobus'
-const bus = nanobus()
+import EventEmitter from 'eventemitter3'
+const bus = new EventEmitter()
 
 // The primary purpose of the Book class is to provide messaging features and the activities interface.
 
