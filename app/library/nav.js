@@ -4,6 +4,7 @@ import {on} from '../state/main.js'
 import {arrify} from '../utils/arrify.js'
 import MicroModal from 'micromodal'
 import {logoutModal} from '../components/logout-login-modals.js'
+import {createCollectionModal} from './create-collection.js'
 
 wickedElements.define('[data-component="library-nav"]', {
   async onconnected (event) {
@@ -29,7 +30,10 @@ function view (state) {
   <div class="App-menu"><ol class="App-menu-list"><li><button class="App-sidebar-closer App-button" data-sidebar='left-sidebar' data-component="sidebar-toggle" aria-label="Close library navigation sidebar">&times;</button></li><li><h1 class="App-title">Library</h1></li><li><details class="MenuButton">
   <summary class="MenuButton-summary App-button" aria-label="Library actions">...</summary>
   <details-menu role="menu" class="MenuButton-body MenuButton-body--right">
-  <button role="menuitem" class="MenuItem">New collection...</button>
+  <button role="menuitem" class="MenuItem" onclick="${() => {
+    createCollectionModal(document.getElementById('modal-1'))
+    MicroModal.show('modal-1')
+  }}">New collection...</button>
   <button role="menuitem" disabled class="MenuItem">Edit collections...</button>
   <button role="menuitem" href="/logout" class="MenuItem" onclick="${() => {
     logoutModal(document.getElementById('modal-1'))

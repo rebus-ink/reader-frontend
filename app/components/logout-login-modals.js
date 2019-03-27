@@ -13,9 +13,10 @@ export function logoutModal (element) {
           <button aria-label="Close modal" data-micromodal-close class="Modal-close App-button">&times;</button>
         </header>
         <div id="modal-1-content" class="Modal-content">
-        <form action="/logout" method="POST">
-  <button class="Button" onclick=${activities.logout()}>Sign Out</button>
-  </form>
+          <p class="Modal-text">Are you sure you want to sign out?</p>
+        <div class="Modal-row">
+          <button aria-label="Close modal" data-micromodal-close class="App-button">Cancel</button>
+          <button class="TextButton" onclick=${activities.logout()}>Sign Out</button></div>
         </div>
       </div>
     </div>`)
