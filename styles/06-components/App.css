@@ -22,11 +22,22 @@
 .App-nav-label {
   text-transform: uppercase;
   font-size: 0.75rem;
-  color: #999;
+  color: #555;
   line-height: 1.25;
-  padding: 0 1.25rem;
-  margin: 0.5rem 0;
+  padding: 0 1rem;
+  margin: 0.5rem 0 0.25rem;
+  font-style: normal;
 }
+
+.App-nav-label .Spinner svg {
+  height: 0.75rem;
+  width: 0.75rem;
+  height: auto;
+  display: inline-block;
+  transform: translateY(2px);
+  text-align: center;
+}
+
 .App-nav-list {
   list-style: none;
   padding: 0;

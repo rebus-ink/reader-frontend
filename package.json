@@ -96,6 +96,7 @@
     "eventemitter3": "^3.1.0",
     "express": "^4.16.3",
     "express-basic-auth": "^1.1.5",
+    "file-drop-element": "^0.2.0",
     "got": "^9.2.2",
     "helmet": "^3.13.0",
     "hobb-api": "github:RebusFoundation/reader-api",

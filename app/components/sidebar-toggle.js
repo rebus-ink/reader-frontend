@@ -22,7 +22,6 @@ wickedElements.define('[data-component="sidebar-toggle"]', {
   'onapp:sidebar-toggle': function (event) {
     const {sidebar, visibility} = event.detail
     if (sidebar === this.element.dataset.sidebar) {
-      console.log(visibility, sidebar, this.element.dataset.sidebar)
       this.element.setAttribute('aria-expanded', visibility)
     }
   },

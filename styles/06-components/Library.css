@@ -29,12 +29,52 @@
   text-align: center;
 }
 
+.Library-file-drop {
+  display: block;
+  flex: 1 1 100%;
+  border-radius: 0.25rem;
+  display: flex;
+  flex-direction: column;
+}
+.Library-file-drop.drop-valid {
+  border: 0.25rem dashed #989898;
+}
+.Library-file-drop.drop-valid > *,
+.Library-file-drop.drop-invalid > * {
+  opacity: 0.25;
+}
+.Library-file-drop.drop-invalid {
+  border: 0.25rem dashed red;
+}
+
+.Library-no-uploads {
+  margin: auto;
+  padding: 1rem;
+  font-size: 0.85rem;
+}
+
+.Library-upload-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 1rem;
+  font-size: 0.75rem;
+}
+.Library-upload-list li {
+  padding: 0;
+  margin: 0.5rem 0;
+  font-style: italic;
+}
+
 .BookCard {
   display: grid;
   grid-auto-rows: auto;
   grid-template-columns: max-content 1fr;
   grid-column-gap: 0.25rem;
   position: relative;
+}
+
+.BookCard-group {
+  margin-right: 1.5rem;
 }
 
 .MenuButton.BookCard-menu {

@@ -3,6 +3,7 @@ import {render} from 'lighterhtml'
 import {view} from './view.js'
 import {viewLoading} from './view-loading.js'
 import * as activities from '../state/activities.js'
+import {library, on as book} from './state.js'
 import {errorEvent} from '../utils/error-event.js'
 import {setState, getContext, on} from '../state/main.js'
 
@@ -14,6 +15,7 @@ wickedElements.define('[data-component="library"]', {
       this.reader = await activities.getProfile()
       this.setContext(getContext())
       on('context', (context) => this.setContext(context))
+      book('added', (book) => this.addBook(book))
     } catch (err) {
       return errorEvent(err)
     }
@@ -26,24 +28,16 @@ wickedElements.define('[data-component="library"]', {
     document.body.removeEventListener('reader:add-to-collection', this)
     document.body.removeEventListener('reader:remove-from-collection', this)
   },
+  async addBook (book) {
+    this.setState(await library())
+  },
   async setContext (context) {
     this.context = context
     try {
-      if (context.query.get('tag')) {
-        const tag = context.query.get('tag')
-        const state = await activities.library()
-        this.setState(state)
-        state.items = state.items.filter(item => {
-          const tags = item.tags.map(tag => tag.name)
-          return tags.indexOf(tag) !== -1
-        })
-      } else {
-        this.setState(await activities.library())
-      }
+      this.setState(await library())
     } catch (err) {
       return errorEvent(err)
     }
-    this.render()
   },
   setState (state) {
     this.state = state
@@ -53,8 +47,17 @@ wickedElements.define('[data-component="library"]', {
   render () {
     if (this.state) {
       const query = this.context.query
-      this.state.items = sortBooks(this.state.items, query)
-      render(this.element, () => view(this.state))
+      const state = this.state
+      let items = state.items
+      if (query.get('tag')) {
+        const tag = query.get('tag')
+        items = items.filter(item => {
+          const tags = item.tags.map(tag => tag.name)
+          return tags.indexOf(tag) !== -1
+        })
+      }
+      items = sortBooks(items, query)
+      render(this.element, () => view(items, this.state.tags))
     } else {
       render(this.element, () => viewLoading())
     }
@@ -63,7 +66,7 @@ wickedElements.define('[data-component="library"]', {
     const payload = event.detail.collection
     try {
       await activities.create(payload)
-      const state = await activities.library(this.element.dataset.tag)
+      const state = await library(this.element.dataset.tag)
       this.setState(state)
     } catch (err) {
       if (err.response && err.response.status === 400) {
@@ -74,7 +77,6 @@ wickedElements.define('[data-component="library"]', {
     }
   },
   'onreader:add-to-collection': async function (event) {
-    console.log(event)
     const payload = {
       type: 'Add',
       object: {
@@ -88,14 +90,13 @@ wickedElements.define('[data-component="library"]', {
     }
     try {
       await activities.add(payload)
-      const state = await activities.library(this.element.dataset.tag)
+      const state = await library(this.element.dataset.tag)
       this.setState(state)
     } catch (err) {
       errorEvent(err)
     }
   },
   'onreader:remove-from-collection': async function (event) {
-    console.log(event)
     const payload = {
       type: 'Remove',
       object: {
@@ -109,7 +110,7 @@ wickedElements.define('[data-component="library"]', {
     }
     try {
       await activities.remove(payload)
-      const state = await activities.library(this.element.dataset.tag)
+      const state = await library(this.element.dataset.tag)
       this.setState(state)
     } catch (err) {
       errorEvent(err)
@@ -119,19 +120,25 @@ wickedElements.define('[data-component="library"]', {
 })
 
 function sortBooks (items, query) {
-  const order = query.order
-  if (order === 'alpha') {
-    items = items.sort((first, second) => {
-      return first.name.localeCompare(second.name)
-    })
-  } else {
+  const order = query.get('order')
+  const direction = query.get('desc')
+  if (!order && !direction) {
     items = items.sort((first, second) => {
       return (first.published < second.published) ? -1 : ((first.published > second.published) ? 1 : 0)
     })
+    return items.reverse()
+  } else if (order === 'added' && direction === 'false') {
+    items = items.sort((first, second) => {
+      return (first.published < second.published) ? -1 : ((first.published > second.published) ? 1 : 0)
+    })
+    return items
+  } else if (order === 'alpha') {
+    items = items.sort((first, second) => {
+      return first.name.localeCompare(second.name)
+    })
+    if (direction) {
+      items = items.reverse()
+    }
+    return items
   }
-  const direction = query.desc
-  if (direction) {
-    items = items.reverse()
-  }
-  return items
 }

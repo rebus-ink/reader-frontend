@@ -5,7 +5,7 @@ import {load} from './load.js'
 export class Epub extends Book {
   async initAsync (event) {
     try {
-      this._props = await load(this._props, event)
+      this._props = await load({}, event)
       this._props.resources = this._props.attachment
       this._props.readingOrder = this._props.orderedCollection
       this._props.links = this._props.url
@@ -15,6 +15,9 @@ export class Epub extends Book {
       console.error('something went wrong', err.message)
       return null
     }
+  }
+  get type () {
+    return 'epub'
   }
   uploadMedia () {
     // returns an array of FormData objects to upload
@@ -32,6 +35,8 @@ export class Epub extends Book {
     publication.url = this._props.url
     if (this._props.icon && this._props.icon.activity) {
       publication.icon = this._props.icon.activity
+    } else if (this._props.icon) {
+      publication.icon = this._props.icon
     }
     return publication
   }

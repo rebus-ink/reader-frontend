@@ -134,6 +134,7 @@ test('load: propertiesEpub', async (page, t) => {
         })
 
         t.matches(testactivity, book.activity)
+        t.ok(book.activity.icon)
         t.ok(await book.uploadMedia())
         t.matches(testActivityAfter, book.activity)
       } catch (err) {
@@ -227,6 +228,7 @@ Object.keys(testepubs).forEach(key => {
           })
 
           t.matches(testactivity, book.activity)
+          t.ok(book.activity.icon)
           t.ok(await book.uploadMedia())
         } catch (err) {
           console.log('error: ', err.message)
