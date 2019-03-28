@@ -66,7 +66,6 @@ function taskPromise (book) {
   console.log('queueing new book')
   return book.uploadMedia()
     .then(() => {
-      console.log('is there a cover', book.icon, book._props.icon, book.activity)
       return activities.create(book.activity)
     }).then(() => {
       pending = null

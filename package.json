@@ -10,7 +10,7 @@
   "scripts": {
     "test": "tap 'tests/*.js'",
     "dev-test": "onchange 'app/**/*.js' 'server/**/*.js' 'tests/**/*.js' -- onerror \"tap -R classic tests/*.js\"",
-    "dev-server": "GOOGLE_APPLICATION_CREDENTIALS=google-keyfile.json DEBUG=vonnegut:* SECRETORKEY=kick-opossum-snowiness ISSUER=auth.reader-api.test NODE_ENV=development BASE=https://localhost:4430 DEPLOY_STAGE=development nodemon dev.js",
+    "dev-server": "GOOGLE_APPLICATION_CREDENTIALS=google-keyfile.json DEBUG=vonnegut:*,hobb:* SECRETORKEY=kick-opossum-snowiness ISSUER=auth.reader-api.test NODE_ENV=development BASE=https://localhost:4430 DEPLOY_STAGE=development nodemon dev.js",
     "dev-css": "onchange 'styles/**/*.css' -- npm run build-css",
     "dev-components": "rollup -c -w",
     "dev-docs": "onchange 'styles/**/*.css' -- npm run css-docs",

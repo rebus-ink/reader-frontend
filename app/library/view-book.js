@@ -8,11 +8,12 @@ export function viewBook (book, tags) {
   if (!icon.url) {
     icon.url = '/static/placeholder-cover.jpg'
   }
+  console.log(icon.url)
   const pathname = new URL(book.id).pathname
   const url = `/reader${pathname}`
   return html`
 <div class=${book.isSelected ? selected : notSelected}>
-  <img  class="BookCard-icon" alt="${icon.summary}" src=${icon.url}>
+  <img  class="BookCard-icon" alt="${icon.summary}" src=${getURL(icon.url)}>
   <div class="BookCard-group">
     <h4 class="BookCard-title"><a href="${url}" class="BookCard-link">${
   book.name
@@ -32,6 +33,14 @@ export function viewBook (book, tags) {
   </details-menu>
   </details>
 </div>`
+}
+
+function getURL (url) {
+  if (Array.isArray(url)) {
+    return url[0].href
+  } else {
+    return url
+  }
 }
 
 function tagList (tag, book) {

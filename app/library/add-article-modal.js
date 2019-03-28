@@ -1,5 +1,6 @@
 
 import {render, html} from 'lighterhtml'
+import {add, addFiles} from './state.js'
 
 export function addArticleModal (element) {
   return render(element, () => html`
@@ -12,11 +13,14 @@ export function addArticleModal (element) {
         <button aria-label="Close modal" data-micromodal-close class="Modal-close App-button">&times;</button>
       </header>
       <div id="modal-1-content" class="Modal-content">
-        <form onsubmit="${submit}" class="AddForm">
-          <label for="article-url">URL</label>
-          <input type="url" onchange="${change}" name="article-url" id="article-url">
-          <button class="Button">Add</button>
-        </form>
+        <label class="Modal-text">
+            URL:
+          <input type="url" onchange="${change}" name="article-url" id="article-url" class="Dialog-input" autocomplete="off" autofocus>
+          </label>
+        <div class="Modal-row">
+          <button aria-label="Close modal" data-micromodal-close class="App-button">Cancel</button>
+          <button class="TextButton" data-micromodal-close onclick="${handle}">Add</button>
+        </div>
       </div>
     </div>
   </div>`)
@@ -27,4 +31,14 @@ function change (event) {
 }
 function submit (event) {
   event.preventDefault()
+  return handle()
+}
+
+function handle () {
+  const url = document.getElementById('article-url').value
+  try {
+    return add({url})
+  } catch (err) {
+    console.error(err)
+  }
 }

@@ -13,6 +13,9 @@ export class Article extends Book {
     }
     return this
   }
+  get type () {
+    return 'article'
+  }
   get activity () {
     return this._props
   }
@@ -76,7 +79,7 @@ function dataToProps ({html, mercury, microformats, url}) {
         url: [
           {
             type: 'Link',
-            href: 'mercury.lead_image_url',
+            href: mercury.lead_image_url,
             rel: ['alternate']
           }
         ],
@@ -85,6 +88,11 @@ function dataToProps ({html, mercury, microformats, url}) {
     }
     if (mercury.author) { props.attributedTo = [{ type: 'Person', name: mercury.author }] }
   }
+  if (microformats) {
+    props._microformats = microformats
+  }
+  props.type = 'reader:Publication'
+  return props
 }
 
 export function createArticle (url) {
