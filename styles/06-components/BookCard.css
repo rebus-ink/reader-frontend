@@ -1,107 +1,50 @@
-/*
-Book Card
-
-Basic book component for display in Library.
-
-Markup:
-<div>
-<div class="BookCard"><img class="BookCard-icon"alt="" src="/placeholder-cover.png"><div class="BookCard-group"><h4 class="BookCard-title">Saving Bletchley Park</h4>
-    <p class="BookCard-paragraph"></p>
-    <p class="BookCard-paragraph BookCard-paragraph--tags"><span href="#" class="BookCard-tag BookCard-tag--highlight">324 highlights</span></p></div></div>
-<div class="BookCard">
-  <img  class="BookCard-icon"alt="" src="/placeholder-cover.png">
-  <div class="BookCard-group">
-    <h4 class="BookCard-title">Badass: Making Users Awesome</h4>
-    <p class="BookCard-paragraph"><span href="#" class="BookCard-attribution">Kathy Sierra</span></p>
-    <p class="BookCard-paragraph BookCard-paragraph--tags"><span href="#" class="BookCard-tag BookCard-tag--highlight">12 highlights</span></p>
-  </div>
-</div>
-<div class="BookCard is-selectable">
-  <img  class="BookCard-icon"alt="" src="/placeholder-cover.png">
-  <div class="BookCard-group">
-    <h4 class="BookCard-title"><a href="#" class="BookCard-link">The Half-Life of Joshua Jones</a></h4>
-    <p class="BookCard-paragraph"><span href="#" class="BookCard-attribution">Danny Scheinmann</span>, <span href="#" class="BookCard-attribution">John Mitchinson</span> <span class="BookCard-attributionLabel">(editor)</span> </p>
-    <p class="BookCard-paragraph BookCard-paragraph--tags"><span href="#" class="BookCard-tag BookCard-tag--highlight">5 highlights</span> <span href="#" class="BookCard-tag BookCard-tag--note">2 notes</span> </p>
-  </div>
-</div>
-<div class="BookCard is-selected">
-  <img  class="BookCard-icon"alt="" src="/placeholder-cover.png">
-  <div class="BookCard-group">
-    <h4 class="BookCard-title">After I'm Gone (Selected BookCard)</h4>
-    <p class="BookCard-paragraph"><span href="#" class="BookCard-attribution">Laura Lippman</span></p>
-    <p class="BookCard-paragraph BookCard-paragraph--tags"><span href="#" class="BookCard-tag BookCard-tag--note">8 notes</span> <span href="#" class="BookCard-tag">#suspense</span> <span href="#" class="BookCard-tag">#femaleauthor</span></p>
-  </div>
-</div>
-</div>
-
-StyleGuide 6.3
-
-*/
-
 .BookCard {
-  padding: 0;
-  margin: 0;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-auto-rows: auto;
+  grid-template-columns: max-content 1fr;
+  grid-column-gap: 0.25rem;
   position: relative;
 }
 
-/* .BookCard::before {
-  content: ' ';
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.08) 5%, rgba(255, 255, 255, 0.08) 10%, rgba(0, 0, 0, 0.06) 15%, rgba(255, 255, 255, 0.08) 28%, rgba(0, 0, 0, 0.03) 32%, rgba(255, 255, 255, 0) 50%);
+.BookCard-group {
+  margin-right: 1.5rem;
+}
+
+.MenuButton.BookCard-menu {
   position: absolute;
   top: 0;
-  left: 0;
-  bottom: 0;
-  width: 30px;
-  display: block;
-} */
-/* .BookCard:first-child {
-  border-top: 1px solid #f0f0f0;
-} */
-/* .BookCard.is-selectable {
-  cursor: pointer;
-} */
-.BookCard-link {
-  text-decoration: none;
-  font-weight: inherit;
+  right: 0;
 }
-
-.BookCard.is-selected {
-  background-color: #f9f9f9;
+.BookCard-menu .MenuButton-summary {
+  font-weight: 600;
 }
-
-.BookCard-group {
-  margin: 0;
-  padding: 0 0.5rem;
-  display: flex;
-  flex-direction: column;
-}
-/* .BookCard:first-of-type .BookCard-group {
-  border-top: 1px solid #ccc;
-} */
 
 .BookCard-icon {
+  font-size: 0.75rem;
+  text-align: center;
+  line-height: 7;
+  text-transform: uppercase;
+  color: #999;
+  background-color: #f0f0f0;
   display: block;
-  width: auto;
-  height: auto;
-  max-height: 6rem;
-  max-width: 6rem;
-  flex: 0 1 auto;
+  width: 100%;
+  max-height: none;
+  object-fit: cover;
+  object-position: top left;
+  width: 6rem;
+  height: 8.5rem;
 }
-
-.BookCard-title,
-.kss-style .BookCard-title {
+.BookCard-title {
   margin: 0;
   padding: 0;
   font-weight: 750;
-  font-size: 1.2rem;
+  font-size: 1rem;
   line-height: 1;
 }
 
 .BookCard-attribution {
   font-weight: 400;
-  font-style: italic;
+  font-variant-caps: all-small-caps;
   text-decoration: none;
   color: #666;
 }
@@ -109,174 +52,17 @@ StyleGuide 6.3
   font-weight: 300;
   color: #888;
 }
-
-.BookCard-tag {
-  font-weight: 300;
-  font-size: 0.6rem;
-  margin: 0.2rem 0.2rem 0.2rem 0;
+a.BookCard-link {
   text-decoration: none;
-  background-color: #f0f0f0;
-  display: inline-block;
-  padding: 4px 5px;
-  border-radius: 0.4rem;
-  font-family: var(--sans-fonts);
+  font-weight: inherit;
 }
-.BookCard-tag:hover {
-  box-shadow: none;
-  color: black;
-  background-color: #f0f0f0;
-}
-.BookCard-tag--note {
-  color: white;
-  background-color: #555;
-}
-.BookCard-tag--highlight {
-  background-color: #ffffba;
-  box-shadow: 0 0 0 1px #ffffba;
-}
-
 .BookCard-paragraph {
   line-height: 0.75rem;
   font-weight: 300;
   margin-top: 0.25rem;
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   --local-font-size: 0.65rem;
 }
 .BookCard-paragraph--tags {
   margin-top: 0.5rem;
-}
-
-.BookCard-progress {
-  padding: 0.5rem 1rem 0.5rem 0;
-  margin-bottom: -1px;
-  display: flex;
-  flex-direction: column;
-}
-
-/* .BookCard:first-of-type .BookCard-progress {
-  border-top: 1px solid #ccc;
-} */
-
-.BookCard-total {
-  font-family: var(--sans-fonts);
-  line-height: 1;
-  font-feature-settings: 'pnum' on;
-  font-variant-numeric: proportional-nums;
-  letter-spacing: -1px;
-  font-size: 1.25rem;
-  text-align: right;
-  margin-top: 0.5rem;
-  margin-top: auto;
-  margin-bottom: 0.25rem;
-}
-
-.BookCard-sessions {
-  list-style: none;
-  margin: 0.5rem 0 1rem;
-  padding: 0;
-  font-family: var(--sans-fonts);
-  line-height: 1;
-  font-feature-settings: 'pnum' on;
-  font-variant-numeric: proportional-nums;
-  font-size: 0.75rem;
-}
-.BookCard-sessions-label {
-  color: #666;
-  font-size: 0.6rem;
-  font-weight: 400;
-  text-transform: uppercase;
-  margin: 0.5rem 0 0;
-  padding: 0;
-  line-height: 0.6rem;
-}
-
-.BookCard-session {
-  display: flex;
-  justify-content: space-between;
-}
-.BookCard-session-time {
-  font-style: normal;
-  color: #333;
-  font-weight: 300;
-  margin-right: 0.5rem;
-}
-.BookCard-session-pages {
-  font-style: normal;
-  font-weight: 600;
-}
-
-a.BookCard-link {
-  text-decoration: none;
-  position: relative;
-  text-transform: uppercase;
-}
-
-/* .BookCard-link::before {
-  background-color: hsla(0,0%,94.1%,.35);
-  bottom: 1px;
-  content: "";
-  left: -15px;
-  position: absolute;
-  right: -15px;
-  top: 1px;
-  transform: rotate(-2deg);
-  z-index: -1;
-}
-
-.BookCard:nth-child(1n) .BookCard-link::before {
-  transform: rotate(-2deg);
-}
-.BookCard:nth-child(2n) .BookCard-link::before {
-  transform: rotate(2deg);
-}
-.BookCard:nth-child(3n) .BookCard-link::before {
-  transform: rotate(-3deg);
-}
-.BookCard:nth-child(4n) .BookCard-link::before {
-  transform: rotate(3deg);
-}
-.BookCard:nth-child(5n) .BookCard-link::before {
-  transform: rotate(-1deg);
-}
-.BookCard:nth-child(6n) .BookCard-link::before {
-  transform: rotate(1deg);
-}
-.BookCard:nth-child(7n)  .BookCard-link::before {
-  transform: rotate(-4deg);
-}
-.BookCard:nth-child(8n) .BookCard-link::before {
-  transform: rotate(4deg);
-}
-.BookCard:nth-child(9n)  .BookCard-link::before {
-  transform: rotate(-3deg);
-}
-
-.BookCard-link:hover::before {
-  background-color: hsla(200, 100%, 30%, 0.3);
-} */
-
-@supports (display: grid) {
-  .BookCard {
-    display: grid;
-    grid-auto-rows: auto;
-    grid-template-columns: max-content 1fr;
-  }
-  .BookCard-icon {
-    display: block;
-    width: 100%;
-    max-height: none;
-    object-fit: contain;
-    object-position: top left;
-    width: 6rem;
-    height: 8.5rem;
-  }
-  /* .BookCard-session {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  } */
-  @media (max-width: 820px) {
-    .BookCard {
-      grid-template-columns: 0.2fr 1fr;
-    }
-  }
 }
