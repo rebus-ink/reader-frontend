@@ -37,7 +37,8 @@ function view (state) {
     addArticleModal(document.getElementById('modal-1'))
     MicroModal.show('modal-1')
   }}">Add web article...</button>
-  <button role="menuitem" class="MenuItem">Upload file...</button>
+  <label role="menuitem" class="MenuItem">Upload files...
+<input type="file" hidden onchange="${getFiles}" name="file-selector" id="file-selector" accept=".epub,application/epub+zip" multiple></label>
   <button role="menuitem" disabled class="MenuItem">Clear finished uploads</button>
   </details-menu>
   </details></li><li><h2 class="App-title">Uploads</h2></li><li><button class="App-sidebar-closer App-button" data-sidebar='right-sidebar' data-component="sidebar-toggle" aria-label="Close library shelf sidebar">&times;</button></li></ol></div>
@@ -55,4 +56,9 @@ function files (state) {
   } else {
     return html`<p class="Library-no-uploads">Drop file here to get started</p>`
   }
+}
+
+function getFiles (event) {
+  const files = document.getElementById('file-selector').files
+  addFiles(files)
 }
