@@ -3,6 +3,8 @@ const { page } = require('../../views/login-page.js')
 const express = require('express')
 const router = express.Router()
 const debug = require('debug')('vonnegut:routes:import')
+const { ensureLogin } = require('../ensure-login.js')
+const csurf = require('csurf')
 
 router.get('/logout', function (req, res, next) {
   const render = viperHTML.wire
@@ -19,7 +21,7 @@ router.get('/logout', function (req, res, next) {
     )
   )
 })
-router.post('/logout', (req, res) => {
+router.post('/logout', ensureLogin, csurf(), (req, res) => {
   req.session = null
   req.logout()
   res.redirect('/')
