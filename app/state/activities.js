@@ -47,8 +47,22 @@ async function getJWT () {
   return token
 }
 
-export function logout () {
+export async function logout () {
   token = null
+  const csurfMeta = document.querySelector('meta[name="csrf-token"]')
+  let csurf
+  if (csurfMeta) {
+    csurf = csurfMeta.getAttribute('content')
+  }
+  await window.fetch('/logout', {
+    credentials: 'include',
+    method: 'POST',
+    headers: new window.Headers({
+      'content-type': 'application/ld+json',
+      'csrf-token': csurf
+    })
+  })
+  window.location.reload(true)
 }
 
 async function refreshJWT () {
