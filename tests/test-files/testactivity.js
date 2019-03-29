@@ -226,5 +226,11 @@ module.exports.testActivityAfter = {
       rel: ['alternate'],
       mediaType: 'application/oebps-package+xml'
     }
-  ]
+  ],
+  icon: {
+    type: 'Image',
+    summary: 'EPUB Cover',
+    url: 'http://example.com/pub-id/3.png',
+    mediaType: 'image/png'
+  }
 }

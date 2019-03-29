@@ -132,9 +132,7 @@ test('load: propertiesEpub', async (page, t) => {
             DOMAIN: 'http://example.com/'
           }
         })
-
         t.matches(testactivity, book.activity)
-        t.ok(book.activity.icon)
         t.ok(await book.uploadMedia())
         t.matches(testActivityAfter, book.activity)
       } catch (err) {
