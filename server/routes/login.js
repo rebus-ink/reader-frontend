@@ -26,11 +26,27 @@ router.get('/login', function (req, res, next) {
       render,
       {},
       req,
-      render => render()`<div class="FrontLayout">
-    <form action="/login?returnTo=/library" method="POST">
-    <button class="Button">Log In</button>
-    </form>
-    </div>`
+      render => render()`
+      <div class="Login">
+        <div tabindex="-1" class="Modal-overlay">
+        <div role="dialog" class="Modal-container" aria-modal="true" aria-labelledby="modal-1-title" >
+          <header>
+            <h2 id="modal-1-title" class="Modal-title">
+              Sign In
+            </h2>
+            <button aria-label="Close modal" class="Modal-close App-button"></button>
+          </header>
+          <div id="modal-1-content" class="Modal-content">
+            <p class="Modal-text">Sign in to use Rebus Ink</p>
+          <div class="Modal-row">
+            <span></span>
+            <form action="/login?returnTo=/library" method="POST">
+        <button class="TextButton">Sign In</button>
+        </form></div>
+          </div>
+        </div>
+      </div>
+      </div>`
     )
   )
 })
