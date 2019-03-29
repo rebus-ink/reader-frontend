@@ -1,0 +1,30 @@
+.App-sidebar {
+  background-color: var(--main-background-color);
+  margin: 0;
+  padding: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  z-index: 3;
+  transition: transform 0.25s ease-in-out;
+}
+
+.App-sidebar--left {
+  grid-column: 1 / 2;
+  left: 0;
+  border-right: 1px solid #f4f4f4;
+}
+.App-sidebar--right {
+  grid-column: 3 / 4;
+  right: 0;
+  border-left: 1px solid #f4f4f4;
+  display: flex;
+  flex-direction: column;
+}
+button.App-sidebar-closer {
+  font-size: 1.25rem;
+  line-height: 1rem;
+  transform: translateY(-2px);
+}

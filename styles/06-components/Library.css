@@ -1,80 +1,66 @@
-.Library {
-  padding: 0;
-  grid-area: Main;
-  padding: 0 0 1rem 1rem;
-}
-
-.Library-books {
+.library {
   display: grid;
-  grid-gap: 1rem;
-  padding-top: 0rem;
-  padding-right: 1rem;
+  position: relative;
+  padding: 0 1rem;
 }
 
 .Library-header {
+  position: relative;
+}
+.Library-books {
   display: grid;
-  grid-template-areas: 'title buttons';
-  margin: 3rem 1rem 4rem 0;
-}
-.Library-title {
-  grid-area: title;
-  line-height: 1;
-  font-size: 4rem;
-  align-self: end;
-  margin: 0;
-  font-weight: 800;
-  letter-spacing: 2px;
-}
-.Library-buttons {
-  grid-area: buttons;
-}
-.Library-buttons-list {
-  list-style: none;
-  display: grid;
-  grid-template-columns: min-content min-content;
-  justify-content: end;
-  margin: 0;
-  padding: 0;
-}
-.Library-buttons-item {
-  margin: 0 0.5rem;
-  padding: 0;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 0.5fr));
+  grid-gap: 0.5rem;
+  padding-bottom: 1rem;
 }
 
 .Library-info {
-  margin: 0;
-  line-height: 2rem;
-  color: #888;
-  grid-column: 1 / -1;
-}
-.Library-tags {
-  grid-column: 1 / -1;
-  margin: 0.5rem 0 1rem;
-  position: relative;
-}
-
-.Library-tag-dialog {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: auto;
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 
 .Library-info--order {
-  text-transform: uppercase;
-  font-style: normal;
+  font-weight: normal;
+  text-align: center;
+  margin: 2rem 0 2.25rem;
 }
 
-@media (min-width: 820px) {
-  .Library-books {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
+.Library-collectionName {
+  text-align: center;
 }
 
-@media (min-width: 1200px) {
-  .Library-books {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-  }
+.Library-file-drop {
+  display: block;
+  flex: 1 1 100%;
+  border-radius: 0.25rem;
+  display: flex;
+  flex-direction: column;
+}
+.Library-file-drop.drop-valid {
+  border: 0.25rem dashed #989898;
+}
+.Library-file-drop.drop-valid > *,
+.Library-file-drop.drop-invalid > * {
+  opacity: 0.25;
+}
+.Library-file-drop.drop-invalid {
+  border: 0.25rem dashed red;
+}
+
+.Library-no-uploads {
+  margin: auto;
+  padding: 1rem;
+  font-size: 0.85rem;
+}
+
+.Library-upload-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 1rem;
+  font-size: 0.75rem;
+}
+.Library-upload-list li {
+  padding: 0;
+  margin: 0.5rem 0;
+  font-style: italic;
 }

@@ -1,0 +1,8 @@
+.ErrorReport {
+  width: 100%;
+  height: 15rem;
+  font-family: monospace;
+}
+.ErrorLayout {
+  display: block;
+}

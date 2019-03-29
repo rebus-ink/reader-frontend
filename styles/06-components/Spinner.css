@@ -1,6 +1,7 @@
 .Spinner {
   text-align: center;
   height: 5rem;
+  margin: auto;
 }
 .Spinner svg {
   height: 1.25rem;
@@ -9,6 +10,11 @@
   animation-name: rotate;
   animation-iteration-count: infinite;
   opacity: 0.5;
+}
+.Spinner-frame {
+  width: 100%;
+  height: 90vh;
+  display: flex;
 }
 
 @keyframes rotate {

@@ -24,16 +24,16 @@ export function library (context) {
   <details-dialog class="Dialog-body">
     <p class="Dialog-title">Create Collection</p>
     <label for="collection-name" class="Dialog-label">Name</label>
-    <input type="text" name="CollectionName" id="collection-name" size="25" class="Dialog-input">
+    <input type="text" name="CollectionName" id="collection-name" size="25" class="Dialog-input" autocomplete="off" autofocus>
     <button type="button" data-close-dialog class="TextButton Dialog-cancel">Cancel</button>
     <button type="button" data-close-dialog class="Button Dialog-save" onclick=${sendEvent}>Create Collection</button>
   </details-dialog>
 </details></div>
 <p class="Library-info Library-info--order">Ordered by <select class="LibrarySelect" onchange="${orderChange}">
-<option value="${path}" selected=${!query.get('order')}>Date added</option>
-<option value="${`${path}?order=added&desc=true`}" selected=${query.get('order') === 'added' && query.get('desc') === 'true'}>Date added, reversed</option>
-<option value="${`${path}?order=alpha`}" selected=${query.get('order') === 'alpha' && !query.get('desc')}>Alphabetical</option>
-<option value="${`${path}?order=alpha&desc=true`}" selected=${query.get('order') === 'alpha' && query.get('desc') === 'true'}>Alphabetical, reversed</option>
+<option value="${path}" selected=${!query.get('order')}>Date descending</option>
+<option value="${`${path}?order=added&desc=true`}" selected=${query.get('order') === 'added' && query.get('desc') === 'true'}>Date added, ascending</option>
+<option value="${`${path}?order=alpha`}" selected=${query.get('order') === 'alpha' && !query.get('desc')}>A-Z</option>
+<option value="${`${path}?order=alpha&desc=true`}" selected=${query.get('order') === 'alpha' && query.get('desc') === 'true'}>Z-A</option>
 </select></p>
 <p class="Library-info">${bookCount} items in “${query.get('tag') || 'All'}”</p>
     
@@ -84,6 +84,7 @@ function orderChange (event) {
 }
 function sendEvent (event) {
   const name = document.getElementById('collection-name').value
+  document.getElementById('collection-name').value = ''
   const payload = {
     type: 'reader:Stack',
     name

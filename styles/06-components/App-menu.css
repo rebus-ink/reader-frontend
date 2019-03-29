@@ -1,0 +1,39 @@
+.App-menu {
+  background-color: var(--main-background-color);
+  margin: 0;
+  padding: 0 0.5rem;
+  position: sticky;
+  top: 0;
+  height: 2rem;
+  grid-column: 2 / 3;
+  z-index: 2;
+  display: flex;
+}
+.App-menu-list {
+  list-style: none;
+  padding: 0;
+  margin: auto 0;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.App-menu-list li {
+  padding: 0;
+  margin: 0;
+}
+
+.App-menu--center [data-component='sidebar-toggle'][aria-expanded='true'] {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .App-menu--center [data-component='sidebar-toggle'][aria-expanded='true'] {
+    display: inline-block;
+  }
+}
+@media (min-width: 901px) and (max-width: 1200px) {
+  .App-menu--center [data-sidebar='right-sidebar'][aria-expanded='true'] {
+    display: inline-block;
+  }
+}

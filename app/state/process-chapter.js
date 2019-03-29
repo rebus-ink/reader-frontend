@@ -2,6 +2,7 @@ import DOMPurify from 'dompurify'
 
 const purifyConfig = {
   KEEP_CONTENT: false,
+  RETURN_DOM: true,
   RETURN_DOM_FRAGMENT: true,
   RETURN_DOM_IMPORT: true,
   FORBID_TAGS: ['style', 'link'],
@@ -18,7 +19,13 @@ export function processChapter (doc, chapter) {
     if (element.tagName.toLowerCase() === 'img') {
       element = element.parentElement
     }
-    const xpath = element.dataset.location
+    // if (element.tagName.toLowerCase() === 'blockquote' && element.parentElement.tagName.toLowerCase() === 'blockquote') {
+    //   return
+    // }
+    let xpath = element.dataset.location
+    if (!xpath) {
+      xpath = element.dataset.location = getXPath(element)
+    }
     const markerContainer = window.document.createElement('reader-markers')
     markerContainer.classList.add('Marker')
     markerContainer.dataset.reader = 'true'
@@ -62,4 +69,34 @@ function addNote (note, element, document, DOMPurify) {
   div.classList.add('ReaderNote')
   div.id = 'ReaderNote-' + xpath
   element.parentElement.insertBefore(div, element.nextSibling)
+}
+
+// Parts of this derived from https://github.com/tilgovi/simple-xpath-position/blob/master/src/xpath.js (MIT Licensed)
+function getXPath (element) {
+  if (!element) {
+    return null
+  } else if (element.id) {
+    return `//*[@id=${element.id}]`
+  } else {
+    let path = '/'
+    while (element) {
+      if (!element.tagName) {
+        path = `/html[1]/body[1]${path}`
+      } else {
+        path = `/${element.tagName.toLowerCase()}[${nodePosition(
+          element
+        )}]${path}`
+      }
+      element = element.parentNode
+    }
+    return path.replace(/\/$/, '')
+  }
+}
+function nodePosition (node) {
+  let name = node.nodeName
+  let position = 1
+  while ((node = node.previousSibling)) {
+    if (node.nodeName === name) position += 1
+  }
+  return position
 }
