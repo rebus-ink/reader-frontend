@@ -8,7 +8,6 @@ export function viewBook (book, tags) {
   if (!icon.url) {
     icon.url = '/static/placeholder-cover.jpg'
   }
-  console.log(icon.url)
   const pathname = new URL(book.id).pathname
   const url = `/reader${pathname}`
   return html`
