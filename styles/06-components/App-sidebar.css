@@ -11,6 +11,10 @@
   transition: transform 0.25s ease-in-out;
 }
 
+.App-sidebar > * {
+  transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
 .App-sidebar--left {
   grid-column: 1 / 2;
   left: 0;
