@@ -6,7 +6,6 @@ import * as activities from '../state/activities.js'
 import {library, on as book} from './state.js'
 import {errorEvent} from '../utils/error-event.js'
 import {setState, getContext, on} from '../state/main.js'
-import {transition} from '../utils/transition.js'
 
 wickedElements.define('[data-component="library"]', {
   async onconnected (event) {
@@ -45,8 +44,7 @@ wickedElements.define('[data-component="library"]', {
     setState(this.state)
     this.render()
   },
-  async render () {
-    await transition(`.Library-books > *`, {transform: 'translateY(-25%)', opacity: 0, transition: 'all 0.125s ease-in-out'}, 50)
+  render () {
     if (this.state) {
       const query = this.context.query
       const state = this.state
@@ -63,10 +61,6 @@ wickedElements.define('[data-component="library"]', {
     } else {
       render(this.element, () => viewLoading())
     }
-    document.querySelectorAll('.Library-books > *').forEach(element => {
-      Object.assign(element.style, {transform: 'translateY(-25%)', opacity: 0, transition: 'none'})
-    })
-    await transition(`.Library-books > *`, {transform: 'translateY(0)', opacity: 1, transition: 'all 0.125s ease-in-out'}, 50)
   },
   'onreader:create-collection': async function (event) {
     const payload = event.detail.collection

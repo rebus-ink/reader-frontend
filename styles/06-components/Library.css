@@ -13,10 +13,6 @@
   grid-gap: 0.5rem;
   padding-bottom: 1rem;
 }
-/* 
-.Library-books > * {
-  transition: transform 0.25s ease-in-out, opacity 0.125s ease-in-out;
-} */
 
 .Library-info {
   font-size: 0.75rem;

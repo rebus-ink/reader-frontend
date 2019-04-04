@@ -31,7 +31,7 @@ wickedElements.define('[data-component="sidebar-toggle"]', {
   }
 })
 
-async function toggle (sidebar, button, app) {
+function toggle (sidebar, button, app) {
   const left = app.dataset.toggleLeft
   const right = app.dataset.toggleRight
   const width = document.body.clientWidth
@@ -44,16 +44,11 @@ async function toggle (sidebar, button, app) {
     sendEvent({sidebar: sidebar.id, visibility: visibility === 'true' ? 'false' : 'true'})
   } else {
     if (sidebar.id === 'left-sidebar') {
-      if (left === 'show') await transition(`#left-sidebar > *`, {transform: 'translateX(-100%)', opacity: 0}, 250)
       app.dataset.toggleLeft = left === 'show' ? 'hide' : 'show'
       sendEvent({sidebar: sidebar.id, visibility: left === 'show' ? 'false' : 'true'})
-      await rafPromise()
-      if (left !== 'show') await transition(`#left-sidebar > *`, {transform: 'translateX(0)', opacity: 1}, 250)
     } else if (sidebar.id === 'right-sidebar') {
-      if (right === 'show') await transition(`#right-sidebar > *`, {transform: 'translateX(100%)', opacity: 0}, 250)
       app.dataset.toggleRight = right === 'show' ? 'hide' : 'show'
       sendEvent({sidebar: sidebar.id, visibility: right === 'show' ? 'false' : 'true'})
-      if (right !== 'show') await transition(`#right-sidebar > *`, {transform: 'translateX(0)', opacity: 1}, 250)
     }
   }
 }
