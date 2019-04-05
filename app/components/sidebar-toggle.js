@@ -1,5 +1,4 @@
 import wickedElements from 'wicked-elements'
-import {transition, rafPromise} from '../utils/transition.js'
 
 wickedElements.define('[data-component="sidebar-toggle"]', {
   onconnected (event) {

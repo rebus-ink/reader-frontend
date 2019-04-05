@@ -1,6 +1,6 @@
 
 import {render, html} from 'lighterhtml'
-import {add, addFiles} from './state.js'
+import {add} from './state.js'
 
 export function addArticleModal (element) {
   return render(element, () => html`
@@ -28,10 +28,6 @@ export function addArticleModal (element) {
 
 function change (event) {
   console.log(event)
-}
-function submit (event) {
-  event.preventDefault()
-  return handle()
 }
 
 function handle () {
