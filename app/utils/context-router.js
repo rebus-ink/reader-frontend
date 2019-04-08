@@ -29,9 +29,37 @@ function remove () {
   this.parentNode.removeChild(this)
 }
 
-export function createRouter (routes = []) {
-  const context = createContext()
-  const paths = {}
+export const router = createContext()
+const paths = {}
+
+function handleEvent (event) {
+  const old = router.value
+  for (const key in paths) {
+    if (paths.hasOwnProperty(key)) {
+      const info = paths[key]
+      const match = info.re.exec(window.location.pathname)
+      if (match) {
+        const {options} = info
+        const request = Object.assign({
+          protocol: window.location.protocol,
+          origin: window.location.origin,
+          url: window.location.href,
+          pathname: window.location.pathname,
+          search: window.location.search,
+          query: new URLSearchParams(window.location.search),
+          params: createParams(match, info.keys),
+          type: event.type
+        }, options.request)
+        router.provide(Object.assign({request, old}, options))
+      }
+    }
+  }
+}
+handleEvent({type: 'samestate'})
+window.addEventListener('popstate', handleEvent, false)
+window.addEventListener('pushstate', handleEvent, false)
+
+export function addRoutes (routes = []) {
   for (const route of routes) {
     const {path = '(.*)'} = route
     const keys = []
@@ -42,36 +70,9 @@ export function createRouter (routes = []) {
     })
     info.options = route
   }
-  function handleEvent (event) {
-    const old = context.value
-    for (const key in paths) {
-      if (paths.hasOwnProperty(key)) {
-        const info = paths[key]
-        const match = info.re.exec(window.location.pathname)
-        if (match) {
-          const {options} = info
-          const request = Object.assign({
-            protocol: window.location.protocol,
-            origin: window.location.origin,
-            url: window.location.href,
-            pathname: window.location.pathname,
-            search: window.location.search,
-            query: new URLSearchParams(window.location.search),
-            params: createParams(match, info.keys),
-            type: event.type
-          }, options.request)
-          context.provide({request, navigate, old}, options)
-        }
-      }
-    }
-  }
-  handleEvent({type: 'samestate'})
-  window.addEventListener('popstate', handleEvent, false)
-  window.addEventListener('pushstate', handleEvent, false)
-  return context
 }
 
-function navigate (pathname, options) {
+export function navigate (pathname, options) {
   switch (true) {
     case !!options:
       switch (true) {
