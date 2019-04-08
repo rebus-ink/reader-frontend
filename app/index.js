@@ -4,7 +4,6 @@ import 'details-dialog-element'
 import * as activities from './state/activities.js'
 import {render, html} from 'lighterhtml'
 import '@github/details-menu-element'
-import {importPage} from './importer/import-page.js'
 import './components/components.js'
 import './library/index.js'
 import {setContext} from './state/main.js'
@@ -15,14 +14,6 @@ const body = document.body
 app.get('/', async function (context) {
   console.log('Welcome')
   app.navigate('/library')
-})
-
-app.get('/library/import', async function (context) {
-  await import('./importer.js')
-  body.setAttribute('class', 'Layout')
-  body.id = 'layout'
-  render(body, () => importPage())
-  console.log('Welcome')
 })
 
 app.get('/library', async function (context) {
