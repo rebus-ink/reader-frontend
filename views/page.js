@@ -1,15 +1,5 @@
 const { getId } = require('./utils/get-id.js')
 module.exports.page = (render, model, req, body) => {
-  console.log(req.user)
-  let token, id, streams
-  if (req.user) {
-    token = req.user.token
-    id = req.user.id
-    streams = req.user.streams
-  } else {
-    token = id = ''
-    streams = {}
-  }
   let base
   if (model.chapter) {
     const url = `/reader/${encodeURIComponent(getId(model.book.id))}/${

@@ -1,28 +1,19 @@
-import hyperApp from 'hyperhtml-app'
+import {Router} from './utils/router.js'
 import 'intersection-observer'
 import 'details-dialog-element'
 import * as activities from './state/activities.js'
 import {render, html} from 'lighterhtml'
 import '@github/details-menu-element'
-import {importPage} from './importer/import-page.js'
 import './components/components.js'
 import './library/index.js'
 import {setContext} from './state/main.js'
 
-const app = hyperApp()
+const app = new Router()
 const body = document.body
 
-app.get('/', function (context) {
+app.get('/', async function (context) {
   console.log('Welcome')
   app.navigate('/library')
-})
-
-app.get('/library/import', async function (context) {
-  await import('./importer.js')
-  body.setAttribute('class', 'Layout')
-  body.id = 'layout'
-  render(body, () => importPage())
-  console.log('Welcome')
 })
 
 app.get('/library', async function (context) {
@@ -90,7 +81,7 @@ app.get('/reader/:bookId', async function (context) {
   }
 })
 
-app.get('/login', function (context) {
+app.get('/login', async function (context) {
   const returnTo = `/login?${
     encodeURIComponent(window.location.pathname + window.location.search)}`
   render(document.body, () => html`<div class="FrontLayout">
@@ -100,7 +91,7 @@ app.get('/login', function (context) {
   </div>`)
 })
 
-app.get('/logout', function (context) {
+app.get('/logout', async function (context) {
   render(document.body, () => html`<div class="FrontLayout">
   <form action="/logout" method="POST">
   <button class="Button" onclick=${activities.logout()}>Log Out</button>

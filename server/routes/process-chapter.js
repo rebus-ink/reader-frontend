@@ -31,7 +31,10 @@ router.get('/process-chapter', ensureLogin, csurf(), async function (
     if (response.statusCode === 404) {
       return res.sendStatus(404)
     }
-    const window = new JSDOM(response.body, { url: base }).window
+    const window = new JSDOM(response.body, {
+      url: base,
+      contentType: response.headers['content-type'] || 'text/html'
+    }).window
     const DOMPurify = createDOMPurify(window)
     const symbols = window.document.body.querySelectorAll(
       'p, h1, h2, h3, h4, h5, h6, li, table, dd, dt, div > img:only-child, figure > img'
