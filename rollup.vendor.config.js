@@ -4,7 +4,7 @@ import commonjs from 'rollup-plugin-commonjs'
 import { terser } from 'rollup-plugin-terser'
 
 export default {
-  input: ['app/index.js', 'app/annotations/annotations.js'],
+  input: ['vendor/zip.js', 'vendor/quill.js'],
   output: [{
     dir: 'js/module',
     format: 'es',

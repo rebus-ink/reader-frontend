@@ -1,8 +1,5 @@
 const { get } = require('./api-get.js')
 const { toBookCard } = require('../state/toBookCard.js')
-const { toBookCardAttribution } = require('../state/toBookCardAttribution.js')
-const { getNav } = require('../state/getNav.js')
-const { arrify } = require('./arrify.js')
 const debug = require('debug')('vonnegut:utils:get-book-state')
 
 async function getBookState (req, res) {
@@ -15,17 +12,12 @@ async function getBookState (req, res) {
     return result
   }
   const book = toBookCard(result)
-  book.attributions = arrify(result.attributedTo).map(attribution => {
-    return toBookCardAttribution(result, attribution)
-  })
-  book.navigation = getNav(book, req)
-  let chapterID
+  let chapter
   if (req.params[0] && book.documents[req.params[0]]) {
-    chapterID = book.documents[req.params[0]].id
+    chapter = book.documents[req.params[0]]
   } else {
-    chapterID = book.orderedItems[0].id
+    chapter = book.orderedItems[0]
   }
-  const chapter = await get(chapterID, token)
   debug('chapter got')
   return { chapter, book }
 }

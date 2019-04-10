@@ -1,4 +1,5 @@
 const viperHTML = require('viperhtml')
+const { pageBody } = require('../../views/render-body.js')
 const { page } = require('../../views/page.js')
 const express = require('express')
 const router = express.Router()
@@ -7,24 +8,14 @@ const csurf = require('csurf')
 const { ensureLogin } = require('../ensure-login.js')
 
 router.get('/', ensureLogin, csurf(), function (req, res, next) {
-  const render = viperHTML.wire
   if (req.user) {
     debug(req.path)
     return res.redirect('/library')
   } else {
+    debug(req.path)
+    const render = viperHTML.wire
     res.type('html')
-    res.send(
-      page(
-        render,
-        {},
-        req,
-        () => `<div class="FrontLayout">
-      <form action="/login?returnTo=/library" method="POST" class="FrontLayout-child">
-      <button class="Button">Log In</button>
-      </form>
-      </div>`
-      )
-    )
+    res.send(page(render, {}, req, pageBody))
   }
 })
 

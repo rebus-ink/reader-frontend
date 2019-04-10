@@ -1,6 +1,5 @@
 import {Router} from './utils/router.js'
 import 'intersection-observer'
-import 'details-dialog-element'
 import * as activities from './state/activities.js'
 import {render, html} from 'lighterhtml'
 import '@github/details-menu-element'
