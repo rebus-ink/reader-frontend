@@ -1,5 +1,4 @@
 const helmet = require('helmet')
-// const csrf = require('csurf')
 function securitySetup (app) {
   // Security settings
   app.use(

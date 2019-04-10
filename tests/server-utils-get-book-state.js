@@ -89,45 +89,7 @@ tap.test('get-book-state', async function (test) {
   request.user = { token: 'thing' }
   const response = httpMocks.createResponse()
   const { book } = await getBookState(request, response)
-  test.ok(book.toc)
   test.equals(book.orderedItems.length, 4)
-  test.equals(book.totalItems, 4)
-})
-
-tap.test('get-book-state - navigation', async function (test) {
-  const request = httpMocks.createRequest({
-    method: 'GET',
-    url: '/reader/document3.html',
-    session: { id: 'thing' },
-    query: { first: true },
-    params: {
-      0: 'document3.html',
-      bookId: 0
-    }
-  })
-  request.user = { token: 'thing' }
-  const response = httpMocks.createResponse()
-  const { book } = await getBookState(request, response)
-  test.matches(book.navigation, {
-    previous: {
-      type: 'Document',
-      id: `https://example.com/publication/0/document/2`,
-      name: 'Chapter 2',
-      'reader:path': 'document2.html'
-    },
-    next: {
-      type: 'Document',
-      id: `https://example.com/publication/0/document/4`,
-      name: 'Chapter 4',
-      'reader:path': 'document4.html'
-    },
-    current: {
-      type: 'Document',
-      id: `https://example.com/publication/0/document/3`,
-      name: 'Chapter 3',
-      'reader:path': 'document3.html'
-    }
-  })
 })
 
 tap.test('get-book-state - returns null', async function (test) {

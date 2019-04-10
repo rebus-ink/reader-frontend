@@ -1,6 +1,5 @@
 const express = require('express')
 const passport = require('passport')
-const { authenticate } = require('./authenticate.js')
 const Keyv = require('keyv')
 const jwt = require('jsonwebtoken')
 const ms = require('ms')
