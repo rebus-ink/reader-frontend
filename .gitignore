@@ -75,3 +75,4 @@ reader-api/
 dev.sqlite3
 js/module
 js/nomodule
+js/vendor

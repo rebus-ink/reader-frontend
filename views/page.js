@@ -15,7 +15,7 @@ module.exports.page = (render, model, req, body) => {
 <head>
 <link media="all" rel="stylesheet" href="/static/styles/app.css">
 <title>Rebus Reader</title>
-<script src="/js/document-register-element.js"></script>
+<script src="/js/vendor/document-register-element.js"></script>
 <script src="/js/s.min.js"></script>
 ${[
     `<script>
