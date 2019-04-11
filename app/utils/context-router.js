@@ -46,12 +46,31 @@ function handleEvent (event) {
           url: window.location.href,
           pathname: window.location.pathname,
           hash: window.location.hash,
+          absolute: window.location.pathname + window.location.search,
           search: window.location.search,
           query: new URLSearchParams(window.location.search),
           params: createParams(match, info.keys),
           type: event.type
         }, options.request)
-        router.provide(Object.assign({request, old}, options))
+        const focusEffect = () => {
+          let element
+          if (request.hash) {
+            element = document.querySelector(request.hash)
+          } else if (options.focusElement) {
+            element = options.focusElement
+          } else {
+            const focusable = document.querySelectorAll('button, body [href], input, select, textarea, [contentEditable=true], [tabindex]:not([tabindex="-1"])')
+            for (const el of focusable) {
+              const hidden = el.closest('[hidden]')
+              if (!hidden && !element) {
+                element = el
+              }
+            }
+          }
+          element.scrollIntoView({behavior: 'smooth', block: 'center', inline: 'center'})
+          element.focus()
+        }
+        router.provide(Object.assign({request, old, focusEffect}, options))
       }
     }
   }
