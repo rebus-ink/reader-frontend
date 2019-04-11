@@ -45,6 +45,7 @@ function handleEvent (event) {
           origin: window.location.origin,
           url: window.location.href,
           pathname: window.location.pathname,
+          hash: window.location.hash,
           search: window.location.search,
           query: new URLSearchParams(window.location.search),
           params: createParams(match, info.keys),
