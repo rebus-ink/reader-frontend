@@ -264,7 +264,6 @@ export async function processURL (url) {
   console.log(json)
   return json
 }
-window.processURL = processURL
 
 export async function createAndGetId (payload) {
   const location = await create(payload)

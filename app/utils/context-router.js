@@ -113,7 +113,7 @@ export function refresh (router) {
 export function navigate (pathname, replace, router) {
   if (replace) {
     window.history.replaceState(window.history.state, document.title, pathname)
-  } else if (pathname === (window.location.pathname + window.location.search)) {
+  } else if (pathname === (window.location.pathname + window.location.search) && router) {
     router.handleEvent({type: 'samestate'})
   } else {
     const navigator = document.createElement('a')

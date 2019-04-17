@@ -1,9 +1,18 @@
 
-let context = window
-let parser = new context.DOMParser()
+let context
+(function (global) {
+  context = global
+}).call(this, typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : typeof window !== 'undefined' ? window : {})
+
+let parser
+if (context.DOMParser) {
+  parser = new context.DOMParser()
+}
 export function setWindowContext (window) {
   context = window
-  parser = new context.DOMParser()
+  if (context.DOMParser) {
+    parser = new context.DOMParser()
+  }
 }
 
 export function getParser () {
