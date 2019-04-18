@@ -1,6 +1,16 @@
+
 import {render, html} from 'lighterhtml'
 
-export function createCollectionModal (element) {
+export function createCollectionModal (element, dispatch) {
+  async function sendEvent (event) {
+    const name = document.getElementById('collection-name').value
+    document.getElementById('collection-name').value = ''
+    const tag = {
+      type: 'reader:Stack',
+      name
+    }
+    dispatch({type: 'create-collection', dispatch, tag})
+  }
   return render(element, () => html`
     <div tabindex="-1" data-micromodal-close class="Modal-overlay">
       <div role="dialog" class="Modal-container" aria-modal="true" aria-labelledby="modal-1-title" >
@@ -21,18 +31,4 @@ export function createCollectionModal (element) {
         </div>
       </div>
     </div>`)
-}
-
-function sendEvent (event) {
-  const name = document.getElementById('collection-name').value
-  document.getElementById('collection-name').value = ''
-  const payload = {
-    type: 'reader:Stack',
-    name
-  }
-  document.body.dispatchEvent(
-    new window.CustomEvent('reader:create-collection', {
-      detail: { collection: payload }
-    })
-  )
 }

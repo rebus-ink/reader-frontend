@@ -29,9 +29,9 @@ function remove () {
 }
 
 export class Router {
-  constructor (routes) {
+  constructor (routes, defaultContext = {}) {
     this._paths = {}
-    this._context = createContext()
+    this._context = createContext(defaultContext)
     window.addEventListener('popstate', this, false)
     window.addEventListener('pushstate', this, false)
     this.route(routes)

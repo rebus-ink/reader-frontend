@@ -57,7 +57,7 @@ test('router init, no fallback', async (page, t) => {
       t.ok(router)
       router.route([routes[0], routes[1]])
       router.init()
-      t.notOk(router.context.value)
+      t.notOk(router.context.value.path)
     }, routes)
     .catch(err => console.error(err))
   t.end()

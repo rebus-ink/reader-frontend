@@ -1,6 +1,6 @@
 
 import * as activities from '../state/activities.js'
-import {errorEvent} from '../utils/error-event.js'
+// import {errorEvent} from '../utils/error-event.js'
 import {Book} from '../formats/Book.js'
 import {Article} from '../formats/Article.js'
 import {Epub} from '../formats/Epub/index.js'
@@ -63,7 +63,7 @@ export function reducer (state, action) {
       status = 'activities-update'
       break
     case 'error-event':
-      errorEvent(action.err)
+      console.error(action.err)
       status = 'error-event'
       break
     default:
@@ -137,10 +137,12 @@ async function taskPromise (action, context) { // testable
 }
 
 export async function loading (state, dispatch, activities) {
-  const newState = await activities.library()
-  if (newState.updated > state.updated) {
-    state.status = 'loaded'
+  try {
+    const newState = await activities.library()
     dispatch({type: 'update', state: newState})
+  } catch (err) {
+    console.error(err)
+    dispatch({type: 'error-event', err})
   }
 }
 

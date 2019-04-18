@@ -1,8 +1,7 @@
 
 import {render, html} from 'lighterhtml'
-import {add} from './state.js'
 
-export function addArticleModal (element) {
+export function addArticleModal (element, dispatch) {
   return render(element, () => html`
   <div tabindex="-1" data-micromodal-close class="Modal-overlay">
     <div role="dialog" class="Modal-container" aria-modal="true" aria-labelledby="modal-1-title" >
@@ -19,7 +18,7 @@ export function addArticleModal (element) {
           </label>
         <div class="Modal-row">
           <button aria-label="Close modal" data-micromodal-close class="App-button">Cancel</button>
-          <button class="TextButton" data-micromodal-close onclick="${handle}">Add</button>
+          <button class="TextButton" data-micromodal-close onclick="${() => dispatch({type: 'article', url: document.getElementById('article-url').value, dispatch})}">Add</button>
         </div>
       </div>
     </div>
@@ -28,13 +27,4 @@ export function addArticleModal (element) {
 
 function change (event) {
   console.log(event)
-}
-
-function handle () {
-  const url = document.getElementById('article-url').value
-  try {
-    return add({url})
-  } catch (err) {
-    console.error(err)
-  }
 }

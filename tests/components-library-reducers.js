@@ -1,5 +1,4 @@
 const tap = require('tap')
-const sinon = require('sinon')
 const reducers = require('../app/library/reducer.js')
 
 tap.test('setState', test => {
