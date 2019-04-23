@@ -43,7 +43,7 @@ test('basic router init', async (page, t) => {
       const router = createRouter(routes)
       t.ok(router)
       router.init()
-      t.equals(router.context.value.prop3, 'prop3')
+      t.equals(router.context.value.route.prop3, 'prop3')
     }, routes)
     .catch(err => console.error(err))
   t.end()
@@ -89,9 +89,11 @@ test('router - simple routing', async (page, t) => {
           params: { testParam: 'testing' },
           type: 'popstate'
         },
-        old: undefined,
-        path: '/:testParam',
-        prop1: 'prop1'
+        route: {
+          path: '/:testParam',
+          prop1: 'prop1'
+        },
+        old: undefined
       })
     }, routes)
     .catch(err => console.error(err))
@@ -229,8 +231,10 @@ test('router - first one route, then the other', async (page, t) => {
           type: 'popstate'
         },
         old: undefined,
-        path: '/:testParam',
-        prop1: 'prop1'
+        route: {
+          path: '/:testParam',
+          prop1: 'prop1'
+        }
       }
       handleEvent({ type: 'popstate' }, router, {
         protocol: 'https:',
@@ -262,9 +266,11 @@ test('router - first one route, then the other', async (page, t) => {
           params: { testParam: 'testing', testParam2: 'testing' },
           type: 'popstate'
         },
-        old,
-        path: '/:testParam/:testParam2',
-        prop2: 'prop2'
+        route: {
+          path: '/:testParam/:testParam2',
+          prop2: 'prop2'
+        },
+        old
       })
     }, routes)
     .catch(err => console.error(err))
@@ -278,7 +284,7 @@ test('navigate - same state', async (page, t) => {
       const router = createRouter(routes)
       router.navigate(window.location.pathname)
       // A same state nav should call handleEvent which in this case should get the fallback route
-      t.equals(router.context.value.prop3, 'prop3')
+      t.equals(router.context.value.route.prop3, 'prop3')
     }, routes)
     .catch(err => console.error(err))
   t.end()
@@ -290,7 +296,7 @@ test('refresh - same as navigate same state', async (page, t) => {
       const router = createRouter(routes)
       router.refresh()
       // A same state nav/refresh should call handleEvent which in this case should get the fallback route
-      t.equals(router.context.value.prop3, 'prop3')
+      t.equals(router.context.value.route.prop3, 'prop3')
     }, routes)
     .catch(err => console.error(err))
   t.end()

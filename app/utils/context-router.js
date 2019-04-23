@@ -1,7 +1,7 @@
 import 'onpushstate'
 import path2regexp from 'path-to-regexp'
-import {createContext} from 'neverland'
 import {arrify} from './arrify.js'
+import $, {useContext, useEffect, createContext} from 'neverland'
 
 function asPath2RegExp (path, keys) {
   if (typeof path !== 'string') {
@@ -98,9 +98,11 @@ export function handleEvent (event, {context, _paths}, location) {
         if (element) {
           element.scrollIntoView({behavior: 'smooth', block: 'center', inline: 'center'})
           element.focus()
+        } else {
+          document.body.focus()
         }
       }
-      return context.provide(Object.assign({request, old, focusEffect}, options))
+      return context.provide({request, old, focusEffect: options.focusEffect || focusEffect, route: options})
     }
   }
 }
@@ -122,4 +124,24 @@ export function navigate (pathname, replace, router) {
     document.documentElement.insertBefore(navigator, document.documentElement.firstChild)
     navigator.click()
   }
+}
+
+export function createRouterComponent (componentRoutes, options) {
+  const router = createRouter(componentRoutes)
+  router.init()
+  const h = {
+    navigate: router.navigate,
+    refresh: router.refresh,
+    provides (name, value) {
+      if (!this[name]) {
+        this[name] = value
+      }
+    }
+  }
+  return $(() => {
+    const {request, old, focusEffect, route} = useContext(router.context)
+    const context = {request, old, focusEffect}
+    useEffect(focusEffect)
+    return route.render(context, h)
+  })
 }

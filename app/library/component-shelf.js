@@ -5,7 +5,7 @@ import 'file-drop-element'
 import { arrify } from '../utils/arrify.js'
 import $, {html} from 'neverland'
 
-export const shelf = $(({state, dispatch}) => {
+export const shelf = $(({state}, {dispatch}) => {
   return html`<div>
   <div class="App-menu"><ol class="App-menu-list"><li><details class="MenuButton">
   <summary class="MenuButton-summary App-button" aria-label="Upload actions">...</summary>

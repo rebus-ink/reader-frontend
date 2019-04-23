@@ -5,7 +5,7 @@ import {navigate} from '../utils/context-router.js'
 import {arrify} from '../utils/arrify.js'
 import {viewBook} from './view-book.js'
 // Move router
-export const library = $(({state, dispatch, request}) => {
+export const library = $(({request, state}, {dispatch}) => {
   const {query, pathname} = request
   if (state.status === 'initial-state') {
     dispatch({type: 'loading', dispatch})

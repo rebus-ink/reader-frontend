@@ -5,7 +5,7 @@ import MicroModal from 'micromodal'
 import {logoutModal} from '../components/logout-login-modals.js'
 import {createCollectionModal} from './create-collection.js'
 
-export const nav = $(({state, dispatch}) => {
+export const nav = $(({state}, {dispatch}) => {
   if (state.items) {
     return html`<div>
     <div class="App-menu"><ol class="App-menu-list"><li><button class="App-sidebar-closer App-button" data-sidebar='left-sidebar' data-component="sidebar-toggle" aria-label="Close library navigation sidebar">&times;</button></li><li><h1 class="App-title">Library</h1></li><li><details class="MenuButton">
