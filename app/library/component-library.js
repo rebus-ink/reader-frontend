@@ -7,9 +7,6 @@ import {viewBook} from './view-book.js'
 // Move router
 export const library = $(({request, state}, {dispatch}) => {
   const {query, pathname} = request
-  if (state.status === 'initial-state') {
-    dispatch({type: 'loading', dispatch})
-  }
   if (state.items) {
     let items = state.items
     if (query.get('tag')) {

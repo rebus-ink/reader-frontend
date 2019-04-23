@@ -4,6 +4,7 @@ import {nav} from './component-nav.js'
 import {shelf} from './component-shelf.js'
 import {reducer} from './reducer.js'
 import $, {useReducer, html} from 'neverland'
+import * as activities from '../state/activities.js'
 
 const menu = $(() => {
   return html`<ol class="App-menu-list"><li><button class="App-button" data-component="sidebar-toggle" data-sidebar='left-sidebar' aria-label="Show left sidebar" aria-expanded="true"><svg fill="none" stroke="currentColor" stroke-width="2" width="24" height="24" viewBox="0 0 24 24"><rect width="18" height="18" x="4" y="4"></rect><line y1="4" x2="9" x1="9" y2="22"></line></svg></button></li><li><button class="App-button" data-component="sidebar-toggle" data-sidebar='right-sidebar' aria-label="Show right sidebar" aria-expanded="true"><svg fill="none" stroke="currentColor" stroke-width="2" width="24" height="24" viewBox="0 0 24 24"><rect width="18" height="18" x="4" y="4"></rect><line y1="4" x2="17" x1="17" y2="22"></line></svg></button></li></ol>`
@@ -17,7 +18,11 @@ export class LibraryRoute {
       console.log('library render called')
       const [state, dispatch] = useReducer(reducer, {status: 'initial-state'})
       h.provides('dispatch', dispatch)
+      h.provides('load', this.load)
       context.state = state
+      if (state.status === 'initial-state') {
+        this.load(dispatch)
+      }
       document.body.setAttribute('class', 'App ' + `${name}-container`)
       document.body.dataset.status = state.status
       const mainList = `${name} App-main`
@@ -43,6 +48,15 @@ export class LibraryRoute {
         </div>
       </div>`
     })
+  }
+  async load (dispatch) {
+    try {
+      const newState = await activities.library()
+      dispatch({type: 'update', state: newState})
+    } catch (err) {
+      console.error(err)
+      dispatch({type: 'error-event', err})
+    }
   }
   get render () {
     return this._render
