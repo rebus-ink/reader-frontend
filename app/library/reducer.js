@@ -146,7 +146,7 @@ export async function loading (state, dispatch, activities) {
   }
 }
 
-export function createCollection (action) { // testable
+export function createCollection (action) {
   const {dispatch} = action
   const payload = {
     type: 'reader:Stack',
