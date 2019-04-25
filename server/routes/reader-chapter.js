@@ -1,5 +1,4 @@
 const viperHTML = require('viperhtml')
-const { pageBody } = require('../../views/render-body.js')
 const { page } = require('../../views/page.js')
 const { ensureLogin } = require('../ensure-login.js')
 const express = require('express')
@@ -8,6 +7,17 @@ const debug = require('debug')('vonnegut:routes:chapter')
 const { getBookState } = require('../utils/get-book-state.js')
 const { arrify } = require('../utils/arrify.js')
 const csurf = require('csurf')
+const got = require('got')
+const createDOMPurify = require('dompurify')
+const { JSDOM } = require('jsdom')
+
+const purifyConfig = {
+  KEEP_CONTENT: false,
+  IN_PLACE: true,
+  FORBID_TAGS: ['style', 'link'],
+  FORBID_ATTR: ['style'],
+  ADD_TAGS: ['reader-markers']
+}
 
 router.get('/reader/:bookId/*', ensureLogin, csurf(), function (req, res, next) {
   debug(req.path)
@@ -16,15 +26,57 @@ router.get('/reader/:bookId/*', ensureLogin, csurf(), function (req, res, next) 
       debug('got model')
       debug(getAlternate(model.chapter))
       if (model.chapter.type === 'Document') {
-        const render = viperHTML.wire
-        res.type('html')
-        res.send(page(render, {}, req, pageBody))
+        const resource = getAlternate(model.chapter)
+        return getChapter(resource, req.path)
+          .then(body => {
+            const json = () => {
+              const data = model.chapter
+              data.content = body
+              data.mediaType = 'text/html'
+              res.send(data)
+            }
+            res.format({
+              'text/html': () => {
+                const render = viperHTML.wire
+                res.send(page(render, {}, req, () => [body]))
+              },
+              'application/activity+json': json,
+              'application/ld+json': json,
+              'application/json': json
+            })
+          })
+          .catch(err => {
+            debug(err)
+            return res.sendStatus(404)
+          })
       } else {
         return res.redirect(getAlternate(model.chapter))
       }
     })
     .catch(err => next(err))
 })
+
+async function getChapter (resource, path) {
+  const response = await got(resource)
+  if (response.statusCode === 404) {
+    const err = new Error('Resource not found')
+    err.status = 404
+    throw err
+  }
+  const base = `${process.env.BASE}${path}`
+  const window = new JSDOM(response.body, {
+    url: base,
+    contentType: response.headers['content-type'] || 'text/html'
+  }).window
+  const DOMPurify = createDOMPurify(window)
+  const media = window.document.body.querySelectorAll('[src]')
+  media.forEach(link => {
+    link.setAttribute('src', link.src)
+  })
+  const clean = DOMPurify.sanitize(window.document.body, purifyConfig)
+  debug('Chapter processed')
+  return clean.innerHTML
+}
 
 function getAlternate (chapter) {
   const urls = arrify(chapter.url)
