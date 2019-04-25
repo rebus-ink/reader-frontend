@@ -127,7 +127,8 @@
     "sqlite": "^3.0.3",
     "systemjs": "^3.0.0",
     "viperhtml": "^2.16.0",
-    "wicked-elements": "0.3.1"
+    "wicked-elements": "0.3.1",
+    "xmlserializer": "^0.6.1"
   },
   "standard": {
     "ignore": [

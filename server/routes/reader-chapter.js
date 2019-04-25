@@ -10,13 +10,15 @@ const csurf = require('csurf')
 const got = require('got')
 const createDOMPurify = require('dompurify')
 const { JSDOM } = require('jsdom')
+const { serializeToString } = require('xmlserializer')
 
 const purifyConfig = {
   KEEP_CONTENT: false,
   IN_PLACE: true,
   FORBID_TAGS: ['style', 'link'],
   FORBID_ATTR: ['style'],
-  ADD_TAGS: ['reader-markers']
+  ADD_TAGS: ['reader-markers'],
+  ADD_ATTR: ['epub:type']
 }
 
 router.get('/reader/:bookId/*', ensureLogin, csurf(), function (req, res, next) {
@@ -64,10 +66,11 @@ async function getChapter (resource, path) {
     throw err
   }
   const base = `${process.env.BASE}${path}`
-  const window = new JSDOM(response.body, {
+  const dom = new JSDOM(response.body, {
     url: base,
     contentType: response.headers['content-type'] || 'text/html'
-  }).window
+  })
+  const window = dom.window
   const DOMPurify = createDOMPurify(window)
   const media = window.document.body.querySelectorAll('[src]')
   media.forEach(link => {
@@ -75,7 +78,13 @@ async function getChapter (resource, path) {
   })
   const clean = DOMPurify.sanitize(window.document.body, purifyConfig)
   debug('Chapter processed')
-  return clean.innerHTML
+  let result
+  if (response.headers['content-type'] !== 'text/html') {
+    result = serializeToString(clean)
+  } else {
+    result = clean.innerHTML
+  }
+  return result
 }
 
 function getAlternate (chapter) {
