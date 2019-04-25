@@ -9,7 +9,7 @@ export function createCollectionModal (element, dispatch) {
       type: 'reader:Stack',
       name
     }
-    dispatch({type: 'create-collection', dispatch, tag})
+    dispatch({type: 'create-collection', tag})
   }
   return render(element, () => html`
     <div tabindex="-1" data-micromodal-close class="Modal-overlay">

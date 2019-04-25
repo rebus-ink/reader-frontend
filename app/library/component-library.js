@@ -1,11 +1,13 @@
 
 import {viewLoading} from './view-loading.js'
-import $, {html} from 'neverland'
+import component, {html, useContext} from 'neverland'
+import {libraryState} from './state.js'
 import {navigate} from '../utils/context-router.js'
 import {arrify} from '../utils/arrify.js'
 import {viewBook} from './view-book.js'
 // Move router
-export const library = $(({request, state}, {dispatch}) => {
+export const Library = component(({request}, {dispatch}) => {
+  const state = useContext(libraryState)
   const {query, pathname} = request
   if (state.items) {
     let items = state.items

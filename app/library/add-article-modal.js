@@ -18,7 +18,7 @@ export function addArticleModal (element, dispatch) {
           </label>
         <div class="Modal-row">
           <button aria-label="Close modal" data-micromodal-close class="App-button">Cancel</button>
-          <button class="TextButton" data-micromodal-close onclick="${() => dispatch({type: 'article', url: document.getElementById('article-url').value, dispatch})}">Add</button>
+          <button class="TextButton" data-micromodal-close onclick="${() => dispatch({type: 'article', url: document.getElementById('article-url').value})}">Add</button>
         </div>
       </div>
     </div>

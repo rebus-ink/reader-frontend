@@ -9,7 +9,7 @@
   "style": "static/styles/app.css",
   "scripts": {
     "test": "tap --esm --cov 'tests/*.js'",
-    "dev-server": "GOOGLE_APPLICATION_CREDENTIALS=google-keyfile.json DEBUG=vonnegut:*,hobb:* SECRETORKEY=kick-opossum-snowiness ISSUER=auth.reader-api.test NODE_ENV=development BASE=https://localhost:4430 DEPLOY_STAGE=development nodemon dev.js",
+    "dev-server": "GOOGLE_APPLICATION_CREDENTIALS=google-keyfile.json DEBUG=vonnegut:* SECRETORKEY=kick-opossum-snowiness ISSUER=auth.reader-api.test NODE_ENV=development BASE=https://localhost:4430 DEPLOY_STAGE=development nodemon dev.js",
     "dev-css": "onchange 'styles/**/*.css' -- npm run build-css",
     "dev-components": "rollup -c -w",
     "dev-docs": "onchange 'styles/**/*.css' -- npm run css-docs",
@@ -39,6 +39,7 @@
     "@commitlint/config-conventional": "^7.1.2",
     "autoprefixer": "^9.1.5",
     "babel-eslint": "^10.0.1",
+    "basichtml": "^0.22.0",
     "bl": "2.1.2",
     "browserify": "^16.2.3",
     "browserify-istanbul": "3.0.1",

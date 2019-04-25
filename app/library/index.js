@@ -1,9 +1,9 @@
 
-import {library} from './component-library.js'
+import {Library} from './component-library.js'
 import {nav} from './component-nav.js'
-import {shelf} from './component-shelf.js'
-import {reducer} from './reducer.js'
-import $, {useReducer, html} from 'neverland'
+import {Shelf} from './component-shelf.js'
+import {dispatch, libraryState} from './state.js'
+import $, {useContext, html} from 'neverland'
 import * as activities from '../state/activities.js'
 
 const menu = $(() => {
@@ -13,7 +13,7 @@ const menu = $(() => {
 const name = 'library'
 const path = '/library'
 
-async function load (dispatch) {
+async function load () {
   try {
     const newState = await activities.library()
     dispatch({type: 'update', state: newState})
@@ -25,12 +25,12 @@ async function load (dispatch) {
 
 const render = $((context, h) => {
   console.log('library render called')
-  const [state, dispatch] = useReducer(reducer, {status: 'initial-state'})
+  const state = useContext(libraryState)
   h.provides('dispatch', dispatch)
   h.provides('load', load)
   context.state = state
   if (state.status === 'initial-state') {
-    load(dispatch)
+    load()
   }
   document.body.setAttribute('class', 'App ' + `${name}-container`)
   document.body.dataset.status = state.status
@@ -41,8 +41,8 @@ const render = $((context, h) => {
   return html`
   <nav class="${leftList}" id="left-sidebar">${nav(context, h)}</nav>
   <nav class="${menuList}">${menu(context, h)}</nav>
-  <aside class="${rightList}" id="right-sidebar">${shelf(context, h)}</aside>
-  <main class="${mainList}" id="main">${library(context, h)}</main>
+  <aside class="${rightList}" id="right-sidebar">${Shelf(context, h)}</aside>
+  <main class="${mainList}" id="main">${Library(context, h)}</main>
   <div id="modal-1" class="Modal" aria-hidden="true">
     <div tabindex="-1" data-micromodal-close class="Modal-overlay">
       <div role="dialog" class="Modal-container" aria-modal="true" aria-labelledby="modal-1-title" >

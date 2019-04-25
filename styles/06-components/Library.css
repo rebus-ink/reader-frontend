@@ -70,3 +70,11 @@
   height: 100%;
   flex-direction: column;
 }
+
+.Library-file-drop [data-shelf-uploads='not-loading'] {
+  display: none;
+}
+
+[data-shelf-uploads='loading'] + .Library-no-uploads {
+  display: none;
+}

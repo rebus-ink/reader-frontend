@@ -1,9 +1,10 @@
 const tap = require('tap')
-const reducers = require('../app/library/reducer.js')
+require('basichtml').init()
+const reducers = require('../app/library/state.js')
 
 tap.test('setState', test => {
   const state = reducers.setState({ test: 'test' }, 'what-what')
-  test.matches({ test: 'test', status: 'what-what', uploads: [] }, state)
+  test.matches({ test: 'test' }, state)
   test.end()
 })
 
@@ -24,12 +25,14 @@ tap.test('loading', async test => {
 tap.test('create-collection', async test => {
   const tag = { name: 'test' }
   let testPayload
-  await reducers.createCollection({
-    tag,
-    dispatch: ({ payload }) => {
+  await reducers.createCollection(
+    {
+      tag
+    },
+    ({ payload }) => {
       testPayload = payload
     }
-  })
+  )
   test.matches(
     {
       type: 'reader:Stack',
@@ -50,13 +53,15 @@ tap.test('remove-from-collection', async test => {
     }
   }
   let testPayload
-  await reducers.removeFromCollection({
-    tag,
-    book: 'bookId',
-    dispatch: ({ payload }) => {
+  await reducers.removeFromCollection(
+    {
+      tag,
+      book: 'bookId'
+    },
+    ({ payload }) => {
       testPayload = payload
     }
-  })
+  )
   test.matches(refPayload, testPayload)
   test.end()
 })
@@ -71,13 +76,15 @@ tap.test('add-to-collection', async test => {
     }
   }
   let testPayload
-  await reducers.addToCollection({
-    tag,
-    book: 'bookId',
-    dispatch: ({ payload }) => {
+  await reducers.addToCollection(
+    {
+      tag,
+      book: 'bookId'
+    },
+    ({ payload }) => {
       testPayload = payload
     }
-  })
+  )
   test.matches(refPayload, testPayload)
   test.end()
 })
@@ -96,10 +103,10 @@ tap.test('activities-update', async test => {
   await reducers.activitiesUpdate(
     {
       activity,
-      payload: refPayload,
-      dispatch: action => {
-        testType = action.type
-      }
+      payload: refPayload
+    },
+    action => {
+      testType = action.type
     },
     {
       add: payload => {
@@ -119,10 +126,10 @@ tap.test('activities-update - 400 error', async test => {
   await reducers.activitiesUpdate(
     {
       activity,
-      payload: {},
-      dispatch: action => {
-        testType = action.type
-      }
+      payload: {}
+    },
+    action => {
+      testType = action.type
     },
     {
       add: payload => {
@@ -142,10 +149,10 @@ tap.test('activities-update - regular error', async test => {
   await reducers.activitiesUpdate(
     {
       activity,
-      payload: {},
-      dispatch: action => {
-        testType = action.type
-      }
+      payload: {}
+    },
+    action => {
+      testType = action.type
     },
     {
       add: payload => {
@@ -187,14 +194,7 @@ tap.test('files - basic add', test => {
       create (activity) {
         testActivity = activity
       }
-    }
-  }
-  let count = 0
-  const action = {
-    files: [
-      { name: 'file.epub', type: 'application/epub+zip' },
-      { name: 'file2.epub', type: 'application/epub+zip' }
-    ],
+    },
     dispatch: act => {
       test.ok(act.type)
       if (act.type === 'loading') {
@@ -210,6 +210,13 @@ tap.test('files - basic add', test => {
       }
     }
   }
+  let count = 0
+  const action = {
+    files: [
+      { name: 'file.epub', type: 'application/epub+zip' },
+      { name: 'file2.epub', type: 'application/epub+zip' }
+    ]
+  }
   reducers.addFiles(action, context)
 })
 
@@ -223,10 +230,7 @@ tap.test('files - article add', test => {
       create (activity) {
         testActivity = activity
       }
-    }
-  }
-  const action = {
-    url: 'https://example.com/',
+    },
     dispatch: act => {
       test.ok(act.type)
       if (act.type === 'loading') {
@@ -238,6 +242,9 @@ tap.test('files - article add', test => {
         test.end()
       }
     }
+  }
+  const action = {
+    url: 'https://example.com/'
   }
   reducers.add(action, context)
 })
