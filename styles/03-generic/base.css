@@ -13,6 +13,10 @@ StyleGuide: 3.1
   padding: 0;
 }
 
+.js-loading body {
+  visibility: hidden;
+}
+
 .sprites {
   display: none;
 }
