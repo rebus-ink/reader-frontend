@@ -26,6 +26,8 @@ window.supportsDynamicImport = true
 if (!window.supportsDynamicImport) {
   System.import('/js/nomodule/index.js')
 }
+document.documentElement.classList.remove('no-js')
+document.documentElement.classList.add('js-loading')
 </script>`
   ]}
 <meta name="csrf-token" content="${req.csrfToken()}">

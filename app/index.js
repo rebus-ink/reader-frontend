@@ -10,3 +10,4 @@ document.body.id = 'app'
 const body = createRouterComponent([libraryRoute])
 
 render(document.body, body)
+document.documentElement.classList.remove('js-loading')
