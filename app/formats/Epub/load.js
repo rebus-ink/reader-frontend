@@ -12,7 +12,7 @@ export async function load (props, event) {
   // Should also check for activity prop in case we have an id for annotations
   // Need to figure out a way to handle three scenarios: import file, import URL, read from url cached in file: file, src, activity. Set during init. initAsync only called during import preview or during book read.
   // Book object only created during import or read. Listings are still activities.
-  const { base64 = false, file, DOMAIN = '/', fileName } = event.detail
+  const { base64 = false, file, DOMAIN = window.location.origin, fileName } = event.detail
   props.file = file
   props.DOMAIN = DOMAIN
   props.zip = await context.JSZip.loadAsync(file, { base64 })
