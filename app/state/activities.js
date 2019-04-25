@@ -164,6 +164,21 @@ export async function get (url) {
   }
 }
 
+// This only works with the cookied/sessioned endpoints
+export async function getChapter (url) {
+  try {
+    const response = await fetchWrap(url, {
+      credentials: 'include',
+      headers: new window.Headers({
+        'content-type': 'application/ld+json'
+      })
+    })
+    return response.json()
+  } catch (err) {
+    throw err
+  }
+}
+
 const notes = new Map()
 export function saveNote (note) {
   notes.set(note.id, note)
