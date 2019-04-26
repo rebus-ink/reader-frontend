@@ -11,6 +11,7 @@ const got = require('got')
 const createDOMPurify = require('dompurify')
 const { JSDOM } = require('jsdom')
 const { serializeToString } = require('xmlserializer')
+const path = require('path')
 
 const purifyConfig = {
   KEEP_CONTENT: false,
@@ -52,7 +53,12 @@ router.get('/reader/:bookId/*', ensureLogin, csurf(), function (req, res, next) 
             return res.sendStatus(404)
           })
       } else {
-        return res.redirect(getAlternate(model.chapter))
+        const altURL = getAlternate(model.chapter)
+        if (path.extname(altURL) === '.svg') {
+          return res.redirect(`/images/svg/${encodeURIComponent(altURL)}`)
+        } else {
+          return res.redirect(`/images/proxy/${encodeURIComponent(altURL)}`)
+        }
       }
     })
     .catch(err => next(err))

@@ -13,7 +13,7 @@ export const viewBook = $((book, tags, dispatch) => {
   const pathname = new URL(book.id).pathname
   const url = `/reader${pathname}`
   return html`<div class=${book.isSelected ? selected : notSelected}>
-  <img  class="BookCard-icon" alt="${icon.summary}" src=${getURL(icon.url)}>
+  <img  class="BookCard-icon" alt="${icon.summary}" src=${`/images/resize/240/0/${encodeURIComponent(getURL(icon.url))}`}>
   <div class="BookCard-group">
     <h4 class="BookCard-title"><a href="${url}" class="BookCard-link">${
   book.name
