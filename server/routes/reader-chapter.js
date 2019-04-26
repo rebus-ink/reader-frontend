@@ -38,15 +38,19 @@ router.get('/reader/:bookId/*', ensureLogin, csurf(), function (req, res, next) 
               data.mediaType = 'text/html'
               res.send(data)
             }
-            res.format({
-              'text/html': () => {
-                const render = viperHTML.wire
-                res.send(page(render, {}, req, () => [body]))
-              },
-              'application/activity+json': json,
-              'application/ld+json': json,
-              'application/json': json
-            })
+            if (req.query.json) {
+              return json()
+            } else {
+              res.format({
+                'text/html': () => {
+                  const render = viperHTML.wire
+                  res.send(page(render, {}, req, () => [body]))
+                },
+                'application/activity+json': json,
+                'application/ld+json': json,
+                'application/json': json
+              })
+            }
           })
           .catch(err => {
             debug(err)
@@ -54,6 +58,7 @@ router.get('/reader/:bookId/*', ensureLogin, csurf(), function (req, res, next) 
           })
       } else {
         const altURL = getAlternate(model.chapter)
+        // Remember to check 'encodingFormat' on the LinkResource object here when we switch to WPUB.
         if (path.extname(altURL) === '.svg') {
           return res.redirect(`/images/svg/${encodeURIComponent(altURL)}`)
         } else {
