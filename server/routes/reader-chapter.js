@@ -76,6 +76,10 @@ async function getChapter (resource, path) {
   media.forEach(link => {
     link.setAttribute('src', link.src)
   })
+  const links = window.document.body.querySelectorAll('[href]')
+  links.forEach(link => {
+    link.setAttribute('href', link.href)
+  })
   const clean = DOMPurify.sanitize(window.document.body, purifyConfig)
   debug('Chapter processed')
   let result
