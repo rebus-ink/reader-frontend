@@ -7,7 +7,7 @@
     minmax(20rem, 2fr)
     var(--right-sidebar);
   grid-template-rows: 2rem auto;
-  --main-background-color: #fefefc;
+  --main-background-color: #f7f6f4;
   background-color: var(--main-background-color);
 }
 .App-main {
@@ -66,7 +66,12 @@
 }
 .App-nav-list .App-navbutton.App-navbutton--selected {
   font-weight: 600;
+  background-color: white;
+}
+.App-nav-list .App-navbutton.App-navbutton--selected:hover {
+  font-weight: 600;
   border-left: 0.25rem solid currentColor;
+  color: var(--link);
 }
 
 @media (min-width: 901px) and (max-width: 1200px) {
