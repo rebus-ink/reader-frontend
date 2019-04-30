@@ -14,7 +14,7 @@ module.exports.page = (render, model, req, body) => {
 <html class="no-js">
 <head>
 <link media="all" rel="stylesheet" href="/static/styles/app.css">
-<title>Rebus Reader</title>
+<title>Rebus Ink</title>
 <script src="/js/vendor/document-register-element.js"></script>
 <script src="/js/s.min.js"></script>
 ${[
