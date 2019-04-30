@@ -38,11 +38,13 @@ const render = $((context, h) => {
   const leftList = `${name}-left App-sidebar App-sidebar--left`
   const rightList = `${name}-right App-sidebar App-sidebar--right`
   const menuList = `${name}-menu App-menu App-menu--center`
+  const bottomMenuList = `${name}-menu App-menu App-menu--bottom App-menu--center`
   return html`
   <nav class="${leftList}" id="left-sidebar">${nav(context, h)}</nav>
   <nav class="${menuList}">${menu(context, h)}</nav>
   <aside class="${rightList}" id="right-sidebar">${Shelf(context, h)}</aside>
   <main class="${mainList}" id="main">${Library(context, h)}</main>
+  <nav class="${bottomMenuList}">${menu(context, h)}</nav>
   <div id="modal-1" class="Modal" aria-hidden="true">
     <div tabindex="-1" data-micromodal-close class="Modal-overlay">
       <div role="dialog" class="Modal-container" aria-modal="true" aria-labelledby="modal-1-title" >
