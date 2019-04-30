@@ -4,12 +4,16 @@
   padding: 0 1rem;
 }
 
+.library-menu {
+  background-color: var(--main-background-color);
+}
+
 .Library-header {
   position: relative;
 }
 .Library-books {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 0.5fr));
+  grid-template-columns: repeat(auto-fill, minmax(7rem, 0.5fr));
   grid-gap: 0.5rem;
   padding-bottom: 1rem;
 }
@@ -21,12 +25,14 @@
 
 .Library-info--order {
   font-weight: normal;
-  text-align: center;
-  margin: 2rem 0 2.25rem;
+  text-align: right;
+  margin: 0rem 0 1.25rem;
 }
 
 .Library-collectionName {
-  text-align: center;
+  text-align: left;
+  font-size: 1rem;
+  text-transform: uppercase;
 }
 
 .Library-file-drop {
@@ -35,6 +41,9 @@
   border-radius: 0.25rem;
   display: flex;
   flex-direction: column;
+  border: 2px dotted var(--rc-dark);
+  background-color: var(--rc-lighter);
+  margin: 0.5rem;
 }
 .Library-file-drop.drop-valid {
   border: 0.25rem dashed #989898;
@@ -50,7 +59,9 @@
 .Library-no-uploads {
   margin: auto;
   padding: 1rem;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
+  text-align: center;
+  color: var(--rc-darker);
 }
 
 .Library-upload-list {

@@ -1,5 +1,27 @@
 :root {
   /* 
+  Brand Colours
+  
+  These are all colours from the Rebus Ink Branding Framework
+  
+  Colors:
+  rc-darker: #333333
+  rc-dark: #333333
+  rc-main: #333333
+  rc-medium: #333333
+  rc-light: #666666
+  
+  Styleguide 1.UtilityColors
+  */
+  --rc-darker: #2e9595;
+  --rc-dark: #32a5a5;
+  --rc-main: #37b5b5;
+  --rc-medium: #6dc9c9;
+  --rc-light: #b8f4f2;
+  --rc-lighter: #e4fffe;
+  --main-background-color: #f3f7fa;
+  --warm-background-color: #f7f6f4;
+  /* 
   Utility Colors
   
   Monochromatic colors
@@ -29,11 +51,11 @@
   
   Styleguide 1.LinkColors
   */
-  --link: #006699;
-  --hover: #007ab8;
+  --link: #2e9595;
+  --hover: #6dc9c9;
   --active: #00ccee;
   --primary: #cd4b18;
-  --visited: #004262;
+  --visited: #2e9595;
   /* 
 UI Colors
 

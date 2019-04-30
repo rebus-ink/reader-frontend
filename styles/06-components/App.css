@@ -7,7 +7,6 @@
     minmax(20rem, 2fr)
     var(--right-sidebar);
   grid-template-rows: 2rem auto;
-  --main-background-color: #f7f6f4;
   background-color: var(--main-background-color);
 }
 .App-main {
@@ -49,12 +48,11 @@
 }
 .App-nav-list .App-navbutton {
   display: block;
-  padding: 0.25rem 1rem;
+  padding: 0.5rem 1rem;
   font-size: 0.75rem;
   text-decoration: none;
   line-height: 1;
-  color: black;
-  border-left: 0.25rem solid transparent;
+  color: var(--dark);
 }
 .App-navbutton:focus {
   outline-offset: -1px;
@@ -62,7 +60,7 @@
 
 .App-nav-list .App-navbutton:hover {
   color: white;
-  background-color: black;
+  background-color: var(--rc-darker);
 }
 .App-nav-list .App-navbutton.App-navbutton--selected {
   font-weight: 600;
@@ -70,7 +68,6 @@
 }
 .App-nav-list .App-navbutton.App-navbutton--selected:hover {
   font-weight: 600;
-  border-left: 0.25rem solid currentColor;
   color: var(--link);
 }
 
