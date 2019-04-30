@@ -6,7 +6,7 @@
 }
 
 .BookCard-group {
-  margin-right: 1.5rem;
+  margin-right: 0;
 }
 
 .MenuButton.BookCard-menu {
@@ -37,7 +37,7 @@
   margin: 0.25rem 0;
   padding: 0;
   font-weight: 750;
-  font-size: 0.85rem;
+  font-size: 0.7rem;
   line-height: 1;
 }
 
@@ -54,6 +54,7 @@
 a.BookCard-link {
   text-decoration: none;
   font-weight: inherit;
+  color: var(--dark);
 }
 .BookCard-paragraph {
   line-height: 0.75rem;
