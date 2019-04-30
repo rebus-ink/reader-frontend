@@ -50,7 +50,7 @@ export function dispatch (action) {
       add(action, {activities, Epub, dispatch, Article, zipModule})
       break
     case 'files':
-      addFiles(action, {activities, Epub, Article, zipModule})
+      addFiles(action, {activities, Epub, dispatch, Article, zipModule})
       break
     case 'article':
       add(action, {activities, Epub, dispatch, Article, zipModule})
