@@ -29,7 +29,7 @@ export const viewBook = $((book, tags, dispatch) => {
   <button role="menuitem" disabled class="MenuItem">Edit publication...</button>
   <button role="menuitem" disabled class="MenuItem">Delete publication...</button>
   <hr class="MenuButton-separator">
-  ${arrify(tags).map(tag => (tag = {}, book = {}, dispatch) => {
+  ${arrify(tags).map(tag => (book = {}, dispatch) => {
     const selected = arrify(book.tags).map(tag => tag.id).indexOf(tag.id) !== -1
     let classList, label
     if (selected) {
