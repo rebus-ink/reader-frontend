@@ -43,7 +43,7 @@ const render = component((context, h) => {
   <aside class="${rightList}" id="right-sidebar"></aside>
   <main class="${mainList}" id="main">${Reader(context, h)}</main>
   <nav class="${bottomMenuList}">${bottomMenu(context, h)}</nav>
-  <div id="modal-1" class="Modal" aria-hidden="true">
+  <div id="modal-reader" class="Modal" aria-hidden="true">
     <div tabindex="-1" data-micromodal-close class="Modal-overlay">
       <div role="dialog" class="Modal-container" aria-modal="true" aria-labelledby="modal-1-title" >
         <header>
