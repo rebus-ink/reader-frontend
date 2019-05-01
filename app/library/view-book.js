@@ -5,11 +5,11 @@ import $, {html} from 'neverland'
 const notSelected = 'BookCard is-selectable'
 const selected = 'BookCard is-selectable is-selected'
 
-// const attributionComponent = $((attribution, index) => {
-//   return html`<span class="BookCard-attribution">${
-//     attribution.name
-//   }</span>`
-// })
+const attributionComponent = (attribution, index) => $(() => {
+  return html`<span class="BookCard-attribution">${
+    attribution.name
+  }</span>`
+})
 
 export const viewBook = $((book, tags, dispatch) => {
   const { icon = {} } = book
@@ -24,7 +24,7 @@ export const viewBook = $((book, tags, dispatch) => {
     <h4 class="BookCard-title"><a href="${url}" class="BookCard-link">${
   book.name
 }</a></h4>
-    <p class="BookCard-paragraph"><span class="BookCard-attribution">${arrify(book.attributedTo)[0] ? arrify(book.attributedTo)[0].name : ''}</span></p>
+    <p class="BookCard-paragraph">${arrify(book.attributedTo).map(attributionComponent)}</p>
     <p class="BookCard-total"></p>
   </div>
 </div>`
