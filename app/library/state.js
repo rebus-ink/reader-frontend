@@ -30,6 +30,7 @@ function zipModule () {
 }
 
 export function setState (state, status) {
+  state.status = status
   libraryState.provide(state)
   return state
 }
@@ -42,7 +43,7 @@ export function dispatch (action) {
       loading(state, dispatch, activities)
       break
     case 'update':
-      setState(action.state)
+      setState(action.state, 'loaded')
       break
     case 'upload-queued':
       break
@@ -71,7 +72,7 @@ export function dispatch (action) {
       console.error(action.err, dispatch)
       break
     default:
-      return setState(state)
+      return setState(state, 'dispatching')
   }
 }
 

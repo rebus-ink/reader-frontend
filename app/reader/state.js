@@ -7,7 +7,7 @@ import * as activities from '../state/activities.js'
 
 export const book = createContext({type: 'initial-book'})
 
-export const chapter = createContext({type: 'initial-notes', position: {}})
+export const chapter = createContext({type: 'initial-chapter', position: {}})
 
 export const reading = createContext({type: 'initial-location'})
 
@@ -49,44 +49,42 @@ export function calloutLocation (location) {
 // Then it should call loadChapter.
 export async function loadBook (bookId, path, act = activities, caches = window.caches) {
   const bookData = await act.book(bookId) // does not need '/' prefix
+  console.log('loadBook')
   if (path) {
     const chapter = bookData.orderedItems.filter(chapter => chapter['reader:path'] === path)[0]
     bookData.position = {
       documentId: chapter.id,
-      path: makeChapterURL(bookId, chapter)
+      path: makeChapterURL(bookId, chapter),
+      resource: makeChapterURL(bookId, chapter, true)
     }
-  } else if (bookData.position) {
+  } else if (bookData.position && bookData.position.documentId) {
     const chapter = bookData.orderedItems.filter(chapter => chapter.id === bookData.position.documentId)[0]
     bookData.position.path = makeChapterURL(bookId, chapter)
+    bookData.position.resource = makeChapterURL(bookId, chapter, true)
   } else {
     bookData.position = {
       documentId: bookData.orderedItems[0].id,
-      path: makeChapterURL(bookId, bookData.orderedItems[0])
+      path: makeChapterURL(bookId, bookData.orderedItems[0], false),
+      resource: makeChapterURL(bookId, bookData.orderedItems[0], true)
     }
   }
   book.provide(bookData)
-  if (caches) return cacheBook(bookData, bookId, caches).cache(err => console.error(err))
 }
 
 // This should never be called before a book has been loaded
 // This should fetch from /reader/pub-id/path to get complete chapter data with markup
 export async function loadChapter (position, act = activities) {
+  console.log('loadChapter')
   if (!position) return
-  const data = await act.getChapter(position.path) // Needs full URL
+  const data = await act.getChapter(position.resource) // Needs full URL
   chapter.provide(data)
   if (position.value) {
     reading.provide({...reading.value, savedPosition: position.value})
   }
 }
 
-export async function cacheBook (book, bookId, caches = window.caches) {
-  // This should filter out video resources
-  const resources = book.attachment.map((resource) => makeChapterURL(bookId, resource)).concat('/' + bookId)
-  const bookResources = await caches.open('book-resources')
-  await bookResources.addAll(resources)
-}
-
 function makeChapterURL (bookId, chapter = {}, json) {
+  // The below doesn't work as only Web Pub LinkResources have mediatypes.
   if (chapter.mediaType === 'text/html' || chapter.mediaType === 'application/xhtml+xml') {
     json = true
   }

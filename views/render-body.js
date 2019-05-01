@@ -1,2 +1,2 @@
-module.exports.pageBody = render => render()`<body class="Layout" id="layout">
+module.exports.pageBody = render => render()`<body>
 </body></html>`

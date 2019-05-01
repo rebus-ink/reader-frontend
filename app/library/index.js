@@ -15,6 +15,7 @@ const bottomMenu = $(() => {
 
 const name = 'library'
 const path = '/library'
+const root = '#library'
 
 async function load () {
   try {
@@ -35,8 +36,8 @@ const render = $((context, h) => {
   if (state.status === 'initial-state') {
     load()
   }
-  document.body.setAttribute('class', 'App ' + `${name}-container`)
-  document.body.dataset.status = state.status
+  document.querySelector(root).setAttribute('class', 'App ' + `${name}-container`)
+  document.querySelector(root).dataset.status = state.status
   const mainList = `${name} App-main`
   const leftList = `${name}-left App-sidebar App-sidebar--left`
   const rightList = `${name}-right App-sidebar App-sidebar--right`
@@ -64,6 +65,7 @@ const render = $((context, h) => {
 })
 
 const route = {
+  root,
   path,
   name,
   render

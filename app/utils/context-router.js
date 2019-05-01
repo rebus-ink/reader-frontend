@@ -1,7 +1,7 @@
 import 'onpushstate'
 import path2regexp from 'path-to-regexp'
 import {arrify} from './arrify.js'
-import $, {useContext, useEffect, createContext} from 'neverland'
+import component, {render, useContext, useEffect, createContext} from 'neverland'
 
 function asPath2RegExp (path, keys) {
   if (typeof path !== 'string') {
@@ -19,7 +19,11 @@ function createParams (match, keys) {
     i < length; i++
   ) {
     value = match[i]
-    params[keys[i - 1].name] = decodeURIComponent(value)
+    if (value) {
+      params[keys[i - 1].name] = decodeURIComponent(value)
+    } else {
+      params[keys[i - 1].name] = null
+    }
   }
   return params
 }
@@ -31,6 +35,7 @@ function remove () {
 export class Router {
   constructor (routes, defaultContext = {}) {
     this._paths = {}
+    this._roots = []
     this._context = createContext(defaultContext)
     window.addEventListener('popstate', this, false)
     window.addEventListener('pushstate', this, false)
@@ -39,7 +44,7 @@ export class Router {
   get context () { return this._context }
   get init () { return () => this.handleEvent({type: 'samestate'}) }
   get handleEvent () { return (event) => handleEvent(event, this, window.location) }
-  get route () { return (routes = []) => route(routes, this._paths) }
+  get route () { return (routes = []) => route(routes, this._paths, this._roots) }
   get navigate () { return (pathname, options) => navigate(pathname, options, this) }
   get refresh () { return () => refresh(this) }
 }
@@ -50,7 +55,7 @@ export function createRouter (routes) {
   return router
 }
 
-function route (routes, paths) {
+function route (routes, paths, roots) {
   for (const routeOptions of arrify(routes)) {
     const {path = '(.*)'} = routeOptions
     const keys = []
@@ -61,8 +66,10 @@ function route (routes, paths) {
     }
     info.options = routeOptions
   }
+  arrify(routes).forEach(route => roots.push(route.root))
 }
-export function handleEvent (event, {context, _paths}, location) {
+export function handleEvent (event, {context, _paths, _roots}, location) {
+  console.log('router handleEvent')
   const paths = _paths
   const old = context.value
   for (const key in paths) {
@@ -113,6 +120,7 @@ export function refresh (router) {
 }
 
 export function navigate (pathname, replace, router) {
+  console.log(pathname)
   if (replace) {
     window.history.replaceState(window.history.state, document.title, pathname)
   } else if (pathname === (window.location.pathname + window.location.search) && router) {
@@ -126,10 +134,23 @@ export function navigate (pathname, replace, router) {
   }
 }
 
+// This needs to have per-route roots
 export function createRouterComponent (componentRoutes, options) {
   const router = createRouter(componentRoutes)
   router.init()
+  const roots = router._roots
   const h = {
+    setActivity (selector) {
+      for (const root of roots) {
+        if (root !== selector) {
+          document.querySelector(root).dataset.inactive = 'true'
+          document.querySelector(root).removeAttribute('data-active')
+        } else {
+          document.querySelector(root).dataset.active = 'true'
+          document.querySelector(root).removeAttribute('data-inactive')
+        }
+      }
+    },
     navigate: router.navigate,
     refresh: router.refresh,
     provides (name, value) {
@@ -138,10 +159,15 @@ export function createRouterComponent (componentRoutes, options) {
       }
     }
   }
-  return $(() => {
-    const {request, old, focusEffect, route} = useContext(router.context)
-    const context = {request, old, focusEffect}
-    useEffect(focusEffect)
-    return route.render(context, h)
-  })
+  for (const routeOptions of componentRoutes) {
+    const root = document.querySelector(routeOptions.root)
+    root.dataset.inactive = 'true'
+    render(root, component(() => {
+      const {request, old, focusEffect, route} = useContext(router.context)
+      const context = {request, old, focusEffect}
+      h.setActivity(route.root)
+      useEffect(focusEffect)
+      return routeOptions.render(context, h)
+    }))
+  }
 }

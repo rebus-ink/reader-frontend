@@ -5,7 +5,7 @@ wickedElements.define('[data-component="sidebar-toggle"]', {
     this.element = event.currentTarget
     this.element.addEventListener('click', this)
     this.sidebar = document.getElementById(this.element.dataset.sidebar)
-    this.app = document.getElementById('app')
+    this.app = this.element.closest('.App')
     this.app.addEventListener('app:sidebar-toggle', this)
     this.element.setAttribute('aria-expanded', 'true')
     // const width = document.body.clientWidth

@@ -16,6 +16,7 @@ export const viewBook = $((book, tags, dispatch) => {
   if (!icon.url) {
     icon.url = '/static/placeholder-cover.jpg'
   }
+  console.log(book)
   const pathname = new URL(book.id).pathname
   const url = `/reader${pathname}`
   return html`<div class=${book.isSelected ? selected : notSelected}><a href="${url}" class="">

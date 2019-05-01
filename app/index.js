@@ -1,13 +1,22 @@
 import {createRouterComponent} from './utils/context-router.js'
 import 'intersection-observer'
 import '@github/details-menu-element'
-import {render} from 'neverland'
+// import {render} from 'neverland'
 import libraryRoute from './library/index.js'
+import readerRoute from './reader/index.js'
 import './components/components.js'
 
-document.body.id = 'app'
+document.body.innerHTML = ''
+function createRoots (roots) {
+  roots.forEach(id => {
+    const el = document.createElement('div')
+    el.id = id
+    document.body.appendChild(el)
+  })
+}
+createRoots(['library', 'reader'])
 
-const body = createRouterComponent([libraryRoute])
+createRouterComponent([libraryRoute, readerRoute])
 
-render(document.body, body)
+// render(libraryElement, body)
 document.documentElement.classList.remove('js-loading')
