@@ -120,7 +120,6 @@ export function refresh (router) {
 }
 
 export function navigate (pathname, replace, router) {
-  console.log(pathname)
   if (replace) {
     window.history.replaceState(window.history.state, document.title, pathname)
   } else if (pathname === (window.location.pathname + window.location.search) && router) {
@@ -143,11 +142,11 @@ export function createRouterComponent (componentRoutes, options) {
     setActivity (selector) {
       for (const root of roots) {
         if (root !== selector) {
-          document.querySelector(root).dataset.inactive = 'true'
+          document.querySelector(root).hidden = true
           document.querySelector(root).removeAttribute('data-active')
         } else {
           document.querySelector(root).dataset.active = 'true'
-          document.querySelector(root).removeAttribute('data-inactive')
+          document.querySelector(root).hidden = false
         }
       }
     },
@@ -161,7 +160,7 @@ export function createRouterComponent (componentRoutes, options) {
   }
   for (const routeOptions of componentRoutes) {
     const root = document.querySelector(routeOptions.root)
-    root.dataset.inactive = 'true'
+    root.hidden = true
     render(root, component(() => {
       const {request, old, focusEffect, route} = useContext(router.context)
       const context = {request, old, focusEffect}

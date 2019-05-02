@@ -162,7 +162,7 @@ summary {
 }
 [hidden],
 template {
-  display: none;
+  display: none !important;
 }
 
 p {
