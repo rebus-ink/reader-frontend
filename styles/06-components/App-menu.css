@@ -28,9 +28,9 @@
   margin: 0;
 }
 
-.App-menu--center [data-component='sidebar-toggle'][aria-expanded='true'] {
+/* .App-menu--center [data-component='sidebar-toggle'][aria-expanded='true'] {
   display: none;
-}
+} */
 
 @media (max-width: 900px) {
   .App-menu--center [data-component='sidebar-toggle'][aria-expanded='true'] {
