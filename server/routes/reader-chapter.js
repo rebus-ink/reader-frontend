@@ -29,6 +29,7 @@ router.get('/reader/:bookId/*', ensureLogin, csurf(), function (req, res, next) 
       debug('got model')
       debug(getAlternate(model.chapter))
       if (model.chapter.type === 'Document') {
+        // This needs to be dependent on media type not model type
         const resource = getAlternate(model.chapter)
         return getChapter(resource, req.path)
           .then(body => {
@@ -57,9 +58,11 @@ router.get('/reader/:bookId/*', ensureLogin, csurf(), function (req, res, next) 
             return res.sendStatus(404)
           })
       } else {
+        // This should _not_ redirect non image resources to the image end route.
         const altURL = getAlternate(model.chapter)
         // Remember to check 'encodingFormat' on the LinkResource object here when we switch to WPUB.
         if (path.extname(altURL) === '.svg') {
+          // This should use the actual media type
           return res.redirect(`/images/svg/${encodeURIComponent(altURL)}`)
         } else {
           return res.redirect(`/images/proxy/${encodeURIComponent(altURL)}`)
