@@ -5,7 +5,7 @@
   position: sticky;
   top: 0;
   height: 100vh;
-  overflow-y: scroll;
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   z-index: 3;
   transition: transform 0.25s ease-in-out;

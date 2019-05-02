@@ -39,12 +39,11 @@ const render = $((context, h) => {
   document.querySelector(root).setAttribute('class', 'App ' + `${name}-container`)
   document.querySelector(root).dataset.status = state.status
   const mainList = `${name} App-main`
-  const leftList = `${name}-left App-sidebar App-sidebar--left`
+  context.leftList = `${name}-left App-sidebar App-sidebar--left`
   const rightList = `${name}-right App-sidebar App-sidebar--right`
   const menuList = `${name}-menu App-menu App-menu--center`
   const bottomMenuList = `${name}-menu App-menu App-menu--bottom App-menu--center`
-  return html`
-  <nav class="${leftList}" id="left-sidebar">${nav(context, h)}</nav>
+  return html`${nav(context, h)}
   <nav class="${menuList}">${menu(context, h)}</nav>
   <aside class="${rightList}" id="right-sidebar">${Shelf(context, h)}</aside>
   <main class="${mainList}" id="main">${Library(context, h)}</main>
