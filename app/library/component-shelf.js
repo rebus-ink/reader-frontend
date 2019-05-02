@@ -16,7 +16,7 @@ const Files = component((state) => {
 export const Shelf = component(() => {
   const state = useContext(uploadingFiles)
   return html`<div class="Library-shelf">
-  <div class="App-menu"><ol class="App-menu-list"><li><details class="MenuButton">
+  <div class="App-menu"><ol class="App-menu-list"><li><button class="App-sidebar-closer App-button" data-sidebar='right-sidebar' data-component="sidebar-toggle" aria-label="Close library shelf sidebar">&times;</button></li><li><h2 class="App-title">Uploads</h2></li><li><details class="MenuButton">
   <summary class="MenuButton-summary App-button" aria-label="Upload actions">...</summary>
   <details-menu role="menu" class="MenuButton-body">
   <button role="menuitem" class="MenuItem" onclick="${() => {
@@ -26,7 +26,7 @@ export const Shelf = component(() => {
   <label role="menuitem" class="MenuItem">Upload files...
 <input type="file" hidden onchange="${() => dispatch({type: 'files', files: document.getElementById('file-selector').files})}" name="file-selector" id="file-selector" accept=".epub,application/epub+zip" multiple></label>
   </details-menu>
-  </details></li><li><h2 class="App-title">Uploads</h2></li><li><button class="App-sidebar-closer App-button" data-sidebar='right-sidebar' data-component="sidebar-toggle" aria-label="Close library shelf sidebar">&times;</button></li></ol></div>
+  </details></li></ol></div>
   <file-drop accept="application/epub+zip" class="Library-file-drop" id="shelf-file-drop" onfiledrop="${(event) => dispatch({type: 'files', dispatch, files: event.files})}" multiple>
   <div data-shelf-uploads=${state && state.length !== 0 ? 'loading' : 'not-loading'}><h3 class="App-nav-label">In Progress
   <span class="Spinner">
