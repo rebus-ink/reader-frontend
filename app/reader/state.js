@@ -69,6 +69,7 @@ export async function loadBook (bookId, path, act = activities, caches = window.
     }
   }
   book.provide(bookData)
+  if (caches) return cacheBook(bookData, bookId, caches).catch(err => console.error(err))
 }
 
 // This should never be called before a book has been loaded
@@ -89,4 +90,11 @@ function makeChapterURL (bookId, chapter = {}, json) {
     json = true
   }
   return `/reader/${bookId}/${chapter['reader:path']}${json ? '?json=true' : ''}`
+}
+
+export async function cacheBook (book, bookId, caches = window.caches) { // Could use link[rel=preload] here instead
+  // This should filter out video resources
+  const resources = book.orderedItems.map((resource) => makeChapterURL(bookId, resource, true))
+  const bookResources = await caches.open('book-resources')
+  await bookResources.addAll(resources)
 }
