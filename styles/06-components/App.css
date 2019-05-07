@@ -81,7 +81,7 @@
   .App {
     --right-sidebar: 0;
   }
-  .App-sidebar--right {
+  [data-toggle-left='show'] .App-sidebar--right {
     position: fixed;
     min-width: 350px;
     max-width: 100vw;
@@ -112,11 +112,11 @@
       0 minmax(var(--reader-min-column-width), 2fr)
       0;
   }
-  .App-sidebar {
+  /* .App-sidebar {
     position: fixed;
     min-width: 350px;
     max-width: 100vw;
-  }
+  } */
   .App-sidebar--left {
     transform: translateX(-100%);
   }
@@ -177,4 +177,18 @@ a.App-icon-button {
 a.App-icon-button:hover {
   color: var(--link);
   text-decoration: underline;
+}
+
+.App-main--info[hidden] {
+  display: none;
+}
+.App-main--info {
+  display: grid;
+  position: sticky;
+  top: 0;
+  bottom: 0;
+  height: 100vh;
+  z-index: 5;
+  overflow-y: auto;
+  background-color: var(--main-background-color);
 }

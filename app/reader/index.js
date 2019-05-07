@@ -38,9 +38,9 @@ const render = component((context, h) => {
   const menuList = `${name}-menu App-menu App-menu--center`
   const bottomMenuList = `${name}-menu App-menu App-menu--bottom App-menu App-menu--center`
   return html`
-  <nav class="${leftList}" id="left-sidebar"></nav>
+  <nav class="${leftList}" id="reader-contents" data-root=${root} data-sidebar></nav>
   <nav class="${menuList}">${topMenu(context, h)}</nav>
-  <aside class="${rightList}" id="right-sidebar"></aside>
+  <aside class="${rightList}" id="reader-notes" data-root=${root} data-sidebar></aside>
   <main class="${mainList}" id="main">${Reader(context, h)}</main>
   <nav class="${bottomMenuList}">${bottomMenu(context, h)}</nav>
   <div id="modal-reader" class="Modal" aria-hidden="true">

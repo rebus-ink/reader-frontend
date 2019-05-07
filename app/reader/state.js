@@ -5,7 +5,7 @@ import * as activities from '../state/activities.js'
 // This should keep track of current book
 // Route needs to reset context if bookIds don't match
 
-export const book = createContext({type: 'initial-book'})
+export const book = createContext({type: 'initial-book', id: '', position: {}})
 
 export const chapter = createContext({type: 'initial-chapter', position: {}})
 

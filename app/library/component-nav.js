@@ -7,7 +7,7 @@ import {createCollectionModal} from './create-collection.js'
 
 export const nav = $(({state, leftList}, {dispatch}) => {
   if (state.items) {
-    return html`<nav class="${leftList}" id="left-sidebar">
+    return html`<nav class="${leftList}" id="left-library-sidebar" data-root="#library" data-sidebar>
     <div class="App-menu"><ol class="App-menu-list"><li><button class="App-sidebar-closer App-button" data-sidebar='left-sidebar' data-component="sidebar-toggle" aria-label="Close library navigation sidebar">&times;</button></li><li><h1 class="App-title">Library</h1></li><li><details class="MenuButton">
     <summary class="MenuButton-summary App-button" aria-label="Library actions">...</summary>
     <details-menu role="menu" class="MenuButton-body MenuButton-body--right">

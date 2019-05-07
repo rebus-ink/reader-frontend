@@ -6,6 +6,5 @@ export const Reader = component((context, h) => {
   const dom = processChapter(context.chapter)
   console.log(dom)
   return html`<div id="chapter" class="Chapter">
-  <div class="Chapter-body">${dom}</div>
-<div id="sidebar"></div></div>`
+  <div class="Chapter-body">${dom}</div></div>`
 })

@@ -7,7 +7,7 @@ const router = express.Router()
 const debug = require('debug')('vonnegut:routes:library')
 const csurf = require('csurf')
 
-router.get('/library', ensureLogin, csurf(), function (req, res, next) {
+router.get('/library/:bookId?', ensureLogin, csurf(), function (req, res, next) {
   debug(req.path)
   const render = viperHTML.wire
   res.type('html')

@@ -17,22 +17,28 @@ function throttle (type, name, obj) {
 }
 throttle('resize', 'optimizedResize')
 
-wickedElements.define('#sidebar', {
+wickedElements.define('[data-sidebar]', {
   onconnected (event) {
     this.element = event.currentTarget
     this.setSize()
     window.addEventListener('optimizedResize', this)
+  },
+  get root () {
+    return document.querySelector(this.element.dataset.root)
   },
   onoptimizedResize () {
     this.setSize()
   },
   setSize () {
     const size = this.element.offsetWidth
-    document.body.style.setProperty('--sidebar-width', size - 20 + 'px')
+    if (!this.root) return
+    this.root.style.setProperty(`--${this.element.id}-width`, size + 'px')
     if (size < 120) {
-      document.body.classList.add('no-sidebar')
+      this.root.classList.add('hide-' + this.element.id)
+      this.root.classList.remove('show-' + this.element.id)
     } else {
-      document.body.classList.remove('no-sidebar')
+      this.root.classList.add('show-' + this.element.id)
+      this.root.classList.remove('hide-' + this.element.id)
     }
   }
 })

@@ -28,3 +28,7 @@ button.App-sidebar-closer {
   line-height: 1rem;
   transform: translateY(-2px);
 }
+
+[data-status='initial-state'] #right-sidebar {
+  display: none;
+}

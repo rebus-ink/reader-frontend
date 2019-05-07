@@ -5,6 +5,7 @@ wickedElements.define('[data-component="sidebar-toggle"]', {
     this.element = event.currentTarget
     this.element.addEventListener('click', this)
     this.sidebar = document.getElementById(this.element.dataset.sidebar)
+    console.log(this.sidebar)
     this.app = this.element.closest('.App')
     this.app.addEventListener('app:sidebar-toggle', this)
     this.element.setAttribute('aria-expanded', 'true')
@@ -34,6 +35,7 @@ function toggle (sidebar, button, app) {
   const left = app.dataset.toggleLeft
   const right = app.dataset.toggleRight
   const width = document.body.clientWidth
+  console.log(sidebar)
   const visibility = sidebar.dataset.isVisible
   if (width <= 900) {
     sidebar.dataset.isVisible = visibility === 'true' ? 'false' : 'true'
@@ -46,14 +48,15 @@ function toggle (sidebar, button, app) {
       app.dataset.toggleLeft = left === 'show' ? 'hide' : 'show'
       sendEvent({sidebar: sidebar.id, visibility: left === 'show' ? 'false' : 'true'})
     } else if (sidebar.id === 'right-sidebar') {
+      console.log(sidebar, app, right)
       app.dataset.toggleRight = right === 'show' ? 'hide' : 'show'
       sendEvent({sidebar: sidebar.id, visibility: right === 'show' ? 'false' : 'true'})
     }
   }
 }
 function sendEvent (detail) {
-  document.getElementById('app').dispatchEvent(
-    new window.CustomEvent('app:sidebar-toggle', {
-      detail
-    }))
+  // document.getElementById('app').dispatchEvent(
+  //   new window.CustomEvent('app:sidebar-toggle', {
+  //     detail
+  //   }))
 }
