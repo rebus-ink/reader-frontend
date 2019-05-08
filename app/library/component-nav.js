@@ -37,7 +37,7 @@ const allView = $((state) => {
     classList = 'App-navbutton App-navbutton--selected'
   }
   query.delete('tag')
-  return html`<li><a class="${classList}" href="${url.href}">All (${arrify(state.items).length})</a></li>`
+  return html`<li><a class="${classList}" href="${url.href}"><span class="App-navbutton-label">All</span> <span class="App-navbutton-count">${arrify(state.items).length}</span></a></li>`
 })
 
 const tagView = $((tag, state) => {
@@ -50,7 +50,7 @@ const tagView = $((tag, state) => {
     classList = 'App-navbutton'
   }
   query.set('tag', tag.name)
-  return html`<li><a class="${classList}" href="${url.href}">${tag.name} (${tagLength(state.items, tag.name)})</a></li>`
+  return html`<li><a class="${classList}" href="${url.href}"><span class="App-navbutton-label">${tag.name}</span> <span class="App-navbutton-count">${tagLength(state.items, tag.name)}</span></a></li>`
 })
 
 function tagLength (items, tag) {

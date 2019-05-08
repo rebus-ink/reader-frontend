@@ -32,6 +32,7 @@
   object-position: top left;
   width: 6rem;
   height: 8.5rem;
+  border-radius: var(--border-radius);
 }
 .BookCard-title {
   margin: 0.25rem 0;

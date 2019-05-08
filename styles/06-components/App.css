@@ -48,27 +48,37 @@
 }
 .App-nav-list .App-navbutton {
   display: block;
-  padding: 0.5rem 1rem;
+  padding: 0.35rem 1.5rem;
   font-size: 0.75rem;
   text-decoration: none;
   line-height: 1;
-  color: var(--dark);
+  color: var(--medium);
 }
 .App-navbutton:focus {
   outline-offset: -1px;
 }
 
-.App-nav-list .App-navbutton:hover {
+.App-nav-list .App-navbutton:hover,
+.App-navbutton:hover .App-navbutton-count {
   color: white;
   background-color: var(--rc-darker);
 }
 .App-nav-list .App-navbutton.App-navbutton--selected {
   font-weight: 600;
-  background-color: white;
-}
-.App-nav-list .App-navbutton.App-navbutton--selected:hover {
-  font-weight: 600;
   color: var(--link);
+}
+.App-navbutton--selected .App-navbutton-count {
+  color: var(--link);
+}
+.App-nav-list .App-navbutton {
+  display: flex;
+  justify-content: space-between;
+}
+.App-navbutton--selected .App-navbutton-label {
+  font-weight: 600;
+}
+.App-navbutton-count {
+  color: #999;
 }
 
 @media (min-width: 901px) and (max-width: 1200px) {
