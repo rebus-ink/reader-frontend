@@ -91,13 +91,10 @@
   .App {
     --right-sidebar: 0;
   }
-  [data-toggle-left='show'] .App-sidebar--right {
-    position: fixed;
-    min-width: 350px;
-    max-width: 100vw;
+  [data-toggle-right='hide'] .App-sidebar--right {
     transform: translateX(100%);
   }
-  .App-sidebar--right[data-is-visible='true'] {
+  [data-toggle-right='show'] .App-sidebar--right {
     transform: translateX(0);
   }
 }

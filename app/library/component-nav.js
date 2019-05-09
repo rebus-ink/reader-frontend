@@ -7,6 +7,7 @@ import {createCollectionModal} from './create-collection.js'
 
 export const Nav = component(({state, leftList, root}, {dispatch}) => {
   const menuEl = useRef(null)
+  const buttonEl = useRef(null)
   let expanded
   if (root) {
     if (root.dataset.toggleLeft === 'show') {
@@ -18,10 +19,10 @@ export const Nav = component(({state, leftList, root}, {dispatch}) => {
       expanded = false
     }
   }
-  const context = {menuEl, root}
+  const context = {menuEl, buttonEl, root}
   if (state.items) {
     return html`<li>
-    <button aria-expanded="${expanded}" class="App-button" aria-label="Show left sidebar" onclick=${(event) => toggleMenu(event, context)}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+    <button ref="${buttonEl}" aria-expanded="${expanded}" class="App-button" aria-label="Show left sidebar" onclick=${(event) => toggleMenu(event, context)}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
     <div hidden="${!expanded}" ref=${menuEl} class="App-sidebar App-sidebar--left">
     <div class="App-menu"><ol class="App-menu-list"><li></li><li><h1 class="App-title">Library</h1></li><li><details class="MenuButton">
     <summary class="MenuButton-summary App-button" aria-label="Library actions">...</summary>
@@ -42,9 +43,8 @@ export const Nav = component(({state, leftList, root}, {dispatch}) => {
   }
 })
 
-function toggleMenu (event, {menuEl, root}) {
-  console.log(menuEl.current.hidden)
-  event.currentTarget.setAttribute('aria-expanded', menuEl.current.hidden)
+function toggleMenu (event, {menuEl, buttonEl, root}) {
+  buttonEl.current.setAttribute('aria-expanded', menuEl.current.hidden)
   menuEl.current.hidden = !menuEl.current.hidden
   if (menuEl.current.hidden) {
     root.dataset.toggleLeft = 'hide'

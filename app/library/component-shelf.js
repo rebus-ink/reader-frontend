@@ -3,7 +3,7 @@ import {addArticleModal} from './add-article-modal.js'
 import MicroModal from 'micromodal'
 import 'file-drop-element'
 import { arrify } from '../utils/arrify.js'
-import component, {html, useContext} from 'neverland'
+import component, {html, useContext, useRef} from 'neverland'
 import {dispatch, uploadingFiles} from './state.js'
 
 const File = component((file) => {
@@ -13,10 +13,25 @@ const Files = component((state) => {
   return html`<ol class="Library-upload-list">${arrify(state).map(File)}</ol>`
 })
 
-export const Shelf = component(() => {
+export const Shelf = component(({leftList, root}) => {
   const state = useContext(uploadingFiles)
-  return html`<div class="Library-shelf">
-  <div class="App-menu"><ol class="App-menu-list"><li><button class="App-sidebar-closer App-button" data-sidebar='right-sidebar' data-component="sidebar-toggle" aria-label="Close library shelf sidebar">&times;</button></li><li><h2 class="App-title">Uploads</h2></li><li><details class="MenuButton">
+  const menuEl = useRef(null)
+  const buttonEl = useRef(null)
+  let expanded
+  if (root) {
+    if (root.dataset.toggleRight === 'show') {
+      expanded = true
+    } else {
+      expanded = false
+    }
+    if (root.style.getPropertyValue('--right-library-sidebar-width') === '0px') {
+      expanded = false
+    }
+  }
+  const context = {menuEl, buttonEl, root}
+  return html`<button ref="${buttonEl}" class="Button" aria-expanded="${expanded}" onclick=${(event) => toggleMenu(event, context)}>Uploads</button>
+  <div class="Library-shelf App-sidebar App-sidebar--right" hidden="${!expanded}" ref=${menuEl}>
+  <div class="App-menu"><ol class="App-menu-list"><li><button class="App-sidebar-closer App-button" aria-label="Close library shelf sidebar" onclick=${(event) => toggleMenu(event, context)}>&times;</button></li><li><h2 class="App-title">Uploads</h2></li><li><details class="MenuButton">
   <summary class="MenuButton-summary App-button" aria-label="Upload actions">...</summary>
   <details-menu role="menu" class="MenuButton-body">
   <button role="menuitem" class="MenuItem" onclick="${() => {
@@ -36,3 +51,13 @@ export const Shelf = component(() => {
   <p class="Library-no-uploads">Drop file here to get started</p>
 </file-drop></div>`
 })
+
+function toggleMenu (event, {menuEl, buttonEl, root}) {
+  buttonEl.current.setAttribute('aria-expanded', menuEl.current.hidden)
+  menuEl.current.hidden = !menuEl.current.hidden
+  if (menuEl.current.hidden) {
+    root.dataset.toggleRight = 'hide'
+  } else {
+    root.dataset.toggleRight = 'show'
+  }
+}

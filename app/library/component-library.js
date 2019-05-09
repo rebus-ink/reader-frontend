@@ -7,9 +7,9 @@ import {arrify} from '../utils/arrify.js'
 import {viewBook} from './view-book.js'
 import {Shelf} from './component-shelf.js'
 // Move router
-export const Library = component(({request}, {dispatch}) => {
+export const Library = component((context, {dispatch}) => {
   const state = useContext(libraryState)
-  const {query, pathname} = request
+  const {query, pathname} = context.request
   if (state.items) {
     let items = state.items
     if (query.get('tag')) {
@@ -23,7 +23,7 @@ export const Library = component(({request}, {dispatch}) => {
     return html`<div>
     <div class="Library-header">
       <h2 class="Library-collectionName">${query.get('tag') || 'All'}</h2>
-      <button class="Button">Uploads</button>
+      ${Shelf(context)}
     </div>
     <div class="Library-header">
       <div>All Types</div>
