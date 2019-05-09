@@ -4,8 +4,9 @@ import * as activities from '../state/activities.js'
 
 // This should keep track of current book
 // Route needs to reset context if bookIds don't match
+export const initialBook = {type: 'initial-book', id: '', position: {}}
 
-export const book = createContext({type: 'initial-book', id: '', position: {}})
+export const book = createContext(initialBook)
 
 export const chapter = createContext({type: 'initial-chapter', position: {}})
 
@@ -69,7 +70,7 @@ export async function loadBook (bookId, path, act = activities, caches = window.
     }
   }
   book.provide(bookData)
-  if (caches) return cacheBook(bookData, bookId, caches).catch(err => console.error(err))
+  // if (caches) return cacheBook(bookData, bookId, caches).catch(err => console.error(err))
 }
 
 // This should never be called before a book has been loaded

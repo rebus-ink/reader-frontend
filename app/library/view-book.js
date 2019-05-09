@@ -17,7 +17,7 @@ export const viewBook = $((book, tags, dispatch) => {
     icon.url = '/static/placeholder-cover.jpg'
   }
   const pathname = new URL(book.id).pathname
-  const url = `/reader${pathname}`
+  const url = `/library${pathname}`
   return html`<div class=${book.isSelected ? selected : notSelected}><a href="${url}" class="">
   <img class="BookCard-icon" alt="${icon.summary}" src="${`/images/resize/240/0/${encodeURIComponent('/static/placeholder-cover.jpg')}`}" data-lazy-src=${`/images/resize/240/0/${encodeURIComponent(getURL(icon.url))}`}></a>
   <div class="BookCard-group">

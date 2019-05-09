@@ -8,7 +8,6 @@ export const Info = component((context, h) => {
   if (params.bookId && !state.id.includes(params.bookId)) {
     loadBook(params.bookId)
   }
-  console.log(state)
   const { icon = {} } = state
   if (!icon.url) {
     icon.url = '/static/placeholder-cover.jpg'
