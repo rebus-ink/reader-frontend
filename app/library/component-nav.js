@@ -1,11 +1,11 @@
 
-import $, {html, useRef} from 'neverland'
+import component, {html, useRef} from 'neverland'
 import {arrify} from '../utils/arrify.js'
 import MicroModal from 'micromodal'
 import {logoutModal} from '../components/logout-login-modals.js'
 import {createCollectionModal} from './create-collection.js'
 
-export const Nav = $(({state, leftList, root}, {dispatch}) => {
+export const Nav = component(({state, leftList, root}, {dispatch}) => {
   const menuEl = useRef(null)
   let expanded
   if (root) {
@@ -14,14 +14,14 @@ export const Nav = $(({state, leftList, root}, {dispatch}) => {
     } else {
       expanded = false
     }
-    console.log(root.style.getPropertyValue('--left-library-sidebar-width'))
     if (root.style.getPropertyValue('--left-library-sidebar-width') === '0px') {
       expanded = false
     }
   }
+  const context = {menuEl, root}
   if (state.items) {
     return html`<li>
-    <button aria-expanded="${expanded}" class="App-button" aria-label="Show left sidebar" onclick=${(event) => toggleMenu(event, menuEl, root)}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+    <button aria-expanded="${expanded}" class="App-button" aria-label="Show left sidebar" onclick=${(event) => toggleMenu(event, context)}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
     <div hidden="${!expanded}" ref=${menuEl} class="App-sidebar App-sidebar--left">
     <div class="App-menu"><ol class="App-menu-list"><li></li><li><h1 class="App-title">Library</h1></li><li><details class="MenuButton">
     <summary class="MenuButton-summary App-button" aria-label="Library actions">...</summary>
@@ -36,13 +36,14 @@ export const Nav = $(({state, leftList, root}, {dispatch}) => {
     MicroModal.show('modal-1')
   }}">Sign out</button></details-menu>
     </details></li></ol></div>
-    <ol class="App-nav-list">${allView(state)}
-  ${arrify(state.tags).map(tag => tagView(tag, state))}</ol></div>
+    <ol class="App-nav-list">${allView(state, context)}
+  ${arrify(state.tags).map(tag => tagView(tag, state, context))}</ol></div>
 </li>`
   }
 })
 
-function toggleMenu (event, menuEl, root) {
+function toggleMenu (event, {menuEl, root}) {
+  console.log(menuEl.current.hidden)
   event.currentTarget.setAttribute('aria-expanded', menuEl.current.hidden)
   menuEl.current.hidden = !menuEl.current.hidden
   if (menuEl.current.hidden) {
@@ -52,8 +53,12 @@ function toggleMenu (event, menuEl, root) {
   }
 }
 
+function toggleBouncer (event, context) {
+  if (context.root.style.getPropertyValue('--left-library-sidebar-width') === '0px') return toggleMenu(event, context)
+}
+
 // These should handle aria-current
-const allView = $((state) => {
+const allView = component((state, context) => {
   const url = new URL(document.location)
   const query = url.searchParams
   let classList
@@ -63,10 +68,10 @@ const allView = $((state) => {
     classList = 'App-navbutton App-navbutton--selected'
   }
   query.delete('tag')
-  return html`<li><a class="${classList}" href="${url.href}"><span class="App-navbutton-label">All</span> <span class="App-navbutton-count">${arrify(state.items).length}</span></a></li>`
+  return html`<li><a class="${classList}" href="${url.href}" onclick="${(event) => toggleBouncer(event, context)}"><span class="App-navbutton-label">All</span> <span class="App-navbutton-count">${arrify(state.items).length}</span></a></li>`
 })
 
-const tagView = $((tag, state) => {
+const tagView = component((tag, state, context) => {
   const url = new URL(document.location)
   const query = url.searchParams
   let classList
@@ -76,7 +81,7 @@ const tagView = $((tag, state) => {
     classList = 'App-navbutton'
   }
   query.set('tag', tag.name)
-  return html`<li><a class="${classList}" href="${url.href}"><span class="App-navbutton-label">${tag.name}</span> <span class="App-navbutton-count">${tagLength(state.items, tag.name)}</span></a></li>`
+  return html`<li><a class="${classList}" href="${url.href}" onclick="${(event) => toggleBouncer(event, context)}"><span class="App-navbutton-label">${tag.name}</span> <span class="App-navbutton-count">${tagLength(state.items, tag.name)}</span></a></li>`
 })
 
 function tagLength (items, tag) {

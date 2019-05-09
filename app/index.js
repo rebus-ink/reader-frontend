@@ -15,6 +15,9 @@ function createRoots (roots) {
   })
 }
 createRoots(['library', 'reader'])
+const library = document.getElementById('library')
+library.dataset.toggleLeft = 'show'
+library.dataset.toggleRight = 'hide'
 
 createRouterComponent([libraryRoute, readerRoute])
 

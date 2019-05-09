@@ -39,8 +39,6 @@ const render = $((context, h) => {
   context.root = document.querySelector(root)
   context.root.setAttribute('class', 'App ' + `${name}-container`)
   context.root.dataset.status = state.status
-  context.root.dataset.toggleLeft = 'show'
-  context.root.dataset.toggleRight = 'hide'
   const mainList = `${name} App-main`
   const infoList = `${name}-info App-main App-main--info`
   const leftList = `${name}-left`
