@@ -11,7 +11,7 @@ wickedElements.define('[data-component="sidebar-toggle"]', {
     this.element.setAttribute('aria-expanded', 'true')
     // const width = document.body.clientWidth
     this.app.dataset.toggleLeft = 'show'
-    this.app.dataset.toggleRight = 'show'
+    this.app.dataset.toggleRight = 'hide'
     // if (width <= 900) {
     //   this.sidebar.dataset.isVisible = 'false'
     // } else if (width > 900 && width < 1201 && this.sidebar.id === 'right-sidebar') {

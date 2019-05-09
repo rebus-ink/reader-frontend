@@ -1,18 +1,20 @@
 .App-menu {
   background-color: white;
   margin: 0;
-  padding: 0 0.5rem;
+  padding: 0.25rem;
   position: sticky;
   top: 0;
-  height: 2rem;
+  max-height: 2rem;
   grid-column: 2 / 3;
   z-index: 2;
   display: flex;
+  align-items: center;
 }
 
 .App-menu--bottom {
   top: auto;
   bottom: 0;
+  background-color: transparent;
 }
 .App-menu-list {
   list-style: none;
@@ -21,24 +23,11 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+  line-height: 0.85;
 }
 
 .App-menu-list li {
   padding: 0;
-  margin: 0;
-}
-
-/* .App-menu--center [data-component='sidebar-toggle'][aria-expanded='true'] {
-  display: none;
-} */
-
-@media (max-width: 900px) {
-  .App-menu--center [data-component='sidebar-toggle'][aria-expanded='true'] {
-    display: inline-block;
-  }
-}
-@media (min-width: 901px) and (max-width: 1200px) {
-  .App-menu--center [data-sidebar='right-sidebar'][aria-expanded='true'] {
-    display: inline-block;
-  }
+  margin: auto 0;
+  line-height: 0.85;
 }

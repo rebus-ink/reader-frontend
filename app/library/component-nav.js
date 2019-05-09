@@ -1,14 +1,29 @@
 
-import $, {html} from 'neverland'
+import $, {html, useRef} from 'neverland'
 import {arrify} from '../utils/arrify.js'
 import MicroModal from 'micromodal'
 import {logoutModal} from '../components/logout-login-modals.js'
 import {createCollectionModal} from './create-collection.js'
 
-export const nav = $(({state, leftList}, {dispatch}) => {
+export const Nav = $(({state, leftList, root}, {dispatch}) => {
+  const menuEl = useRef(null)
+  let expanded
+  if (root) {
+    if (root.dataset.toggleLeft === 'show') {
+      expanded = true
+    } else {
+      expanded = false
+    }
+    console.log(root.style.getPropertyValue('--left-library-sidebar-width'))
+    if (root.style.getPropertyValue('--left-library-sidebar-width') === '0px') {
+      expanded = false
+    }
+  }
   if (state.items) {
-    return html`<nav class="${leftList}" id="left-library-sidebar" data-root="#library" data-sidebar>
-    <div class="App-menu"><ol class="App-menu-list"><li><button class="App-sidebar-closer App-button" data-sidebar='left-sidebar' data-component="sidebar-toggle" aria-label="Close library navigation sidebar">&times;</button></li><li><h1 class="App-title">Library</h1></li><li><details class="MenuButton">
+    return html`<li>
+    <button aria-expanded="${expanded}" class="App-button" aria-label="Show left sidebar" onclick=${(event) => toggleMenu(event, menuEl, root)}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+    <div hidden="${!expanded}" ref=${menuEl} class="App-sidebar App-sidebar--left">
+    <div class="App-menu"><ol class="App-menu-list"><li></li><li><h1 class="App-title">Library</h1></li><li><details class="MenuButton">
     <summary class="MenuButton-summary App-button" aria-label="Library actions">...</summary>
     <details-menu role="menu" class="MenuButton-body MenuButton-body--right">
     <button role="menuitem" class="MenuItem" onclick="${() => {
@@ -22,9 +37,20 @@ export const nav = $(({state, leftList}, {dispatch}) => {
   }}">Sign out</button></details-menu>
     </details></li></ol></div>
     <ol class="App-nav-list">${allView(state)}
-  ${arrify(state.tags).map(tag => tagView(tag, state))}</ol></nav>`
+  ${arrify(state.tags).map(tag => tagView(tag, state))}</ol></div>
+</li>`
   }
 })
+
+function toggleMenu (event, menuEl, root) {
+  event.currentTarget.setAttribute('aria-expanded', menuEl.current.hidden)
+  menuEl.current.hidden = !menuEl.current.hidden
+  if (menuEl.current.hidden) {
+    root.dataset.toggleLeft = 'hide'
+  } else {
+    root.dataset.toggleLeft = 'show'
+  }
+}
 
 // These should handle aria-current
 const allView = $((state) => {

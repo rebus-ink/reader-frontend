@@ -1,5 +1,5 @@
 body {
-  background-color: white;
+  background-color: var(--main-background-color);
   background-size: 100%;
   background-repeat: no-repeat;
   margin: 0;

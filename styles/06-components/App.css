@@ -6,7 +6,7 @@
     var(--left-sidebar)
     minmax(20rem, 2fr)
     var(--right-sidebar);
-  grid-template-rows: 2rem auto;
+  grid-template-rows: auto;
   background-color: var(--main-background-color);
 }
 .App-main {
@@ -58,17 +58,17 @@
   outline-offset: -1px;
 }
 
-.App-nav-list .App-navbutton:hover,
-.App-navbutton:hover .App-navbutton-count {
-  color: white;
-  background-color: var(--rc-darker);
-}
-.App-nav-list .App-navbutton.App-navbutton--selected {
+.App-navbutton.App-navbutton--selected {
   font-weight: 600;
   color: var(--link);
 }
 .App-navbutton--selected .App-navbutton-count {
   color: var(--link);
+}
+.App-nav-list .App-navbutton:hover,
+.App-navbutton:hover .App-navbutton-count {
+  color: white;
+  background-color: var(--rc-darker);
 }
 .App-nav-list .App-navbutton {
   display: flex;
@@ -133,7 +133,8 @@
   .App-sidebar--right {
     transform: translateX(100%);
   }
-  .App-sidebar[data-is-visible='true'] {
+  [data-toggle-left='show'] .App-sidebar--left,
+  [data-toggle-right='show'] .App-sidebar--right {
     transform: translateX(0);
   }
 }
@@ -142,10 +143,10 @@
   font-family: var(--sans-fonts);
   font-weight: 400;
   flex: 0 1 auto;
-  line-height: 1.2;
+  line-height: 0.85;
 
   display: inline-block;
-  padding: 1px;
+  padding: 0;
 
   cursor: pointer;
   -webkit-user-select: none;
@@ -165,6 +166,8 @@
   text-transform: uppercase;
   font-size: 0.65rem;
   border-radius: 2px;
+  z-index: 4;
+  position: relative;
 }
 .App-button:hover {
   color: var(--hover);

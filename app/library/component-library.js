@@ -5,6 +5,7 @@ import {libraryState} from './state.js'
 import {navigate} from '../utils/context-router.js'
 import {arrify} from '../utils/arrify.js'
 import {viewBook} from './view-book.js'
+import {Shelf} from './component-shelf.js'
 // Move router
 export const Library = component(({request}, {dispatch}) => {
   const state = useContext(libraryState)
@@ -22,6 +23,10 @@ export const Library = component(({request}, {dispatch}) => {
     return html`<div>
     <div class="Library-header">
       <h2 class="Library-collectionName">${query.get('tag') || 'All'}</h2>
+      <button class="Button">Uploads</button>
+    </div>
+    <div class="Library-header">
+      <div>All Types</div>
   <label class="Library-info Library-info--order">Ordered by <select class="LibrarySelect" onchange="${orderChange}">
   <option value="${pathname}" selected=${!query.get('order')}>Date added, descending</option>
   <option value="${`${pathname}?order=added&desc=false`}" selected=${query.get('order') === 'added' && query.get('desc') === 'true'}>Date added, ascending</option>

@@ -2,24 +2,25 @@
   background-color: white;
   margin: 0;
   padding: 0;
-  position: sticky;
+  position: fixed;
+  left: 0;
   top: 0;
   height: 100vh;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   z-index: 3;
   transition: transform 0.25s ease-in-out;
+  width: var(--left-library-sidebar-width);
+  min-width: 275px;
 }
 
 .App-sidebar--left {
   grid-column: 1 / 2;
   left: 0;
-  border-right: 1px solid #f4f4f4;
 }
 .App-sidebar--right {
   grid-column: 3 / 4;
   right: 0;
-  border-left: 1px solid #f4f4f4;
   display: flex;
   flex-direction: column;
 }
