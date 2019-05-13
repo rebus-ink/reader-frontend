@@ -12,17 +12,24 @@ const render = component((context, h) => {
   const bookState = useContext(book)
   const chapterState = useContext(chapter)
   const readingState = useContext(reading)
+  console.log(readingState)
   context.book = bookState
   context.chapter = chapterState
   context.reading = readingState
-  const {params, pathname} = context.request
+  const {params} = context.request
   const rootEl = document.querySelector(root)
   if (rootEl.dataset.active) {
     if (bookState.type === 'initial-book') {
-      loadBook(params.bookId, params.bookPath)
+      loadBook(params.bookId, params.bookPath).catch(err => {
+        console.error(err.url)
+        console.error(err)
+      })
     }
-    if (bookState.position && chapterState.type === 'initial-chapter') {
-      loadChapter(bookState.position)
+    if (bookState.position && bookState.position.path && (chapterState.type === 'initial-chapter' || chapterState['reader:path'] !== params.bookPath)) {
+      loadChapter(bookState.position).catch(err => {
+        console.error(err.url, bookState.position)
+        console.error(err)
+      })
     }
     // if (rootEl.dataset.active && bookState.position && bookState.position.path && pathname !== bookState.position.path) {
     //   console.log(bookState.position)
@@ -33,8 +40,8 @@ const render = component((context, h) => {
   h.provides('calloutLocation', calloutLocation)
   document.querySelector(root).setAttribute('class', 'App ' + `${name}-container`)
   const mainList = `${name} App-main`
-  const leftList = `${name}-left App-sidebar App-sidebar--left` // This should be an aside
-  const rightList = `${name}-right App-sidebar App-sidebar--right`
+  const leftList = `${name}-left` // This should be an aside
+  const rightList = `${name}-right`
   const menuList = `${name}-menu App-menu App-menu--center`
   const bottomMenuList = `${name}-menu App-menu App-menu--bottom App-menu App-menu--center`
   return html`

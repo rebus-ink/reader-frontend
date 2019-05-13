@@ -95,7 +95,7 @@ StyleGuide 6.Chapter
   --reader-text-color: #444;
   --reader-min-column-width: 15rem;
   --reader-max-column-width: 31rem;
-  --reader-background-color: var(--main-background-color);
+  --reader-background-color: white;
   --reader-border-color: #fafaef;
   --reader-line-height: 1.4;
   --reader-font-family: var(--sans-fonts);

@@ -46,29 +46,46 @@ export function calloutLocation (location) {
   }
 }
 
+function getNext (bookId, items, current) {
+  const index = items.indexOf(current)
+  if (items[index + 1]) {
+    return makeChapterURL(bookId, items[index + 1])
+  }
+}
+function getPrevious (bookId, items, current) {
+  const index = items.indexOf(current)
+  if (items[index - 1]) {
+    return makeChapterURL(bookId, items[index - 1])
+  }
+}
+
 // Route component calls loadBook if there is no book or if it doesn't match the bookId (id doesn't include bookId)
 // Then it should call loadChapter.
 export async function loadBook (bookId, path, act = activities, caches = window.caches) {
   const bookData = await act.book(bookId) // does not need '/' prefix
   console.log('loadBook')
+  let chapter
   if (path) {
-    const chapter = bookData.orderedItems.filter(chapter => chapter['reader:path'] === path)[0]
+    chapter = bookData.orderedItems.filter(chapter => chapter['reader:path'] === path)[0]
     bookData.position = {
       documentId: chapter.id,
       path: makeChapterURL(bookId, chapter),
       resource: makeChapterURL(bookId, chapter, true)
     }
   } else if (bookData.position && bookData.position.documentId) {
-    const chapter = bookData.orderedItems.filter(chapter => chapter.id === bookData.position.documentId)[0]
+    chapter = bookData.orderedItems.filter(chapter => chapter.id === bookData.position.documentId)[0]
     bookData.position.path = makeChapterURL(bookId, chapter)
     bookData.position.resource = makeChapterURL(bookId, chapter, true)
   } else {
+    chapter = bookData.orderedItems[0]
     bookData.position = {
       documentId: bookData.orderedItems[0].id,
       path: makeChapterURL(bookId, bookData.orderedItems[0], false),
       resource: makeChapterURL(bookId, bookData.orderedItems[0], true)
     }
   }
+  bookData.previous = getPrevious(bookId, bookData.orderedItems, chapter)
+  bookData.next = getNext(bookId, bookData.orderedItems, chapter)
   book.provide(bookData)
   // if (caches) return cacheBook(bookData, bookId, caches).catch(err => console.error(err))
 }
@@ -76,7 +93,6 @@ export async function loadBook (bookId, path, act = activities, caches = window.
 // This should never be called before a book has been loaded
 // This should fetch from /reader/pub-id/path to get complete chapter data with markup
 export async function loadChapter (position, act = activities) {
-  console.log('loadChapter')
   if (!position) return
   const data = await act.getChapter(position.resource) // Needs full URL
   chapter.provide(data)

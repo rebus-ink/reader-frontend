@@ -18,6 +18,9 @@ createRoots(['library', 'reader'])
 const library = document.getElementById('library')
 library.dataset.toggleLeft = 'show'
 library.dataset.toggleRight = 'hide'
+const reader = document.getElementById('reader')
+reader.dataset.toggleLeft = 'show'
+reader.dataset.toggleRight = 'hide'
 
 createRouterComponent([libraryRoute, readerRoute])
 

@@ -160,6 +160,7 @@ export async function get (url) {
     })
     return response.json()
   } catch (err) {
+    err.url = url
     throw err
   }
 }

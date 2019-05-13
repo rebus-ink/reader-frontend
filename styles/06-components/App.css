@@ -168,8 +168,11 @@
 }
 .App-button:hover {
   color: var(--hover);
-  text-decoration: none;
   background-color: white;
+}
+
+.App-button:link {
+  text-decoration: none;
 }
 
 /* Pending deletion */
