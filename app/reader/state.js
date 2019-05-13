@@ -17,33 +17,31 @@ export const reading = createContext({type: 'initial-location'})
 
 // Called when active->passive lifecycle change and when route component is disconnected
 export function savePosition (location, act = activities) {
-  const {savedPosition} = reading.value
-  if (location !== savedPosition) {
-    return act.saveActivity({
+  const {saved} = reading.value
+  if (location !== saved) {
+    const activity = {
       type: 'Read',
       object: {
         type: 'Document',
         id: chapter.value.id
-      },
-      'oa:hasSelector': {
+      }
+    }
+    if (location) {
+      activity['oa:hasSelector'] = {
         type: 'XPathSelector',
         value: location
       }
-    }).then(() => {
-      reading.provide({...reading.value, savedPosition: location})
-    })
+    }
+    console.log('saving position: ', activity)
+    return act.saveActivity(activity)
   }
 }
 
 // Called by add bookmark and add anchor buttons when highlighted or focused
 // Call without argument to call out current location. Call with null or falsey value to end call out.
-export function calloutLocation (location) {
-  const {savedPosition} = reading.value
-  if (location === undefined) {
-    reading.provide({...reading.value, callout: savedPosition})
-  } else {
-    reading.provide({...reading.value, callout: location})
-  }
+export function toggleCallout () {
+  const {callout} = reading.value
+  reading.provide({...reading.value, callout: !callout})
 }
 
 function getNext (bookId, items, current) {
@@ -66,11 +64,16 @@ export async function loadBook (bookId, path, act = activities, caches = window.
   console.log('loadBook')
   let chapter
   if (path) {
-    chapter = bookData.orderedItems.filter(chapter => chapter['reader:path'] === path)[0]
+    let value
+    chapter = bookData.orderedItems.filter(chapter => decodeURIComponent(chapter['reader:path']) === path)[0]
+    if (bookData.position && bookData.position.value && bookData.position.documentId === chapter.id) {
+      value = bookData.position.value
+    }
     bookData.position = {
       documentId: chapter.id,
       path: makeChapterURL(bookId, chapter),
-      resource: makeChapterURL(bookId, chapter, true)
+      resource: makeChapterURL(bookId, chapter, true),
+      value
     }
   } else if (bookData.position && bookData.position.documentId) {
     chapter = bookData.orderedItems.filter(chapter => chapter.id === bookData.position.documentId)[0]
@@ -93,12 +96,10 @@ export async function loadBook (bookId, path, act = activities, caches = window.
 // This should never be called before a book has been loaded
 // This should fetch from /reader/pub-id/path to get complete chapter data with markup
 export async function loadChapter (position, act = activities) {
+  console.log('loadChapter')
   if (!position) return
   const data = await act.getChapter(position.resource) // Needs full URL
   chapter.provide(data)
-  if (position.value) {
-    reading.provide({...reading.value, savedPosition: position.value})
-  }
 }
 
 function makeChapterURL (bookId, chapter = {}, json) {

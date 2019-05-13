@@ -33,12 +33,12 @@ const render = $((context, h) => {
   h.provides('dispatch', dispatch)
   h.provides('load', load)
   context.state = state
-  if (state.status === 'initial-state') {
-    load()
-  }
   context.root = document.querySelector(root)
   context.root.setAttribute('class', 'App ' + `${name}-container`)
   context.root.dataset.status = state.status
+  if (state.status === 'initial-state' && context.root.dataset.active) {
+    load()
+  }
   const mainList = `${name} App-main`
   const infoList = `${name}-info App-main App-main--info`
   const leftList = `${name}-left`

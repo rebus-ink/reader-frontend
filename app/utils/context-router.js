@@ -91,7 +91,7 @@ export function handleEvent (event, {context, _paths, _roots}, location) {
       })
       const focusEffect = () => {
         let element
-        if (request.hash) {
+        if (request.hash && !request.hash.startsWith('#/')) {
           element = document.querySelector(request.hash)
         } else {
           const focusable = document.querySelectorAll('button, [href]:not(link), input, select, textarea, [contentEditable=true], [tabindex]:not([tabindex="-1"])')
