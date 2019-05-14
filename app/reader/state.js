@@ -60,7 +60,12 @@ function getPrevious (bookId, items, current) {
 // Route component calls loadBook if there is no book or if it doesn't match the bookId (id doesn't include bookId)
 // Then it should call loadChapter.
 export async function loadBook (bookId, path, act = activities, caches = window.caches) {
-  const bookData = await act.book(bookId) // does not need '/' prefix
+  let bookData
+  if (book.value.id.includes(bookId)) {
+    bookData = book.value
+  } else {
+    bookData = await act.book(bookId) // does not need '/' prefix
+  }
   console.log('loadBook')
   let chapter
   if (path) {
@@ -98,8 +103,14 @@ export async function loadBook (bookId, path, act = activities, caches = window.
 export async function loadChapter (position, act = activities) {
   console.log('loadChapter')
   if (!position) return
-  const data = await act.getChapter(position.resource) // Needs full URL
-  chapter.provide(data)
+  const current = document.getElementById('reader').dataset.currentPosition
+  if (!position.value && current) {
+    savePosition(current)
+  }
+  if (position.documentId !== chapter.value.id) {
+    const data = await act.getChapter(position.resource) // Needs full URL
+    chapter.provide(data)
+  }
 }
 
 function makeChapterURL (bookId, chapter = {}, json) {

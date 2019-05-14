@@ -1,5 +1,5 @@
 
-import component, {useContext, html} from 'neverland'
+import component, {useContext, useEffect, html} from 'neverland'
 import {Reader} from './component-reader.js'
 import {topMenu, bottomMenu} from './menus.js'
 import './location.js'
@@ -24,18 +24,21 @@ const render = component((context, h) => {
     rootEl.dataset.callout = readingState.callout
   }
   if (rootEl.dataset.active) {
-    if (bookState.type === 'initial-book') {
-      loadBook(params.readerBookId, params.bookPath).catch(err => {
-        console.error(err.url)
-        console.error(err)
-      })
-    }
-    if (position.path && (chapterState.type === 'initial-chapter' || decodeURIComponent(chapterState['reader:path']) !== params.bookPath)) {
-      loadChapter(bookState.position).catch(err => {
-        console.error(err.url, bookState.position)
-        console.error(err)
-      })
-    }
+    useEffect(() => {
+      loadBook(params.readerBookId, params.bookPath)
+        .catch(err => {
+          console.error(err.url)
+          console.error(err)
+        })
+    }, [bookState.type, params.readerBookId, params.bookPath])
+    useEffect(() => {
+      if (bookState.position.resource) {
+        loadChapter(bookState.position).catch(err => {
+          console.error(err.url, bookState.position)
+          console.error(err)
+        })
+      }
+    }, [bookState.position, params.bookPath])
   }
   h.provides('savePosition', savePosition)
   h.provides('toggleCallout', toggleCallout)

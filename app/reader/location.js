@@ -39,8 +39,7 @@ function onPosition (entries) {
     highest.target.classList.add('is-callout')
     document.querySelector('[data-location].is-callout').classList.remove('is-callout')
   }
-  window.history.replaceState({}, document.title, `${window.location.pathname}#${highest.target.dataset.location}`)
-  // window.location.hash = '#' + highest.target.dataset.location
+  // window.history.replaceState({}, document.title, `${window.location.pathname}#${highest.target.dataset.location}`)
 }
 
 wickedElements.define('[data-location]', {

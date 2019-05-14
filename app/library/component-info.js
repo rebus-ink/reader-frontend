@@ -13,14 +13,20 @@ export const Info = component((context, h) => {
     icon.url = '/static/placeholder-cover.jpg'
   }
   const href = `/library${location}`
+  let link
+  if (state.position.value) {
+    link = `${state.position.path}#${state.position.value}`
+  } else {
+    link = `${state.position.path}`
+  }
   return html`<div class="Info">
     <a href="${href}" class="Info-return" aria-label="Return to library">&times;</a>
   <div class="Info-contents">${state.name}</div>
   <div class="Info-graphics" id="info-graphics">
-    <a href="${state.position.path}" class="">
+    <a href="${link}" class="">
       <img class="Info-cover" alt="${icon.summary}" src="${`/images/resize/800/0/${encodeURIComponent(getURL(icon.url))}`}" data-component="average-color" data-target="info-graphics">
     </a>
-    <p><a href="${state.position.path || '/images/resize/800/0/%2Fstatic%2Fplaceholder-cover.jpg'}" class="Button Info-button">Read</a></p>
+    <p><a href="${link || '/images/resize/800/0/%2Fstatic%2Fplaceholder-cover.jpg'}" class="Button Info-button">Read</a></p>
   </div>
 </div>`
 })
