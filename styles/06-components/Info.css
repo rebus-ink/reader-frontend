@@ -3,6 +3,7 @@
   grid-template-columns: 1fr 1fr;
   padding: 0;
   background-color: white;
+  background-color: var(--main-background-color);
 }
 
 a.Info-return {
@@ -35,6 +36,10 @@ a.Info-return {
 .Info-title {
   font-weight: 600;
   font-size: 2rem;
+  padding: 0;
+}
+.Info-label {
+  padding: 0;
 }
 a.Info-button:link {
   display: block;

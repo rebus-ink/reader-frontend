@@ -4,6 +4,7 @@ import {Reader} from './component-reader.js'
 import {topMenu, bottomMenu} from './menus.js'
 import './location.js'
 import {book, reading, chapter, savePosition, toggleCallout, loadBook, loadChapter} from './state.js'
+import {getNavigation} from './navigation.js'
 
 const name = 'reader'
 const path = '/reader/:readerBookId/:bookPath*'

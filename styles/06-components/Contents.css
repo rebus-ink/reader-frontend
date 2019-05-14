@@ -1,0 +1,31 @@
+.Contents {
+  display: block;
+}
+
+.Contents ol,
+.Contents ul,
+.Contents li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.Contents a {
+  display: block;
+  padding: 0.25rem 1rem;
+  text-decoration: none;
+  font-size: 0.75rem;
+}
+.Contents a:hover {
+  background-color: var(--rc-darker);
+  color: white;
+}
+.Contents li {
+  display: block;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+.Contents li + li {
+  border-top: none;
+}
