@@ -11,8 +11,8 @@ lifecycle.addEventListener('statechange', function (event) {
 })
 
 const positionObserver = new window.IntersectionObserver(onPosition, {
-  threshold: 1,
-  rootMargin: '0px 0px -50% 0px'
+  threshold: [0, 0.25, 0.5, 0.75, 1],
+  rootMargin: '30px 0px -75% 0px'
 })
 
 let highest
@@ -35,9 +35,17 @@ function onPosition (entries) {
   const root = document.getElementById('reader')
   root.dataset.currentPosition =
     highest.target.dataset.location
+  const previousHighest = document.querySelector('[data-location].is-current')
+  if (previousHighest) {
+    previousHighest.classList.remove('is-current')
+  }
+  highest.target.classList.add('is-current')
   if (root.dataset.callout === 'true') {
+    const previousCallout = document.querySelector('[data-location].is-callout')
+    if (previousCallout) {
+      previousCallout.classList.remove('is-callout')
+    }
     highest.target.classList.add('is-callout')
-    document.querySelector('[data-location].is-callout').classList.remove('is-callout')
   }
   // window.history.replaceState({}, document.title, `${window.location.pathname}#${highest.target.dataset.location}`)
 }
