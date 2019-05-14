@@ -9,6 +9,7 @@ export const Reader = component((context, h) => {
     // Switch this to use the hash. If hash then scroll to
     useLayoutEffect(() => {
       let current
+      window.scrollTo(0, 0)
       if (document.location.hash) {
         console.log('scrolling to hash')
         if (document.location.hash.startsWith('#/')) {
@@ -17,9 +18,6 @@ export const Reader = component((context, h) => {
           current = document.querySelector(document.location.hash)
         }
         if (current) current.scrollIntoView()
-      } else {
-        console.log('scrolling to top')
-        window.scrollTo(0, 0)
       }
     }, [context.chapter.id, document.location.hash])
   }

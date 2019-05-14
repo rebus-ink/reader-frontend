@@ -165,7 +165,7 @@ export function createRouterComponent (componentRoutes, options) {
       const {request, old, focusEffect, route} = useContext(router.context)
       const context = {request, old, focusEffect}
       h.setActivity(route.root)
-      useEffect(focusEffect)
+      // useEffect(focusEffect)
       return routeOptions.render(context, h)
     }))
   }
