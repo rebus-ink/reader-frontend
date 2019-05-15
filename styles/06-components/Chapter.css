@@ -153,7 +153,7 @@ StyleGuide 6.Chapter
   grid-area: maintext;
   min-width: var(--reader-min-column-width);
   max-width: var(--reader-max-column-width);
-  margin: 0 auto;
+  margin: 0;
 }
 
 #sidebar {

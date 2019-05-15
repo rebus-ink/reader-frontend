@@ -22,6 +22,7 @@ a.Info-return {
   padding: 2rem 1rem;
   background-color: var(--background-color);
   transition: background-color 0.25s ease-in-out;
+  max-width: 400px;
 }
 .Info-cover {
   width: 100%;

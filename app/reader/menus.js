@@ -1,7 +1,9 @@
 import component, {html} from 'neverland'
+import {NavButton} from './navigation.js'
 
-export const topMenu = component(() => {
-  return html`<ol class="App-menu-list"><li></li></ol>`
+// include nav in top menu
+export const topMenu = component((context) => {
+  return html`<ol class="App-menu-list">${NavButton(context)}<li></li></ol>`
 })
 
 export const bottomMenu = component((context) => {
