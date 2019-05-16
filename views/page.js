@@ -16,18 +16,22 @@ module.exports.page = (render, model, req, body) => {
 <link media="all" rel="stylesheet" href="/static/styles/app.css">
 <title>Rebus Ink</title>
 <script src="/js/vendor/document-register-element.js"></script>
-<script src="/js/s.min.js"></script>
 ${[
-    `<script>
-import('/js/module/index.js');
-window.supportsDynamicImport = true
-</script>
+    `
 <script>
-if (!window.supportsDynamicImport) {
-  System.import('/js/nomodule/index.js')
-}
-document.documentElement.classList.remove('no-js')
-document.documentElement.classList.add('js-loading')
+  function shimport(src) {
+    try {
+      new Function('import("' + src + '")')();
+    } catch (e) {
+      var s = document.createElement('script');
+      s.src = '/js/shimport.js';
+      s.dataset.main = src;
+      document.head.appendChild(s);
+    }
+  }
+  document.documentElement.classList.remove('no-js')
+  document.documentElement.classList.add('js-loading')
+  shimport('/js/module/index.js');
 </script>`
   ]}
 <meta name="csrf-token" content="${req.csrfToken()}">
