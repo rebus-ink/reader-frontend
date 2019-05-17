@@ -3,8 +3,3 @@
   position: relative;
   display: block;
 }
-
-@media (max-width: 820px) {
-  #nav-menu-toggle {
-  }
-}
