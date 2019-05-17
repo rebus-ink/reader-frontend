@@ -1,12 +1,7 @@
 import 'onpushstate'
 import path2regexp from 'path-to-regexp'
 import { arrify } from './arrify.js'
-import component, {
-  render,
-  useContext,
-  useEffect,
-  createContext
-} from 'neverland'
+import component, { render, useContext, createContext } from 'neverland'
 
 function asPath2RegExp (path, keys) {
   if (typeof path !== 'string') {
