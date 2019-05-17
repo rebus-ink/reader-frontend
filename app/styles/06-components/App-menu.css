@@ -23,11 +23,9 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  line-height: 0.85;
 }
 
 .App-menu-list li {
   padding: 0;
   margin: auto 0;
-  line-height: 0.85;
 }
