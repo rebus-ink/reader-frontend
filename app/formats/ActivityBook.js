@@ -1,8 +1,7 @@
-import {Book} from './Book.js'
-import {cache} from './cache.js'
-import {processChapter} from '../state/process-chapter.js'
-import {processToC} from './process-toc.js'
-import {renderToC} from '../views/chapter-book-menu.js'
+import { Book } from './Book.js'
+import { cache } from './cache.js'
+import { processChapter } from '../state/process-chapter.js'
+import { processToC } from './process-toc.js'
 
 export class ActivityBook extends Book {
   constructor (activity) {
@@ -50,16 +49,21 @@ export class ActivityBook extends Book {
     }
     let data
     try {
-      const markup = await ActivityBook.activities.getChapterMarkup(activity, this.id)
+      const markup = await ActivityBook.activities.getChapterMarkup(
+        activity,
+        this.id
+      )
       const nodes = processChapter(markup, activity)
-      data = {activity, nodes}
+      data = { activity, nodes }
       this.current = activity['reader:path']
       this.currentChapter = data
     } catch (err) {
       return this.emit('error', err)
     }
     this.emit('chapter', data)
-    cache(this).then(() => this.emit('cached', this)).catch(err => this.emit('error', err))
+    cache(this)
+      .then(() => this.emit('cached', this))
+      .catch(err => this.emit('error', err))
     return data
   }
   async addToCollection (collection) {
@@ -94,7 +98,9 @@ export class ActivityBook extends Book {
     }
     try {
       await ActivityBook.activities.remove(payload)
-      this.state = await ActivityBook.activities.library(this.element.dataset.tag)
+      this.state = await ActivityBook.activities.library(
+        this.element.dataset.tag
+      )
       this.render()
     } catch (err) {
       this.emit('error', err)
@@ -136,22 +142,18 @@ export class ActivityBook extends Book {
     if (this._toc) {
       return this._toc
     }
-    const activity = this.readingOrder.filter(item => item.rel && item.rel.indexOf('contents') !== -1)[0]
+    const activity = this.readingOrder.filter(
+      item => item.rel && item.rel.indexOf('contents') !== -1
+    )[0]
     if (activity) {
       try {
-        const {contents, landmarks} = processToC(activity, this)
-        this._toc = {activity, contents, landmarks}
+        const { contents, landmarks } = processToC(activity, this)
+        this._toc = { activity, contents, landmarks }
         this.emit('contents', this._toc)
-        return {activity, contents, landmarks}
+        return { activity, contents, landmarks }
       } catch (err) {
         return this.emit('error', err)
       }
-    } else {
-      // Do the fallback thing.
-      const contents = renderToC({ book: this, bookId: this.id, bookPath: this.current })
-      this._toc = {activity, contents}
-      this.emit('contents', this._toc)
-      return {activity, contents}
     }
   }
   get name () {

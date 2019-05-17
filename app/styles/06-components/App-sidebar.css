@@ -1,0 +1,34 @@
+.App-sidebar {
+  background-color: white;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  z-index: 3;
+  transition: transform 0.25s ease-in-out;
+  width: var(--left-library-sidebar-width);
+  min-width: 275px;
+}
+
+.App-sidebar--left {
+  grid-column: 1 / 2;
+  left: 0;
+}
+.App-sidebar--right {
+  grid-column: 3 / 4;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+}
+button.App-sidebar-closer {
+  font-size: 1.25rem;
+  line-height: 1rem;
+  transform: translateY(-2px);
+}
+
+[data-status='initial-state'] #right-sidebar {
+  display: none;
+}

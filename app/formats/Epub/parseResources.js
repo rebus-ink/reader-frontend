@@ -40,6 +40,7 @@ function itemToActivityStub (item) {
   } else if (item.properties && item.properties.indexOf('nav') !== -1) {
     item.activity.rel = ['contents']
   }
+  item.activity.mediaType = item.mediaType
   item.activity.url = [
     {
       type: 'Link',

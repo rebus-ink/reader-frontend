@@ -11,7 +11,7 @@ const doc = yaml.safeLoad(fs.readFileSync('./app-development.yaml', 'utf8'))
 const Auth0Strategy = require('passport-auth0')
 const strategy = new Auth0Strategy(
   {
-    domain: 'rebus.auth0.com',
+    domain: doc.env_variables.AUTH0_DOMAIN,
     clientID: doc.env_variables.AUTH0_CLIENT_ID,
     clientSecret: doc.env_variables.AUTH0_CLIENT_SECRET,
     callbackURL: 'https://localhost:4430/callback'
@@ -24,6 +24,8 @@ const strategy = new Auth0Strategy(
 process.env.SECRETORKEY = doc.env_variables.SECRETORKEY
 process.env.ISSUER = doc.env_variables.ISSUER
 process.env.AUDIENCE = doc.env_variables.AUDIENCE
+process.env.AUTH0_DOMAIN = doc.env_variables.AUTH0_DOMAIN
+process.env.AUTH0_CLIENT_ID = doc.env_variables.AUTH0_CLIENT_ID
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0
 
 const app = setup(

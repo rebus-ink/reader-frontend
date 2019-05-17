@@ -2,7 +2,6 @@
 const express = require('express')
 const compression = require('compression')
 const cookieSession = require('cookie-session')
-// const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn
 const { securitySetup } = require('./server/security.js')
 const debug = require('debug')('vonnegut:server')
 if (!process.env.DOMAIN) {
@@ -49,6 +48,7 @@ function setup (authserver) {
   app.use('/', require('./server/routes/process-chapter.js'))
   app.use('/', require('./server/routes/refresh-token.js'))
   app.use('/', require('./server/routes/process-url.js'))
+  app.use('/images', require('./server/routes/images.js'))
 
   const apiApp = require('hobb-api/server.js').app
   app.use('/', apiApp) // This requires multer, @google-cloud/storage, sqlite objection knex pg objection-db-errors objection-guid debug lodash dotenv passport-jwt

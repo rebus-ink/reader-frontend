@@ -4,6 +4,7 @@ module.exports.testactivity = {
   attachment: [
     {
       type: 'Document',
+      mediaType: 'application/x-dtbncx+xml',
       url: [
         {
           type: 'Link',
@@ -16,6 +17,7 @@ module.exports.testactivity = {
     },
     {
       type: 'Document',
+      mediaType: 'text/css',
       url: [
         {
           type: 'Link',
@@ -28,6 +30,7 @@ module.exports.testactivity = {
     },
     {
       type: 'Document',
+      mediaType: 'application/xhtml+xml',
       url: [
         {
           type: 'Link',
@@ -66,6 +69,7 @@ module.exports.testactivity = {
 module.exports.guideAttachment = [
   {
     type: 'Document',
+    mediaType: 'application/x-dtbncx+xml',
     url: [
       {
         type: 'Link',
@@ -78,6 +82,7 @@ module.exports.guideAttachment = [
   },
   {
     type: 'Document',
+    mediaType: 'text/css',
     url: [
       {
         type: 'Link',
@@ -90,6 +95,7 @@ module.exports.guideAttachment = [
   },
   {
     type: 'Document',
+    mediaType: 'application/xhtml+xml',
     url: [
       {
         type: 'Link',
@@ -103,6 +109,7 @@ module.exports.guideAttachment = [
   },
   {
     type: 'Document',
+    mediaType: 'application/xhtml+xml',
     url: [
       {
         type: 'Link',
@@ -116,6 +123,7 @@ module.exports.guideAttachment = [
   },
   {
     type: 'Image',
+    mediaType: 'image/png',
     url: [
       {
         type: 'Link',
@@ -128,6 +136,7 @@ module.exports.guideAttachment = [
   },
   {
     type: 'Document',
+    mediaType: 'application/oebps-package+xml',
     url: [
       {
         type: 'Link',
@@ -145,6 +154,7 @@ module.exports.testActivityAfter = {
   attachment: [
     {
       type: 'Document',
+      mediaType: 'application/x-dtbncx+xml',
       url: [
         {
           type: 'Link',
@@ -157,6 +167,7 @@ module.exports.testActivityAfter = {
     },
     {
       type: 'Document',
+      mediaType: 'text/css',
       url: [
         {
           type: 'Link',
@@ -169,6 +180,7 @@ module.exports.testActivityAfter = {
     },
     {
       type: 'Document',
+      mediaType: 'application/xhtml+xml',
       url: [
         {
           type: 'Link',
@@ -182,6 +194,7 @@ module.exports.testActivityAfter = {
     },
     {
       type: 'Image',
+      mediaType: 'image/png',
       rel: ['cover'],
       url: [
         {
@@ -195,6 +208,7 @@ module.exports.testActivityAfter = {
     },
     {
       type: 'Document',
+      mediaType: 'application/oebps-package+xml',
       url: [
         {
           type: 'Link',

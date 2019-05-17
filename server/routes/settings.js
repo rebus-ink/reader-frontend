@@ -1,6 +1,6 @@
 const viperHTML = require('viperhtml')
-const { pageBody } = require('../../views/settings-body.js')
-const { page } = require('../../views/page.js')
+const { pageBody } = require('../views/settings-body.js')
+const { page } = require('../views/page.js')
 const { ensureLogin } = require('../ensure-login.js')
 const express = require('express')
 const router = express.Router()

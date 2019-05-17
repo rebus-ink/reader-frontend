@@ -1,6 +1,5 @@
 const { setup } = require('./server.js')
 const morgan = require('morgan')
-// const basicAuth = require('express-basic-auth')
 const { authserver } = require('./server/auth/auth-server.js')
 
 const Datastore = require('@google-cloud/datastore')

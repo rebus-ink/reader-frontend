@@ -10,7 +10,8 @@ const purifyConfig = {
   ADD_TAGS: ['reader-markers']
 }
 
-export function processChapter (doc, chapter) {
+export function processChapter (chapter) {
+  const doc = chapter.content
   const clean = DOMPurify.sanitize(doc, purifyConfig)
   const symbols = clean.querySelectorAll(
     'p, h1, h2, h3, h4, h5, h6, li, table, dd, dt, div > img:only-child, figure > img'

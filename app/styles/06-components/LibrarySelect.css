@@ -1,0 +1,36 @@
+/* We're using the select styling strategy as described in https://www.filamentgroup.com/lab/select-css.html (MIT Licensed) */
+
+.LibrarySelect {
+  display: inline-block;
+  color: var(--dark);
+  padding: 0.25em 1.5rem 0.25em 0.25em;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  border: 1px solid var(--rc-dark);
+  border-radius: 2px;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2332A5A5%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22square%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%209l6%206%206-6%22%2F%3E%3C%2Fsvg%3E'),
+    linear-gradient(to bottom, transparent 0%, transparent 100%);
+  background-repeat: no-repeat, repeat;
+  background-position: right 0.7em top 50%, 0 0;
+  background-size: 1em auto, 100%;
+}
+.LibrarySelect::-ms-expand {
+  display: none;
+}
+.LibrarySelect:hover {
+  border-color: var(--rc-main);
+  cursor: pointer;
+}
+.LibrarySelect:focus {
+  border-color: var(--rc-main);
+  color: #222;
+}
+.LibrarySelect option {
+  font-weight: normal;
+  text-transform: none;
+}

@@ -1,0 +1,47 @@
+.Info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0;
+  background-color: white;
+  background-color: var(--main-background-color);
+}
+
+a.Info-return {
+  position: absolute;
+  text-decoration: none;
+  text-transform: uppercase;
+  display: block;
+  grid-column: 1/3;
+  padding: 0.25rem 1rem;
+  font-size: 1.5rem;
+  line-height: 1rem;
+  transform: translateY(-2px);
+}
+
+.Info-graphics {
+  padding: 2rem 1rem;
+  background-color: var(--background-color);
+  transition: background-color 0.25s ease-in-out;
+  max-width: 400px;
+}
+.Info-cover {
+  width: 100%;
+  height: auto;
+  border-radius: var(--border-radius);
+}
+
+.Info-contents {
+  padding: 2rem 1rem;
+}
+
+.Info-title {
+  font-weight: 600;
+  font-size: 2rem;
+  padding: 0;
+}
+.Info-label {
+  padding: 0;
+}
+a.Info-button:link {
+  display: block;
+}

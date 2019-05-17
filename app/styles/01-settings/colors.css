@@ -1,0 +1,83 @@
+:root {
+  /* 
+  Brand Colours
+  
+  These are all colours from the Rebus Ink Branding Framework
+  
+  Colors:
+  rc-darker: #333333
+  rc-dark: #333333
+  rc-main: #333333
+  rc-medium: #333333
+  rc-light: #666666
+  
+  Styleguide 1.UtilityColors
+  */
+  --rc-darker: #2e9595;
+  --rc-dark: #32a5a5;
+  --rc-main: #37b5b5;
+  --rc-medium: #6dc9c9;
+  --rc-light: #b8f4f2;
+  --rc-lighter: #e4fffe;
+  --main-background-color: #f3f7fa;
+  --warm-background-color: #f7f6f4;
+  /* 
+  Utility Colors
+  
+  Monochromatic colors
+  
+  Colors:
+  dark: #333333
+  medium: #666666
+  light: #F6F6F6
+  white: white
+  
+  Styleguide 1.UtilityColors
+  */
+  --dark: #333333;
+  --medium: #555555;
+  --light: #fafafa;
+  /* 
+  Link Colors
+  
+  Link and button colors
+  
+  Colors:
+  link: #006699
+  hover: #007AB8
+  active: #00CCEE
+  primary: #CD4B18
+  visited: #004262
+  
+  Styleguide 1.LinkColors
+  */
+  --link: #2e9595;
+  --hover: #6dc9c9;
+  --active: #00ccee;
+  --primary: #cd4b18;
+  --visited: #2e9595;
+  /* 
+UI Colors
+
+User Interface colors
+
+Colors:
+error: #ff3b3b
+error-light: #fff5f4
+valid: #2ed0ac
+valid-light: #eefffc
+warning: #ffd943
+warning-light: #fffbef
+disabled: #C6C6C6
+
+Styleguide 1.UIColors
+*/
+  --error: #ff3b3b;
+  --error-light: #fff5f4;
+  --valid: #2ed0ac;
+  --valid-light: #eefffc;
+  --warning: #ffd943;
+  --warning-light: #fffbef;
+  --disabled: #c6c6c6;
+  --button-background-color: #f9f9f9;
+}

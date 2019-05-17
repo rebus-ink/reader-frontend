@@ -2,16 +2,14 @@
 import resolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
 import { terser } from 'rollup-plugin-terser'
+import glob from 'glob'
+const input = glob.sync('app/vendor/*.js')
 
 export default {
-  input: ['vendor/zip.js', 'vendor/quill.js'],
+  input,
   output: [{
-    dir: 'js/module',
+    dir: 'js/vendor',
     format: 'es',
-    sourcemap: true
-  }, {
-    dir: 'js/nomodule',
-    format: 'system',
     sourcemap: true
   }],
   plugins: [

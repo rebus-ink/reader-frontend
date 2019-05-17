@@ -3,6 +3,11 @@ import {render, html} from 'lighterhtml'
 import * as activities from '../state/activities.js'
 
 export function logoutModal (element) {
+  const csurfMeta = document.querySelector('meta[name="csrf-token"]')
+  let csurf
+  if (csurfMeta) {
+    csurf = csurfMeta.getAttribute('content')
+  }
   return render(element, () => html`
     <div tabindex="-1" data-micromodal-close class="Modal-overlay">
       <div role="dialog" class="Modal-container" aria-modal="true" aria-labelledby="modal-1-title" >
@@ -14,9 +19,11 @@ export function logoutModal (element) {
         </header>
         <div id="modal-1-content" class="Modal-content">
           <p class="Modal-text">Are you sure you want to sign out?</p>
-        <div class="Modal-row">
-          <button aria-label="Close modal" data-micromodal-close class="App-button">Cancel</button>
-          <button class="TextButton" onclick=${activities.logout}>Sign Out</button></div>
+        <form action="/logout" class="Modal-row" method="post">
+          <input type="hidden" name="_csrf" value="${csurf}">
+          <button type="button" aria-label="Close modal" data-micromodal-close class="App-button">Cancel</button>
+          <button class="TextButton">Sign Out</button>
+        </form>
         </div>
       </div>
     </div>`)

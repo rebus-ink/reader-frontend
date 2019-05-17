@@ -9,10 +9,6 @@ export default {
     dir: 'js/module',
     format: 'es',
     sourcemap: true
-  }, {
-    dir: 'js/nomodule',
-    format: 'system',
-    sourcemap: true
   }],
   plugins: [
     resolve({

@@ -1,0 +1,92 @@
+.library {
+  display: grid;
+  position: relative;
+  padding: 0 1rem;
+}
+
+.Library-header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  align-items: flex-start;
+}
+.Library-books {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(6rem, 0.5fr));
+  grid-gap: 0.5rem;
+  padding-bottom: 1rem;
+}
+
+.Library-info {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.Library-info--order {
+  font-weight: normal;
+  text-align: right;
+  margin: 0rem 0 1.25rem;
+  display: block;
+}
+
+.Library-collectionName {
+  text-align: left;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.Library-file-drop {
+  display: block;
+  flex: 1 1 100%;
+  border-radius: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  border: 2px dotted var(--rc-dark);
+  background-color: var(--rc-lighter);
+  margin: 0.5rem;
+}
+.Library-file-drop.drop-valid {
+  border: 0.25rem dashed #989898;
+}
+.Library-file-drop.drop-valid > *,
+.Library-file-drop.drop-invalid > * {
+  opacity: 0.25;
+}
+.Library-file-drop.drop-invalid {
+  border: 0.25rem dashed red;
+}
+
+.Library-no-uploads {
+  margin: auto;
+  padding: 1rem;
+  font-size: 0.75rem;
+  text-align: center;
+  color: var(--rc-darker);
+}
+
+.Library-upload-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 1rem;
+  font-size: 0.75rem;
+}
+.Library-upload-list li {
+  padding: 0;
+  margin: 0.5rem 0;
+  font-style: italic;
+}
+
+.Library-shelf {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+
+.Library-file-drop [data-shelf-uploads='not-loading'] {
+  display: none;
+}
+
+[data-shelf-uploads='loading'] + .Library-no-uploads {
+  display: none;
+}

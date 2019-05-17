@@ -1,3 +1,5 @@
+
+/* istanbul ignore next */
 export function arrify (val) {
   if (val === null || val === undefined) {
     return []

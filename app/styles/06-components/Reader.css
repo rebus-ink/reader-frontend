@@ -1,0 +1,14 @@
+.reader-menu {
+  background-color: white;
+}
+
+[data-location].is-current::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2rem;
+  border-top: 3px dotted #dedede;
+  transform: translate(-50%, -50%);
+  height: var(--reader-paragraph-spacing);
+}

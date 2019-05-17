@@ -160,6 +160,22 @@ export async function get (url) {
     })
     return response.json()
   } catch (err) {
+    err.url = url
+    throw err
+  }
+}
+
+// This only works with the cookied/sessioned endpoints
+export async function getChapter (url) {
+  try {
+    const response = await fetchWrap(url, {
+      credentials: 'include',
+      headers: new window.Headers({
+        'content-type': 'application/ld+json'
+      })
+    })
+    return response.json()
+  } catch (err) {
     throw err
   }
 }
@@ -264,7 +280,6 @@ export async function processURL (url) {
   console.log(json)
   return json
 }
-window.processURL = processURL
 
 export async function createAndGetId (payload) {
   const location = await create(payload)

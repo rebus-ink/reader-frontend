@@ -1,6 +1,6 @@
 const viperHTML = require('viperhtml')
-const { page } = require('../views/login-page.js')
-const { login } = require('../views/login.js')
+const { page } = require('./views/login-page.js')
+const { login } = require('./views/login.js')
 
 function ensureLogin (req, res, next) {
   const render = viperHTML.wire

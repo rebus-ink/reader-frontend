@@ -1,92 +1,193 @@
-
 import * as activities from '../state/activities.js'
-import {Book} from '../formats/Book.js'
-import {Article} from '../formats/Article.js'
-import {Epub} from '../formats/Epub/index.js'
-import EventEmitter from 'eventemitter3'
-import {errorEvent} from '../utils/error-event.js'
-const bus = new EventEmitter()
-
-let context = {
-  activities
-}
+// import {errorEvent} from '../utils/error-event.js'
+import { Book } from '../formats/Book.js'
+import { Article } from '../formats/Article.js'
+import { Epub } from '../formats/Epub/index.js'
+import { createContext } from 'neverland'
 Book.activities(activities)
 
-export function setTestContext (newContext) {
-  context = newContext
-  Book.activities(context.activities)
+// The contexts we need are uploadingFiles and libraryState
+export const uploadingFiles = createContext([])
+function removeUploadingFile (file) {
+  const set = new Set(uploadingFiles.value)
+  set.delete(file)
+  uploadingFiles.provide(Array.from(set))
+}
+function addUploadingFile (file) {
+  const set = new Set(uploadingFiles.value)
+  set.add(file)
+  uploadingFiles.provide(Array.from(set))
 }
 
-const uploadingFiles = new Set()
-const state = {
-  library: {}
-}
-export async function library () {
-  const result = await context.activities.library()
-  state.library = result
-  bus.emit('library', result)
-  return result
+export const libraryState = createContext({ status: 'initial-state' })
+
+let zip
+/* istanbul ignore next */
+function zipModule () {
+  zip = import('./zip.js')
+  return zip
 }
 
-export function uploads () {
-  return Array.from(uploadingFiles)
+export function setState (state, status) {
+  state.status = status
+  libraryState.provide(state)
+  return state
 }
-
-export async function addFiles (files = []) {
-  for (let file of files) {
-    await add({file})
+/* istanbul ignore next */
+export function dispatch (action) {
+  const state = libraryState.value
+  switch (action.type) {
+    // This action is called by the main library component on every render.
+    case 'loading':
+      loading(state, dispatch, activities)
+      break
+    case 'update':
+      setState(action.state, 'loaded')
+      break
+    case 'upload-queued':
+      break
+    case 'file':
+      add(action, { activities, Epub, dispatch, Article, zipModule })
+      break
+    case 'files':
+      addFiles(action, { activities, Epub, dispatch, Article, zipModule })
+      break
+    case 'article':
+      add(action, { activities, Epub, dispatch, Article, zipModule })
+      break
+    case 'create-collection':
+      createCollection(action, dispatch)
+      break
+    case 'add-to-collection':
+      addToCollection(action, dispatch)
+      break
+    case 'remove-from-collection':
+      removeFromCollection(action, dispatch)
+      break
+    case 'activities-update':
+      activitiesUpdate(action, dispatch, activities)
+      break
+    case 'error-event':
+      console.error(action.err, dispatch)
+      break
+    default:
+      return setState(state, 'dispatching')
   }
 }
 
-export async function add ({file, url}) {
+export async function activitiesUpdate (
+  { activity, payload },
+  dispatch,
+  activities
+) {
+  try {
+    await activities[activity](payload)
+    dispatch({ type: 'loading' })
+  } catch (err) {
+    if (err.response && err.response.status === 400) {
+      dispatch({ type: 'loading' })
+    } else {
+      dispatch({ type: 'error-event', err })
+    }
+  }
+}
+
+export function addFiles ({ files, url }, context) {
+  for (let file of files) {
+    add({ file, url }, context)
+  }
+}
+
+export function add ({ file = {}, url }, context) {
+  addUploadingFile({ file, name: file.name, type: file.type, url })
+  queue(context)
+}
+
+let pending
+
+function queue (context) {
+  const uploading = Array.from(uploadingFiles.value)
+  if (!pending && uploading[0]) {
+    pending = taskPromise(uploading[0], context)
+  }
+}
+
+async function taskPromise (action, context) {
+  const { activities, Epub, Article, zipModule, dispatch } = context
+  const { file, url } = action
   let book
   if (file && file.type === 'application/epub+zip') {
-    await import('./zip.js')
+    await zipModule()
     const preview = new Epub()
-    const detail = { file, DOMAIN: `${window.location.protocol}//${window.location.host}/`, fileName: file.name }
-    book = await preview.initAsync({detail})
+    const detail = { file, fileName: file.name }
+    book = await preview.initAsync({ detail })
   } else if (url) {
     const preview = new Article()
     book = await preview.initAsync(url)
-  } else {
-    return null
   }
-  uploadingFiles.add(book)
-  bus.emit('queued', book)
-  queue()
-}
-let pending
-function queue () {
-  const uploading = Array.from(uploadingFiles)
-  if (!pending && uploading[0]) {
-    pending = taskPromise(uploading[0])
-  }
-}
-function taskPromise (book) {
-  console.log('queueing new book')
-  return book.uploadMedia()
+  dispatch({ type: 'upload-queued' })
+  return book
+    .uploadMedia()
     .then(() => {
       return activities.create(book.activity)
-    }).then(() => {
+    })
+    .then(() => {
       pending = null
-      uploadingFiles.delete(book)
-      bus.emit('added', book)
-      queue()
+      removeUploadingFile(action)
+      dispatch({ type: 'loading' })
+      queue(context)
     })
     .catch(err => {
       err.httpMethod = 'Book Upload'
       err.book = book
-      bus.emit('error', err)
-      errorEvent(err)
+      dispatch({ type: 'error-event', err })
     })
 }
 
-export function on (eventName, listener) {
-  bus.on(eventName, listener)
+export async function loading (state, dispatch, activities) {
+  let newState
+  try {
+    newState = await activities.library()
+  } catch (err) {
+    console.error(err)
+  }
+  dispatch({ type: 'update', state: newState })
 }
-export function once (eventName, listener) {
-  bus.once(eventName, listener)
+
+export function createCollection (action, dispatch) {
+  const payload = {
+    type: 'reader:Stack',
+    name: action.tag.name
+  }
+  dispatch({ type: 'activities-update', payload, activity: 'create' })
 }
-export function removeListener (eventName, listener) {
-  bus.removeListener(eventName, listener)
+
+export function removeFromCollection (action, dispatch) {
+  const payload = {
+    type: 'Remove',
+    object: {
+      type: 'reader:Stack',
+      id: action.tag.id,
+      name: action.tag.name
+    },
+    target: {
+      id: action.book
+    }
+  }
+  dispatch({ type: 'activities-update', payload, activity: 'remove' })
+}
+
+export function addToCollection (action, dispatch) {
+  const payload = {
+    type: 'Add',
+    object: {
+      type: 'reader:Stack',
+      id: action.tag.id,
+      name: action.tag.name
+    },
+    target: {
+      id: action.book
+    }
+  }
+  dispatch({ type: 'activities-update', payload, activity: 'add' })
 }
