@@ -5,6 +5,7 @@ const merge = require('webpack-merge')
 module.exports = config => {
   config.set(
     merge(createDefaultConfig(config), {
+      browsers: ['Firefox'],
       files: [
         // runs all files ending with .test in the test folder,
         // can be overwritten by passing a --grep flag. examples:
