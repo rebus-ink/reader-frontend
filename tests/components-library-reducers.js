@@ -4,7 +4,7 @@ const reducers = require('../app/library/state.js')
 
 tap.test('setState', test => {
   const state = reducers.setState({ test: 'test' }, 'what-what')
-  test.matches({ test: 'test' }, state)
+  test.matches({ test: 'test', status: 'what-what' }, state)
   test.end()
 })
 

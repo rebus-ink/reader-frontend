@@ -1,10 +1,9 @@
-
 import * as activities from '../state/activities.js'
 // import {errorEvent} from '../utils/error-event.js'
-import {Book} from '../formats/Book.js'
-import {Article} from '../formats/Article.js'
-import {Epub} from '../formats/Epub/index.js'
-import {createContext} from 'neverland'
+import { Book } from '../formats/Book.js'
+import { Article } from '../formats/Article.js'
+import { Epub } from '../formats/Epub/index.js'
+import { createContext } from 'neverland'
 Book.activities(activities)
 
 // The contexts we need are uploadingFiles and libraryState
@@ -20,7 +19,7 @@ function addUploadingFile (file) {
   uploadingFiles.provide(Array.from(set))
 }
 
-export const libraryState = createContext({status: 'initial-state'})
+export const libraryState = createContext({ status: 'initial-state' })
 
 let zip
 /* istanbul ignore next */
@@ -48,13 +47,13 @@ export function dispatch (action) {
     case 'upload-queued':
       break
     case 'file':
-      add(action, {activities, Epub, dispatch, Article, zipModule})
+      add(action, { activities, Epub, dispatch, Article, zipModule })
       break
     case 'files':
-      addFiles(action, {activities, Epub, dispatch, Article, zipModule})
+      addFiles(action, { activities, Epub, dispatch, Article, zipModule })
       break
     case 'article':
-      add(action, {activities, Epub, dispatch, Article, zipModule})
+      add(action, { activities, Epub, dispatch, Article, zipModule })
       break
     case 'create-collection':
       createCollection(action, dispatch)
@@ -76,27 +75,31 @@ export function dispatch (action) {
   }
 }
 
-export async function activitiesUpdate ({activity, payload}, dispatch, activities) {
+export async function activitiesUpdate (
+  { activity, payload },
+  dispatch,
+  activities
+) {
   try {
     await activities[activity](payload)
-    dispatch({type: 'loading'})
+    dispatch({ type: 'loading' })
   } catch (err) {
     if (err.response && err.response.status === 400) {
-      dispatch({type: 'loading'})
+      dispatch({ type: 'loading' })
     } else {
-      dispatch({type: 'error-event', err})
+      dispatch({ type: 'error-event', err })
     }
   }
 }
 
-export function addFiles ({files, url}, context) {
+export function addFiles ({ files, url }, context) {
   for (let file of files) {
-    add({file, url}, context)
+    add({ file, url }, context)
   }
 }
 
-export function add ({file = {}, url}, context) {
-  addUploadingFile({file, name: file.name, type: file.type, url})
+export function add ({ file = {}, url }, context) {
+  addUploadingFile({ file, name: file.name, type: file.type, url })
   queue(context)
 }
 
@@ -110,34 +113,34 @@ function queue (context) {
 }
 
 async function taskPromise (action, context) {
-  const {activities, Epub, Article, zipModule, dispatch} = context
-  const {file, url} = action
-  console.log('queueing new book')
+  const { activities, Epub, Article, zipModule, dispatch } = context
+  const { file, url } = action
   let book
   if (file && file.type === 'application/epub+zip') {
     await zipModule()
     const preview = new Epub()
     const detail = { file, fileName: file.name }
-    book = await preview.initAsync({detail})
-    console.log('book initialised')
+    book = await preview.initAsync({ detail })
   } else if (url) {
     const preview = new Article()
     book = await preview.initAsync(url)
   }
-  dispatch({type: 'upload-queued'})
-  return book.uploadMedia()
+  dispatch({ type: 'upload-queued' })
+  return book
+    .uploadMedia()
     .then(() => {
       return activities.create(book.activity)
-    }).then(() => {
+    })
+    .then(() => {
       pending = null
       removeUploadingFile(action)
-      dispatch({type: 'loading'})
+      dispatch({ type: 'loading' })
       queue(context)
     })
     .catch(err => {
       err.httpMethod = 'Book Upload'
       err.book = book
-      dispatch({type: 'error-event', err})
+      dispatch({ type: 'error-event', err })
     })
 }
 
@@ -148,7 +151,7 @@ export async function loading (state, dispatch, activities) {
   } catch (err) {
     console.error(err)
   }
-  dispatch({type: 'update', state: newState})
+  dispatch({ type: 'update', state: newState })
 }
 
 export function createCollection (action, dispatch) {
@@ -156,7 +159,7 @@ export function createCollection (action, dispatch) {
     type: 'reader:Stack',
     name: action.tag.name
   }
-  dispatch({type: 'activities-update', payload, activity: 'create'})
+  dispatch({ type: 'activities-update', payload, activity: 'create' })
 }
 
 export function removeFromCollection (action, dispatch) {
@@ -171,7 +174,7 @@ export function removeFromCollection (action, dispatch) {
       id: action.book
     }
   }
-  dispatch({type: 'activities-update', payload, activity: 'remove'})
+  dispatch({ type: 'activities-update', payload, activity: 'remove' })
 }
 
 export function addToCollection (action, dispatch) {
@@ -186,5 +189,5 @@ export function addToCollection (action, dispatch) {
       id: action.book
     }
   }
-  dispatch({type: 'activities-update', payload, activity: 'add'})
+  dispatch({ type: 'activities-update', payload, activity: 'add' })
 }

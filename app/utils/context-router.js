@@ -1,7 +1,12 @@
 import 'onpushstate'
 import path2regexp from 'path-to-regexp'
-import {arrify} from './arrify.js'
-import component, {render, useContext, useEffect, createContext} from 'neverland'
+import { arrify } from './arrify.js'
+import component, {
+  render,
+  useContext,
+  useEffect,
+  createContext
+} from 'neverland'
 
 function asPath2RegExp (path, keys) {
   if (typeof path !== 'string') {
@@ -12,12 +17,7 @@ function asPath2RegExp (path, keys) {
 // Need to make sure all values from URL are decoded properly
 function createParams (match, keys) {
   const params = {}
-  for (var
-    value,
-    i = 1,
-    length = match.length;
-    i < length; i++
-  ) {
+  for (var value, i = 1, length = match.length; i < length; i++) {
     value = match[i]
     if (value) {
       params[keys[i - 1].name] = decodeURIComponent(value)
@@ -41,12 +41,24 @@ export class Router {
     window.addEventListener('pushstate', this, false)
     this.route(routes)
   }
-  get context () { return this._context }
-  get init () { return () => this.handleEvent({type: 'samestate'}) }
-  get handleEvent () { return (event) => handleEvent(event, this, window.location) }
-  get route () { return (routes = []) => route(routes, this._paths, this._roots) }
-  get navigate () { return (pathname, options) => navigate(pathname, options, this) }
-  get refresh () { return () => refresh(this) }
+  get context () {
+    return this._context
+  }
+  get init () {
+    return () => this.handleEvent({ type: 'samestate' })
+  }
+  get handleEvent () {
+    return event => handleEvent(event, this, window.location)
+  }
+  get route () {
+    return (routes = []) => route(routes, this._paths, this._roots)
+  }
+  get navigate () {
+    return (pathname, options) => navigate(pathname, options, this)
+  }
+  get refresh () {
+    return () => refresh(this)
+  }
 }
 
 // Props are the properties that should be on every route.
@@ -57,26 +69,25 @@ export function createRouter (routes) {
 
 function route (routes, paths, roots) {
   for (const routeOptions of arrify(routes)) {
-    const {path = '(.*)'} = routeOptions
+    const { path = '(.*)' } = routeOptions
     const keys = []
     const re = asPath2RegExp(path, keys)
-    const info = paths[re] = {
+    const info = (paths[re] = {
       keys: keys,
       re: re
-    }
+    })
     info.options = routeOptions
   }
   arrify(routes).forEach(route => roots.push(route.root))
 }
-export function handleEvent (event, {context, _paths, _roots}, location) {
-  console.log('router handleEvent')
+export function handleEvent (event, { context, _paths, _roots }, location) {
   const paths = _paths
   const old = context.value
   for (const key in paths) {
     const info = paths[key]
     const match = info.re.exec(location.pathname)
     if (match) {
-      const {options} = info
+      const { options } = info
       const request = Object.assign({
         protocol: location.protocol,
         origin: location.origin,
@@ -94,7 +105,9 @@ export function handleEvent (event, {context, _paths, _roots}, location) {
         if (request.hash && !request.hash.startsWith('#/')) {
           element = document.querySelector(request.hash)
         } else {
-          const focusable = document.querySelectorAll('button, [href]:not(link), input, select, textarea, [contentEditable=true], [tabindex]:not([tabindex="-1"])')
+          const focusable = document.querySelectorAll(
+            'button, [href]:not(link), input, select, textarea, [contentEditable=true], [tabindex]:not([tabindex="-1"])'
+          )
           for (const el of focusable) {
             const hidden = el.closest('[hidden]')
             if (!hidden && !element) {
@@ -103,13 +116,22 @@ export function handleEvent (event, {context, _paths, _roots}, location) {
           }
         }
         if (element) {
-          element.scrollIntoView({behavior: 'smooth', block: 'center', inline: 'center'})
+          element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'center'
+          })
           element.focus()
         } else {
           document.body.focus()
         }
       }
-      return context.provide({request, old, focusEffect: options.focusEffect || focusEffect, route: options})
+      return context.provide({
+        request,
+        old,
+        focusEffect: options.focusEffect || focusEffect,
+        route: options
+      })
     }
   }
 }
@@ -122,13 +144,19 @@ export function refresh (router) {
 export function navigate (pathname, replace, router) {
   if (replace) {
     window.history.replaceState(window.history.state, document.title, pathname)
-  } else if (pathname === (window.location.pathname + window.location.search) && router) {
-    router.handleEvent({type: 'samestate'})
+  } else if (
+    pathname === window.location.pathname + window.location.search &&
+    router
+  ) {
+    router.handleEvent({ type: 'samestate' })
   } else {
     const navigator = document.createElement('a')
     navigator.href = pathname
     navigator.onclick = remove
-    document.documentElement.insertBefore(navigator, document.documentElement.firstChild)
+    document.documentElement.insertBefore(
+      navigator,
+      document.documentElement.firstChild
+    )
     navigator.click()
   }
 }
@@ -161,12 +189,15 @@ export function createRouterComponent (componentRoutes, options) {
   for (const routeOptions of componentRoutes) {
     const root = document.querySelector(routeOptions.root)
     root.hidden = true
-    render(root, component(() => {
-      const {request, old, focusEffect, route} = useContext(router.context)
-      const context = {request, old, focusEffect}
-      h.setActivity(route.root)
-      // useEffect(focusEffect)
-      return routeOptions.render(context, h)
-    }))
+    render(
+      root,
+      component(() => {
+        const { request, old, focusEffect, route } = useContext(router.context)
+        const context = { request, old, focusEffect }
+        h.setActivity(route.root)
+        // useEffect(focusEffect)
+        return routeOptions.render(context, h)
+      })
+    )
   }
 }

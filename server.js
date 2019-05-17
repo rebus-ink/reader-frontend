@@ -2,7 +2,6 @@
 const express = require('express')
 const compression = require('compression')
 const cookieSession = require('cookie-session')
-// const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn
 const { securitySetup } = require('./server/security.js')
 const debug = require('debug')('vonnegut:server')
 if (!process.env.DOMAIN) {

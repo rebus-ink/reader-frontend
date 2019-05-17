@@ -87,6 +87,7 @@ test('load: propertiesEpub', async (page, t) => {
       testactivity.url[0].href = 'http://example.com/' + key
       testactivity.attachment.push({
         type: 'Image',
+        mediaType: 'image/png',
         url: [
           {
             type: 'Link',
@@ -100,6 +101,7 @@ test('load: propertiesEpub', async (page, t) => {
       })
       testactivity.attachment.push({
         type: 'Document',
+        mediaType: 'application/oebps-package+xml',
         url: [
           {
             type: 'Link',
@@ -112,6 +114,7 @@ test('load: propertiesEpub', async (page, t) => {
       })
       testactivity.icon = {
         type: 'Image',
+        mediaType: 'image/png',
         url: [
           {
             type: 'Link',
@@ -178,6 +181,7 @@ Object.keys(testepubs).forEach(key => {
         testactivity.url[0].href = 'http://example.com/' + key
         testactivity.attachment.push({
           type: 'Image',
+          mediaType: 'image/png',
           url: [
             {
               type: 'Link',
@@ -190,6 +194,7 @@ Object.keys(testepubs).forEach(key => {
         })
         testactivity.attachment.push({
           type: 'Document',
+          mediaType: 'application/oebps-package+xml',
           url: [
             {
               type: 'Link',
@@ -202,6 +207,7 @@ Object.keys(testepubs).forEach(key => {
         })
         testactivity.icon = {
           type: 'Image',
+          mediaType: 'image/png',
           url: [
             {
               type: 'Link',

@@ -7,7 +7,7 @@ const easyImport = require('postcss-easy-import')
 const calc = require('postcss-calc')
 const fs = require('fs')
 
-fs.readFile('index.css', (err, css) => {
+fs.readFile('app/index.css', (err, css) => {
   if (err) {
     throw err
   }
@@ -23,7 +23,7 @@ fs.readFile('index.css', (err, css) => {
     })
   ])
     .process(css, {
-      from: 'index.css',
+      from: 'app/index.css',
       to: 'static/app.css',
       map: { inline: false }
     })
