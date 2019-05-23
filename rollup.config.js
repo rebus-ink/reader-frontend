@@ -3,6 +3,8 @@ import resolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
 import { terser } from 'rollup-plugin-terser'
 
+const production = process.env.NODE_ENV === 'production'
+
 export default {
   input: ['app/index.js', 'app/annotations/annotations.js'],
   output: [{
@@ -16,6 +18,6 @@ export default {
       browser: true
     }),
     commonjs(),
-    terser()
+    production && terser()
   ]
 }

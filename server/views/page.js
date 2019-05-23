@@ -19,19 +19,16 @@ module.exports.page = (render, model, req, body) => {
 ${[
     `
 <script>
-  function shimport(src) {
-    try {
-      new Function('import("' + src + '")')();
-    } catch (e) {
-      var s = document.createElement('script');
-      s.src = '/js/shimport.js';
-      s.dataset.main = src;
-      document.head.appendChild(s);
-    }
+  try {
+    import('/js/module/index.js')
+  } catch (e) {
+    var s = document.createElement('script')
+    s.src = '/js/shimport.js'
+    s.dataset.main = '/js/module/index.js'
+    document.head.appendChild(s)
   }
   document.documentElement.classList.remove('no-js')
   document.documentElement.classList.add('js-loading')
-  shimport('/js/module/index.js');
 </script>`
   ]}
 <meta name="csrf-token" content="${req.csrfToken()}">
