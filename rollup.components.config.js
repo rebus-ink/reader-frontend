@@ -4,7 +4,7 @@ import commonjs from 'rollup-plugin-commonjs'
 import { terser } from 'rollup-plugin-terser'
 import { string } from 'rollup-plugin-string'
 import glob from 'glob'
-const input = glob.sync('components/**/*.component.js')
+const input = glob.sync('components/**/*.{component,hook,state}.js')
 
 export default {
   input,

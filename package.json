@@ -14,7 +14,7 @@
     "dev-components": "rollup -c -w",
     "start": "node index.js",
     "build-css": "node build-css.js && echo 'css done'",
-    "build-components": "rollup -c",
+    "build-components": "rollup -c rollup.components.config.js",
     "build": "node build-css.js && rollup -c && npm run build-vendor",
     "build-vendor": "pika-web --clean --optimize --dest=js/vendor && rollup -c rollup.vendor.config.js",
     "deploy-dev": "gcloud app deploy app-development.yaml",
