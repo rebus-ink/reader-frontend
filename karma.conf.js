@@ -13,7 +13,8 @@ module.exports = config => {
         //
         // npm run test -- --grep test/foo/bar.test.js
         // npm run test -- --grep test/bar/*
-        { pattern: config.grep ? config.grep : 'test/**/*.test.js', type: 'module' }
+        { pattern: config.grep ? config.grep : 'test/**/*.test.js', type: 'module' },
+        { pattern: 'node_modules/fetch-mock/dist/es5/client-bundle.js', type: 'js' }
       ],
       coverageIstanbulReporter: {
         reports: ['html', 'lcovonly', 'text'],

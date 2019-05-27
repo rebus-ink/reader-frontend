@@ -1,9 +1,6 @@
 /* global it, describe */
-import { html, fixture, expect } from '@open-wc/testing'
+import { html, fixture, expect, nextFrame } from '@open-wc/testing'
 import { passes } from './test-files/use-module-element.js'
-export function rafPromise () {
-  return new Promise(resolve => window.requestAnimationFrame(resolve))
-}
 
 describe('useModule', () => {
   it('Renders fallback first then re-renders', async () => {
@@ -13,7 +10,7 @@ describe('useModule', () => {
     )
     expect(passes[0]).to.equal(null)
     await el.moduleReady
-    await rafPromise()
+    await nextFrame()
     expect(passes[1].test).to.equal('This is a test module')
     expect(el).dom.to.equal(
       '<use-module-element><p>This is a test module</p></use-module-element>'
@@ -39,7 +36,7 @@ describe('useLazyModule', () => {
       '<use-lazy-module><p>Module is loading</p></use-lazy-module>'
     )
     await el.moduleReady
-    await rafPromise()
+    await nextFrame()
     expect(el).dom.to.equal(
       '<use-lazy-module><p>This is another test module</p></use-lazy-module>'
     )
