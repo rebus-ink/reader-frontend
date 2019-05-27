@@ -37,6 +37,7 @@ a.Info-return {
 .Info-title {
   font-weight: 600;
   font-size: 2rem;
+  line-height: 1.25;
   padding: 0;
 }
 .Info-label {
@@ -44,4 +45,12 @@ a.Info-return {
 }
 a.Info-button:link {
   display: block;
+}
+
+@media (max-width: 800px) {
+  .Info-title {
+    font-weight: 600;
+    font-size: 1.25rem;
+    padding: 0;
+  }
 }

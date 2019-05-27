@@ -31,6 +31,7 @@ ${[
   document.documentElement.classList.add('js-loading')
 </script>`
   ]}
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="csrf-token" content="${req.csrfToken()}">
 <meta name="rebus-user-id" content="${req.user.id}" id="sub-user-id">
 ${[base]}
