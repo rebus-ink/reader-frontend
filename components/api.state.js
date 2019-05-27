@@ -18,10 +18,10 @@
 should be initially based on fetch.js
 
 */
-import { get, fetchWrap } from './api-server/fetch.js'
-import { createProfileAPI } from './api-server/profile.js'
-import { createBookAPI } from './api-server/book.js'
-import { createActivityAPI } from './api-server/activity.js'
+import { get, fetchWrap } from './api/fetch.js'
+import { createProfileAPI } from './api/profile.js'
+import { createBookAPI } from './api/book.js'
+import { createActivityAPI } from './api/activity.js'
 
 export function createAPI ({ csrfToken, token = null }, global = window) {
   const context = { token, profile: null, books: new Map(), csrfToken }
