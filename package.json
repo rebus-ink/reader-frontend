@@ -126,6 +126,7 @@
     "morgan": "^1.9.1",
     "ms": "^2.1.1",
     "multer": "1.4.1",
+    "nanoassert": "^2.0.0",
     "nanobus": "^4.4.0",
     "neverland": "^1.2.4",
     "onpushstate": "^0.3.1",

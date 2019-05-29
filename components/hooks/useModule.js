@@ -1,4 +1,5 @@
 import { hook, Hook } from 'haunted'
+import assert from '../../js/vendor/nanoassert.js'
 
 const moduleMap = new Map()
 
@@ -18,6 +19,7 @@ export const useModule = hook(
       this.module = null
     }
     update (path) {
+      assert(typeof path === 'string')
       path = fullPath(path)
       return this.getModule(path)
     }
