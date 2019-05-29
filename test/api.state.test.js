@@ -146,12 +146,12 @@ describe('api.state', () => {
     expect(location).to.equal('/api/activity-id')
   })
 
-  it('api.activity.createAndGetId - creates and gets id', async () => {
+  it('api.activity.createAndGetID - creates and gets id', async () => {
     const fakeDoc = {
       type: 'Create',
       object: { type: 'Document', content: 'Loads!' }
     }
-    const fakeResult = { type: 'FakeDoc', id: '/doc-id' }
+    const fakeResult = { object: { type: 'FakeDoc', id: '/doc-id' } }
     const profile = { id: '/reader-user-id', outbox: '/api/outbox' }
     window.fetchMock.post('/refresh-token', () => {
       return { token }
@@ -162,8 +162,8 @@ describe('api.state', () => {
     })
     window.fetchMock.get('/whoami', profile)
     window.fetchMock.get('/api/activity-id', fakeResult)
-    const result = await window.api.activity.createAndGet(fakeDoc)
-    expect(result).to.include(fakeResult)
+    const result = await window.api.activity.createAndGetID(fakeDoc)
+    expect(result).to.equal('/doc-id')
   })
 
   it('api.activity.create - creates from unwrapped activities', async () => {

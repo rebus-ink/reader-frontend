@@ -22,6 +22,7 @@ import { get, fetchWrap } from './api/fetch.js'
 import { createProfileAPI } from './api/profile.js'
 import { createBookAPI } from './api/book.js'
 import { createActivityAPI } from './api/activity.js'
+import { createEventsApi } from './api/events.js'
 
 export function createAPI ({ csrfToken, token = null }, global = window) {
   const context = { token, profile: null, books: new Map(), csrfToken }
@@ -34,12 +35,15 @@ export function createAPI ({ csrfToken, token = null }, global = window) {
       if (tag) {
         url.searchParams.set('stack', tag)
       }
-      return get(url, context, global)
+      const collection = await get(url, context, global)
+      api.events.emit('library', collection)
+      return collection
     }
   }
   api.profile = createProfileAPI(context, api, global)
   api.book = createBookAPI(context, api, global)
   api.activity = createActivityAPI(context, api, global)
+  api.events = createEventsApi(context, api, global)
   return api
 }
 

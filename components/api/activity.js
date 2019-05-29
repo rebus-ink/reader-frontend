@@ -27,7 +27,7 @@ export function createActivityAPI (context, api, global) {
       const action = wrap(payload, 'Delete')
       return this.save(action)
     },
-    async createAndGet (payload) {
+    async createAndGetID (payload) {
       const location = await this.create(payload, global)
       const JWT = await getJWT(context, global)
       const response = await fetchWrap(location, {
@@ -36,11 +36,12 @@ export function createActivityAPI (context, api, global) {
           Authorization: `Bearer ${JWT}`
         })
       })
-      return response.json()
+      const activity = await response.json()
+      if (activity.object) return activity.object.id
     },
-    async upload (payload) {
+    async upload (payload, endpoint) {
       const JWT = await getJWT(context, global)
-      const upload = await api.profile.upload()
+      const upload = endpoint || (await api.profile.upload())
       try {
         const response = await fetchWrap(upload, {
           credentials: 'include',
