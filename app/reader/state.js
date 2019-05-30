@@ -87,7 +87,7 @@ export async function loadBook (
     bookData.position = {
       documentId: chapter.id,
       path: makeChapterURL(bookId, chapter),
-      resource: makeChapterURL(bookId, chapter, true),
+      resource: makeResourceURL(bookId, chapter),
       value
     }
   } else if (bookData.position && bookData.position.documentId) {
@@ -95,13 +95,13 @@ export async function loadBook (
       chapter => chapter.id === bookData.position.documentId
     )[0]
     bookData.position.path = makeChapterURL(bookId, chapter)
-    bookData.position.resource = makeChapterURL(bookId, chapter, true)
+    bookData.position.resource = makeResourceURL(bookId, chapter)
   } else {
     chapter = bookData.orderedItems[0]
     bookData.position = {
       documentId: bookData.orderedItems[0].id,
-      path: makeChapterURL(bookId, bookData.orderedItems[0], false),
-      resource: makeChapterURL(bookId, bookData.orderedItems[0], true)
+      path: makeChapterURL(bookId, bookData.orderedItems[0]),
+      resource: makeResourceURL(bookId, bookData.orderedItems[0])
     }
   }
   bookData.previous = getPrevious(bookId, bookData.orderedItems, chapter)
@@ -125,28 +125,18 @@ export async function loadChapter (position, act = activities) {
   }
 }
 
-function makeChapterURL (bookId, chapter = {}, json) {
-  // The below doesn't work as only Web Pub LinkResources have mediatypes.
-  if (
-    chapter.mediaType === 'text/html' ||
-    chapter.mediaType === 'application/xhtml+xml'
-  ) {
-    json = true
-  }
-  if (json) {
-    return `/asset/${bookId}/${chapter['reader:path']}${
-      json ? '?json=true' : ''
-    }`
-  } else {
-    return `/reader/${bookId}/${chapter['reader:path']}`
-  }
+function makeChapterURL (bookId, chapter = {}) {
+  return `/reader/${bookId}/${chapter['reader:path']}`
+}
+function makeResourceURL (bookId, chapter = {}) {
+  return `/asset/${bookId}/${chapter['reader:path']}?json=true`
 }
 
 export async function cacheBook (book, bookId, caches = window.caches) {
   // Could use link[rel=preload] here instead
   // This should filter out video resources
   const resources = book.orderedItems.map(resource =>
-    makeChapterURL(bookId, resource, true)
+    makeResourceURL(bookId, resource)
   )
   const bookResources = await caches.open('book-resources')
   await bookResources.addAll(resources)
