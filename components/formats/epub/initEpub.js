@@ -1,6 +1,8 @@
 import { parseOPF } from './parseOPF.js'
+import assert from '../../../js/vendor/nanoassert.js'
 
 export async function initEpub (context, api, global) {
+  console.log('in initEpub')
   // Should check for src prop and download epub if file is not present.
   // Should also check for activity prop in case we have an id for annotations
   // Need to figure out a way to handle three scenarios: import file, import URL, read from url cached in file: file, src, activity. Set during init. initAsync only called during import preview or during book read.
@@ -8,13 +10,13 @@ export async function initEpub (context, api, global) {
   const { file, zip } = context
   const container = await zip.file('META-INF/container.xml').async('string')
   const result = container.match(/full-path="([^"]+)"/)
-  if (!result[1]) {
-    throw new Error('No OPF path found')
-  }
+
+  assert(result[1], 'No OPF path found')
+
   // We save the full path to the opf
   const opfPath = result[1]
   const opf = await zip.file(opfPath).async('string')
-  const book = await parseOPF(opf, opfPath, api, global)
+  const book = parseOPF(opf, opfPath, api, global)
   const media = book.resources.map(resource => {
     return {
       documentPath: resource.url,

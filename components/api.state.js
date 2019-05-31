@@ -24,6 +24,7 @@ import { createBookAPI } from './api/book.js'
 import { createActivityAPI } from './api/activity.js'
 import { createEventsApi } from './api/events.js'
 import { createUploadApi } from './api/uploads.js'
+import { createFormatsAPI } from './formats/index.js'
 
 export function createAPI ({ csrfToken, token = null }, global = window) {
   const context = { token, profile: null, books: new Map(), csrfToken }
@@ -46,6 +47,7 @@ export function createAPI ({ csrfToken, token = null }, global = window) {
   api.activity = createActivityAPI(context, api, global)
   api.events = createEventsApi(context, api, global)
   api.uploads = createUploadApi(context, api, global)
+  api.formats = createFormatsAPI(context, api, global)
   return api
 }
 

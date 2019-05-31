@@ -1,6 +1,8 @@
 import { getText } from './utils.js'
+import assert from '../../../js/vendor/nanoassert.js'
 
-export async function parseOPF (opf, opfPath, api, global) {
+export function parseOPF (opf, opfPath, api, global) {
+  console.log('in parseOPF')
   let book = {
     type: 'Publication',
     links: [],
@@ -12,15 +14,9 @@ export async function parseOPF (opf, opfPath, api, global) {
   let opfDoc = parser.parseFromString(opf, 'application/xml')
 
   // Let's get the language and name
-  if (opfDoc.querySelector('parsererror')) {
-    opfDoc = parser.parseFromString(opf, 'text/html')
-    book.inLanguage = getText(opfDoc.querySelector('dc\\:language'))
-    book.name = getText(opfDoc.querySelector('dc\\:title'))
-  } else {
-    book.inLanguage = getText(opfDoc.querySelector('language'))
-    // Get the basic title (we'll handle alternate titles and refinements at a later date)
-    book.name = getText(opfDoc.querySelector('title'))
-  }
+  book.inLanguage = getText(opfDoc.querySelector('language'))
+  // Get the basic title (we'll implement alternate titles and refinements at a later date)
+  book.name = getText(opfDoc.querySelector('title'))
 
   // Other basics
   const packageElement = opfDoc.querySelector('package')
@@ -57,7 +53,7 @@ export async function parseOPF (opf, opfPath, api, global) {
   })[0]
   if (!propertiesCover) {
     const metaCover = opfDoc.querySelector('meta[name="cover"]')
-    const guideCover = opfDoc.querySelector('guide reference[type="cover"]')
+    // const guideCover = opfDoc.querySelector('guide reference[type="cover"]')
     if (metaCover) {
       const cover = book.resources.filter(item => {
         return item.id === metaCover.getAttribute('content')
@@ -65,17 +61,17 @@ export async function parseOPF (opf, opfPath, api, global) {
       if (cover) {
         cover.rel.push('cover')
       }
-    } else if (guideCover) {
-      const coverHTML = book.resources.filter(item => {
-        return (
-          item.path ===
-          getPath(guideCover.getAttribute('href'), opfPath, global)
-        )
-      })[0]
-      if (coverHTML && coverHTML.mediaType.indexOf('image') !== -1) {
-        coverHTML.rel.push('cover')
-      }
-    }
+    } // else if (guideCover) {
+    //   const coverHTML = book.resources.filter(item => {
+    //     return (
+    //       item.path ===
+    //       getPath(guideCover.getAttribute('href'), opfPath, global)
+    //     )
+    //   })[0]
+    //   if (coverHTML && coverHTML.mediaType.indexOf('image') !== -1) {
+    //     coverHTML.rel.push('cover')
+    //   }
+    // }
   }
 
   // Let's get the reading order
@@ -102,11 +98,8 @@ export async function parseOPF (opf, opfPath, api, global) {
 }
 
 function getPath (path, opfPath, global) {
-  try {
-    const opf = new global.URL(opfPath, 'http://example.com/')
-    // Return the full pathname, sans initial '/' as that confuses the zip
-    return new global.URL(path, opf).pathname.replace('/', '')
-  } catch (err) {
-    return null
-  }
+  assert(path && opfPath && global, 'All parameters for `getPath` are required')
+  const opf = new global.URL(opfPath, 'http://example.com/')
+  // Return the full pathname, sans initial '/' as that confuses the zip
+  return new global.URL(path, opf).pathname.replace('/', '')
 }
