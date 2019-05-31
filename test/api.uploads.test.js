@@ -1,4 +1,4 @@
-/* global it, describe, before, beforeEach, afterEach */
+/* global it, describe, beforeEach */
 import { expect } from '@open-wc/testing'
 import { createAPI } from '../components/api.state.js'
 

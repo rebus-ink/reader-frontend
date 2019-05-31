@@ -1,37 +1,48 @@
 import { uploadMedia } from '../uploadMedia.js'
+import assert from '../../../js/vendor/nanoassert.js'
+
+const canvas = document.createElement('canvas')
+canvas.id = 'import-pdf-cover-page'
+canvas.hidden = true
+canvas.setAttribute('style', 'display: none;')
+document.body.appendChild(canvas)
 
 export async function createPDF (file, context, api, global) {
+  assert(file, 'No file found')
   let book = { type: 'Publication', links: [], json: {} }
   const fileArray = await fileToArrayBuffer(file)
-  const pdf = await window.pdfjsLib.getDocument({
+  const loadingTask = global.pdfjsLib.getDocument({
     data: fileArray,
     cMapUrl: window.CMAP_URL,
     cMapPacked: window.CMAP_PACKED
-  }).promise
+  })
+  // loadingTask.onProgress = ({ loaded, total }) => {
+  //   console.log('progress: ', loaded / total)
+  // }
+  const pdf = await loadingTask.promise
   const infoData = await pdf.getMetadata()
   const info = infoData.info
   const metadata = infoData.metadata ? infoData.metadata.getAll() : {}
   book.name = metadata['dc:title'] || infoData.info.Title || file.name
-  book.author = [].concat(metadata['dc:creator']).concat(info.Author)
+  book.author = []
+    .concat(metadata['dc:creator'])
+    .concat(info.Author)
+    .filter(item => item)
   book.json.pdfInfo = info
   book.json.pdfMetadata = metadata
   book.json.totalPages = pdf.numPages
-  const canvas = document.createElement('canvas')
-  canvas.setAttribute('style', 'display: none;')
-  document.body.appendChild(canvas)
-  const canvasContext = canvas.getContext('2d')
+  const canvasContext = canvas.getContext('2d', { alpha: false })
   const page = await pdf.getPage(1)
-  const scale = 2.0
-  const viewport = page.getViewport({ scale: scale })
+  const scale = 1.5
+  const viewport = page.getViewport(scale)
   canvas.height = viewport.height
   canvas.width = viewport.width
   const renderContext = {
     canvasContext,
     viewport
   }
-  page.render(renderContext)
+  await page.render(renderContext).promise
   const coverFile = await canvasToFile(canvas)
-  document.body.removeChild(canvas)
   const media = [
     {
       file,
@@ -40,7 +51,7 @@ export async function createPDF (file, context, api, global) {
       json: {}
     },
     {
-      coverFile,
+      file: coverFile,
       documentPath: coverFile.name,
       mediaType: coverFile.type,
       json: {}
@@ -74,6 +85,7 @@ export async function createPDF (file, context, api, global) {
 }
 
 function canvasToFile (canvas) {
+  assert(canvas, 'No canvas found for PDF cover')
   return new Promise((resolve, reject) => {
     canvas.toBlob(
       blob => {

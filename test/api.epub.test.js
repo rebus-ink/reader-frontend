@@ -13,10 +13,12 @@ const token =
 
 describe('api.formats.epub', () => {
   before(() => {
-    const script = document.createElement('script')
-    script.async = false
-    script.src = '/node_modules/fetch-mock/dist/es5/client-bundle.js'
-    document.head.appendChild(script)
+    if (!window.fetchMock) {
+      const script = document.createElement('script')
+      script.async = false
+      script.src = '/node_modules/fetch-mock/dist/es5/client-bundle.js'
+      document.head.appendChild(script)
+    }
   })
   beforeEach(() => {
     window.api = createAPI({ csrfToken: 'csrfToken' })

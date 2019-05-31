@@ -2,7 +2,6 @@ import { parseOPF } from './parseOPF.js'
 import assert from '../../../js/vendor/nanoassert.js'
 
 export async function initEpub (context, api, global) {
-  console.log('in initEpub')
   // Should check for src prop and download epub if file is not present.
   // Should also check for activity prop in case we have an id for annotations
   // Need to figure out a way to handle three scenarios: import file, import URL, read from url cached in file: file, src, activity. Set during init. initAsync only called during import preview or during book read.

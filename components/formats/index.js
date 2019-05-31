@@ -9,20 +9,28 @@ async function zipModule () {
 }
 
 /* istanbul ignore next */
-async function pdfModule () {
-  if (window.pdfjsLib) return window.pdfjsLib
-  await import(window.PDFJSPATH || '/js/pdfjs-dist/build/pdf.min.js')
-  window.pdfjsLib.GlobalWorkerOptions.workerSrc =
-    '/js/pdfjs-dist/build/pdf.worker.js'
-  window.CMAP_URL = '/js/pdfjs-dist/cmaps/'
-  window.CMAP_PACKED = true
-  return window.pdfjsLib
+function pdfModule () {
+  if (window.pdfjsLib) return Promise.resolve(window.pdfjsLib)
+  return new Promise(resolve => {
+    const pdfScript = document.createElement('script')
+    pdfScript.async = false
+    pdfScript.src = '/js/pdfjs-dist/build/pdf.min.js'
+    document.head.appendChild(pdfScript)
+    function listener (loaded) {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+        '/js/pdfjs-dist/build/pdf.worker.js'
+      window.CMAP_URL = '/js/pdfjs-dist/cmaps/'
+      window.CMAP_PACKED = true
+      resolve(true)
+      pdfScript.removeEventListener('loaded', listener)
+    }
+    pdfScript.addEventListener('loaded', listener)
+  })
 }
 
 export function createFormatsAPI (context, api, global) {
   return {
     get epub () {
-      console.log('in formats.epub')
       return async file => {
         await zipModule()
         return createEpub(file, context, api, global)

@@ -4,7 +4,6 @@ import { addEpubToLibrary } from './addEpubToLibrary.js'
 import assert from '../../../js/vendor/nanoassert.js'
 
 export async function createEpub (file, context, api, global) {
-  console.log('in createEpub')
   assert(file, 'No file found')
   const zip = await global.JSZip.loadAsync(file, {
     base64: context.base64 || false

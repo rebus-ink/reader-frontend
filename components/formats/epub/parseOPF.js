@@ -2,7 +2,6 @@ import { getText } from './utils.js'
 import assert from '../../../js/vendor/nanoassert.js'
 
 export function parseOPF (opf, opfPath, api, global) {
-  console.log('in parseOPF')
   let book = {
     type: 'Publication',
     links: [],

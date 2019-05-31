@@ -2,7 +2,6 @@ import queue from 'async-es/queue'
 import assert from '../../js/vendor/nanoassert.js'
 
 export async function uploadMedia (created, api, global) {
-  console.log('in uploadMedia')
   const { book, media } = await created
   assert(book, 'No publication found to upload')
   assert(media, 'No media found to upload')
