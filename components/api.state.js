@@ -32,12 +32,10 @@ export function createAPI ({ csrfToken, token = null }, global = window) {
     get logout () {
       return () => logout(context, global)
     },
-    async library (tag) {
+    async library (params) {
       const url = await this.profile.library()
-      if (tag) {
-        url.searchParams.set('stack', tag)
-      }
-      const collection = await get(url, context, global)
+      const searchParams = new URLSearchParams(params).toString()
+      const collection = await get(url + searchParams, context, global)
       api.events.emit('library', collection)
       return collection
     }
