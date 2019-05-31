@@ -6,7 +6,7 @@ export function rafPromise () {
   return new Promise(resolve => window.requestAnimationFrame(resolve))
 }
 
-describe('useVisibility', () => {
+describe.skip('useVisibility', () => {
   it('Renders visible', async () => {
     const el = await fixture(html`<use-visibility></use-visibility>`)
     await rafPromise()

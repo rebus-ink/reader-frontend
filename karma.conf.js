@@ -6,7 +6,7 @@ module.exports = config => {
   config.set(
     merge(createDefaultConfig(config), {
       // We might temporarily removing Firefox while we figure out a better configuration for testing visibility.
-      // browsers: ['Firefox'],
+      browsers: ['Firefox'],
       files: [
         // runs all files ending with .test in the test folder,
         // can be overwritten by passing a --grep flag. examples:

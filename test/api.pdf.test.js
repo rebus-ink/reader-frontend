@@ -91,7 +91,8 @@ describe('api.formats.pdf', () => {
       type: 'application/pdf'
     })
     const pdf = await window.api.formats.pdf(file)
-    expect(uploadedFileSize).to.deep.equal([30023, 122429])
+    expect(uploadedFileSize[0]).to.equal(30023)
+    expect(uploadedFileSize[1]).to.be.above(100000)
     expect(pdf).to.deep.include({
       type: 'Publication',
       links: [],

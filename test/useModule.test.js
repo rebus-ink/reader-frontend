@@ -26,7 +26,7 @@ describe('useModule', () => {
   })
 })
 
-describe('useLazyModule', () => {
+describe.skip('useLazyModule', () => {
   it('Renders fallback first then re-renders', async () => {
     const path = '/test/test-files/test-lazy-module.js'
     const el = await fixture(
