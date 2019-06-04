@@ -1,6 +1,18 @@
 import { html } from 'lit-html'
 import { component } from 'haunted'
 
+export const title = 'Book Listing Component: `<book-listing>`'
+
+export const description = `This is a book listing component used in the library and collection views.`
+
+export const preview = () => {
+  return html`<book-listing .book=${{
+    name: 'Book Title',
+    id: 'https://example.com/id',
+    attributedTo: [{ name: 'Fancy Author' }]
+  }}></book-listing>`
+}
+
 export const BookListing = component(
   ({ book = {} }) => {
     const { cover = '/static/placeholder-cover.jpg', attributedTo = [] } = book

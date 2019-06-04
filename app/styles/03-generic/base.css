@@ -213,3 +213,7 @@ button:focus {
 [aria-hidden='true'] {
   display: none;
 }
+
+strong[slot='modal-title'] {
+  font-weight: 700;
+}

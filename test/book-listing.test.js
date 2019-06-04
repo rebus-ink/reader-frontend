@@ -1,7 +1,7 @@
 /* global it, describe */
 import { html, fixture, expect } from '@open-wc/testing'
 
-import '../components/book-listing/book-listing.component.js'
+import '../components/book-listing.component.js'
 
 describe('<book-listing>', () => {
   it('Listing with basic info', async () => {
