@@ -67,9 +67,21 @@ select:hover {
   border-color: var(--rc-main);
   cursor: pointer;
 }
+@keyframes outlinePop {
+  0% {
+    box-shadow: 0 0 0 1px rgba(33, 33, 33, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 8px var(--rc-darker);
+  }
+  100% {
+    box-shadow: 0 0 0 3px var(--rc-dark);
+  }
+}
 select:focus {
-  border-color: var(--rc-main);
-  color: #222;
+    box-shadow: 0 0 0 3px var(--rc-dark);
+    outline: none;
+    animation: outlinePop 0.25s ease-in-out;
 }
 select option {
   font-weight: normal;
