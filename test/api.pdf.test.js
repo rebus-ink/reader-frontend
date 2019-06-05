@@ -1,18 +1,6 @@
 /* global it, describe, before, beforeEach, afterEach */
 import { expect, oneEvent } from '@open-wc/testing'
 import { createAPI } from '../components/api.state.js'
-// import '/js/pdfjs-dist/build/pdf.min.js'
-// console.log(window.pdfjsLib)
-// window.pdfjsLib.GlobalWorkerOptions.workerSrc =
-//   '/js/pdfjs-dist/build/pdf.worker.js'
-// window.CMAP_URL = '/js/pdfjs-dist/cmaps/'
-// window.CMAP_PACKED = true
-
-// window.ZIPJSPATH = '../../js/vendor/zip.js'
-// window.PDFJSPATH = '../../js/pdfjs-dist/build/pdf.min.js'
-// Expires in five year's time.
-const token =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmYWtlLXVzZXItaWQiLCJpYXQiOjE1NTg3MzA1NjMsImV4cCI6MTcxNjUxODU2MywiYXVkIjoiYXdkaWVuc2giLCJpc3MiOiJpc2h1ZXIiLCJqdGkiOiJmYWtlLWp3dC1pZCJ9.S3GRr9rkrrX9kkXlox-7TTKsKT7dZ8lhgnlHJc6RYLI'
 
 const testfileURLs = [
   '/test/test-files/this-is-a-test-pdf.pdf',
@@ -66,9 +54,6 @@ describe('api.formats.pdf', () => {
     window.fetchMock.reset()
   })
   it('processes regular pdf files properly', async () => {
-    window.fetchMock.post('/refresh-token', () => {
-      return { token }
-    })
     const uploadedFileSize = []
     window.fetchMock.post(
       'express:/publication-:id/file-upload',
@@ -141,9 +126,6 @@ describe('api.formats.pdf', () => {
     })
   })
   it('processes optimized pdf files properly', async () => {
-    window.fetchMock.post('/refresh-token', () => {
-      return { token }
-    })
     window.fetchMock.post('express:/publication-:id/file-upload', 200)
     window.fetchMock.post('/api/outbox', {
       status: 200,
@@ -205,9 +187,6 @@ describe('api.formats.pdf', () => {
     })
   })
   it('processes flattened pdf files properly', async () => {
-    window.fetchMock.post('/refresh-token', () => {
-      return { token }
-    })
     window.fetchMock.post('express:/publication-:id/file-upload', 200)
     window.fetchMock.post('/api/outbox', {
       status: 200,

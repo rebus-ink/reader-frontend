@@ -1,4 +1,4 @@
-import { getJWT } from './jwt.js'
+import { getToken } from './csrf.js'
 import { fetchWrap, get } from './fetch.js'
 
 export function createProfileAPI (context, api, global) {
@@ -26,11 +26,9 @@ async function getProfile (context, global) {
   if (context.profile) {
     return context.profile
   }
-  const JWT = await getJWT(context, global)
   const response = await global.fetch('/whoami', {
     headers: new global.Headers({
-      'content-type': 'application/ld+json',
-      Authorization: `Bearer ${JWT}`
+      'content-type': 'application/ld+json'
     })
   })
   if (response.ok) {
@@ -41,13 +39,14 @@ async function getProfile (context, global) {
       summary: `Reader profile`
     }
     try {
+      const csrfToken = getToken()
       const response = await fetchWrap('/readers', {
         credentials: 'include',
         method: 'POST',
         body: JSON.stringify(newReader),
         headers: new global.Headers({
           'content-type': 'application/ld+json',
-          Authorization: `Bearer ${JWT}`
+          'csrf-token': csrfToken
         })
       })
       const reader = await get(

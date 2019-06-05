@@ -7,9 +7,6 @@ import '../js/vendor/zip.js'
 
 window.ZIPJSPATH = '../../js/vendor/zip.js'
 window.PDFJSPATH = '../../js/pdfjs-dist/build/pdf.min.js'
-// Expires in five year's time.
-const token =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmYWtlLXVzZXItaWQiLCJpYXQiOjE1NTg3MzA1NjMsImV4cCI6MTcxNjUxODU2MywiYXVkIjoiYXdkaWVuc2giLCJpc3MiOiJpc2h1ZXIiLCJqdGkiOiJmYWtlLWp3dC1pZCJ9.S3GRr9rkrrX9kkXlox-7TTKsKT7dZ8lhgnlHJc6RYLI'
 
 describe('api.formats.epub', () => {
   before(() => {
@@ -28,9 +25,6 @@ describe('api.formats.epub', () => {
     window.fetchMock.reset()
   })
   it('processes epub files properly', async () => {
-    window.fetchMock.post('/refresh-token', () => {
-      return { token }
-    })
     window.fetchMock.post('express:/publication-:id/file-upload', 200)
     window.fetchMock.post('/api/outbox', {
       status: 200,

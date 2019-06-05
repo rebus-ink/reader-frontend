@@ -1,4 +1,3 @@
-import { getJWT } from './jwt.js'
 import { HTTPError } from '../../app/utils/http-error.js'
 
 export async function fetchWrap (...args) {
@@ -10,12 +9,10 @@ export async function fetchWrap (...args) {
 }
 
 export async function get (url, context, global) {
-  const JWT = await getJWT(context, global)
   try {
     const response = await fetchWrap(url, {
       headers: new window.Headers({
-        'content-type': 'application/ld+json',
-        Authorization: `Bearer ${JWT}`
+        'content-type': 'application/ld+json'
       })
     })
     return response.json()

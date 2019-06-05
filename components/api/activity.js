@@ -1,12 +1,11 @@
 import { fetchWrap } from './fetch.js'
-import { getJWT } from './jwt.js'
+import { getToken } from './csrf.js'
 
 export function createActivityAPI (context, api, global) {
   return {
     async save (action) {
-      const JWT = await getJWT(context, global)
       const outbox = await api.profile.outbox()
-      return saveActivity(action, outbox, JWT, global)
+      return saveActivity(action, outbox, global)
     },
     create (payload) {
       const action = wrap(payload, 'Create')
@@ -29,26 +28,25 @@ export function createActivityAPI (context, api, global) {
     },
     async createAndGetID (payload) {
       const location = await this.create(payload, global)
-      const JWT = await getJWT(context, global)
       const response = await fetchWrap(location, {
         headers: new global.Headers({
-          'content-type': 'application/ld+json',
-          Authorization: `Bearer ${JWT}`
+          'content-type': 'application/ld+json'
         })
       })
       const activity = await response.json()
       if (activity.object) return activity.object.id
     },
     async upload (payload, endpoint) {
-      const JWT = await getJWT(context, global)
       const upload = endpoint || (await api.profile.upload())
+      const csrfToken = getToken()
       try {
         const response = await fetchWrap(upload, {
           credentials: 'include',
           method: 'POST',
           body: payload,
           headers: new global.Headers({
-            Authorization: `Bearer ${JWT}`
+            'content-type': 'application/ld+json',
+            'csrf-token': csrfToken
           })
         })
         return response.json()
@@ -60,15 +58,16 @@ export function createActivityAPI (context, api, global) {
   }
 }
 
-export async function saveActivity (action, outbox, JWT, global) {
+export async function saveActivity (action, outbox, global) {
   try {
+    const csrfToken = getToken()
     const response = await fetchWrap(outbox, {
       credentials: 'include',
       method: 'POST',
       body: JSON.stringify(action),
       headers: new global.Headers({
         'content-type': 'application/ld+json',
-        Authorization: `Bearer ${JWT}`
+        'csrf-token': csrfToken
       })
     })
     return response.headers.get('location')
