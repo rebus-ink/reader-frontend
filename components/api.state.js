@@ -25,9 +25,10 @@ import { createActivityAPI } from './api/activity.js'
 import { createEventsApi } from './api/events.js'
 import { createUploadApi } from './api/uploads.js'
 import { createFormatsAPI } from './formats/index.js'
+import { getToken } from './api/csrf.js'
 
-export function createAPI ({ csrfToken, token = null }, global = window) {
-  const context = { token, profile: null, books: new Map(), csrfToken }
+export function createAPI ({ csrfToken }, global = window) {
+  const context = { profile: null, books: new Map() }
   const api = {
     get logout () {
       return () => logout(context, global)
@@ -50,13 +51,13 @@ export function createAPI ({ csrfToken, token = null }, global = window) {
 }
 
 async function logout (context, global) {
-  context.token = null
+  const csrfToken = getToken()
   await fetchWrap('/logout', {
     credentials: 'include',
     method: 'POST',
     headers: new global.Headers({
       'content-type': 'application/ld+json',
-      'csrf-token': context.csrfToken
+      'csrf-token': csrfToken
     })
   })
   global.location.reload(true)
