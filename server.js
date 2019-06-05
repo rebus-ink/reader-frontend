@@ -51,6 +51,7 @@ function setup (authserver) {
   app.use('/images', require('./server/routes/images.js'))
 
   const apiApp = require('./hobb-api/server.js').app
+  app.use('/', require('./server/api-auth.js'))
   app.use('/', apiApp) // This requires multer, @google-cloud/storage, sqlite objection knex pg objection-db-errors objection-guid debug lodash dotenv passport-jwt
 
   apiApp.initialize(true).catch(err => {
