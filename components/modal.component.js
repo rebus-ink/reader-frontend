@@ -33,7 +33,7 @@ export const InkModal = ({ open, full }) => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -59,6 +59,7 @@ header {
   position: relative;
   display: flex;
   flex-direction: column;
+  box-shadow: 1px 1px 14px -2px rgba(0,0,0,0.15);
 }
 .full .container {
   width: 100%;
@@ -121,14 +122,11 @@ header {
     <div tabindex="-1" class=${classMap({
     overlay: true,
     full
-  })} @click=${event => {
-  if (event.target === event.currentTarget) return closer()
-}}>
+  })} data-modal-close>
       <div role="dialog" class="container" aria-modal="true" aria-labelledby="modal-1-title" >
         <header>
           <h2 class="title"><slot name="modal-title" id="title">Title</slot></h2>
-          <button aria-label="Close modal" class="close" @click=${() =>
-    closer()}>&times;</button>
+          <button aria-label="Close modal" class="close" data-modal-close>&times;</button>
         </header>
         <div id="modal-1-content" class="content"><slot name="modal-body">Body</slot>
         </div>

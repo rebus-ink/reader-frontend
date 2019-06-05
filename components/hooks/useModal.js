@@ -1,7 +1,7 @@
 import { hook, Hook } from 'haunted'
+import Popper from '/js/vendor/popper.js'
 // Very very loosely based on https://micromodal.now.sh, MIT Licensed
 
-const modalMap = new Map()
 const FOCUSABLE_ELEMENTS = [
   'a[href]',
   'area[href]',
@@ -16,33 +16,67 @@ const FOCUSABLE_ELEMENTS = [
   '[tabindex]:not([tabindex^="-"])'
 ]
 
+let activeModal
+
 export const useModal = hook(
   class extends Hook {
     constructor (id, el) {
       super(id, el)
       this.element = el.host
-      modalMap.set(this.element.id, this)
       this.element.addEventListener('keydown', this)
+      this.element.addEventListener('click', this)
       this.closer = this.closer.bind(this)
       this.opener = this.opener.bind(this)
+      this.args = Object.freeze([this.closer, this.opener])
     }
     update () {
       console.log('update called')
-      return [this.closer, this.opener]
+      return this.args
     }
     handleEvent (event) {
       if (event.type === 'keydown') {
         this.onKeydown(event)
+      } else if (event.type === 'click') {
+        this.onClick(event)
+      }
+    }
+    onKeydown (event) {
+      console.log('keydown called')
+      if (event.keyCode === 27) this.closeModal(event)
+      if (event.keyCode === 9) this.maintainFocus(event)
+    }
+    onClick (event) {
+      if (event.path[0] && event.path[0].hasAttribute('data-modal-close')) {
+        this.closer()
+        event.preventDefault()
       }
     }
 
-    opener () {
+    opener (ref) {
+      const container = this.element.shadowRoot.querySelector('[role="dialog"]')
+      console.log(container)
+      console.log(ref)
+      let reference
+      if (ref) {
+        if (ref.current) {
+          reference = ref.current
+        } else {
+          reference = ref
+        }
+      }
+      if (reference) {
+        this.popper = new Popper(reference, container, {
+          arrow: { enabled: true }
+        })
+      }
       console.log('opener called')
+      close()
       this.activeElement = document.activeElement
       this.element.setAttribute('aria-hidden', 'false')
       this.element.classList.add('is-open')
       this.setFocusToFirstNode()
       this.scrollBehaviour('disable')
+      activeModal = this
     }
     closer () {
       console.log('closer called')
@@ -54,11 +88,8 @@ export const useModal = hook(
       }
       element.classList.remove('is-open')
       element.open = false
-    }
-    onKeydown (event) {
-      console.log('keydown called')
-      if (event.keyCode === 27) this.closeModal(event)
-      if (event.keyCode === 9) this.maintainFocus(event)
+      element.reference = null
+      activeModal = null
     }
 
     scrollBehaviour (toggle) {
@@ -122,6 +153,11 @@ export const useModal = hook(
 
     teardown () {
       this.element.removeEventListener('keydown', this)
+      this.element.removeEventListener('click', this)
     }
   }
 )
+
+export function close () {
+  if (activeModal) activeModal.closer()
+}
