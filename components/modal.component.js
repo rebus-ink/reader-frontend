@@ -16,7 +16,7 @@ export const preview = () => {
 }
 
 export const InkModal = ({ open, full }) => {
-  const [closer, opener] = useModal()
+  const [opener] = useModal()
   useEffect(
     () => {
       if (open) {
@@ -63,14 +63,14 @@ header {
 }
 .full .container {
   width: 100%;
-  max-width: 100vh;
+  max-width: 100vw;
 }
 
 .close {
   position: absolute;
-  top: 0.7rem;
-  right: 0.5rem;
-  font-size: 1.5rem;
+  top: 0.8rem;
+  left: 0.5rem;
+  font-size: 1.25rem;
   line-height: 1rem;
   transform: translateY(-2px);
   display: inline-block;
@@ -88,6 +88,33 @@ header {
   border: none;
   background-color: transparent;
   color: var(--rc-main);
+
+  height: 30px;
+    width: 30px;
+    margin: 0;
+    padding: 0;
+}
+@keyframes outlinePop {
+  0% {
+    transform: scale(100%);
+    stroke-width: 1px;
+  }
+  50% {
+    transform: scale(200%);
+    stroke-width: 8px;
+  }
+  100% {
+    transform: scale(100%);
+    stroke-width: 3px;
+  }
+}
+.close:focus {
+  background-image: radial-gradient(circle closest-side, #f7f7f7 0%, #f7f7f7 95%, white );
+  outline: none;
+}
+.close:focus svg {
+  animation: outlinePop 0.25s ease-in-out;
+  stroke-width: 3px;
 }
 
 .content {
@@ -126,7 +153,7 @@ header {
       <div role="dialog" class="container" aria-modal="true" aria-labelledby="modal-1-title" >
         <header>
           <h2 class="title"><slot name="modal-title" id="title">Title</slot></h2>
-          <button aria-label="Close modal" class="close" data-modal-close>&times;</button>
+          <button aria-label="Close modal" class="close" data-modal-close><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
         </header>
         <div id="modal-1-content" class="content"><slot name="modal-body">Body</slot>
         </div>

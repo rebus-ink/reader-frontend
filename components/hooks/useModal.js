@@ -27,7 +27,7 @@ export const useModal = hook(
       this.element.addEventListener('click', this)
       this.closer = this.closer.bind(this)
       this.opener = this.opener.bind(this)
-      this.args = Object.freeze([this.closer, this.opener])
+      this.args = Object.freeze([this.opener, this.closer])
     }
     update () {
       console.log('update called')
@@ -46,7 +46,11 @@ export const useModal = hook(
       if (event.keyCode === 9) this.maintainFocus(event)
     }
     onClick (event) {
-      if (event.path[0] && event.path[0].hasAttribute('data-modal-close')) {
+      let clicker = event.path[0]
+      if (clicker && clicker.tagName.toLowerCase() === 'svg') {
+        clicker = event.path[1]
+      }
+      if (clicker.hasAttribute('data-modal-close')) {
         this.closer()
         event.preventDefault()
       }
