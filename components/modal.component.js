@@ -17,7 +17,7 @@ export const preview = () => {
 }
 
 export const InkModal = ({ open, full }) => {
-  const [opener] = useModal()
+  const [opener] = useModal({ animation: true })
   useEffect(
     () => {
       if (open) {
@@ -65,6 +65,47 @@ header {
 .full .container {
   width: 100%;
   max-width: 100vw;
+}
+@keyframes containerPop {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+}
+@keyframes fullContainerPop {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+// Make sure .full doesn't pop
+[aria-hidden="true"] .container {
+  opacity: 0;
+}
+.container.is-closing  {
+  animation: containerPop 0.25s ease-in-out;
+}
+.container.is-opening  {
+  animation: containerPop 0.25s ease-in-out reverse;
+}
+.full .container.is-closing  {
+  animation: fullContainerPop 0.25s ease-in-out;
+}
+.full .container.is-opening  {
+  animation: fullContainerPop 0.25s ease-in-out reverse;
 }
 
 .content {

@@ -17,7 +17,7 @@ export const preview = () => {
 }
 
 export const InkMenuModal = ({ reference }) => {
-  const [opener] = useModal()
+  const [opener] = useModal({ animation: true })
   useEffect(
     () => {
       if (reference) {
@@ -122,6 +122,27 @@ header {
   flex-direction: column;
     box-shadow: 2px 2px 20px -4px rgba(0,0,0,0.25);
 }
+@keyframes containerPop {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+[aria-hidden="true"] .container {
+  opacity: 0;
+}
+.container.is-closing  {
+  animation: containerPop 0.25s ease-in-out;
+}
+.container.is-opening  {
+  animation: containerPop 0.25s ease-in-out reverse;
+}
+
 
 .content {
   display: flex;

@@ -16,6 +16,16 @@ const FOCUSABLE_ELEMENTS = [
   '[tabindex]:not([tabindex^="-"])'
 ]
 
+function once (emitter, eventName) {
+  console.log(emitter, eventName)
+  return new Promise(resolve => {
+    function listener (event) {
+      resolve(event)
+    }
+    emitter.addEventListener(eventName, listener, { once: true })
+  })
+}
+
 let activeModal
 
 export const useModal = hook(
@@ -29,7 +39,8 @@ export const useModal = hook(
       this.opener = this.opener.bind(this)
       this.args = Object.freeze([this.opener, this.closer])
     }
-    update () {
+    update (config = {}) {
+      this.config = config
       console.log('update called')
       return this.args
     }
@@ -52,7 +63,7 @@ export const useModal = hook(
       }
     }
 
-    opener (ref) {
+    async opener (ref) {
       const container = this.element.shadowRoot.querySelector('[role="dialog"]')
       console.log(container)
       console.log(ref)
@@ -70,17 +81,30 @@ export const useModal = hook(
         })
       }
       console.log('opener called')
-      close()
-      this.activeElement = document.activeElement
+      await close()
+      const element = this.element
       this.element.setAttribute('aria-hidden', 'false')
+      if (this.config.animation) {
+        const container = element.shadowRoot.querySelector('.container')
+        container.classList.add('is-opening')
+        await once(container, 'animationend')
+        container.classList.remove('is-opening')
+      }
+      this.activeElement = document.activeElement
       this.element.classList.add('is-open')
       this.setFocusToFirstNode()
       this.scrollBehaviour('disable')
       activeModal = this
     }
-    closer () {
+    async closer () {
       console.log('closer called')
       const element = this.element
+      if (this.config.animation) {
+        const container = element.shadowRoot.querySelector('.container')
+        container.classList.add('is-closing')
+        await once(container, 'animationend')
+        container.classList.remove('is-closing')
+      }
       element.setAttribute('aria-hidden', 'true')
       this.scrollBehaviour('enable')
       if (this.activeElement) {

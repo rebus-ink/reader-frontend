@@ -42,15 +42,15 @@ export const InkModalCloser = () => {
 }
 @keyframes outlinePop {
   0% {
-    transform: scale(100%);
+    transform: scale(1);
     stroke-width: 1px;
   }
   50% {
-    transform: scale(200%);
+    transform: scale(1.5);
     stroke-width: 8px;
   }
   100% {
-    transform: scale(100%);
+    transform: scale(1);
     stroke-width: 3px;
   }
 }
