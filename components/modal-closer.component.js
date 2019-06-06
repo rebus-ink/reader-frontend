@@ -56,7 +56,8 @@ export const InkModalCloser = () => {
 }
 .close:focus {
   background-image: radial-gradient(circle closest-side, #f7f7f7 0%, #f7f7f7 95%, transparent );
-  outline: none;
+  
+  outline: solid transparent;
 }
 .close:focus svg {
   animation: outlinePop 0.25s ease-in-out;
@@ -68,5 +69,5 @@ export const InkModalCloser = () => {
 
 window.customElements.define(
   'ink-modal-closer',
-  component(InkModalCloser, window.HTMLElement)
+  component(InkModalCloser, window.HTMLElement, { useShadowDOM: false })
 )

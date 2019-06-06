@@ -80,7 +80,8 @@ select:hover {
 }
 select:focus {
     box-shadow: 0 0 0 3px var(--rc-dark);
-    outline: none;
+    
+    outline: solid transparent;
     animation: outlinePop 0.25s ease-in-out;
 }
 select option {

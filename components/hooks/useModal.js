@@ -82,6 +82,8 @@ export const useModal = hook(
       }
       console.log('opener called')
       await close()
+      this.activeElement = document.activeElement
+      this.scrollBehaviour('disable')
       const element = this.element
       this.element.setAttribute('aria-hidden', 'false')
       if (this.config.animation) {
@@ -90,10 +92,8 @@ export const useModal = hook(
         await once(container, 'animationend')
         container.classList.remove('is-opening')
       }
-      this.activeElement = document.activeElement
       this.element.classList.add('is-open')
       this.setFocusToFirstNode()
-      this.scrollBehaviour('disable')
       activeModal = this
     }
     async closer () {
@@ -158,10 +158,14 @@ export const useModal = hook(
       const focusableNodes = this.getFocusableNodes()
 
       // if disableFocus is true
-      if (!this.contains(document.activeElement)) {
+      const element = this.element
+      console.log(element.shadowRoot.activeElement)
+      if (!element.shadowRoot.activeElement) {
         focusableNodes[0].focus()
       } else {
-        const focusedItemIndex = focusableNodes.indexOf(document.activeElement)
+        const focusedItemIndex = focusableNodes.indexOf(
+          element.shadowRoot.activeElement
+        )
 
         if (event.shiftKey && focusedItemIndex === 0) {
           focusableNodes[focusableNodes.length - 1].focus()
