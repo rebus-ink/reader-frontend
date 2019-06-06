@@ -17,7 +17,6 @@ const FOCUSABLE_ELEMENTS = [
 ]
 
 function once (emitter, eventName) {
-  console.log(emitter, eventName)
   return new Promise(resolve => {
     function listener (event) {
       resolve(event)
@@ -41,7 +40,6 @@ export const useModal = hook(
     }
     update (config = {}) {
       this.config = config
-      console.log('update called')
       return this.args
     }
     handleEvent (event) {
@@ -52,12 +50,11 @@ export const useModal = hook(
       }
     }
     onKeydown (event) {
-      console.log('keydown called')
       if (event.keyCode === 27) this.closeModal(event)
       if (event.keyCode === 9) this.maintainFocus(event)
     }
     onClick (event) {
-      if (testClicker(event.path)) {
+      if (testClicker(event.composedPath())) {
         this.closer()
         event.preventDefault()
       }
@@ -65,8 +62,6 @@ export const useModal = hook(
 
     async opener (ref) {
       const container = this.element.shadowRoot.querySelector('[role="dialog"]')
-      console.log(container)
-      console.log(ref)
       let reference
       if (ref) {
         if (ref.current) {
@@ -75,13 +70,13 @@ export const useModal = hook(
           reference = ref
         }
       }
+      await close()
       if (reference) {
         this.popper = new Popper(reference, container, {
+          positionFixed: true,
           arrow: { enabled: true }
         })
       }
-      console.log('opener called')
-      await close()
       this.activeElement = document.activeElement
       this.scrollBehaviour('disable')
       const element = this.element
@@ -97,7 +92,6 @@ export const useModal = hook(
       activeModal = this
     }
     async closer () {
-      console.log('closer called')
       const element = this.element
       if (this.config.animation) {
         const container = element.shadowRoot.querySelector('.container')
@@ -117,7 +111,6 @@ export const useModal = hook(
     }
 
     scrollBehaviour (toggle) {
-      console.log('scrollbehaviour called')
       const body = document.querySelector('body')
       switch (toggle) {
         case 'enable':
@@ -131,7 +124,6 @@ export const useModal = hook(
     }
 
     getFocusableNodes () {
-      console.log('focusable called')
       let nodes
       if (this.element.shadowRoot) {
         nodes = this.element.shadowRoot.querySelectorAll(FOCUSABLE_ELEMENTS)
@@ -141,7 +133,6 @@ export const useModal = hook(
       return Array(...nodes)
     }
     setFocusToFirstNode () {
-      console.log('focus first called')
       const focusableNodes = this.getFocusableNodes()
       if (focusableNodes.length) focusableNodes[0].focus()
     }
@@ -154,12 +145,10 @@ export const useModal = hook(
       }
     }
     maintainFocus (event) {
-      console.log('maintain focus called')
       const focusableNodes = this.getFocusableNodes()
 
       // if disableFocus is true
       const element = this.element
-      console.log(element.shadowRoot.activeElement)
       if (!element.shadowRoot.activeElement) {
         focusableNodes[0].focus()
       } else {
