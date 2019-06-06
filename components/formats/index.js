@@ -4,8 +4,7 @@ import { createPDF } from './pdf/index.js'
 /* istanbul ignore next */
 async function zipModule () {
   if (window.JSZip) return window.JSZip
-  const zip = await import(window.ZIPJSPATH || '/js/vendor/zip.js')
-  return zip
+  return import(window.ZIPJSPATH || '/js/vendor/zip.js')
 }
 
 /* istanbul ignore next */

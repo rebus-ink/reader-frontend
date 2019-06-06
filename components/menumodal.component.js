@@ -7,6 +7,7 @@ export const title = 'Modal: `<ink-menu-modal>`'
 
 export const description = `The the menu modal card, wraps its light-dom in a modal`
 
+// http://localhost:8080/demo/?component=/components/menumodal.component.js&imports=/components/modal-closer.component.js
 export const preview = () => {
   return html`<button @click=${event => {
     document.getElementById('modal-1').reference = event.target
@@ -122,57 +123,6 @@ header {
     box-shadow: 2px 2px 20px -4px rgba(0,0,0,0.25);
 }
 
-.close {
-  position: absolute;
-  top: 0.7rem;
-  right: 0.5rem;
-  font-size: 1.5rem;
-  line-height: 1rem;
-  transform: translateY(-2px);
-  display: inline-block;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  text-align: center;
-  white-space: nowrap;
-  text-decoration: none;
-  text-transform: uppercase;
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-  border: none;
-  background-color: transparent;
-  color: var(--rc-main);
-
-  height: 30px;
-    width: 30px;
-    margin: 0;
-    padding: 0;
-}
-@keyframes outlinePop {
-  0% {
-    transform: scale(100%);
-    stroke-width: 1px;
-  }
-  50% {
-    transform: scale(200%);
-    stroke-width: 8px;
-  }
-  100% {
-    transform: scale(100%);
-    stroke-width: 3px;
-  }
-}
-.close:focus {
-  background-image: radial-gradient(circle closest-side, #f7f7f7 0%, #f7f7f7 95%, white );
-  outline: none;
-}
-.close:focus svg {
-  animation: outlinePop 0.25s ease-in-out;
-  stroke-width: 3px;
-}
-
 .content {
   display: flex;
   flex-direction: column;
@@ -208,7 +158,7 @@ header {
       <div role="dialog" class="container" id='container' aria-modal="true" aria-labelledby="modal-1-title" >
         <header>
           <h2 class="title"><slot name="modal-title" id="title">Title</slot></h2>
-          <button aria-label="Close modal" class="close" data-modal-close><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+          <ink-modal-closer></ink-modal-closer>
         </header>
         <div id="modal-1-content" class="content"><slot name="modal-body">Body</slot>
         </div>
