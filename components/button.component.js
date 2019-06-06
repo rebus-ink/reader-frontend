@@ -12,6 +12,9 @@ export const preview = () => {
 
 export const InkButton = ({ disabled, secondary, dropdown }) => {
   return html`<style>
+    :host {
+      display: inline-block;
+    }
 button {
   font-family: var(--sans-fonts);
   font-size: 0.65rem;

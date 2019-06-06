@@ -7,15 +7,15 @@ export const title = 'Collection Sidebar: `<ink-collection-sidebar>`'
 
 export const description = `Primary navigation for the menu.`
 
-// http://localhost:8080/demo/?component=/components/collection-sidebar.component.js&imports=/test/test-files/test-tags.js
+// http://localhost:8080/demo/?component=/components/collection-sidebar.component.js&imports=/test/test-files/test-tags.js,/components/modal-closer.component.js,/components/button.component.js
 export const preview = () => {
-  return html`<button @click=${() => {
+  return html`<ink-button @click=${() => {
     document.getElementById('modal-1').open = true
     document.getElementById('modal-1').collections = window.testTags
-  }}>open modal</button><button @click=${() => {
+  }}>open modal</ink-button><ink-button @click=${() => {
     document.getElementById('modal-1').open = true
     document.getElementById('modal-1').current = 'This is a test collection'
-  }}>open modal</button><ink-collection-sidebar id="modal-1" aria-hidden="true"></ink-collection-sidebar>`
+  }}>open modal</ink-button><ink-collection-sidebar id="modal-1" aria-hidden="true"></ink-collection-sidebar>`
 }
 
 export const CollectionSidebar = ({ collections = [], open, current }) => {

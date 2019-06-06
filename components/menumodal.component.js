@@ -7,13 +7,13 @@ export const title = 'Modal: `<ink-menu-modal>`'
 
 export const description = `The the menu modal card, wraps its light-dom in a modal`
 
-// http://localhost:8080/demo/?component=/components/menumodal.component.js&imports=/components/modal-closer.component.js
+// http://localhost:8080/demo/?component=/components/menumodal.component.js&imports=/components/modal-closer.component.js,/components/button.component.js
 export const preview = () => {
-  return html`<button @click=${event => {
+  return html`<ink-button dropdown @click=${event => {
     document.getElementById('modal-1').reference = event.target
-  }}>open modal</button><button @click=${event => {
+  }}>open modal</ink-button><ink-button dropdown @click=${event => {
     document.getElementById('modal-1').reference = event.target
-  }}>open bigger</button><ink-menu-modal id="modal-1" aria-hidden="true"><strong slot="modal-title">Fancy Title</strong><p slot="modal-body" style="padding: 1rem;">Fancy body</p></ink-menu-modal>`
+  }}>open bigger</ink-button><ink-menu-modal id="modal-1" aria-hidden="true"><strong slot="modal-title">Fancy Title</strong><p slot="modal-body" style="padding: 1rem;">Fancy body</p></ink-menu-modal>`
 }
 
 export const InkMenuModal = ({ reference }) => {

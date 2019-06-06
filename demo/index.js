@@ -4,7 +4,7 @@ import DOMPurify from 'dompurify'
 
 let params = new URLSearchParams(window.location.search.substring(1))
 const mod = params.get('component')
-const imports = params.get('imports')
+const imports = params.get('imports').split(',')
 const converter = new window.showdown.Converter()
 
 function md (text) {
@@ -22,7 +22,8 @@ const purifyConfig = {
 
 async function renderPreview (mod, setModule) {
   if (imports) {
-    await import(imports)
+    const modules = imports.map(path => import(path))
+    await Promise.all(modules)
   }
   console.log(mod)
   if (mod) {

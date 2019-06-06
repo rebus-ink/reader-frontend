@@ -7,13 +7,13 @@ export const title = 'Modal: `<ink-modal>`'
 
 export const description = `The the modal card, wraps its light-dom in a modal`
 
-// http://localhost:8080/demo/?component=/components/modal.component.js&imports=/components/modal-closer.component.js
+// http://localhost:8080/demo/?component=/components/modal.component.js&imports=/components/modal-closer.component.js,/components/button.component.js
 export const preview = () => {
-  return html`<button @click=${() => {
+  return html`<ink-button @click=${() => {
     document.getElementById('modal-1').open = true
-  }}>open modal</button><button @click=${() => {
+  }}>open modal</ink-button><ink-button @click=${() => {
     document.getElementById('modal-2').open = true
-  }}>open bigger</button><ink-modal id="modal-1" aria-hidden="true"><strong slot="modal-title">Fancy Title</strong><p slot="modal-body" style="padding: 1rem;">Fancy body</p></ink-modal><ink-modal full id="modal-2" aria-hidden="true"><strong slot="modal-title">Full Screen Title</strong><p slot="modal-body" style="padding: 1rem;">Fancy body</p></ink-modal>`
+  }}>open bigger</ink-button><ink-modal id="modal-1" aria-hidden="true"><strong slot="modal-title">Fancy Title</strong><p slot="modal-body" style="padding: 1rem;">Fancy body</p></ink-modal><ink-modal full id="modal-2" aria-hidden="true"><strong slot="modal-title">Full Screen Title</strong><p slot="modal-body" style="padding: 1rem;">Fancy body</p></ink-modal>`
 }
 
 export const InkModal = ({ open, full }) => {
