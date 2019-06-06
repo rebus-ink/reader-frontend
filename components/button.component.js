@@ -7,10 +7,10 @@ export const title = 'Button: `<ink-button>`'
 export const description = `The default button`
 
 export const preview = () => {
-  return html`<ink-button>Fancy Button</ink-button> <ink-button secondary>Secondary Button</ink-button><ink-button disabled>Disabled Button</ink-button>`
+  return html`<ink-button>Fancy Button</ink-button> <ink-button secondary>Secondary Button</ink-button><ink-button disabled>Disabled Button</ink-button><ink-button dropdown>Dropdown Button</ink-button><ink-button dropdown secondary>Dropdown Button</ink-button>`
 }
 
-export const InkButton = ({ disabled, secondary }) => {
+export const InkButton = ({ disabled, secondary, dropdown }) => {
   return html`<style>
 button {
   font-family: var(--sans-fonts);
@@ -41,6 +41,24 @@ button {
   box-shadow: 1px 2px 4px 0 rgba(33, 33, 33, 0.1);
   text-decoration: none !important;
 }
+.dropdown {
+  padding-right: 1.5rem;
+  padding-left: 1rem;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23333333%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22square%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%209l6%206%206-6%22%2F%3E%3C%2Fsvg%3E'),
+    linear-gradient(to bottom, transparent 0%, transparent 100%);
+  background-repeat: no-repeat, repeat;
+  background-position: right 0.7em top 50%, 0 0;
+  background-size: 1em auto, 100%;
+}
+.dropdown.secondary {
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2337b5b5%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22square%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%209l6%206%206-6%22%2F%3E%3C%2Fsvg%3E'),
+    linear-gradient(to bottom, transparent 0%, transparent 100%);
+}
+.dropdown:hover {
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23FFFFFF%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22square%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%209l6%206%206-6%22%2F%3E%3C%2Fsvg%3E'),
+    linear-gradient(to bottom, transparent 0%, transparent 100%);
+}
+
 button:hover {
   color: white !important;
   background-color: var(--rc-dark);
@@ -91,11 +109,12 @@ button[disabled]:focus, {
 }
   </style>
       <button ?disabled=${disabled} class=${classMap({
-  secondary
+  secondary,
+  dropdown
 })}><slot>Button</slot></button>`
 }
 
-InkButton.observedAttributes = ['disabled', 'secondary']
+InkButton.observedAttributes = ['disabled', 'secondary', 'dropdown']
 
 window.customElements.define(
   'ink-button',
