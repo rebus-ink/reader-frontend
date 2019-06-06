@@ -46,11 +46,7 @@ export const useModal = hook(
       if (event.keyCode === 9) this.maintainFocus(event)
     }
     onClick (event) {
-      let clicker = event.path[0]
-      if (clicker && clicker.tagName.toLowerCase() === 'svg') {
-        clicker = event.path[1]
-      }
-      if (clicker.hasAttribute('data-modal-close')) {
+      if (testClicker(event.path)) {
         this.closer()
         event.preventDefault()
       }
@@ -164,4 +160,18 @@ export const useModal = hook(
 
 export function close () {
   if (activeModal) activeModal.closer()
+}
+
+function testClicker (path = []) {
+  if (path[0]) {
+    let clicker = path[0].closest(
+      'button[data-modal-close],a[data-modal-close]'
+    )
+    if (!clicker) {
+      clicker = path[0]
+    }
+    return clicker.hasAttribute('data-modal-close')
+  } else {
+    return false
+  }
 }
