@@ -47,7 +47,7 @@ describe('api.formats.pdf', () => {
     window.CMAP_PACKED = true
   })
   beforeEach(() => {
-    window.api = createAPI({ csrfToken: 'csrfToken' })
+    window.api = createAPI()
   })
   afterEach(() => {
     window.api = undefined

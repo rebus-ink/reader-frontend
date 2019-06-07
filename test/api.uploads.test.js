@@ -13,7 +13,7 @@ function once (emitter, eventName) {
 
 describe('api.uploads', () => {
   beforeEach(() => {
-    window.api = createAPI({ csrfToken: 'csrfToken' })
+    window.api = createAPI()
   })
   it('correctly uses upload queue', async () => {
     let epubCalled = false

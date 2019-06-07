@@ -27,7 +27,7 @@ import { createUploadApi } from './api/uploads.js'
 import { createFormatsAPI } from './formats/index.js'
 import { getToken } from './api/csrf.js'
 
-export function createAPI ({ csrfToken }, global = window) {
+export function createAPI (global = window) {
   const context = { profile: null, books: new Map() }
   const api = {
     get logout () {

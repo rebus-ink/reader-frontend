@@ -18,7 +18,7 @@ describe('api.formats.epub', () => {
     }
   })
   beforeEach(() => {
-    window.api = createAPI({ csrfToken: 'csrfToken' })
+    window.api = createAPI()
   })
   afterEach(() => {
     window.api = undefined

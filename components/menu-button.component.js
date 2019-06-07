@@ -1,5 +1,4 @@
 import { html } from 'lit-html'
-import { classMap } from 'lit-html/directives/class-map.js'
 import { component } from 'haunted'
 
 export const title = 'Menu Button: `<ink-menu-button>`'

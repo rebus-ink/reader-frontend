@@ -12,11 +12,11 @@ describe('api.state', () => {
     }
   })
   beforeEach(() => {
-    window.api = createAPI({ csrfToken: 'csrfToken' })
+    window.api = createAPI()
   })
 
   it('api.profile - gets the profile', async () => {
-    window.api = createAPI({ csrfToken: 'csrfToken' })
+    window.api = createAPI()
     const profile = {
       id: '/reader-user-id',
       outbox: '/reader-user-id/outbox',
@@ -33,7 +33,7 @@ describe('api.state', () => {
   })
 
   it('api.profile - creates the profile when necessary', async () => {
-    window.api = createAPI({ csrfToken: 'csrfToken' })
+    window.api = createAPI()
     const profile = {
       id: '/reader-user-id',
       outbox: '/reader-id/outbox',
@@ -226,7 +226,7 @@ describe('api.state', () => {
       }
     }
     const fakeGlobal = new Proxy(window, handler)
-    window.api = createAPI({ csrfToken: 'csrfToken' }, fakeGlobal)
+    window.api = createAPI(fakeGlobal)
     const profile = { id: '/reader-user-id' }
 
     window.fetchMock.post('/logout', 200)

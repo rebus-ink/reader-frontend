@@ -10,9 +10,9 @@ export const preview = () => {
   return html`<ink-button>Fancy Button</ink-button> <ink-button secondary>Secondary Button</ink-button><ink-button disabled>Disabled Button</ink-button><ink-button dropdown>Dropdown Button</ink-button><ink-button dropdown secondary>Dropdown Button</ink-button>`
 }
 
-export const InkButton = ({ disabled, secondary, dropdown }) => {
+export const InkButton = ({ disabled, secondary, dropdown, compact }) => {
   return html`<style>
-    :host {
+    :host:not([hidden]) {
       display: inline-block;
     }
 button {
@@ -110,14 +110,20 @@ button[disabled]:focus, {
   box-shadow: inset 0 0px 2px 0 rgba(0, 66, 98, 0.15);
   background-image: none;
 }
+.compact {
+  font-size: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
   </style>
       <button ?disabled=${disabled} class=${classMap({
   secondary,
-  dropdown
+  dropdown,
+  compact
 })}><slot>Button</slot></button>`
 }
 
-InkButton.observedAttributes = ['disabled', 'secondary', 'dropdown']
+InkButton.observedAttributes = ['disabled', 'secondary', 'dropdown', 'compact']
 
 window.customElements.define(
   'ink-button',
