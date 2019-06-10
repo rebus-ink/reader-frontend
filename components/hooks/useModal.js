@@ -34,6 +34,7 @@ export const useModal = hook(
       this.element = el.host
       this.element.addEventListener('keydown', this)
       this.element.addEventListener('click', this)
+      this.element.setAttribute('aria-hidden', 'true')
       this.closer = this.closer.bind(this)
       this.opener = this.opener.bind(this)
       this.args = Object.freeze([this.opener, this.closer])

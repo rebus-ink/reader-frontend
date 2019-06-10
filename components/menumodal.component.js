@@ -10,21 +10,21 @@ export const description = `The the menu modal card, wraps its light-dom in a mo
 // http://localhost:8080/demo/?component=/components/menumodal.component.js&imports=/components/modal-closer.component.js,/components/button.component.js
 export const preview = () => {
   return html`<ink-button dropdown @click=${event => {
-    document.getElementById('modal-1').reference = event.target
+    document.getElementById('modal-1').open = event.target
   }}>open modal</ink-button><ink-button dropdown @click=${event => {
-    document.getElementById('modal-1').reference = event.target
-  }}>open bigger</ink-button><ink-menu-modal id="modal-1" aria-hidden="true"><strong slot="modal-title">Fancy Title</strong><p slot="modal-body" style="padding: 1rem;">Fancy body</p></ink-menu-modal>`
+    document.getElementById('modal-1').open = event.target
+  }}>open bigger</ink-button><ink-menu-modal id="modal-1"><strong slot="modal-title">Fancy Title</strong><p slot="modal-body" style="padding: 1rem;">Fancy body</p></ink-menu-modal>`
 }
 
-export const InkMenuModal = ({ reference }) => {
+export const InkMenuModal = ({ open }) => {
   const [opener] = useModal({ animation: true })
   useEffect(
     () => {
-      if (reference) {
-        opener(reference)
+      if (open) {
+        opener(open)
       }
     },
-    [reference]
+    [open]
   )
   return html`<style>
 .overlay {

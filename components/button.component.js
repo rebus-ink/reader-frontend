@@ -12,7 +12,7 @@ export const preview = () => {
 
 export const InkButton = ({ disabled, secondary, dropdown, compact }) => {
   return html`<style>
-    :host:not([hidden]) {
+    :host(:not([hidden])) {
       display: inline-block;
     }
 button {

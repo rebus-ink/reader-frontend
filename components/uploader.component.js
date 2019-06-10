@@ -3,13 +3,14 @@ import { component, useContext, useState, useEffect } from 'haunted'
 import { ApiContext } from './api-provider.component.js'
 import { createAPI } from './api.state.js'
 import { classMap } from 'lit-html/directives/class-map.js'
+import { close } from './hooks/useModal.js'
 import '/js/vendor/file-drop-element.js'
 
 export const title = 'Uploader: `<ink-uploader>`'
 
 export const description = `The upload section of the recents view`
 
-// http://localhost:8080/demo/?component=/components/uploader.component.js&imports=/components/api-provider.component.js,/components/button.component.js,/components/modal.component.js,/components/modal-closer.component.js
+// http://localhost:8080/demo/?component=/components/uploader.component.js&imports=/components/api-provider.component.js,/components/button.component.js,/components/menumodal.component.js,/components/modal-closer.component.js
 export const preview = () => {
   const api = createAPI()
   api.formats = {}
@@ -25,7 +26,7 @@ export const preview = () => {
   </api-provider>
 `
 }
-
+let setModalRef
 export const InkUploader = () => {
   const api = useContext(ApiContext)
   const [files, setQueue] = useState(api.uploads.files)
@@ -124,7 +125,9 @@ ink-button {
     uploading: files.size !== 0
   })}><p>Upload file</p>
   <ink-button @click=${event => {
-    document.querySelector('ink-uploader-modal').open = event.target
+    if (setModalRef) {
+      setModalRef(event.target)
+    }
   }} dropdown secondary compact>Uploading ${
   files.size
 }</ink-button></div><file-drop accept=".epub,.pdf,application/epub+zip,application/pdf" multiple @filedrop=${event =>
@@ -138,19 +141,26 @@ ink-button {
 </file-drop>`
 }
 
-export const UploadModal = ({ open }) => {
+export const UploadModal = () => {
   const api = useContext(ApiContext)
   const [files, setQueue] = useState(api.uploads.files)
+  const [ref, setRef] = useState(false)
+  setModalRef = setRef
   useEffect(() => {
     api.events.on('imported', () => setQueue(api.uploads.files))
     api.events.on('importing', () => setQueue(api.uploads.files))
     api.events.on('queue-empty', () => setQueue(api.uploads.files))
   }, [])
-  return html`<ink-modal .open=${open} aria-hidden="true"><strong slot="modal-title">${
+  useEffect(() => {
+    if (files.size === 0) {
+      close()
+    }
+  })
+  return html`<ink-menu-modal .open=${ref}><strong slot="modal-title">${
     files.size
   } Items</strong><ol slot="modal-body">${Array.from(files).map(
     file => html`<li class="MenuItem">${file.name}</li>`
-  )}</ol></ink-modal>`
+  )}</ol></ink-menu-modal>`
 }
 
 window.customElements.define(
