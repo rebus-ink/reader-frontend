@@ -1,12 +1,13 @@
 import { html } from 'lit-html'
 import { component } from 'haunted'
 import { repeat } from 'lit-html/directives/repeat'
+import './book-listing.js'
 
 export const title = 'Book Collection Component: `<book-collection>`'
 
 export const description = `Given a list of books and a view config, renders that collection.`
 
-// http://localhost:8080/demo/?component=/components/book-collection.component.js&imports=/components/book-listing.component.js
+// http://localhost:8080/demo/?component=/components/library/book-collection.js
 export const preview = () => {
   const books = [
     {
@@ -64,7 +65,6 @@ export const preview = () => {
 }
 
 export const BookCollection = component(({ books = [] }) => {
-  console.log(books)
   return html`
     <style>
 .collection {

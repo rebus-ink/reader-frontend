@@ -1,14 +1,15 @@
 import { html } from 'lit-html'
 import { component, useEffect, useContext, useState } from 'haunted'
 import { classMap } from 'lit-html/directives/class-map.js'
-import { ApiContext } from './api-provider.component.js'
-import { createAPI } from './api.state.js'
+import { ApiContext } from '../api-provider.component.js'
+import { createAPI } from '../api.state.js'
+import './book-collection.js'
 
 export const title = 'Recent books: `<recent-books>`'
 
 export const description = `Ten most recent books for any given tag.`
 
-// http://localhost:8080/demo/?component=/components/recent-books.component.js&imports=/components/book-collection.component.js,/components/book-listing.component.js
+// http://localhost:8080/demo/?component=/components/library/recent-books.js
 export const preview = () => {
   const api = createAPI()
   const books = [

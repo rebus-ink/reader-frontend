@@ -5,6 +5,7 @@ export const title = 'Dropdown: `<rebus-dropdown>`'
 
 export const description = `The default dropdown`
 
+// http://localhost:8080/demo/?component=/components/widgets/dropdown.js
 export const preview = () => {
   const options = [
     {

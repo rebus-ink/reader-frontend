@@ -4,7 +4,10 @@ import DOMPurify from 'dompurify'
 
 let params = new URLSearchParams(window.location.search.substring(1))
 const mod = params.get('component')
-const imports = params.get('imports').split(',')
+let imports
+if (params.get('imports')) {
+  imports = params.get('imports').split(',')
+}
 const converter = new window.showdown.Converter()
 
 function md (text) {

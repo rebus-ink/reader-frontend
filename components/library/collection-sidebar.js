@@ -1,13 +1,15 @@
 import { html } from 'lit-html'
-import { useModal } from './hooks/useModal.js'
+import { useModal } from '../hooks/useModal.js'
 import { classMap } from 'lit-html/directives/class-map.js'
 import { component, useEffect } from 'haunted'
+import '../modals/modal-closer.js'
+import '../widgets/button.js'
 
 export const title = 'Collection Sidebar: `<ink-collection-sidebar>`'
 
 export const description = `Primary navigation for the menu.`
 
-// http://localhost:8080/demo/?component=/components/collection-sidebar.component.js&imports=/test/test-files/test-tags.js,/components/modal-closer.component.js,/components/button.component.js
+// http://localhost:8080/demo/?component=/components/library/collection-sidebar.js&imports=/test/test-files/test-tags.js
 export const preview = () => {
   return html`<ink-button @click=${() => {
     document.getElementById('modal-1').open = true

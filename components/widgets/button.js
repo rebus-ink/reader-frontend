@@ -5,7 +5,7 @@ import { component } from 'haunted'
 export const title = 'Button: `<ink-button>`'
 
 export const description = `The default button`
-
+// http://localhost:8080/demo/?component=/components/widgets/button.js
 export const preview = () => {
   return html`<ink-button>Fancy Button</ink-button> <ink-button secondary>Secondary Button</ink-button><ink-button disabled>Disabled Button</ink-button><ink-button dropdown>Dropdown Button</ink-button><ink-button dropdown secondary>Dropdown Button</ink-button>`
 }

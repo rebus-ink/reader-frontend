@@ -1,16 +1,18 @@
 import { html } from 'lit-html'
 import { component, useContext, useState, useEffect } from 'haunted'
-import { ApiContext } from './api-provider.component.js'
-import { createAPI } from './api.state.js'
+import { ApiContext } from '../api-provider.component.js'
+import { createAPI } from '../api.state.js'
 import { classMap } from 'lit-html/directives/class-map.js'
-import { close } from './hooks/useModal.js'
+import { close } from '../hooks/useModal.js'
 import '/js/vendor/file-drop-element.js'
+import '../widgets/button.js'
+import '../modals/menumodal.js'
 
 export const title = 'Uploader: `<ink-uploader>`'
 
 export const description = `The upload section of the recents view`
 
-// http://localhost:8080/demo/?component=/components/uploader.component.js&imports=/components/api-provider.component.js,/components/button.component.js,/components/menumodal.component.js,/components/modal-closer.component.js
+// http://localhost:8080/demo/?component=/components/library/uploader.js
 export const preview = () => {
   const api = createAPI()
   api.formats = {}

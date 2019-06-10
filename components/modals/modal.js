@@ -1,13 +1,15 @@
 import { html } from 'lit-html'
-import { useModal } from './hooks/useModal.js'
+import { useModal } from '../hooks/useModal.js'
 import { classMap } from 'lit-html/directives/class-map.js'
 import { component, useEffect } from 'haunted'
+import './modal-closer.js'
+import '../widgets/button.js'
 
 export const title = 'Modal: `<ink-modal>`'
 
 export const description = `The the modal card, wraps its light-dom in a modal`
 
-// http://localhost:8080/demo/?component=/components/modal.component.js&imports=/components/modal-closer.component.js,/components/button.component.js
+// http://localhost:8080/demo/?component=/components/modals/modal.js
 export const preview = () => {
   return html`<ink-button @click=${() => {
     document.getElementById('modal-1').open = true
