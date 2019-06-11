@@ -3,7 +3,7 @@ import { component, useEffect, useContext, useState } from 'haunted'
 import { classMap } from 'lit-html/directives/class-map.js'
 import { ApiContext } from '../api-provider.component.js'
 import { createAPI } from '../api.state.js'
-import './book-collection.js'
+import './book-list.js'
 
 export const title = 'Recent books: `<recent-books>`'
 
@@ -116,7 +116,7 @@ export const RecentBooks = component(
   tag === 'all' ? '' : `in ${tag}`
 }</p> <p class="link">
     <a href=${url}>See all &gt;</a>
-  </p></div><book-collection .books=${books}></book-collection>`
+  </p></div><book-list .books=${books}></book-list>`
   },
   window.HTMLElement,
   { useShadowDOM: false }

@@ -3,11 +3,11 @@ import { component } from 'haunted'
 import { repeat } from 'lit-html/directives/repeat'
 import './book-listing.js'
 
-export const title = 'Book Collection Component: `<book-collection>`'
+export const title = 'Book List Component: `<book-list>`'
 
-export const description = `Given a list of books and a view config, renders that collection.`
+export const description = `Given a list of books and a view config, renders that list.`
 
-// http://localhost:8080/demo/?component=/components/library/book-collection.js
+// http://localhost:8080/demo/?component=/components/library/book-list.js
 export const preview = () => {
   const books = [
     {
@@ -61,13 +61,13 @@ export const preview = () => {
       attributedTo: [{ name: 'Fancy Author' }]
     }
   ]
-  return html`<book-collection .books=${books}></book-collection>`
+  return html`<book-list .books=${books}></book-list>`
 }
 
-export const BookCollection = component(({ books = [] }) => {
+export const BookList = component(({ books = [] }) => {
   return html`
     <style>
-.collection {
+.list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(6rem, 0.5fr));
   grid-gap: 0.5rem;
@@ -76,7 +76,7 @@ export const BookCollection = component(({ books = [] }) => {
 book-listing {
   display: block;
 }</style>
-    <div class="collection">
+    <div class="list">
 ${repeat(
     books,
     item => item.id,
@@ -86,4 +86,4 @@ ${repeat(
     </div>`
 }, window.HTMLElement)
 
-window.customElements.define('book-collection', BookCollection)
+window.customElements.define('book-list', BookList)
