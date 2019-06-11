@@ -111,7 +111,7 @@
     "file-drop-element": "^0.2.0",
     "glob": "^7.1.4",
     "got": "^9.2.2",
-    "haunted": "^4.2.1",
+    "haunted": "^4.4.0",
     "helmet": "^3.13.0",
     "hobb-api": "github:RebusFoundation/reader-api",
     "intersection-observer": "^0.5.1",

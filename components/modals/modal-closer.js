@@ -3,7 +3,7 @@ import { component } from 'haunted'
 
 export const title = 'Modal Closer: `<ink-modal-closer>`'
 
-export const description = `The the modal closer button`
+export const description = `The modal closer button`
 
 export const preview = () => {
   return html`<ink-modal-closer></ink-modal-closer>`
@@ -69,5 +69,7 @@ export const InkModalCloser = () => {
 
 window.customElements.define(
   'ink-modal-closer',
-  component(InkModalCloser, window.HTMLElement, { useShadowDOM: false })
+  component(InkModalCloser, window.HTMLElement, {
+    shadowRootInit: { delegatesFocus: true }
+  })
 )

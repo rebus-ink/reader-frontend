@@ -13,7 +13,9 @@ const FOCUSABLE_ELEMENTS = [
   'object',
   'embed',
   '[contenteditable]',
-  '[tabindex]:not([tabindex^="-"])'
+  '[tabindex]:not([tabindex^="-"])',
+  'ink-modal-closer',
+  'ink-button'
 ]
 
 function once (emitter, eventName) {

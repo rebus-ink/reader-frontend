@@ -204,7 +204,6 @@ img {
   height: auto;
   max-width: 100%;
 }
-:focus,
 button:focus {
   outline: 1px solid #3333331a;
   outline-offset: 1px;
