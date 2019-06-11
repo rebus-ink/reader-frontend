@@ -80,7 +80,7 @@ export const RecentBooks = component(
         params = { stack: tag }
       }
       api.library(params).then(collection => setBooks(collection.items))
-      api.events.on('library-changed', () => {
+      api.events.on('library', () => {
         return api
           .library(params)
           .then(collection => setBooks(collection.items))

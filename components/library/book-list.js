@@ -64,26 +64,42 @@ export const preview = () => {
   return html`<book-list .books=${books}></book-list>`
 }
 
-export const BookList = component(({ books = [] }) => {
+export const BookList = ({ books = [], layout = 'covers' }) => {
   return html`
     <style>
-.list {
+.covers, .square, .list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(6rem, 0.5fr));
   grid-gap: 0.5rem;
   padding-bottom: 1rem;
 }
+.square {
+  padding: 0;
+  grid-gap: 1px;
+  grid-auto-rows: 1fr;
+  grid-template-columns: repeat(auto-fill, 6rem);
+}
+.list {
+  padding: 0;
+  grid-gap: 1px;
+  grid-template-columns: 1fr;
+}
 book-listing {
   display: block;
 }</style>
-    <div class="list">
+    <div class=${layout}>
 ${repeat(
     books,
     item => item.id,
     (item, index) =>
-      html`<book-listing .book=${item} index=${index}></book-listing>`
+      html`<book-listing .book=${item} index=${index} layout=${layout}></book-listing>`
   )}
     </div>`
-}, window.HTMLElement)
+}
 
-window.customElements.define('book-list', BookList)
+BookList.observedAttributes = ['layout']
+
+window.customElements.define(
+  'book-list',
+  component(BookList, window.HTMLElement)
+)

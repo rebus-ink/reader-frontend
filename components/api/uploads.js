@@ -24,7 +24,7 @@ export function createUploadApi (context, api, global) {
     if (book) {
       api.events.emit('imported', book)
       files.delete(file)
-      api.events.emit('libary-changed', file)
+      api.events.emit('libary', file)
       return book
     }
   }

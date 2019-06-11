@@ -13,17 +13,23 @@ export const preview = () => {
   }}></book-listing>`
 }
 
-export const BookListing = component(({ book = {} }) => {
+export const BookListing = ({ book = {}, layout }) => {
   const { cover = '/static/placeholder-cover.jpg', attributedTo = [] } = book
   const pathname = new URL(book.id).pathname
   const url = `/library/info${pathname}`
   return html`
     <style>
-  :host() {
-  grid-auto-rows: auto;
-  grid-template-columns: max-content 1fr;
-  grid-column-gap: 0.25rem;
+:host() {
   position: relative;
+}
+.covers {
+  display: grid;
+}
+.list {
+  display: grid;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 0.25rem;
+  padding-bottom: 0.5rem;
 }
 
 .BookCard-group {
@@ -88,8 +94,23 @@ a.BookCard-link {
 .BookCard-paragraph--tags {
   margin-top: 0.5rem;
 }
+.square .BookCard-group{
+  display: none;
+}
+.square .BookCard-icon{
+  width: 100%;
+  height: 6rem;
+  border-radius: 0px;
+}
+.list .BookCard-icon{
+  display: none;
+}
+.list .BookCard-paragraph, .list .BookCard-total {
+  padding: 0;
+  margin: 0;
+}
     </style>
-    <a href="${url}" class="">
+    <div class=${layout}><a href="${url}" class="">
     <img class="BookCard-icon" alt="${
   book.description
 }" src="${`/images/resize/240/0/${encodeURIComponent(
@@ -105,11 +126,16 @@ a.BookCard-link {
     attributionComponent
   )}</p>
       <p class="BookCard-total"></p>
-    </div>`
-}, window.HTMLElement)
+    </div></div>
+    `
+}
+BookListing.observedAttributes = ['layout']
 
 const attributionComponent = attribution => {
   return html`<span class="BookCard-attribution">${attribution.name}</span>`
 }
 
-window.customElements.define('book-listing', BookListing)
+window.customElements.define(
+  'book-listing',
+  component(BookListing, window.HTMLElement)
+)

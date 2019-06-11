@@ -142,7 +142,7 @@ button[disabled]:focus, {
     position: absolute;
     top: 7px;
     right: 10px;
-  animation: spin 0.5s infinite;
+  animation: spin 0.5s linear infinite;
   width: 16px;
   height: 16px;
 }
