@@ -112,7 +112,7 @@ export const RecentBooks = component(
     }
   </style><div class=${classMap({
     'header-row': true
-  })}><p class="label">Recent files ${
+  })}><p class="label">Recently uploaded ${
   tag === 'all' ? '' : `in ${tag}`
 }</p> <p class="link">
     <a href=${url}>See all &gt;</a>
