@@ -45,24 +45,26 @@ export const IconButton = ({ name, click, selected, label }) => {
     width: 30px;
     margin: 0;
     padding: 0;
+  border-radius: 9999px;
 }
 @keyframes outlinePop {
   0% {
-    transform: scale(1);
+    transform: scale(0.5);
     stroke-width: 1px;
   }
   50% {
     transform: scale(1.5);
-    stroke-width: 8px;
+    stroke-width: 4px;
   }
   100% {
     transform: scale(1);
-    stroke-width: 2px;
+    stroke-width: 3px;
   }
 }
 .button:focus {
-  background-image: radial-gradient(circle closest-side, #f5f5f5 0%, #f5f5f5 99%, transparent );
+  background-color: #f5f5f5;
   outline: solid transparent;
+  box-shadow: 0 0 1px 1px var(--rc-light), inset 0 0 1px 1px var(--rc-light);
 }
 .button:focus svg {
   animation: outlinePop 0.25s ease-in-out;

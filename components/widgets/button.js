@@ -169,5 +169,7 @@ InkButton.observedAttributes = [
 
 window.customElements.define(
   'ink-button',
-  component(InkButton, window.HTMLElement)
+  component(InkButton, window.HTMLElement, {
+    shadowRootInit: { delegatesFocus: true }
+  })
 )

@@ -25,6 +25,25 @@ export const BookListing = ({ book = {}, layout }) => {
 .covers {
   display: grid;
 }
+@keyframes withinPop {
+  0% {
+    box-shadow: 0 0 0 5px rgb(228, 255, 254, 0.2);
+    background-color: rgb(228, 255, 254, 0.2);
+  }
+  50% {
+    background-color: rgb(228, 255, 254, 0.8);
+    box-shadow: 0 0 0 5px rgb(228, 255, 254, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 0 5px var(--rc-lighter);
+    background-color: var(--rc-lighter);
+  }
+}
+.covers:focus-within {
+    background-color: var(--rc-lighter);
+  box-shadow: 0 0 0 5px var(--rc-lighter);
+  animation: withinPop 0.25s ease-in-out;
+}
 .list {
   display: grid;
   border-bottom: 1px solid #f0f0f0;
@@ -83,6 +102,7 @@ a.BookCard-link {
   text-decoration: none;
   font-weight: inherit;
   color: var(--dark);
+  display: inline-block;
 }
 .BookCard-paragraph {
   line-height: 0.75rem;
@@ -109,11 +129,33 @@ a.BookCard-link {
   padding: 0;
   margin: 0;
 }
+a {
+  border-radius: 2rem;
+}
+.icon-link {
+  border-radius: var(--border-radius);
+}
+@keyframes outlinePop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+a:focus {
+  background-color: var(--rc-lighter);
+  box-shadow: 0 0 0 5px var(--rc-lighter);
+  outline: solid transparent;
+  animation: outlinePop 0.25s ease-in-out;
+}
     </style>
-    <div class=${layout}><a href="${url}" class="">
-    <img class="BookCard-icon" alt="${
-  book.description
-}" src="${`/images/resize/240/0/${encodeURIComponent(
+    <div class=${layout}><a href="${url}" class="icon-link">
+    <img class="BookCard-icon" alt="${book.description ||
+      ''}" src="${`/images/resize/240/0/${encodeURIComponent(
   '/static/placeholder-cover.jpg'
 )}`}" data-lazy-src=${`/images/resize/240/0/${encodeURIComponent(
   cover

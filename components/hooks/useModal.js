@@ -15,7 +15,9 @@ const FOCUSABLE_ELEMENTS = [
   '[contenteditable]',
   '[tabindex]:not([tabindex^="-"])',
   'ink-modal-closer',
-  'ink-button'
+  'ink-button',
+  'ink-dropdown',
+  'icon-button'
 ]
 
 function once (emitter, eventName) {
@@ -127,13 +129,18 @@ export const useModal = hook(
     }
 
     getFocusableNodes () {
-      let nodes
+      let nodes = []
       if (this.element.shadowRoot) {
-        nodes = this.element.shadowRoot.querySelectorAll(FOCUSABLE_ELEMENTS)
-      } else {
-        nodes = this.element.querySelectorAll(FOCUSABLE_ELEMENTS)
+        nodes = nodes.concat(
+          Array.from(
+            this.element.shadowRoot.querySelectorAll(FOCUSABLE_ELEMENTS)
+          )
+        )
       }
-      return Array(...nodes)
+      nodes = nodes.concat(
+        Array.from(this.element.querySelectorAll(FOCUSABLE_ELEMENTS))
+      )
+      return nodes
     }
     setFocusToFirstNode () {
       const focusableNodes = this.getFocusableNodes()
@@ -149,16 +156,15 @@ export const useModal = hook(
     }
     maintainFocus (event) {
       const focusableNodes = this.getFocusableNodes()
-
       // if disableFocus is true
       const element = this.element
-      if (!element.shadowRoot.activeElement) {
+      const focusedItemIndex = focusableNodes.indexOf(
+        element.shadowRoot.activeElement || document.activeElement
+      )
+      if (focusedItemIndex === -1) {
         focusableNodes[0].focus()
+        event.preventDefault()
       } else {
-        const focusedItemIndex = focusableNodes.indexOf(
-          element.shadowRoot.activeElement
-        )
-
         if (event.shiftKey && focusedItemIndex === 0) {
           focusableNodes[focusableNodes.length - 1].focus()
           event.preventDefault()

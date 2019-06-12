@@ -109,6 +109,30 @@ export const RecentBooks = component(
     }
     .link a {
       text-decoration: none;
+      border-radius: 2rem;
+      display: inline-block;
+    }
+    @keyframes outlinePop {
+      0% {
+        box-shadow: 0 0 0 1px rgb(228, 255, 254, 0.2);
+        background-color: rgb(228, 255, 254, 0.2);
+        transform: scale(0.5);
+      }
+      50% {
+        box-shadow: 0 0 0 8px var(--rc-lighter);
+        transform: scale(1.5);
+      }
+      100% {
+        box-shadow: 0 0 0 3px var(--rc-lighter);
+        background-color: var(--rc-lighter);
+        transform: scale(1);
+      }
+    }
+    a:focus {
+      background-color: var(--rc-lighter);
+      box-shadow: 0 0 0 5px var(--rc-lighter);
+      outline: solid transparent;
+      animation: outlinePop 0.25s ease-in-out;
     }
   </style><div class=${classMap({
     'header-row': true

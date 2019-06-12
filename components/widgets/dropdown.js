@@ -112,5 +112,7 @@ InkDropdown.observedAttributes = ['disabled', 'secondary']
 
 window.customElements.define(
   'ink-dropdown',
-  component(InkDropdown, window.HTMLElement)
+  component(InkDropdown, window.HTMLElement, {
+    shadowRootInit: { delegatesFocus: true }
+  })
 )
