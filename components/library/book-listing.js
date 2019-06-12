@@ -9,12 +9,22 @@ export const preview = () => {
   return html`<book-listing .book=${{
     name: 'Book Title',
     id: 'https://example.com/id',
-    attributedTo: [{ name: 'Fancy Author' }]
+    attributedTo: [{ name: 'Fancy Author' }],
+    resources: [{ rel: ['cover'], url: '/static/placeholder-cover.png' }]
   }}></book-listing>`
 }
 
 export const BookListing = ({ book = {}, layout }) => {
-  const { cover = '/static/placeholder-cover.jpg', attributedTo = [] } = book
+  const { resources = [], attributedTo = [] } = book
+  const coverResource = resources.filter(resource =>
+    resource.rel.includes('cover')
+  )[0]
+  let cover
+  if (coverResource) {
+    cover = coverResource.url
+  } else {
+    cover = '/static/placeholder-cover.jpg'
+  }
   const pathname = new URL(book.id).pathname
   const url = `/library/info${pathname}`
   return html`
@@ -155,11 +165,7 @@ a:focus {
     </style>
     <div class=${layout}><a href="${url}" class="icon-link">
     <img class="BookCard-icon" alt="${book.description ||
-      ''}" src="${`/images/resize/240/0/${encodeURIComponent(
-  '/static/placeholder-cover.jpg'
-)}`}" data-lazy-src=${`/images/resize/240/0/${encodeURIComponent(
-  cover
-)}`}></a>
+      ''}" src="${cover}"></a>
     <div class="BookCard-group">
       <h4 class="BookCard-title"><a href="${url}" class="BookCard-link">${
   book.name

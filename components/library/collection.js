@@ -31,7 +31,8 @@ export const preview = () => {
     {
       name: 'Book Title 1',
       id: 'https://example.com/id',
-      attributedTo: [{ name: 'Fancy Author' }]
+      attributedTo: [{ name: 'Fancy Author' }],
+      resources: [{ rel: ['cover'], url: '/static/placeholder-cover.png' }]
     },
     {
       name: 'Book Title 2',
@@ -46,7 +47,8 @@ export const preview = () => {
     {
       name: 'Book Title 4',
       id: 'https://example.com/id',
-      attributedTo: [{ name: 'Fancy Author' }]
+      attributedTo: [{ name: 'Fancy Author' }],
+      resources: [{ rel: ['cover'], url: '/static/placeholder-cover.png' }]
     },
     {
       name: 'Book Title 5',
@@ -56,7 +58,8 @@ export const preview = () => {
     {
       name: 'Book Title 6',
       id: 'https://example.com/id',
-      attributedTo: [{ name: 'Fancy Author' }]
+      attributedTo: [{ name: 'Fancy Author' }],
+      resources: [{ rel: ['cover'], url: '/static/placeholder-cover.png' }]
     },
     {
       name: 'Book Title 7',
@@ -71,7 +74,8 @@ export const preview = () => {
     {
       name: 'Book Title 9',
       id: 'https://example.com/id',
-      attributedTo: [{ name: 'Fancy Author' }]
+      attributedTo: [{ name: 'Fancy Author' }],
+      resources: [{ rel: ['cover'], url: '/static/placeholder-cover.png' }]
     },
     {
       name: 'Book Title 10',
