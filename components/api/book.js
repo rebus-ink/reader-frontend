@@ -2,12 +2,13 @@ import { fetchWrap, get } from './fetch.js'
 import DOMPurify from 'dompurify'
 import { html } from 'lit-html'
 import { testProp } from './allowed-css-props.js'
+import Readability from '../../js/vendor/readability'
 
 export function createBookAPI (context, api, global) {
   return {
     // Returns sanitised DOM for chapter
     get chapter () {
-      return url => getChapter(url)
+      return (url, readable) => getChapter(url, readable)
     },
     // Return the publication object
     async get (url, path) {
@@ -100,12 +101,20 @@ function DocumentFetch (url) {
   })
 }
 
-export async function getChapter (url) {
+export async function getChapter (url, readable) {
   const response = await DocumentFetch(url)
-  const stylesheets = Array.from(
-    response.querySelectorAll('link[rel="stylesheet"]')
-  ).map(node => node.getAttribute('href'))
-  const nodes = await processChapter(response.documentElement.outerHTML, url)
+  let doc
+  let stylesheets = []
+  if (readable) {
+    doc = new Readability(response).parse().content
+  } else {
+    doc = response.documentElement.outerHTML
+    stylesheets = Array.from(
+      response.querySelectorAll('link[rel="stylesheet"]')
+    ).map(node => node.getAttribute('href'))
+  }
+  console.log(doc)
+  const nodes = await processChapter(doc, url)
   const styleNodes = []
   for (const cssURL of stylesheets) {
     const baseURL = new URL(url, window.location)
@@ -119,6 +128,7 @@ export async function getChapter (url) {
       styleNodes.push(await processChapter(`<style>${text}</style>`, cssURL))
     }
   }
+
   return styleNodes.concat(nodes)
 }
 

@@ -10,7 +10,7 @@ export const preview = () => {
   return html`<ink-chapter chapter="/demo/chapter/demo.html"></ink-chapter>`
 }
 
-export const InkChapter = ({ location, chapter }) => {
+export const InkChapter = ({ location, chapter, readable }) => {
   const api = useContext(ApiContext)
   const [chapterDOM, setChapter] = useState(
     html`<div class="loading">Loading</div>`
@@ -19,7 +19,7 @@ export const InkChapter = ({ location, chapter }) => {
     () => {
       if (chapter) {
         return api.book
-          .chapter(chapter)
+          .chapter(chapter, readable)
           .then(dom => setChapter(dom))
           .catch(err => console.error(err))
       }
@@ -172,7 +172,7 @@ img {
     ${chapterDOM}
     `
 }
-InkChapter.observedAttributes = ['chapter', 'location']
+InkChapter.observedAttributes = ['chapter', 'location', 'readable']
 
 window.customElements.define(
   'ink-chapter',
