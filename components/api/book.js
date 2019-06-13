@@ -1,6 +1,7 @@
 import { fetchWrap, get } from './fetch.js'
 import DOMPurify from 'dompurify'
 import { html } from 'lit-html'
+import { testProp } from './allowed-css-props.js'
 
 export function createBookAPI (context, api, global) {
   return {
@@ -9,16 +10,8 @@ export function createBookAPI (context, api, global) {
       return url => getChapter(url)
     },
     // Return the publication object
-    async get (bookId, path) {
-      const url = `/${bookId}`
-      let data
-      if (context.books.get(url)) {
-        data = context.books.get(url)
-      } else {
-        data = await get(url, context, global)
-        context.books.set(url, data)
-      }
-      return data
+    async get (url, path) {
+      return get(url, context, global)
     },
     // Load a given chapter, falling back to first or current chapter
     async load (book, path) {
@@ -89,29 +82,63 @@ export function createBookAPI (context, api, global) {
     }
   }
 }
+function DocumentFetch (url) {
+  return new Promise((resolve, reject) => {
+    let request = new window.XMLHttpRequest()
+    request.responseType = 'document'
+    request.withCredentials = true
+    request.open('GET', url)
+    request.onload = () => {
+      if (request.status >= 200 && request.status < 300) {
+        resolve(request.responseXML)
+      } else {
+        reject(request.statusText)
+      }
+    }
+    request.onerror = () => reject(request.statusText)
+    request.send()
+  })
+}
 
 export async function getChapter (url) {
-  const response = await fetchWrap(url, {
-    credentials: 'include'
-  })
-  const chapter = await response.text()
-  return processChapter(chapter, url)
+  const response = await DocumentFetch(url)
+  const stylesheets = Array.from(
+    response.querySelectorAll('link[rel="stylesheet"]')
+  ).map(node => node.getAttribute('href'))
+  const nodes = await processChapter(response.documentElement.outerHTML, url)
+  const styleNodes = []
+  for (const cssURL of stylesheets) {
+    const baseURL = new URL(url, window.location)
+    const baseHost = baseURL.host
+    const { host, href } = new URL(cssURL, baseURL)
+    if (host === baseHost) {
+      const response = await fetchWrap(href, {
+        credentials: 'include'
+      })
+      const text = await response.text()
+      styleNodes.push(await processChapter(`<style>${text}</style>`, cssURL))
+    }
+  }
+  return styleNodes.concat(nodes)
 }
 
 const purifyConfig = {
-  KEEP_CONTENT: false,
+  KEEP_CONTENT: true,
   RETURN_DOM: true,
   RETURN_DOM_FRAGMENT: true,
+  WHOLE_DOCUMENT: true,
   RETURN_DOM_IMPORT: true,
-  FORBID_TAGS: ['style', 'link'],
-  FORBID_ATTR: ['style']
+  FORBID_TAGS: ['meta'],
+  FORBID_ATTR: ['srcset', 'action', 'background', 'poster']
 }
 
 export function processChapter (chapter, base) {
+  const baseURL = new URL(base, window.location)
+  const baseHost = baseURL.host
   let locationNumber = 0
   const clean = DOMPurify.sanitize(chapter, purifyConfig)
   clean.querySelectorAll('[id]').forEach(element => {
-    element.id = `${base}#${element.id}`
+    element.id = `${base}:${element.id}`
   })
   const symbols = clean.querySelectorAll(
     'p, h1, h2, h3, h4, h5, h6, li, table, dd, dt, div > img:only-child, figure > img'
@@ -124,15 +151,12 @@ export function processChapter (chapter, base) {
     if (!element.id) {
       element.id = `${base}:${locationNumber}`
       locationNumber = locationNumber + 1
-    } else {
-      element.id = `${base}:${element.id}`
     }
   })
   clean.querySelectorAll('a[href]').forEach(element => {
     const href = element.getAttribute('href')
-    const baseHost = new URL(base).host
     try {
-      const { pathname, hash, host } = new URL(href, base)
+      const { pathname, hash, host } = new URL(href, baseURL)
       if (host === baseHost) {
         element.setAttribute(
           'href',
@@ -143,14 +167,137 @@ export function processChapter (chapter, base) {
       console.error(err)
     }
   })
-  clean.querySelectorAll('[src]').forEach(element => {
+  clean.querySelectorAll(`[src]`).forEach(element => {
     const src = element.getAttribute('src')
     try {
-      const path = new URL(src, base).pathname
+      const path = new URL(src, baseURL).pathname
       element.setAttribute('src', path)
     } catch (err) {
       console.error(err)
     }
   })
+  clean.querySelectorAll(`[xlink\\:href]`).forEach(element => {
+    const src = element.getAttribute('xlink\\:href')
+    try {
+      const path = new URL(src, baseURL).pathname
+      element.setAttribute('xlink\\:href', path)
+    } catch (err) {
+      console.error(err)
+    }
+  })
+  clean.querySelectorAll(`svg [href], link[href]`).forEach(element => {
+    const src = element.getAttribute('href')
+    try {
+      const path = new URL(src, baseURL).pathname
+      element.setAttribute('href', path)
+    } catch (err) {
+      console.error(err)
+    }
+  })
+  const body = clean.querySelector('body')
+  body.replaceWith(...body.childNodes)
   return clean
 }
+
+// Based on sample from https://github.com/cure53/DOMPurify/tree/master/demos, same license as DOMPurify
+
+const regex = /(url\("?)(?!data:)/gim
+
+function replacer (match, p1) {
+  try {
+    const url = new URL(p1, window.location)
+    if (url.host === window.location.host) {
+      return p1
+    } else {
+      return ''
+    }
+  } catch (err) {
+    console.error(err)
+    return ''
+  }
+}
+
+function addStyles (output, styles) {
+  for (var prop = styles.length - 1; prop >= 0; prop--) {
+    if (styles[styles[prop]]) {
+      var url = styles[styles[prop]].replace(regex, replacer)
+      styles[styles[prop]] = url
+    }
+    if (
+      styles[styles[prop]] &&
+      typeof styles[styles[prop]] === 'string' &&
+      testProp(styles[prop])
+    ) {
+      output.push(styles[prop] + ':' + styles[styles[prop]] + ';')
+    }
+  }
+}
+
+function addCSSRules (output, cssRules) {
+  for (var index = cssRules.length - 1; index >= 0; index--) {
+    var rule = cssRules[index]
+    // check for rules with selector
+    if (rule.type === 1 && rule.selectorText) {
+      output.push(rule.selectorText + '{')
+      if (rule.style) {
+        addStyles(output, rule.style)
+      }
+      output.push('}')
+      // check for @media rules
+    } else if (rule.type === rule.MEDIA_RULE) {
+      output.push('@media ' + rule.media.mediaText + '{')
+      addCSSRules(output, rule.cssRules)
+      output.push('}')
+      // check for @font-face rules
+    } else if (rule.type === rule.FONT_FACE_RULE) {
+      output.push('@font-face {')
+      if (rule.style) {
+        addStyles(output, rule.style)
+      }
+      output.push('}')
+      // check for @keyframes rules
+    } else if (rule.type === rule.KEYFRAMES_RULE) {
+      output.push('@keyframes ' + rule.name + '{')
+      for (var i = rule.cssRules.length - 1; i >= 0; i--) {
+        var frame = rule.cssRules[i]
+        if (frame.type === 8 && frame.keyText) {
+          output.push(frame.keyText + '{')
+          if (frame.style) {
+            addStyles(output, frame.style)
+          }
+          output.push('}')
+        }
+      }
+      output.push('}')
+    }
+  }
+}
+
+DOMPurify.addHook('uponSanitizeElement', function (node, data) {
+  if (data.tagName === 'style') {
+    var output = []
+    addCSSRules(output, node.sheet.cssRules)
+    node.textContent = output.join('\n')
+  }
+})
+
+DOMPurify.addHook('afterSanitizeAttributes', function (node) {
+  if (node.hasAttribute('style')) {
+    var styles = node.style
+    var output = []
+    for (var prop = styles.length - 1; prop >= 0; prop--) {
+      // we re-write each property-value pair to remove invalid CSS
+      if (node.style[styles[prop]] && regex.test(node.style[styles[prop]])) {
+        var url = node.style[styles[prop]].replace(regex, replacer)
+        node.style[styles[prop]] = url
+      }
+      output.push(styles[prop] + ':' + node.style[styles[prop]] + ';')
+    }
+    // re-add styles in case any are left
+    if (output.length) {
+      node.setAttribute('style', output.join(''))
+    } else {
+      node.removeAttribute('style')
+    }
+  }
+})

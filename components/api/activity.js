@@ -29,6 +29,7 @@ export function createActivityAPI (context, api, global) {
     async createAndGetID (payload) {
       const location = await this.create(payload, global)
       const response = await fetchWrap(location, {
+        credentials: 'include',
         headers: new global.Headers({
           'content-type': 'application/ld+json'
         })

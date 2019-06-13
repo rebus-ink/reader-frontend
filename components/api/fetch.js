@@ -11,6 +11,7 @@ export async function fetchWrap (...args) {
 export async function get (url, context, global) {
   try {
     const response = await fetchWrap(url, {
+      credentials: 'include',
       headers: new window.Headers({
         'content-type': 'application/ld+json'
       })
