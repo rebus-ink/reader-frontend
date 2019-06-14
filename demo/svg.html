@@ -22,17 +22,6 @@ limitations under the License.
   <title>PDF.js SVG viewer using built components</title>
 
   <style>
-    body {
-      background-color: #808080;
-      margin: 0;
-      padding: 0;
-    }
-    #viewerContainer {
-      overflow: auto;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-    }
   </style>
 
   <link rel="stylesheet" href="/js/pdfjs-dist/web/pdf_viewer.css">
@@ -44,8 +33,6 @@ limitations under the License.
 <body tabindex="1">
 
   <script src="/js/components/ink-pdf.component.js" type="module"></script>
-  <ink-pdf chapter="/test/test-files/this-is-a-test-pdf.pdf">
-    <div><div id="viewer" class="pdfViewer">
-      </div></div></ink-pdf>
+  <ink-pdf chapter="/test/test-files/this-is-a-test-pdf.pdf"></ink-pdf>
 </body>
 </html>

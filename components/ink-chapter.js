@@ -192,5 +192,7 @@ InkChapter.observedAttributes = ['chapter', 'location', 'readable']
 
 window.customElements.define(
   'ink-chapter',
-  component(InkChapter, window.HTMLElement)
+  component(InkChapter, window.HTMLElement, {
+    shadowRootInit: { delegatesFocus: true }
+  })
 )
