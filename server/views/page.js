@@ -16,6 +16,8 @@ module.exports.page = (render, model, req, body) => {
 <link media="all" rel="stylesheet" href="/static/styles/app.css">
 <title>Rebus Ink</title>
 <script src="/js/vendor/document-register-element.js"></script>
+<script src="/js/pdfjs-dist/build/pdf.min.js"></script>
+<script src="/js/pdf_viewer.js"></script>
 ${[
     `
 <script>

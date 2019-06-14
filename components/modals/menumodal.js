@@ -192,5 +192,7 @@ header {
 
 window.customElements.define(
   'ink-menu-modal',
-  component(InkMenuModal, window.HTMLElement)
+  component(InkMenuModal, window.HTMLElement, {
+    shadowRootInit: { delegatesFocus: true }
+  })
 )

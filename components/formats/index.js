@@ -8,7 +8,7 @@ async function zipModule () {
 }
 
 /* istanbul ignore next */
-function pdfModule () {
+export function pdfModule () {
   if (window.pdfjsLib) return Promise.resolve(window.pdfjsLib)
   return new Promise(resolve => {
     const pdfScript = document.createElement('script')
@@ -20,7 +20,7 @@ function pdfModule () {
         '/js/pdfjs-dist/build/pdf.worker.js'
       window.CMAP_URL = '/js/pdfjs-dist/cmaps/'
       window.CMAP_PACKED = true
-      resolve(true)
+      resolve(window.pdfjsLib)
       pdfScript.removeEventListener('loaded', listener)
     }
     pdfScript.addEventListener('loaded', listener)
