@@ -1,6 +1,5 @@
 import { html, render } from 'lit-html'
-import { component, useState, useEffect } from 'haunted'
-import wickedElements from 'wicked-elements'
+import { component } from 'haunted'
 
 window.CMAP_URL = '/js/pdfjs-dist/cmaps/'
 window.CMAP_PACKED = true
@@ -15,13 +14,13 @@ export const preview = () => {
 }
 
 export const InkPDF = el => {
-  const { location, chapter } = el
+  const { location, chapter, scale = 'page-width' } = el
   console.log(el)
   return html`
     <style>
     :host {
-      background-color: #fafafa;
       display: block;
+      height: 100vh;
     }
     /* 
     Below styles are from the PDF.js project
@@ -291,16 +290,14 @@ export const InkPDF = el => {
   margin: 1px auto -8px auto;
   position: relative;
   overflow: visible;
-  border: 9px solid transparent;
   background-clip: content-box;
-  -o-border-image: url(images/shadow.png) 9 9 repeat;
-     border-image: url(images/shadow.png) 9 9 repeat;
   background-color: white;
 }
 
 .pdfViewer.removePageBorders .page {
   margin: 0px auto 10px auto;
   border: none;
+  box-shadow: 1px 1px 4px #32a5a522, inset 0 0 0 1px #eee;
 }
 
 .pdfViewer.singlePageView {
@@ -368,48 +365,17 @@ export const InkPDF = el => {
   top: 0;
   right: 0;
   bottom: 0;
-  background: url('images/loading-icon.gif') center no-repeat;
+  background: url('/js/pdfjs-dist/web/images/loading-icon.gif') center no-repeat;
 }
-
-.pdfPresentationMode .pdfViewer {
-  margin-left: 0;
-  margin-right: 0;
-}
-
-.pdfPresentationMode .pdfViewer .page,
-.pdfPresentationMode .pdfViewer .spread {
-  display: block;
-}
-
-.pdfPresentationMode .pdfViewer .page,
-.pdfPresentationMode .pdfViewer.removePageBorders .page {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.pdfPresentationMode:-ms-fullscreen .pdfViewer .page {
-  margin-bottom: 100% !important;
-}
-
-.pdfPresentationMode:-webkit-full-screen .pdfViewer .page {
-  margin-bottom: 100%;
-  border: 0;
-}
-
-.pdfPresentationMode:-moz-full-screen .pdfViewer .page {
-  margin-bottom: 100%;
-  border: 0;
-}
-
-.pdfPresentationMode:fullscreen .pdfViewer .page {
-  margin-bottom: 100%;
-  border: 0;
+ink-pdf-render[scale="page-height"] > div {
+  height: 100vh;
+  overflow: auto;
 }
 
 </style>
-    <ink-pdf-render chapter=${chapter} location=${location}></ink-pdf-render>`
+    <ink-pdf-render scale=${scale} chapter=${chapter} location=${location}></ink-pdf-render>`
 }
-InkPDF.observedAttributes = ['chapter', 'location']
+InkPDF.observedAttributes = ['chapter', 'location', 'scale']
 
 window.customElements.define('ink-pdf', component(InkPDF, window.HTMLElement))
 
@@ -424,11 +390,17 @@ class InkPDFRender extends window.HTMLElement {
       container: this.children[0],
       linkService: this.pdfLinkService,
       renderer: 'svg',
-      textLayerMode: 1
+      textLayerMode: 1,
+      removePageBorders: true,
+      useOnlyCssZoom: true
     })
     this.pdfLinkService.setViewer(this.pdfViewer)
-    this.addEventListener('pagesinit', () => {
-      this.pdfViewer.currentScaleValue = 'page-width'
+    this.addEventListener('pagesinit', ev => {
+      console.log(ev)
+      this.pdfViewer.currentScaleValue = this.getAttribute('scale') // 'page-width' 'page-actual' 'page-fit' 'page-height'  'auto'
+    })
+    this.addEventListener('pagesloaded', ev => {
+      console.log(ev)
     })
     // if (this.getAttribute('chapter')) { this.chapter(this.getAttribute('chapter')) }
   }
@@ -456,64 +428,14 @@ class InkPDFRender extends window.HTMLElement {
   attributeChangedCallback (name, oldValue, newValue) {
     if (name === 'chapter') {
       this.chapter(newValue)
+    } else if (name === 'scale') {
+      this.chapter(this.getAttribute('chapter'))
     }
   }
   static get observedAttributes () {
-    return ['chapter', 'location']
+    return ['chapter', 'location', 'scale']
   }
 }
-window.customElements.define('ink-pdf-render', InkPDFRender)
-
-// wickedElements.define('ink-pdf-render', {
-//   init: function (event) {
-//     this.element = event.currentTarget
-//   },
-//   onconnected (event) {
-//     this.render()
-//     console.log(this.element.children[0])
-//     window.pdfjsLib.GlobalWorkerOptions.workerSrc =
-//       '/js/pdfjs-dist/build/pdf.worker.min.js'
-//     this.pdfLinkService = new window.pdfjsViewer.PDFLinkService()
-//     this.pdfViewer = new window.pdfjsViewer.PDFViewer({
-//       container: this.element.children[0],
-//       linkService: this.pdfLinkService,
-//       renderer: 'svg',
-//       textLayerMode: 1
-//     })
-//     this.pdfLinkService.setViewer(this.pdfViewer)
-//     document.addEventListener('pagesinit', () => {
-//       this.pdfViewer.currentScaleValue = 'page-width'
-//     })
-//     if (this.element.getAttribute('chapter')) { this.chapter(this.element.getAttribute('chapter')) }
-//   },
-//   render () {
-//     render(
-//       html`<div><div id="viewer" class="pdfViewer">
-//     </div></div>`,
-//       this.element
-//     )
-//   },
-//   chapter (chapter) {
-//     const loadingTask = window.pdfjsLib.getDocument({
-//       url: chapter,
-//       cMapUrl: window.CMAP_URL,
-//       cMapPacked: window.CMAP_PACKED
-//     })
-//     loadingTask.promise.then(pdfDocument => {
-//       console.log(pdfDocument)
-//       // Document loaded, specifying document for the viewer and
-//       // the (optional) linkService.
-//       this.pdfViewer.setDocument(pdfDocument)
-//       this.pdfLinkService.setDocument(pdfDocument, null)
-//     })
-//   },
-//   ondisconnected (event) {},
-//   observedAttributes: ['chapter', 'location'],
-//   onattributechanged (event) {
-//     console.log(event)
-//     const { attributeName, newValue } = event
-//     if (attributeName === 'chapter' && newValue) {
-//       this.chapter(newValue)
-//     }
-//   }
-// })
+window.customElements.define('ink-pdf-render', InkPDFRender, {
+  shadowRootInit: { delegatesFocus: true }
+})
