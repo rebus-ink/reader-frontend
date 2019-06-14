@@ -29,7 +29,7 @@ export const BookListing = ({ book = {}, layout }) => {
   const url = `/library/info${pathname}`
   return html`
     <style>
-:host() {
+:host {
   position: relative;
 }
 .covers {

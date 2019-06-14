@@ -113,7 +113,6 @@ export async function getChapter (url, readable) {
       response.querySelectorAll('link[rel="stylesheet"]')
     ).map(node => node.getAttribute('href'))
   }
-  console.log(doc)
   const nodes = await processChapter(doc, url)
   const styleNodes = []
   for (const cssURL of stylesheets) {
@@ -138,7 +137,7 @@ const purifyConfig = {
   RETURN_DOM_FRAGMENT: true,
   WHOLE_DOCUMENT: true,
   RETURN_DOM_IMPORT: true,
-  FORBID_TAGS: ['meta'],
+  FORBID_TAGS: ['meta', 'form'],
   FORBID_ATTR: ['srcset', 'action', 'background', 'poster']
 }
 

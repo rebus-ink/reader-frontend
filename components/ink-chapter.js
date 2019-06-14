@@ -28,12 +28,17 @@ export const InkChapter = ({ location, chapter, readable }) => {
   )
   return html`
     <style>
-:host() {
-  position: relative;
+:host {
   all: initial;
+  position: relative;
   line-height: var(--reader-line-height);
   font-size: var(--reader-font-size);
   color: var(--reader-text-color);
+  font-family: var(--reader-font-family);
+  background-color: var(--reader-background-color);
+  line-height: var(--reader-line-height);
+  display: block;
+  contain: content;
 }
 [hidden],
 template {
