@@ -67,7 +67,7 @@ export function createBookAPI (context, api, global) {
       )[0]
       if (navResource) {
         const navURL = `${book.id}/${navResource.url}`
-        return this.chapter(navURL)
+        return this.chapter(navURL, true)
       } else {
         return html`<ol class="Contents-list">${book.readingOrder.map(
           (resource, index) => {
@@ -102,9 +102,11 @@ function DocumentFetch (url) {
 }
 
 export async function getChapter (url, readable) {
-  const response = await DocumentFetch(url)
+  let response = await DocumentFetch(url)
   let doc
   let stylesheets = []
+  response = addLocations(response, url)
+  const lang = getLang(response)
   if (readable) {
     doc = new Readability(response).parse().content
   } else {
@@ -128,7 +130,42 @@ export async function getChapter (url, readable) {
     }
   }
 
-  return styleNodes.concat(nodes)
+  return { lang, dom: styleNodes.concat(nodes), url, stylesheets }
+}
+
+function addLocations (doc, base) {
+  doc.querySelectorAll('[id]').forEach(element => {
+    element.id = `${base}:${element.id}`
+  })
+  let locationNumber = 0
+  const symbols = doc.querySelectorAll(
+    'p, h1, h2, h3, h4, h5, h6, li, table, dd, dt, div > img:only-child, figure > img'
+  )
+  symbols.forEach(element => {
+    if (element.tagName.toLowerCase() === 'img') {
+      element = element.parentElement
+    }
+    element.dataset.location = true
+    if (!element.id) {
+      element.id = `${base}:${locationNumber}`
+      locationNumber = locationNumber + 1
+    }
+  })
+  return doc
+}
+
+function getLang (doc) {
+  let lang = doc.documentElement.getAttribute('lang')
+  if (!lang) {
+    lang = doc.documentElement.getAttributeNS(
+      'http://www.w3.org/XML/1998/namespace',
+      'lang'
+    )
+  }
+  if (!lang) {
+    lang = doc.documentElement.getAttribute('xml:lang')
+  }
+  return lang
 }
 
 const purifyConfig = {
@@ -144,24 +181,7 @@ const purifyConfig = {
 export function processChapter (chapter, base) {
   const baseURL = new URL(base, window.location)
   const baseHost = baseURL.host
-  let locationNumber = 0
   const clean = DOMPurify.sanitize(chapter, purifyConfig)
-  clean.querySelectorAll('[id]').forEach(element => {
-    element.id = `${base}:${element.id}`
-  })
-  const symbols = clean.querySelectorAll(
-    'p, h1, h2, h3, h4, h5, h6, li, table, dd, dt, div > img:only-child, figure > img'
-  )
-  symbols.forEach(element => {
-    if (element.tagName.toLowerCase() === 'img') {
-      element = element.parentElement
-    }
-    element.dataset.location = true
-    if (!element.id) {
-      element.id = `${base}:${locationNumber}`
-      locationNumber = locationNumber + 1
-    }
-  })
   clean.querySelectorAll('a[href]').forEach(element => {
     const href = element.getAttribute('href')
     try {
@@ -185,6 +205,7 @@ export function processChapter (chapter, base) {
       console.error(err)
     }
   })
+  // This probably only works for SVG inlined in HTML files, not for SVG in XHTML
   clean.querySelectorAll(`[xlink\\:href]`).forEach(element => {
     const src = element.getAttribute('xlink\\:href')
     try {

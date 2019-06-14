@@ -10,21 +10,32 @@ export const preview = () => {
   return html`<ink-chapter chapter="/demo/chapter/demo.html"></ink-chapter>`
 }
 
-export const InkChapter = ({ location, chapter, readable }) => {
+export const InkChapter = el => {
+  const { location, chapter, readable } = el
   const api = useContext(ApiContext)
-  const [chapterDOM, setChapter] = useState(
+  const [resource, setChapter] = useState(
     html`<div class="loading">Loading</div>`
   )
+  console.log(el)
   useEffect(
     () => {
       if (chapter) {
-        return api.book
+        api.book
           .chapter(chapter, readable)
           .then(dom => setChapter(dom))
           .catch(err => console.error(err))
       }
     },
-    [chapter]
+    [chapter, readable]
+  )
+  useEffect(
+    () => {
+      const { lang } = resource
+      if (lang) {
+        el.setAttribute('lang', lang)
+      }
+    },
+    [resource]
   )
   return html`
     <style>
@@ -174,7 +185,7 @@ img {
   max-width: 100%;
 }
     </style>
-    ${chapterDOM}
+    ${resource.dom}
     `
 }
 InkChapter.observedAttributes = ['chapter', 'location', 'readable']
