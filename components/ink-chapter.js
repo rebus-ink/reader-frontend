@@ -16,7 +16,6 @@ export const InkChapter = el => {
   const [resource, setChapter] = useState(
     html`<div class="loading">Loading</div>`
   )
-  console.log(el)
   useEffect(
     () => {
       window.requestAnimationFrame(() => {
@@ -64,6 +63,7 @@ export const InkChapter = el => {
   line-height: var(--reader-line-height);
   display: block;
   contain: content;
+  padding: 0 0.5rem;
 }
 [hidden],
 template {
@@ -198,6 +198,20 @@ img {
   height: auto;
   max-width: 100%;
 }
+.is-current {
+  position: relative;
+}
+.is-current:before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -0.5rem;
+  width: 0.5rem;
+  height: 100%;
+  display: block;
+  background-image: linear-gradient(to right, var(--rc-medium) 2px, white 2px, white);
+  top: 0;
+}
     </style>
     ${resource.dom}
     `
@@ -206,43 +220,38 @@ InkChapter.observedAttributes = ['chapter', 'location', 'readable']
 
 window.customElements.define(
   'ink-chapter',
-  component(InkChapter, window.HTMLElement, {
-    shadowRootInit: { delegatesFocus: true }
-  })
+  component(InkChapter, window.HTMLElement)
 )
 
 const positionObserver = new window.IntersectionObserver(onPosition, {
-  threshold: [0, 0.25, 0.5, 0.75, 1],
-  rootMargin: '30px 0px -75% 0px'
+  rootMargin: '0px 0px -75% 0px'
 })
 
 let highest
+let visible = []
 function onPosition (entries) {
-  const nextHighest = entries.reduce((prev, current) => {
-    if (
-      current.intersectionRatio > prev.intersectionRatio &&
-      current.intersectionRatio === 1
-    ) {
-      return current
-    } else {
-      return prev
-    }
-  })
-  if (!highest) {
-    highest = nextHighest
-  } else if (nextHighest.intersectionRatio >= highest.intersectionRatio) {
-    highest = nextHighest
+  const enteringView = entries
+    .filter(entry => entry.isIntersecting)
+    .map(entry => entry.target)
+  const leavingView = entries
+    .filter(entry => !entry.isIntersecting)
+    .map(entry => entry.target)
+  visible = visible.filter(entry => !leavingView.includes(entry))
+  visible = visible.concat(enteringView)
+  if (visible[1]) {
+    highest = visible[1]
+  } else {
+    highest = visible[0]
   }
-  const root = highest.target.getRootNode().host
-  if (root) {
-    const previousHighestId = root.getAttribute('current')
-    root.setAttribute('current', highest.target.id)
-    const previousHighest = root.shadowRoot.getElementById(previousHighestId)
-    if (previousHighest) {
-      previousHighest.classList.remove('is-current')
-    }
+  let root
+  if (highest) {
+    root = highest.getRootNode().host
+    root.shadowRoot
+      .querySelectorAll('.is-current')
+      .forEach(element => element.classList.remove('is-current'))
+    highest.classList.add('is-current')
+    root.setAttribute('current', highest.id)
   }
-  highest.target.classList.add('is-current')
 }
 
 function followLocations (el) {
