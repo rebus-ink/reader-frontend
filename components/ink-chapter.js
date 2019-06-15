@@ -19,6 +19,17 @@ export const InkChapter = el => {
   console.log(el)
   useEffect(
     () => {
+      window.requestAnimationFrame(() => {
+        const element = el.shadowRoot.getElementById(location)
+        if (element) {
+          element.scrollIntoView({ behaviour: 'smooth' })
+        }
+      })
+    },
+    [location]
+  )
+  useEffect(
+    () => {
       if (chapter) {
         api.book
           .chapter(chapter, readable)
@@ -33,6 +44,9 @@ export const InkChapter = el => {
       const { lang } = resource
       if (lang) {
         el.setAttribute('lang', lang)
+      }
+      if (resource) {
+        followLocations(el)
       }
     },
     [resource]
@@ -196,3 +210,45 @@ window.customElements.define(
     shadowRootInit: { delegatesFocus: true }
   })
 )
+
+const positionObserver = new window.IntersectionObserver(onPosition, {
+  threshold: [0, 0.25, 0.5, 0.75, 1],
+  rootMargin: '30px 0px -75% 0px'
+})
+
+let highest
+function onPosition (entries) {
+  const nextHighest = entries.reduce((prev, current) => {
+    if (
+      current.intersectionRatio > prev.intersectionRatio &&
+      current.intersectionRatio === 1
+    ) {
+      return current
+    } else {
+      return prev
+    }
+  })
+  if (!highest) {
+    highest = nextHighest
+  } else if (nextHighest.intersectionRatio >= highest.intersectionRatio) {
+    highest = nextHighest
+  }
+  const root = highest.target.getRootNode().host
+  if (root) {
+    const previousHighestId = root.getAttribute('current')
+    root.setAttribute('current', highest.target.id)
+    const previousHighest = root.shadowRoot.getElementById(previousHighestId)
+    if (previousHighest) {
+      previousHighest.classList.remove('is-current')
+    }
+  }
+  highest.target.classList.add('is-current')
+}
+
+function followLocations (el) {
+  window.requestAnimationFrame(() => {
+    el.shadowRoot.querySelectorAll('[id]').forEach(element => {
+      positionObserver.observe(element)
+    })
+  })
+}

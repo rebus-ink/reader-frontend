@@ -1,5 +1,5 @@
 import { html, render } from 'lit-html'
-import { component } from 'haunted'
+import { component, useEffect } from 'haunted'
 
 window.CMAP_URL = '/js/pdfjs-dist/cmaps/'
 window.CMAP_PACKED = true
@@ -15,7 +15,6 @@ export const preview = () => {
 
 export const InkPDF = el => {
   const { location, chapter, scale = 'page-width' } = el
-  console.log(el)
   return html`
     <style>
     :host {
@@ -400,9 +399,21 @@ class InkPDFRender extends window.HTMLElement {
       this.pdfViewer.currentScaleValue = this.getAttribute('scale') // 'page-width' 'page-actual' 'page-fit' 'page-height'  'auto'
     })
     this.addEventListener('pagesloaded', ev => {
+      this.goToPage(this.getAttribute('location'))
       console.log(ev)
     })
     // if (this.getAttribute('chapter')) { this.chapter(this.getAttribute('chapter')) }
+  }
+  goToPage (location) {
+    window.requestAnimationFrame(() => {
+      if (location) {
+        const page = location.replace('page', '')
+        const element = this.querySelector(`[data-page-number="${page}"]`)
+        if (element) {
+          element.scrollIntoView({ behaviour: 'smooth' })
+        }
+      }
+    })
   }
   render () {
     render(
@@ -430,6 +441,8 @@ class InkPDFRender extends window.HTMLElement {
       this.chapter(newValue)
     } else if (name === 'scale') {
       this.chapter(this.getAttribute('chapter'))
+    } else if (name === 'location') {
+      this.goToPage(newValue)
     }
   }
   static get observedAttributes () {
