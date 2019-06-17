@@ -30,10 +30,10 @@ export const preview = () => {
       selected: false
     }
   ]
-  return html`<p><ink-dropdown .change=${event =>
+  return html`<ink-dropdown .change=${event =>
     console.log(
       event
-    )} .options=${options}>Fancy</ink-dropdown></p><p><ink-dropdown disabled .options=${options}>Disabled</ink-dropdown></p>`
+    )} .options=${options}>Fancy</ink-dropdown><ink-dropdown disabled .options=${options}>Disabled</ink-dropdown>`
 }
 
 export const InkDropdown = ({ disabled, change = () => {}, options = [] }) => {

@@ -27,7 +27,7 @@ export const InkChapter = el => {
   useEffect(
     () => {
       if (book) {
-        api.book
+        el.updateComplete = api.book
           .navigation(book)
           .then(dom => setContent(dom))
           .catch(err => console.error(err))

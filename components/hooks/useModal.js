@@ -1,5 +1,5 @@
 import { hook, Hook } from 'haunted'
-import Popper from '/js/vendor/popper.js'
+import Popper from '../../js/vendor/popper.js'
 // Very very loosely based on https://micromodal.now.sh, MIT Licensed
 
 const FOCUSABLE_ELEMENTS = [

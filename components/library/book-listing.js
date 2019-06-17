@@ -25,8 +25,11 @@ export const BookListing = ({ book = {}, layout }) => {
   } else {
     cover = '/static/placeholder-cover.jpg'
   }
-  const pathname = new URL(book.id).pathname
-  const url = `/library/info${pathname}`
+  let url
+  if (book.id) {
+    const pathname = new URL(book.id).pathname
+    url = `/library/info${pathname}`
+  }
   return html`
     <style>
 :host {

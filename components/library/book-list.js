@@ -91,8 +91,9 @@ book-listing {
 ${repeat(
     books,
     item => item.id,
-    (item, index) =>
-      html`<book-listing .book=${item} index=${index} layout=${layout}></book-listing>`
+    (item, index) => {
+      return html`<book-listing .book=${item} index=${index} layout=${layout}></book-listing>`
+    }
   )}
     </div>`
 }

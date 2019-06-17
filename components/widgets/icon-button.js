@@ -16,7 +16,30 @@ export const preview = () => {
   `
 }
 
-export const IconButton = ({ name, click, selected, label }) => {
+export const names = [
+  'cancel',
+  'left-chevron',
+  'right-chevron',
+  'left-arrow',
+  'right-arrow',
+  'grid',
+  'menu',
+  'settings',
+  'search',
+  'highlight',
+  'vertical-ellipsis',
+  'horizontal-ellipsis',
+  'filled-bookmark',
+  'bookmark',
+  'comment',
+  'comment-square',
+  'enter-fullscreen',
+  'exit-fullscreen',
+  'split'
+]
+
+export const IconButton = el => {
+  const { name, click, selected } = el
   return html`<style>
 :host(:focus) {
   outline: solid transparent;
@@ -78,7 +101,9 @@ export const IconButton = ({ name, click, selected, label }) => {
   fill: var(--rc-light);
 }
   </style>
-          <button aria-label=${label} class="button" @click=${click} ?selected=${selected}>${svg(
+          <button aria-label=${
+  el.textContent
+} class="button" @click=${click} ?selected=${selected}>${svg(
   name
 )}</button>`
 }

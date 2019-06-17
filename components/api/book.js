@@ -95,10 +95,10 @@ function DocumentFetch (url) {
       if (request.status >= 200 && request.status < 300) {
         resolve(request.responseXML)
       } else {
-        reject(request.statusText)
+        reject(request)
       }
     }
-    request.onerror = () => reject(request.statusText)
+    request.onerror = () => reject(request)
     request.send()
   })
 }
@@ -131,7 +131,6 @@ export async function getChapter (url, readable) {
       styleNodes.push(await processChapter(`<style>${text}</style>`, cssURL))
     }
   }
-
   return { lang, dom: styleNodes.concat(nodes), url, stylesheets }
 }
 

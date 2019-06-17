@@ -67,7 +67,7 @@ export const preview = () => {
   api.library = params => {
     return Promise.resolve({ items: books })
   }
-  return html`<api-provider .value=${api}><recent-books></book-listing></api-provider>`
+  return html`<api-provider .value=${api}><recent-books></recent-books></api-provider>`
 }
 
 export const RecentBooks = component(

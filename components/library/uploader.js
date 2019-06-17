@@ -4,7 +4,7 @@ import { ApiContext } from '../api-provider.component.js'
 import { createAPI } from '../api.state.js'
 import { classMap } from 'lit-html/directives/class-map.js'
 import { close } from '../hooks/useModal.js'
-import '/js/vendor/file-drop-element.js'
+import '../../js/vendor/file-drop-element.js'
 import '../widgets/button.js'
 import '../modals/menumodal.js'
 

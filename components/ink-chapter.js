@@ -30,9 +30,11 @@ export const InkChapter = el => {
   useEffect(
     () => {
       if (chapter) {
-        api.book
+        el.updateComplete = api.book
           .chapter(chapter, readable)
-          .then(dom => setChapter(dom))
+          .then(dom => {
+            setChapter(dom)
+          })
           .catch(err => console.error(err))
       }
     },
