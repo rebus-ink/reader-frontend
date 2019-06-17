@@ -63,13 +63,13 @@ export function createBookAPI (context, api, global) {
     async navigation (book) {
       const { resources = [] } = book
       const navResource = resources.filter(resource =>
-        resource.rel.includes('cover')
+        resource.rel.includes('contents')
       )[0]
       if (navResource) {
         const navURL = `${book.id}/${navResource.url}`
         return this.chapter(navURL, true)
       } else {
-        return html`<ol class="Contents-list">${book.readingOrder.map(
+        const dom = html`<ol class="Contents-list">${book.readingOrder.map(
           (resource, index) => {
             if (!resource.name) {
               resource.name = `Chapter ${index + 1}`
@@ -79,6 +79,7 @@ export function createBookAPI (context, api, global) {
             }/${resource.url}`}>${resource.name}</a></li>`
           }
         )}</ol>`
+        return { lang: 'en', dom }
       }
     }
   }
@@ -189,8 +190,9 @@ export function processChapter (chapter, base) {
       if (host === baseHost) {
         element.setAttribute(
           'href',
-          `/reader${pathname}#${base}:${hash.slice(1)}`
+          `/reader${pathname}${hash ? `#${base}:${hash.slice(1)}` : ''}`
         )
+        element.dataset.href = href
       }
     } catch (err) {
       console.error(err)
