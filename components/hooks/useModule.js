@@ -67,25 +67,25 @@ function setVisibility (hook) {
   return getModule(hook.path, hook)
 }
 
-export const useLazyModule = hook(
-  class extends Hook {
-    constructor (id, el) {
-      super(id, el)
-      hostToHook.set(el.host, this)
-      positionObserver.observe(el.host)
-      this.module = null
-    }
-    update (path) {
-      this.path = fullPath(path)
-      return this.getModule(this.path)
-    }
-    getModule (path) {
-      if (moduleMap.get(path)) {
-        this.module = moduleMap.get(path)
-      } else if (this.visible) {
-        this.el.host.moduleReady = getModule(path, this)
-      }
-      return this.module
-    }
-  }
-)
+// export const useLazyModule = hook(
+//   class extends Hook {
+//     constructor (id, el) {
+//       super(id, el)
+//       hostToHook.set(el.host, this)
+//       positionObserver.observe(el.host)
+//       this.module = null
+//     }
+//     update (path) {
+//       this.path = fullPath(path)
+//       return this.getModule(this.path)
+//     }
+//     getModule (path) {
+//       if (moduleMap.get(path)) {
+//         this.module = moduleMap.get(path)
+//       } else if (this.visible) {
+//         this.el.host.moduleReady = getModule(path, this)
+//       }
+//       return this.module
+//     }
+//   }
+// )

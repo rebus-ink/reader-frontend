@@ -6,13 +6,13 @@ export function rafPromise () {
   return new Promise(resolve => window.requestAnimationFrame(resolve))
 }
 
-describe.skip('useVisibility', () => {
+describe('useVisibility', () => {
   it('Renders visible', async () => {
     const el = await fixture(html`<use-visibility></use-visibility>`)
     await rafPromise()
     expect(el).dom.to.equal('<use-visibility><p>visible</p></use-visibility>')
   })
-  it('Renders not visible', async () => {
+  it.skip('Renders not visible', async () => {
     const el = await fixture(
       html`<div><p style=${styleMap({
         paddingTop: '3000px'

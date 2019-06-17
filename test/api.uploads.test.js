@@ -24,10 +24,15 @@ describe('api.uploads', () => {
         return Promise.resolve({ type: 'Publication' })
       }
     }
-    window.api.library = () => {
+    window.api.events.on('library', book => {
       libraryCalled = true
-      return Promise.resolve()
-    }
+    })
+    // window.api.events.on('importing', () => {
+    //   console.log('importing')
+    // })
+    // window.api.events.on('imported', () => {
+    //   console.log('imported')
+    // })
     window.api.uploads.add(
       new window.File(['test'], 'epub.epub', {
         type: 'application/epub+zip'

@@ -1,6 +1,6 @@
 import { html } from 'lit-html'
 import { component } from 'haunted'
-import { useModule, useLazyModule } from '../../components/hooks/useModule.js'
+import { useModule } from '../../components/hooks/useModule.js'
 
 export const passes = []
 export const UseModuleElement = component(
@@ -13,15 +13,15 @@ export const UseModuleElement = component(
   { useShadowDOM: false }
 )
 
-export const UseLazyModule = component(
-  ({ path }) => {
-    const module = useLazyModule(path)
-    return html`<p>${module ? module.test : 'Module is loading'}</p>`
-  },
-  window.HTMLElement,
-  { useShadowDOM: false }
-)
+// export const UseLazyModule = component(
+//   ({ path }) => {
+//     const module = useLazyModule(path)
+//     return html`<p>${module ? module.test : 'Module is loading'}</p>`
+//   },
+//   window.HTMLElement,
+//   { useShadowDOM: false }
+// )
 
 window.customElements.define('use-module-element', UseModuleElement)
 
-window.customElements.define('use-lazy-module', UseLazyModule)
+// window.customElements.define('use-lazy-module', UseLazyModule)
