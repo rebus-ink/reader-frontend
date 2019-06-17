@@ -76,8 +76,7 @@ export const InkChapter = el => {
 
 .chapter-body {
   grid-area: maintext;
-  min-width: var(--reader-min-column-width);
-  max-width: var(--reader-max-column-width);
+  max-width: 450px;
   margin: 0;
 }
 [hidden],
