@@ -1,8 +1,9 @@
 import { fetchWrap, get } from './fetch.js'
-import DOMPurify from 'dompurify'
 import { html } from 'lit-html'
 import { testProp } from './allowed-css-props.js'
 import Readability from '../../js/vendor/readability'
+import createDOMPurify from 'dompurify'
+const DOMPurify = createDOMPurify()
 
 export function createBookAPI (context, api, global) {
   return {
