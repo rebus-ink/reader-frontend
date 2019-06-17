@@ -174,6 +174,7 @@ export const InkCollection = ({ collection }) => {
     span {
       margin: 0;
       padding: 0;
+      line-height: 1;
     }
     .loading {
       min-height: 5rem;

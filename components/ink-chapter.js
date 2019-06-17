@@ -63,7 +63,17 @@ export const InkChapter = el => {
   line-height: var(--reader-line-height);
   display: block;
   contain: content;
-  padding: 0 0.5rem;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(var(--reader-left-margin), 0.5fr) minmax(var(--reader-min-column-width), var(--reader-max-column-width)) minmax(var(--reader-left-margin), 0.5fr);
+  grid-template-areas: 'leftmargin maintext rightmargin';
+}
+
+.chapter-body {
+  grid-area: maintext;
+  min-width: var(--reader-min-column-width);
+  max-width: var(--reader-max-column-width);
+  margin: 0;
 }
 [hidden],
 template {
@@ -205,15 +215,15 @@ img {
   content: '';
   position: absolute;
   bottom: 0;
-  left: -0.5rem;
-  width: 0.5rem;
+  right: -1rem;
+  width: 0.15rem;
   height: 100%;
   display: block;
-  background-image: linear-gradient(to right, var(--rc-medium) 2px, white 2px, white);
+  background-color: var(--rc-medium);
   top: 0;
 }
     </style>
-    ${resource.dom}
+    <div class="chapter-body">${resource.dom}</div>
     `
 }
 InkChapter.observedAttributes = ['chapter', 'location', 'readable']
