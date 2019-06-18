@@ -9,6 +9,7 @@ import { preview as previewButton } from '../components/widgets/button.js'
 import { preview as previewDropdown } from '../components/widgets/dropdown.js'
 import { preview as previewContents } from '../components/ink-contents.js'
 import { names } from '../components/widgets/icon-button.js'
+import { preview as previewConfirm } from '../components/modals/confirm-action.js'
 
 describe('<ink-chapter>', () => {
   it('ink-chapter basic render', async () => {
@@ -77,5 +78,12 @@ describe('<icon-button>', () => {
       expect(el2).dom.to.equalSnapshot()
       expect(el2).shadowDom.to.equalSnapshot()
     }
+  })
+})
+
+describe('<confirm-action>', () => {
+  it('confirm-action basic render', async () => {
+    const el = await fixture(previewConfirm())
+    expect(el).dom.to.equalSnapshot()
   })
 })
