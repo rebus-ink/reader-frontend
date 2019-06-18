@@ -146,7 +146,6 @@ function addLocations (doc, base) {
     if (element.tagName.toLowerCase() === 'img') {
       element = element.parentElement
     }
-    element.dataset.location = true
     if (!element.id) {
       element.id = `${base}:${locationNumber}`
       locationNumber = locationNumber + 1
@@ -170,12 +169,12 @@ function getLang (doc) {
 }
 
 const purifyConfig = {
-  KEEP_CONTENT: true,
+  KEEP_CONTENT: false,
   RETURN_DOM: true,
   RETURN_DOM_FRAGMENT: true,
   WHOLE_DOCUMENT: true,
   RETURN_DOM_IMPORT: true,
-  FORBID_TAGS: ['meta', 'form'],
+  FORBID_TAGS: ['meta', 'form', 'title', 'link'],
   FORBID_ATTR: ['srcset', 'action', 'background', 'poster']
 }
 
@@ -228,6 +227,10 @@ export function processChapter (chapter, base) {
   })
   const body = clean.querySelector('body')
   body.replaceWith(...body.childNodes)
+  const head = clean.querySelector('head')
+  if (head) {
+    head.replaceWith(...head.childNodes)
+  }
   return clean
 }
 
