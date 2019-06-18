@@ -18,6 +18,37 @@ export function createProfileAPI (context, api, global) {
     async update () {
       context.profile = await get(context.profile.id, context)
       return context.profile
+    },
+    whoami () {
+      return get('/whoami', context)
+    },
+    async create () {
+      const newReader = {
+        type: 'Person',
+        summary: `Reader profile`
+      }
+      try {
+        const csrfToken = getToken()
+        const response = await fetchWrap('/readers', {
+          credentials: 'include',
+          method: 'POST',
+          body: JSON.stringify(newReader),
+          headers: new global.Headers({
+            'content-type': 'application/ld+json',
+            'csrf-token': csrfToken
+          })
+        })
+        const reader = await get(
+          response.headers.get('location'),
+          context,
+          global
+        )
+        context.profile = reader
+        return reader
+      } catch (err) {
+        err.httpMethod = 'POST/Create Profile'
+        throw err
+      }
     }
   }
 }

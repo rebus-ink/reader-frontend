@@ -6,7 +6,7 @@ import { classMap } from 'lit-html/directives/class-map.js'
 import '../widgets/button.js'
 import '../widgets/dropdown.js'
 import '../widgets/icon-button.js'
-import '../modals/menumodal.js'
+import '../modals/menu-modal.js'
 import './book-list.js'
 
 // function animationPromise (elem) {
@@ -238,7 +238,7 @@ export const InkCollection = ({ collection }) => {
   }
   </style><div class=${classMap({
     'header-row': true
-  })}><span class="label">${library.totalItems ||
+  })}><span class="label">${library.items.length ||
     ''} Items</span> <span><icon-button .click=${event => {
   const modal = document.querySelector('ink-collection-modal')
   if (modal) {

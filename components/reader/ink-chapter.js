@@ -1,11 +1,12 @@
 import { html } from 'lit-html'
 import { component, useContext, useState, useEffect } from 'haunted'
-import { ApiContext } from './api-provider.component.js'
+import { ApiContext } from '../api-provider.component.js'
 
 export const title = 'Ink Chapter display: `<ink-chapter>`'
 
 export const description = `This renders the chapter HTML with processed CSS.`
 
+// http://localhost:8080/demo/?component=/components/reader/ink-chapter.js
 export const preview = () => {
   return html`<ink-chapter chapter="/demo/chapter/demo.html"></ink-chapter>`
 }

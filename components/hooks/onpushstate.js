@@ -4,7 +4,10 @@ document.addEventListener(
   'click',
   function (event) {
     // find the link node (even if inside an opened Shadow DOM)
-    let target = event.target.shadowRoot ? event.path[0] : event.target
+    // Changed to support Firefox
+    let target = event.target.shadowRoot
+      ? testClicker(event.composedPath())
+      : event.target
     // find the anchor
     const anchor = (
       target.closest ||
@@ -94,3 +97,15 @@ document.addEventListener(
   },
   true
 )
+
+function testClicker (path) {
+  if (path[0]) {
+    let clicker = path[0].closest('a')
+    if (!clicker) {
+      clicker = path[0]
+    }
+    return clicker
+  } else {
+    return false
+  }
+}

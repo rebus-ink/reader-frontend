@@ -7,7 +7,7 @@
   <ink-collection>
   </ink-collection>
   <ink-collection-modal id="collection-modal-1">
-    <ink-menu-modal aria-hidden="true">
+    <ink-menu-modal>
       <strong slot="modal-title">
         View Settings for ‘
         defaultViewConfig
@@ -23,6 +23,7 @@
     </ink-menu-modal>
   </ink-collection-modal>
 </api-provider>
+
 ```
 
 ```html
@@ -46,6 +47,5 @@
     </ink-menu-modal>
   </ink-collection-modal>
 </api-provider>
-
 ```
 

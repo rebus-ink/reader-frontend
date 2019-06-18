@@ -2,12 +2,12 @@ import { html } from 'lit-html'
 import { classMap } from 'lit-html/directives/class-map.js'
 import { component } from 'haunted'
 
-export const title = 'Text Button: `<ink-text-button>`'
+export const title = 'Text Button: `<text-button>`'
 
 export const description = `The default text button`
 // http://localhost:8080/demo/?component=/components/widgets/text-button.js
 export const preview = () => {
-  return html`<ink-text-button>Fancy Button</ink-text-button> <ink-text-button secondary>Secondary Button</ink-text-button><ink-text-button disabled>Disabled Button</ink-text-button><ink-text-button dropdown>Dropdown Button</ink-text-button><ink-text-button dropdown secondary>Dropdown Button</ink-text-button><ink-text-button dropdown compact secondary>Dropdown Button</ink-text-button><ink-text-button dropdown compact>Dropdown Button</ink-text-button><ink-text-button working>Fetching</ink-text-button><ink-text-button working secondary>Fetching</ink-text-button>`
+  return html`<text-button>Fancy Button</text-button> <text-button secondary>Secondary Button</text-button><text-button disabled>Disabled Button</text-button><text-button dropdown>Dropdown Button</text-button><text-button dropdown secondary>Dropdown Button</text-button><text-button dropdown compact secondary>Dropdown Button</text-button><text-button dropdown compact>Dropdown Button</text-button><text-button working>Fetching</text-button><text-button working secondary>Fetching</text-button>`
 }
 
 export const InkButton = ({
@@ -136,7 +136,7 @@ button[disabled]:focus, {
 InkButton.observedAttributes = ['disabled', 'dangerous', 'working', 'closer']
 
 window.customElements.define(
-  'ink-text-button',
+  'text-button',
   component(InkButton, window.HTMLElement, {
     shadowRootInit: { delegatesFocus: true }
   })

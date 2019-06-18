@@ -1,13 +1,13 @@
 import { html } from 'lit-html'
 import { component } from 'haunted'
 
-export const title = 'Menu Button: `<ink-menu-button>`'
+export const title = 'Menu Button: `<menu-button>`'
 
 export const description = `The menu button`
 
 // http://localhost:8080/demo/?component=/components/menu-button.component.js&imports=/js/vendor/@github/details-menu-element.js
 export const preview = () => {
-  return html`<ink-menu-button>
+  return html`<menu-button>
   <details class="InkMenuButton">
   <summary class="InkMenuSummary">Robots</summary>
   <details-menu role="menu">
@@ -25,7 +25,7 @@ export const preview = () => {
     <button type="button" role="menuitem" class="MenuItem">BB-8</button>
   </details-menu>
 </details>
-    </ink-menu-button><ink-menu-button secondary>
+    </menu-button><menu-button secondary>
   <details class="InkMenuButton">
   <summary class="InkMenuSummary InkMenuSummary--secondary">Robots</summary>
   <details-menu role="menu">
@@ -43,7 +43,7 @@ export const preview = () => {
     <button type="button" role="menuitem" class="MenuItem">BB-8</button>
   </details-menu>
 </details>
-    </ink-menu-button>`
+    </menu-button>`
 }
 
 export const InkMenuButton = ({ disabled, name, secondary }) => {
@@ -54,6 +54,6 @@ export const InkMenuButton = ({ disabled, name, secondary }) => {
 InkMenuButton.observedAttributes = ['disabled', 'name', 'secondary']
 
 window.customElements.define(
-  'ink-menu-button',
+  'menu-button',
   component(InkMenuButton, window.HTMLElement)
 )

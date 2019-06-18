@@ -5,7 +5,7 @@ import { component, useEffect } from 'haunted'
 import '../modals/modal-closer.js'
 import '../widgets/button.js'
 
-export const title = 'Collection Sidebar: `<ink-collection-sidebar>`'
+export const title = 'Collection Sidebar: `<collection-sidebar>`'
 
 export const description = `Primary navigation for the menu.`
 
@@ -17,7 +17,7 @@ export const preview = () => {
   }}>open modal</ink-button><ink-button @click=${() => {
     document.getElementById('modal-1').open = true
     document.getElementById('modal-1').current = 'This is a test collection'
-  }}>open modal</ink-button><ink-collection-sidebar id="modal-1" aria-hidden="true"></ink-collection-sidebar>`
+  }}>open modal</ink-button><collection-sidebar id="modal-1" aria-hidden="true"></collection-sidebar>`
 }
 
 export const CollectionSidebar = ({ collections = [], open, current }) => {
@@ -182,7 +182,7 @@ header {
 }
 
 window.customElements.define(
-  'ink-collection-sidebar',
+  'collection-sidebar',
   component(CollectionSidebar, window.HTMLElement)
 )
 

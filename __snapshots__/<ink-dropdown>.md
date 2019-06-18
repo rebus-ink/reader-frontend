@@ -6,6 +6,7 @@
 <ink-dropdown>
   Fancy
 </ink-dropdown>
+
 ```
 
 ```html
@@ -40,13 +41,13 @@
     </option>
   </select>
 </label>
+
 ```
 
 ```html
 <ink-dropdown>
   Fancy
 </ink-dropdown>
-
 ```
 
 ```html
@@ -81,6 +82,5 @@
     </option>
   </select>
 </label>
-
 ```
 

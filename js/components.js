@@ -1,7 +1,5 @@
-import './components/api.state.js'
-import './components/book-listing.component.js'
-import './components/button.component.js'
-import './components/dropdown.component.js'
-import './components/menumodal.component.js'
-import './components/modal-closer.component.js'
-import './components/modal.component.js'
+
+import './components/widgets.component.js'
+import './components/modals.component.js'
+import './components/reader.component.js'
+import './components/library.component.js'

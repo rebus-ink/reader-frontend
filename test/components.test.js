@@ -1,13 +1,13 @@
 /* global it, describe */
 import { html, fixture, expect, nextFrame } from '@open-wc/testing'
 
-import { preview } from '../components/ink-chapter.js'
+import { preview } from '../components/reader/ink-chapter.js'
 import { preview as previewBookList } from '../components/library/book-list.js'
 import { preview as previewCollection } from '../components/library/collection.js'
 import { preview as previewUploader } from '../components/library/uploader.js'
 import { preview as previewButton } from '../components/widgets/button.js'
 import { preview as previewDropdown } from '../components/widgets/dropdown.js'
-import { preview as previewContents } from '../components/ink-contents.js'
+import { preview as previewContents } from '../components/reader/ink-contents.js'
 import { names } from '../components/widgets/icon-button.js'
 import { preview as previewConfirm } from '../components/modals/confirm-action.js'
 

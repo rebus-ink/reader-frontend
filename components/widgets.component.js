@@ -1,3 +1,5 @@
 import './widgets/button.js'
+import './widgets/icon-button.js'
+import './widgets/text-button.js'
 import './widgets/dropdown.js'
 import './widgets/menu-button.js'

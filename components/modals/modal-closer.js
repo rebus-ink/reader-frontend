@@ -1,12 +1,12 @@
 import { html } from 'lit-html'
 import { component } from 'haunted'
 
-export const title = 'Modal Closer: `<ink-modal-closer>`'
+export const title = 'Modal Closer: `<modal-closer>`'
 
 export const description = `The modal closer button`
 
 export const preview = () => {
-  return html`<ink-modal-closer></ink-modal-closer>`
+  return html`<modal-closer></modal-closer>`
 }
 
 export const InkModalCloser = () => {
@@ -68,7 +68,7 @@ export const InkModalCloser = () => {
 }
 
 window.customElements.define(
-  'ink-modal-closer',
+  'modal-closer',
   component(InkModalCloser, window.HTMLElement, {
     shadowRootInit: { delegatesFocus: true }
   })

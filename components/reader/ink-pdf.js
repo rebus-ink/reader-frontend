@@ -423,18 +423,21 @@ class InkPDFRender extends window.HTMLElement {
     )
   }
   chapter (chapter) {
-    const loadingTask = window.pdfjsLib.getDocument({
-      url: chapter,
-      cMapUrl: window.CMAP_URL,
-      cMapPacked: window.CMAP_PACKED
-    })
-    loadingTask.promise.then(pdfDocument => {
-      console.log(pdfDocument)
-      // Document loaded, specifying document for the viewer and
-      // the (optional) linkService.
-      this.pdfViewer.setDocument(pdfDocument)
-      this.pdfLinkService.setDocument(pdfDocument, null)
-    })
+    console.log(chapter)
+    if (chapter) {
+      const loadingTask = window.pdfjsLib.getDocument({
+        url: chapter,
+        cMapUrl: window.CMAP_URL,
+        cMapPacked: window.CMAP_PACKED
+      })
+      loadingTask.promise.then(pdfDocument => {
+        console.log(pdfDocument)
+        // Document loaded, specifying document for the viewer and
+        // the (optional) linkService.
+        this.pdfViewer.setDocument(pdfDocument)
+        this.pdfLinkService.setDocument(pdfDocument, null)
+      })
+    }
   }
   attributeChangedCallback (name, oldValue, newValue) {
     if (name === 'chapter') {

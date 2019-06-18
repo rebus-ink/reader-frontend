@@ -5,7 +5,7 @@ import { component, useEffect } from 'haunted'
 import './modal-closer.js'
 import '../widgets/button.js'
 
-export const title = 'Modal: `<ink-menu-modal>`'
+export const title = 'Modal: `<menu-modal>`'
 
 export const description = `The the menu modal card, wraps its light-dom in a modal`
 
@@ -15,7 +15,7 @@ export const preview = () => {
     document.getElementById('modal-1').open = event.target
   }}>open modal</ink-button><ink-button dropdown @click=${event => {
     document.getElementById('modal-1').open = event.target
-  }}>open bigger</ink-button><ink-menu-modal id="modal-1"><strong slot="modal-title">Fancy Title</strong><p slot="modal-body" style="padding: 1rem;">Fancy body</p></ink-menu-modal>`
+  }}>open bigger</ink-button><menu-modal id="modal-1"><strong slot="modal-title">Fancy Title</strong><p slot="modal-body" style="padding: 1rem;">Fancy body</p></menu-modal>`
 }
 
 export const InkMenuModal = ({ open }) => {
@@ -191,7 +191,7 @@ header {
 }
 
 window.customElements.define(
-  'ink-menu-modal',
+  'menu-modal',
   component(InkMenuModal, window.HTMLElement, {
     shadowRootInit: { delegatesFocus: true }
   })

@@ -6,7 +6,7 @@ import { classMap } from 'lit-html/directives/class-map.js'
 import { close } from '../hooks/useModal.js'
 import '../../js/vendor/file-drop-element.js'
 import '../widgets/button.js'
-import '../modals/menumodal.js'
+import '../modals/menu-modal.js'
 
 export const title = 'Uploader: `<ink-uploader>`'
 

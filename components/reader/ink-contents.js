@@ -1,11 +1,12 @@
 import { html } from 'lit-html'
 import { component, useContext, useState, useEffect } from 'haunted'
-import { ApiContext } from './api-provider.component.js'
+import { ApiContext } from '../api-provider.component.js'
 
 export const title = 'Ink Contents display: `<ink-contents>`'
 
 export const description = `This renders the book's content HTML`
 
+// http://localhost:8080/demo/?component=/components/reader/ink-contents.js
 export const preview = () => {
   return html`<ink-contents .book=${{
     name: 'Book Title',
