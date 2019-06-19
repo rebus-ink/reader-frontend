@@ -13,7 +13,7 @@ export function createProfileAPI (context, api, global) {
     },
     async library () {
       const profile = await getProfile(context, global)
-      return profile.streams.items[0].id
+      return profile.id + '/library'
     },
     async update () {
       context.profile = await get(context.profile.id, context)
