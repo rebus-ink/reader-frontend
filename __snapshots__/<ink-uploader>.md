@@ -17,12 +17,12 @@
     </ink-menu-modal>
   </ink-uploader-modal>
 </api-provider>
+
 ```
 
 ```html
 <book-list>
 </book-list>
-
 ```
 
 ```html
@@ -78,7 +78,6 @@
   >
   </book-listing>
 </div>
-
 ```
 
 ```html
@@ -102,7 +101,6 @@
     </ink-menu-modal>
   </ink-collection-modal>
 </api-provider>
-
 ```
 
 ```html
@@ -120,6 +118,5 @@
     </ink-menu-modal>
   </ink-uploader-modal>
 </api-provider>
-
 ```
 

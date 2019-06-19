@@ -10,9 +10,6 @@
 
 ```html
 <div class="chapter-body">
-  <title>
-    The Project Gutenberg eBook of Les Misérables, par Victor Hugo.
-  </title>
   <div class="pgheader pgmonospaced">
     <br>
     The Project Gutenberg EBook of Les misérables Tome I, by Victor Hugo

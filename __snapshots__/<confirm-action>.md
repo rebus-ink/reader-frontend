@@ -28,6 +28,7 @@
     </div>
   </div>
 </confirm-action>
+
 ```
 
 ```html
@@ -56,6 +57,5 @@
     </div>
   </div>
 </confirm-action>
-
 ```
 
