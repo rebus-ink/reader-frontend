@@ -147,7 +147,7 @@
     "sqlite": "^3.0.3",
     "viperhtml": "^2.16.0",
     "wicked-elements": "0.3.1",
-    "wrender": "^1.2.2",
+    "wrender": "^1.2.3",
     "xmlserializer": "^0.6.1"
   },
   "standard": {

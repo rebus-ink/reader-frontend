@@ -49,6 +49,7 @@ function setup (authserver) {
   // app.use('/', require('./server/routes/refresh-token.js'))
   app.use('/', require('./server/routes/process-url.js'))
   app.use('/images', require('./server/routes/images.js'))
+  app.use('/', require('./server/routes/asset.js'))
 
   const apiApp = require('hobb-api/server.js').app
   app.use('/', require('./server/api-auth.js'))

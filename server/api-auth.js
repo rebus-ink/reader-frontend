@@ -6,6 +6,10 @@ function apiAuth (req, res, next) {
   if (req.user && req.user.token) {
     res.cookie('XSRF-TOKEN', req.csrfToken())
   }
+  const originalRedirect = res.redirect
+  res.redirect = function (url) {
+    originalRedirect.call(this, `/asset/${encodeURIComponent(url)}`)
+  }
   next()
 }
 
