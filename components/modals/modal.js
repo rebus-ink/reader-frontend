@@ -146,7 +146,7 @@ header {
       <div role="dialog" class="container" aria-modal="true" aria-labelledby="modal-1-title" >
         <header>
           <h2 class="title"><slot name="modal-title" id="title">Title</slot></h2>
-          <ink-modal-closer></ink-modal-closer>
+          <modal-closer></modal-closer>
         </header>
         <div id="modal-1-content" class="content"><slot name="modal-body">Body</slot>
         </div>
