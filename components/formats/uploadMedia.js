@@ -23,6 +23,11 @@ export async function uploadMedia (created, api, global) {
 function uploadData (created, api, global) {
   const { zip, book } = created
   return async function uploader (item) {
+    if (
+      item.mediaType.includes('javascript') ||
+      item.mediaType.includes('jscript') ||
+      item.mediaType.includes('ecmascript')
+    ) { return }
     try {
       const data = new global.FormData()
       const filename = decodeURI(item.url)
