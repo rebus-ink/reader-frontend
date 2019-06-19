@@ -37,7 +37,6 @@ export function createAPI (global = window) {
       const url = await this.profile.library()
       const searchParams = new URLSearchParams(params).toString()
       const collection = await get(url + searchParams, context, global)
-      api.events.emit('library', collection)
       return collection
     }
   }
