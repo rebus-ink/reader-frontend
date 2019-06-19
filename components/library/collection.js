@@ -349,9 +349,9 @@ export const SettingsModal = ({
       console.error(err)
     }
   }
-  return html`<ink-menu-modal .open=${ref}><strong slot="modal-title">View Settings for &lsquo;${
+  return html`<menu-modal .open=${ref}><strong slot="modal-title">View Settings for &lsquo;${
     viewConfig.name
-  }&rsquo;</strong><form slot="modal-body"><p style="text-align: center;"><ink-dropdown .change=${onSelectChange} .options=${options}>Ordered by </ink-dropdown></p></form></ink-menu-modal>`
+  }&rsquo;</strong><form slot="modal-body"><p style="text-align: center;"><ink-dropdown .change=${onSelectChange} .options=${options}>Ordered by </ink-dropdown></p></form></menu-modal>`
 }
 window.customElements.define(
   'ink-collection',

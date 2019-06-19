@@ -144,7 +144,6 @@ export const useModal = hook(
     }
     setFocusToFirstNode () {
       const focusableNodes = this.getFocusableNodes()
-      console.log('set focus', focusableNodes)
       if (focusableNodes.length) focusableNodes[0].focus()
     }
 
@@ -157,15 +156,10 @@ export const useModal = hook(
     }
     maintainFocus (event) {
       const focusableNodes = this.getFocusableNodes()
-      console.log('maintain focus')
-
-      console.log(focusableNodes)
-      console.log(this.element)
       const element = this.element
       const focusedItemIndex = focusableNodes.indexOf(
         element.shadowRoot.activeElement || document.activeElement
       )
-      console.log(focusedItemIndex)
       if (focusedItemIndex === -1) {
         focusableNodes[0].focus()
         event.preventDefault()

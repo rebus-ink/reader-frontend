@@ -41,6 +41,11 @@ export const names = [
 export const IconButton = el => {
   const { name, click, selected } = el
   return html`<style>
+:host {
+  line-height:1;
+  display: inline-block;
+  height: 24px;
+}
 :host(:focus) {
   outline: solid transparent;
 }
@@ -64,8 +69,8 @@ export const IconButton = el => {
   background-color: transparent;
   color: var(--rc-dark);
 
-  height: 30px;
-    width: 30px;
+  height: 24px;
+    width: 24px;
     margin: 0;
     padding: 0;
   border-radius: 9999px;
