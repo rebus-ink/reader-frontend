@@ -26,7 +26,9 @@ router.get('/asset/:proxyURL*', ensureLogin, csurf(), function (req, res, next) 
 
 async function assets (url, res) {
   const response = await got.head(url)
-  if (response.headers['content-type'].includes('script')) { return res.sendStatus(404) }
+  if (response.headers['content-type'].includes('script')) {
+    return res.sendStatus(404)
+  }
   res.set('Cache-Control', 'max-age=31536000, immutable')
   if (response.headers['content-type'].includes('svg')) {
     const mainresponse = await got(url)
@@ -65,8 +67,10 @@ async function assets (url, res) {
     const mainresponse = await got(url)
     res.type(mainresponse.headers['content-type'])
     res.send(mainresponse.body)
-  } else if (response) {
+  } else if (response.headers['content-type'].includes('image')) {
     return res.redirect(`/images/proxy/${encodeURIComponent(url)}`)
+  } else {
+    return got.stream(url).pipe(res)
   }
 }
 
