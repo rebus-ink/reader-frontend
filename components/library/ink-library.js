@@ -64,6 +64,7 @@ export const Library = el => {
   req.params.collection
 } .collections=${tags}></collection-sidebar>
 
+<ink-collection-modal></ink-collection-modal>
 <ink-modal id="create-collection" aria-hidden="true">
     <strong slot="modal-title" class="Modal-name">Create Collection</strong>
     <confirm-action slot="modal-body" .action=${() => {

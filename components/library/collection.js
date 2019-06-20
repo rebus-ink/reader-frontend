@@ -94,7 +94,7 @@ export const preview = () => {
   }
   return html`<api-provider .value=${api}>
     <ink-collection></ink-collection>
-    <ink-collection-modal id="collection-modal-1"></ink-collection-modal>
+    <ink-collection-modal></ink-collection-modal>
   </api-provider>
 `
 }
@@ -240,7 +240,7 @@ export const InkCollection = ({ collection }) => {
   </style><div class=${classMap({
     'header-row': true
   })}><span class="label">${library.items.length ||
-    ''} Items</span> <span><icon-button .click=${event => {
+    ''} Items</span> <span><icon-button @click=${event => {
   const modal = document.querySelector('ink-collection-modal')
   if (modal) {
     modal.state = { viewConfig, setViewConfig, library, setState, api }
@@ -327,10 +327,18 @@ export const SettingsModal = ({
     const path = event.composedPath()
     const target = path[0]
     const value = target.value.split('-')
-    const newOrder = {
-      orderBy: value[0],
-      reversed: value[1] ? 'true' : 'false',
-      page: 1
+    let newOrder
+    if (value[0] === 'datePublished') {
+      newOrder = {
+        reversed: value[1] ? 'true' : 'false',
+        page: 1
+      }
+    } else {
+      newOrder = {
+        orderBy: value[0],
+        reversed: value[1] ? 'true' : 'false',
+        page: 1
+      }
     }
     const newParams = Object.assign({}, viewConfig.params, newOrder)
     const newConfig = Object.assign({}, viewConfig, { params: newParams })
