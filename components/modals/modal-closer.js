@@ -13,11 +13,10 @@ export const InkModalCloser = () => {
   return html`<style>
 
 .close {
-  position: absolute;
   top: 0.8rem;
   left: 0.5rem;
   font-size: 1.25rem;
-  line-height: 1rem;
+  line-height: 1;
   transform: translateY(-2px);
   display: inline-block;
   cursor: pointer;

@@ -2,8 +2,9 @@ import { html } from 'lit-html'
 import { useModal } from '../hooks/useModal.js'
 import { classMap } from 'lit-html/directives/class-map.js'
 import { component, useEffect } from 'haunted'
-import './modal-closer.js'
+// import './modal-closer.js'
 import '../widgets/button.js'
+import '../widgets/icon-button.js'
 
 export const title = 'Modal: `<menu-modal>`'
 
@@ -110,6 +111,12 @@ export const InkMenuModal = ({ open }) => {
 
 header {
   border-bottom: 1px solid #ddd;
+  display: grid;
+  grid-template-columns: min-content 1fr 34px;
+  align-items: center;
+}
+header icon-button {
+  padding: 0.25rem 0.5rem;
 }
 
 .container {
@@ -160,7 +167,7 @@ header {
   line-height: 1;
   box-sizing: border-box;
   text-transform: uppercase;
-  padding: 1rem 2rem;
+  padding: 0.85rem 2rem;
   text-align: center;
   margin: 0;
 }
@@ -180,8 +187,9 @@ header {
   })} data-modal-close>
       <div role="dialog" class="container" id='container' aria-modal="true" aria-labelledby="modal-1-title" >
         <header>
+          <icon-button name="cancel" data-modal-close>Close Menu</icon-button>
           <h2 class="title"><slot name="modal-title" id="title">Title</slot></h2>
-          <modal-closer></modal-closer>
+          <div></div>
         </header>
         <div id="modal-1-content" class="content"><slot name="modal-body">Body</slot>
         </div>

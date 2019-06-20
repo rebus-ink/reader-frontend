@@ -108,9 +108,9 @@ export const IconButton = el => {
   </style>
           <button aria-label=${
   el.textContent
-} class="button" @click=${click} ?selected=${selected}>${svg(
-  name
-)}</button>`
+} class="button" @click=${click} ?selected=${selected} ?data-modal-close=${el.closest(
+  'icon-button[data-modal-close]'
+)}>${svg(name)}</button>`
 }
 
 function svg (name) {
@@ -153,11 +153,18 @@ function svg (name) {
       return html`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>`
     case 'right-chevron':
       return html`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>`
+    case 'plus':
+      return html`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>`
     default:
       break
   }
 }
-IconButton.observedAttributes = ['name', 'selected', 'label']
+IconButton.observedAttributes = [
+  'name',
+  'selected',
+  'label',
+  'data-modal-close'
+]
 
 window.customElements.define(
   'icon-button',
