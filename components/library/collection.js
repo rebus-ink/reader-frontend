@@ -141,6 +141,10 @@ export const InkCollection = ({ collection }) => {
   const [viewConfig, setViewConfig] = useState(defaultViewConfig(collection))
   const [library, setState] = useState({ state: 'loading', items: [], page: 1 })
   const [button, setButton] = useState({ loading: false })
+  let tag
+  if (library.tags) {
+    tag = library.tags.filter(tag => tag.name === collection)[0]
+  }
   useEffect(
     () => {
       setLibrary({
@@ -243,7 +247,7 @@ export const InkCollection = ({ collection }) => {
     ''} Items</span> <span><icon-button @click=${event => {
   const modal = document.querySelector('ink-collection-modal')
   if (modal) {
-    modal.state = { viewConfig, setViewConfig, library, setState, api }
+    modal.state = { viewConfig, setViewConfig, library, setState, api, tag }
   }
   if (setModalRef) {
     setModalRef(event.target)
@@ -292,9 +296,11 @@ function loader (state) {
     return html`<svg class="loading-svg" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>`
   }
 }
+InkCollection.observedAttributes = ['collection']
 
 export const SettingsModal = ({
-  state = { viewConfig: defaultViewConfig }
+  state = { viewConfig: defaultViewConfig },
+  tag
 }) => {
   const { viewConfig, setViewConfig, library = {}, setState, api } = state
   const [ref, setRef] = useState(false)
@@ -360,7 +366,14 @@ export const SettingsModal = ({
   }
   return html`<menu-modal .open=${ref}><strong slot="modal-title">View Settings for &lsquo;${
     viewConfig.name
-  }&rsquo;</strong><form slot="modal-body"><p style="text-align: center;"><ink-dropdown .change=${onSelectChange} .options=${options}>Ordered by </ink-dropdown></p></form></menu-modal>`
+  }&rsquo;</strong><div slot="modal-body" class="Stack Stack--centered"><form><p style="text-align: center;"><ink-dropdown .change=${onSelectChange} .options=${options}>Ordered by </ink-dropdown></p></form>
+  <ink-button ?hidden=${!state.tag} @click=${() => {
+  const modal = document.getElementById('delete-collection')
+  if (modal) {
+    modal.open = true
+  }
+}}>Remove Collection</ink-button></div>
+  </menu-modal>`
 }
 window.customElements.define(
   'ink-collection',

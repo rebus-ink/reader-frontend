@@ -21,6 +21,25 @@ function createParams (match, keys) {
   return params
 }
 
+export function navigate (pathname, replace) {
+  if (replace) {
+    window.history.replaceState(window.history.state, document.title, pathname)
+  } else {
+    const navigator = document.createElement('a')
+    navigator.href = pathname
+    navigator.onclick = remove
+    document.documentElement.insertBefore(
+      navigator,
+      document.documentElement.firstChild
+    )
+    navigator.click()
+  }
+}
+
+function remove () {
+  this.parentNode.removeChild(this)
+}
+
 export const useRoutes = hook(
   class extends Hook {
     constructor (id, el, routes) {

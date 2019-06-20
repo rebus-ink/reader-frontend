@@ -66,18 +66,16 @@ export const ConfirmBody = ({ action, name, dangerous }) => {
   </style>
   <p class="Modal-paragraph"><slot></slot></p>
   <div class="Modal-row"><text-button closer>Cancel</text-button> <ink-button ?working=${working} ?disabled=${working} ?dangerous=${dangerous} @click=${() => {
-  action().then(() => {
+  setWorking(true)
+  return action().then(() => {
     setWorking(false)
     close()
   })
-  setWorking(true)
 }}>${name}</ink-button></div>`
 }
 ConfirmBody.observedAttributes = ['name', 'question', 'dangerous']
 
 window.customElements.define(
   'confirm-action',
-  component(ConfirmBody, window.HTMLElement, {
-    shadowRootInit: { delegatesFocus: true }
-  })
+  component(ConfirmBody, window.HTMLElement)
 )

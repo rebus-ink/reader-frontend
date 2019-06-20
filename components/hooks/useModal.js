@@ -98,6 +98,7 @@ export const useModal = hook(
     }
     async closer () {
       const element = this.element
+      activeModal = null
       if (this.config.animation) {
         const container = element.shadowRoot.querySelector('.container')
         container.classList.add('is-closing')
@@ -112,7 +113,6 @@ export const useModal = hook(
       element.classList.remove('is-open')
       element.open = false
       element.reference = null
-      activeModal = null
     }
 
     scrollBehaviour (toggle) {
