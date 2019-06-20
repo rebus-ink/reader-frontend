@@ -50,14 +50,15 @@ export function createAPI (global = window) {
 }
 
 async function logout (context, global) {
+  const form = document.createElement('form')
+  form.setAttribute('action', '/logout')
+  form.setAttribute('method', 'post')
   const csrfToken = getToken()
-  await fetchWrap('/logout', {
-    credentials: 'include',
-    method: 'POST',
-    headers: new global.Headers({
-      'content-type': 'application/ld+json',
-      'csrf-token': csrfToken
-    })
-  })
-  global.location.reload(true)
+  const input = document.createElement('input')
+  input.value = csrfToken
+  input.name = '_csrf'
+  form.append(input)
+  form.setAttribute('style', 'display: none;')
+  document.body.append(form)
+  form.submit()
 }

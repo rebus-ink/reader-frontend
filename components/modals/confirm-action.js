@@ -3,6 +3,7 @@ import { component, useState } from 'haunted'
 import { close } from '../hooks/useModal.js'
 import '../widgets/button.js'
 import '../widgets/text-button.js'
+import './modal.js'
 
 export const title = 'Confirm Action modal body: `<confirm-action>`'
 
@@ -15,21 +16,37 @@ export const preview = () => {
       setTimeout(() => resolve({ done: true }), 3000)
     })
   }
-  return html`<confirm-action .action=${logout} name="Sign Out" question="Are you sure that you want to sign out?" dangerous></confirm-action>`
+  return html`<ink-button @click=${() => {
+    document.getElementById('modal-1').open = true
+  }}>open modal</ink-button><ink-modal id="modal-1" aria-hidden="true">
+    
+  <strong slot="modal-title" class="Modal-name">Sign Out</strong>
+  <confirm-action slot="modal-body" .action=${logout} name="Sign Out" question="" dangerous>Are you sure that you want to sign out?</confirm-action></ink-modal>
+  <ink-button @click=${() => {
+    document.getElementById('modal-2').open = true
+  }}>open modal</ink-button><ink-modal id="modal-2" aria-hidden="true">
+    
+  <strong slot="modal-title" class="Modal-name">Create Collection</strong>
+  <confirm-action slot="modal-body" .action=${logout} name="Create"><label class="Label">Name<br><input type="text" name="collection-name" id="collection-name"></label></confirm-action></ink-modal>`
 }
 
-export const ConfirmBody = ({ action, name, question, dangerous }) => {
+export const ConfirmBody = ({ action, name, dangerous }) => {
   const [working, setWorking] = useState(false)
   return html`
   <style>
-  confirm-action {
+  :host {
     display: block;
-    padding: 1rem;
+    padding: 0.5rem 1rem !important;
   }
-  confirm-action .Modal-paragraph {
+  :host([dangerous]) {
+    border-bottom: 0.5rem solid #af4014;
+  }
+
+  .Modal-paragraph {
   text-align: center;
+  margin: 0.5rem 0 1rem;
 }
-confirm-action .Modal-name {
+.Modal-name {
   font-weight: 600;
   font-size: 1rem;
   line-height: 1.25;
@@ -40,32 +57,27 @@ confirm-action .Modal-name {
   display: block;
 }
 
-confirm-action .Modal-row {
+.Modal-row {
   display: flex;
   justify-content: space-between;
   width: 100%;
   align-items: center;
 }
-confirm-action[dangerous] {
-  border-bottom: 0.5rem solid #af4014;
-  border-top: 0.5rem solid #af4014;
-}
   </style>
-  <strong slot="modal-title" class="Modal-name">${name}</strong>
-  <div slot="modal-body">
-  <p class="Modal-paragraph">${question}</p>
-  <div class="Modal-row"><ink-text-button closer>Cancel</ink-text-button> <ink-button ?working=${working} ?disabled=${working} ?dangerous=${dangerous} @click=${() => {
+  <p class="Modal-paragraph"><slot></slot></p>
+  <div class="Modal-row"><text-button closer>Cancel</text-button> <ink-button ?working=${working} ?disabled=${working} ?dangerous=${dangerous} @click=${() => {
   action().then(() => {
     setWorking(false)
     close()
   })
   setWorking(true)
-}}>${name}</ink-button></div>
-  </div>`
+}}>${name}</ink-button></div>`
 }
 ConfirmBody.observedAttributes = ['name', 'question', 'dangerous']
 
 window.customElements.define(
   'confirm-action',
-  component(ConfirmBody, window.HTMLElement, { useShadowDOM: false })
+  component(ConfirmBody, window.HTMLElement, {
+    shadowRootInit: { delegatesFocus: true }
+  })
 )

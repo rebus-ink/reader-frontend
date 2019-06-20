@@ -32,7 +32,6 @@ export const CollectionSidebar = ({ collections = [], open, current }) => {
     [open]
   )
   return html`<style>
-
 .overlay {
   position: fixed;
   top: 0;
@@ -171,6 +170,11 @@ header icon-button {
   color: white;
   background-color: var(--rc-darker);
 }
+.sign-out {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 1rem;
+}
   </style>
     <div tabindex="-1" class=${classMap({
     overlay: true
@@ -179,7 +183,12 @@ header icon-button {
         <header>
           <icon-button name="cancel" data-modal-close>Close Menu</icon-button>
           <h2 class="title">Collections</h2>
-          <icon-button name="plus" data-modal-close>Create Collection</icon-button>
+          <icon-button data-modal-close name="plus" @click=${ev => {
+    const modal = document.getElementById('create-collection')
+    if (modal) {
+      modal.open = true
+    }
+  }}>Create Collection</icon-button>
         </header>
         <div id="modal-1-content" class="content">
         <ol class="list">${uploadView(current, closer)}${allView(
@@ -188,6 +197,12 @@ header icon-button {
 )}
   ${collections.map(tag => tagView(tag, current, closer))}</ol>
         </div>
+        <ink-button data-modal-close @click=${ev => {
+    const modal = document.getElementById('sign-out')
+    if (modal) {
+      modal.open = true
+    }
+  }} class="sign-out">Sign Out</ink-button>
       </div>
     </div>`
 }
@@ -210,7 +225,6 @@ const uploadView = (current, closer) => {
 
 // These should handle aria-current
 const allView = (current, closer) => {
-  console.log(current === 'all')
   return html`<li><a class="${classMap({
     item: true,
     selected: current === 'all'

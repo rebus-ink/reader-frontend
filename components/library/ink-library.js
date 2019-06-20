@@ -24,6 +24,14 @@ export const Library = el => {
     },
     [req]
   )
+  useEffect(() => {
+    api.events.on('tag', () => {
+      api
+        .library({ limit: 10 })
+        .then(library => setTags(library.tags))
+        .catch(err => console.error(err))
+    })
+  }, [])
   return html`<style>
   ink-library {
     display: block;
@@ -54,7 +62,25 @@ export const Library = el => {
   ${view()}
   <collection-sidebar id="modal-1" aria-hidden="true" .current=${
   req.params.collection
-} .collections=${tags}></collection-sidebar>`
+} .collections=${tags}></collection-sidebar>
+
+<ink-modal id="create-collection" aria-hidden="true">
+    <strong slot="modal-title" class="Modal-name">Create Collection</strong>
+    <confirm-action slot="modal-body" .action=${() => {
+    const name = document.getElementById('collection-name').value
+    document.getElementById('collection-name').value = ''
+    const tag = {
+      type: 'reader:Tag',
+      tagType: 'reader:Collection',
+      name
+    }
+    return api.activity.create(tag).then(() => api.events.emit('tag'))
+  }} name="Create"><label class="Label">Name<br><input type="text" name="collection-name" id="collection-name"></label></confirm-action></ink-modal>
+
+<ink-modal id="sign-out" aria-hidden="true">
+    <strong slot="modal-title" class="Modal-name">Sign Out</strong>
+    <confirm-action slot="modal-body" .action=${() =>
+    api.logout()} name="Sign Out" dangerous>Are you sure that you want to sign out?</confirm-action></ink-modal>`
 }
 window.customElements.define(
   'ink-library',
@@ -62,7 +88,7 @@ window.customElements.define(
 )
 
 const LibraryHead = ({ name }) => {
-  return html`<icon-button .click=${ev => {
+  return html`<icon-button @click=${ev => {
     document.querySelector('collection-sidebar').open = true
   }} name="menu">Menu Sidebar</icon-button> <span class="Library-name">${name}</span> <span></span>`
 }
