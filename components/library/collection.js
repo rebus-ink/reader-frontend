@@ -159,6 +159,7 @@ export const InkCollection = ({ collection }) => {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 0.25rem 1rem;
     }
 
     .label {

@@ -6,7 +6,7 @@ import '../widgets/button.js'
 import '../widgets/text-button.js'
 
 const library = {
-  path: '/library/:collection?',
+  path: '/library/:collection*',
   render (req, route) {
     return html`<ink-library .req=${req} .params=${route}></ink-library>`
   }

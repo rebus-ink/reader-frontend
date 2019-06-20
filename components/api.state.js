@@ -36,7 +36,7 @@ export function createAPI (global = window) {
     async library (params) {
       const url = await this.profile.library()
       const searchParams = new URLSearchParams(params).toString()
-      const collection = await get(url + searchParams, context, global)
+      const collection = await get(`${url}?${searchParams}`, context, global)
       return collection
     }
   }

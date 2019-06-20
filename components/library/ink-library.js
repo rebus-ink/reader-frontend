@@ -1,16 +1,29 @@
 import { html } from 'lit-html'
 import { component, useState, useEffect, useContext } from 'haunted'
 import { classMap } from 'lit-html/directives/class-map.js'
+import { ApiContext } from '../api-provider.component.js'
 
 export const Library = el => {
   const { req, route } = el
-  console.log(req, route)
-  let name
+  const api = useContext(ApiContext)
+  let name, view
   if (req.params.collection) {
     name = req.params.collection
+    view = () => html`<ink-collection collection=${name}></ink-collection>`
   } else {
     name = 'Uploads'
+    view = () => html`<upload-section></upload-section>`
   }
+  const [tags, setTags] = useState([])
+  useEffect(
+    () => {
+      api
+        .library({ limit: 10 })
+        .then(library => setTags(library.tags))
+        .catch(err => console.error(err))
+    },
+    [req]
+  )
   return html`<style>
   ink-library {
     display: block;
@@ -38,8 +51,10 @@ export const Library = el => {
     color: var(--medium);
   }
   </style><library-head name=${name}></library-head>
-  <upload-section></upload-section>
-  <collection-sidebar id="modal-1" aria-hidden="true"></collection-sidebar>`
+  ${view()}
+  <collection-sidebar id="modal-1" aria-hidden="true" .current=${
+  req.params.collection
+} .collections=${tags}></collection-sidebar>`
 }
 window.customElements.define(
   'ink-library',

@@ -174,7 +174,10 @@ header {
           <modal-closer></modal-closer>
         </header>
         <div id="modal-1-content" class="content">
-        <ol class="list">${allView(current, closer)}
+        <ol class="list">${uploadView(current, closer)}${allView(
+  current,
+  closer
+)}
   ${collections.map(tag => tagView(tag, current, closer))}</ol>
         </div>
       </div>
@@ -187,13 +190,25 @@ window.customElements.define(
 )
 
 // These should handle aria-current
-const allView = (current, closer) => {
+const uploadView = (current, closer) => {
   return html`<li><a class="${classMap({
     item: true,
     selected: !current
   })}" aria-current=${
     !current ? 'page' : 'false'
   } href="/library" @click=${() =>
+    closer()}><span class="label">Uploads</span></a></li>`
+}
+
+// These should handle aria-current
+const allView = (current, closer) => {
+  console.log(current === 'all')
+  return html`<li><a class="${classMap({
+    item: true,
+    selected: current === 'all'
+  })}" aria-current=${
+    current === 'all' ? 'page' : 'false'
+  } href="/library/all" @click=${() =>
     closer()}><span class="label">All Items</span></a></li>`
 }
 
