@@ -81,7 +81,8 @@ export const Library = el => {
       api.events.emit('tag')
       navigate(`/library/${encodeURIComponent(name)}`)
     })
-  }} name="Create"><label class="Label">Name<br><input type="text" name="collection-name" id="collection-name"></label></confirm-action></ink-modal>
+  }} name="Create" .view=${() =>
+  html`<label class="Label">Name<br><input type="text" name="collection-name" id="collection-name"></label>`}></confirm-action></ink-modal>
 <ink-modal id="delete-collection" aria-hidden="true">
     <strong slot="modal-title" class="Modal-name">Delete Collection</strong>
     <confirm-action dangerous slot="modal-body" .action=${() => {
@@ -99,12 +100,14 @@ export const Library = el => {
         document.getElementById('delete-collection').closer = true
         return navigate('/library')
       })
-  }} name="Delete"><p>Are you sure you want to delete this collection?</p><p>(This action will not delete the collection's items.)</p></confirm-action></ink-modal>
+  }} name="Delete" .view=${() =>
+  html`<p>Are you sure you want to delete this collection?</p><p>(This action will not delete the collection's items.)</p>`}></confirm-action></ink-modal>
 
 <ink-modal id="sign-out" aria-hidden="true">
     <strong slot="modal-title" class="Modal-name">Sign Out</strong>
     <confirm-action slot="modal-body" .action=${() =>
-    api.logout()} name="Sign Out" dangerous>Are you sure that you want to sign out?</confirm-action></ink-modal>`
+    api.logout()} name="Sign Out" dangerous .view=${() =>
+  'Are you sure that you want to sign out?'}></confirm-action></ink-modal>`
 }
 window.customElements.define(
   'ink-library',

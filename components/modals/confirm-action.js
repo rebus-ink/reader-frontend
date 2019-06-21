@@ -21,32 +21,34 @@ export const preview = () => {
   }}>open modal</ink-button><ink-modal id="modal-1" aria-hidden="true">
     
   <strong slot="modal-title" class="Modal-name">Sign Out</strong>
-  <confirm-action slot="modal-body" .action=${logout} name="Sign Out" question="" dangerous>Are you sure that you want to sign out?</confirm-action></ink-modal>
+  <confirm-action slot="modal-body" .action=${logout} name="Sign Out" question="" dangerous .view=${() =>
+  'Are you sure that you want to sign out?'}></confirm-action></ink-modal>
   <ink-button @click=${() => {
     document.getElementById('modal-2').open = true
   }}>open modal</ink-button><ink-modal id="modal-2" aria-hidden="true">
     
   <strong slot="modal-title" class="Modal-name">Create Collection</strong>
-  <confirm-action slot="modal-body" .action=${logout} name="Create"><label class="Label">Name<br><input type="text" name="collection-name" id="collection-name"></label></confirm-action></ink-modal>`
+  <confirm-action slot="modal-body" .action=${logout} name="Create" .view=${() =>
+  html`<label class="Label">Name<br><input type="text" name="collection-name" id="collection-name"></label>`}></confirm-action></ink-modal>`
 }
 
-export const ConfirmBody = ({ action, name, dangerous }) => {
+export const ConfirmBody = ({ action, name, dangerous, view }) => {
   const [working, setWorking] = useState(false)
   return html`
   <style>
-  :host {
+  confirm-action {
     display: block;
     padding: 0.5rem 1rem !important;
   }
-  :host([dangerous]) {
+  confirm-action[dangerous] {
     border-bottom: 0.5rem solid #af4014;
   }
 
-  .Modal-paragraph {
+  confirm-action .Modal-paragraph {
   text-align: center;
   margin: 0.5rem 0 1rem;
 }
-.Modal-name {
+confirm-action .Modal-name {
   font-weight: 600;
   font-size: 1rem;
   line-height: 1.25;
@@ -57,14 +59,14 @@ export const ConfirmBody = ({ action, name, dangerous }) => {
   display: block;
 }
 
-.Modal-row {
+confirm-action .Modal-row {
   display: flex;
   justify-content: space-between;
   width: 100%;
   align-items: center;
 }
   </style>
-  <p class="Modal-paragraph"><slot></slot></p>
+  <div class="Modal-paragraph">${view && view()}</div>
   <div class="Modal-row"><text-button closer>Cancel</text-button> <ink-button ?working=${working} ?disabled=${working} ?dangerous=${dangerous} @click=${() => {
   setWorking(true)
   return action().then(() => {
@@ -77,5 +79,5 @@ ConfirmBody.observedAttributes = ['name', 'question', 'dangerous']
 
 window.customElements.define(
   'confirm-action',
-  component(ConfirmBody, window.HTMLElement)
+  component(ConfirmBody, window.HTMLElement, { useShadowDOM: false })
 )
