@@ -82,7 +82,7 @@ function route (routes = [], paths) {
 
 function makeArgs (event, { _paths, args }) {
   const paths = _paths
-  const location = event.next
+  const location = event.next ? event.next : document.location
   let old = {}
   if (args) {
     old = args[0]
