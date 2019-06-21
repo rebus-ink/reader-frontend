@@ -77,7 +77,10 @@ export const Library = el => {
       tagType: 'reader:Collection',
       name
     }
-    return api.activity.create(tag).then(() => api.events.emit('tag'))
+    return api.activity.create(tag).then(() => {
+      api.events.emit('tag')
+      navigate(`/library/${encodeURIComponent(name)}`)
+    })
   }} name="Create"><label class="Label">Name<br><input type="text" name="collection-name" id="collection-name"></label></confirm-action></ink-modal>
 <ink-modal id="delete-collection" aria-hidden="true">
     <strong slot="modal-title" class="Modal-name">Delete Collection</strong>
