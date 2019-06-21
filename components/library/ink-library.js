@@ -48,6 +48,7 @@ export const Library = el => {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    z-index: 2;
   }
   upload-section {
     display: block;
@@ -93,7 +94,7 @@ export const Library = el => {
       })
       .then(() => {
         document.getElementById('delete-collection').closer = true
-        return navigate('/library/all')
+        return navigate('/library')
       })
   }} name="Delete"><p>Are you sure you want to delete this collection?</p><p>(This action will not delete the collection's items.)</p></confirm-action></ink-modal>
 

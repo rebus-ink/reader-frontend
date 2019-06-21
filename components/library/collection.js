@@ -106,8 +106,10 @@ function defaultViewConfig (collection) {
       page: 1
     }
   }
-  if (collection) {
+  if (collection !== 'all') {
     viewConfig.params.stack = collection
+  } else {
+    delete viewConfig.params.stack
   }
   return viewConfig
 }
@@ -120,9 +122,11 @@ function setLibrary ({
   setState,
   api
 }) {
-  if (collection) {
+  if (collection !== 'all') {
     viewConfig.params.stack = collection
     viewConfig.name = collection
+  } else {
+    delete viewConfig.params.stack
   }
   if (library.state !== 'loading') {
     library.state = 'loading'
@@ -164,6 +168,10 @@ export const InkCollection = ({ collection }) => {
       justify-content: space-between;
       align-items: center;
       padding: 0.25rem 1rem;
+      position: sticky;
+      top: 34px;
+      z-index: 2;
+      background-color: var(--main-background-color);
     }
 
     .label {
@@ -241,6 +249,9 @@ export const InkCollection = ({ collection }) => {
   .complete .loader, .loading .loader {
     display: none;
   }
+  .items {
+    padding: 1rem;
+  }
   </style><div class=${classMap({
     'header-row': true
   })}><span class="label">${library.items.length ||
@@ -254,6 +265,7 @@ export const InkCollection = ({ collection }) => {
   }
 }} name="settings" label="Settings"></icon-button></span>
 </div><div class=${classMap({
+    items: true,
     loading: library.state === 'loading',
     loaded: library.state === 'loaded',
     changing: library.state === 'changing',
@@ -336,14 +348,18 @@ export const SettingsModal = ({
     let newOrder
     if (value[0] === 'datePublished') {
       newOrder = {
-        reversed: value[1] ? 'true' : 'false',
         page: 1
+      }
+      if (value[1]) {
+        newOrder.reverse = 'true'
       }
     } else {
       newOrder = {
         orderBy: value[0],
-        reversed: value[1] ? 'true' : 'false',
         page: 1
+      }
+      if (value[1]) {
+        newOrder.reverse = 'true'
       }
     }
     const newParams = Object.assign({}, viewConfig.params, newOrder)

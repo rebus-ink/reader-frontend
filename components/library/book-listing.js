@@ -21,14 +21,15 @@ export const BookListing = ({ book = {}, layout }) => {
   )[0]
   let cover
   if (coverResource) {
-    cover = coverResource.url
+    const url = new URL(book.id, window.location).pathname
+    cover = `${url}${coverResource.url}?cover=true`
   } else {
     cover = '/static/placeholder-cover.jpg'
   }
   let url
   if (book.id) {
     const pathname = new URL(book.id).pathname
-    url = `/library/info${pathname}`
+    url = `/info${pathname}`
   }
   return html`
     <style>

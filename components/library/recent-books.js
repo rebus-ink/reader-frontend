@@ -86,7 +86,7 @@ export const RecentBooks = component(
           .then(collection => setBooks(collection.items))
       })
     }, [])
-    const url = `/library/collection/${tag}`
+    const url = `/library/${tag}`
     return html`<style>
     .header-row {
       display: flex;

@@ -7,8 +7,14 @@ function apiAuth (req, res, next) {
     res.cookie('XSRF-TOKEN', req.csrfToken())
   }
   const originalRedirect = res.redirect
+  let prefix
+  if (req.query.cover) {
+    prefix = '/images/resize/240/0/'
+  } else {
+    prefix = /asset/
+  }
   res.redirect = function (url) {
-    originalRedirect.call(this, `/asset/${encodeURIComponent(url)}`)
+    originalRedirect.call(this, `${prefix}${encodeURIComponent(url)}`)
   }
   next()
 }
