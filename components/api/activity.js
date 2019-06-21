@@ -46,7 +46,6 @@ export function createActivityAPI (context, api, global) {
           method: 'POST',
           body: payload,
           headers: new global.Headers({
-            'content-type': 'application/ld+json',
             'csrf-token': csrfToken
           })
         })

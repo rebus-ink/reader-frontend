@@ -5,16 +5,20 @@ export async function uploadMedia (created, api, global) {
   const { book, media } = await created
   assert(book, 'No publication found to upload')
   assert(media, 'No media found to upload')
-  const uploadQueue = queue(uploadData(created, api, global), 3)
+  const uploadQueue = queue(uploadData(created, api, global), 1)
   for (const item of media) {
     uploadQueue.push(item)
   }
+  const mediaPaths = media.map(item => item.documentPath)
   for (const item of book.resources) {
-    uploadQueue.push({
-      documentPath: item.url,
-      mediaType: item.encodingFormat,
-      json: {}
-    })
+    if (!mediaPaths.includes(item.url)) {
+      console.log(item)
+      uploadQueue.push({
+        documentPath: item.url,
+        mediaType: item.encodingFormat,
+        json: {}
+      })
+    }
   }
   await uploadQueue.drain()
   return book
@@ -27,7 +31,9 @@ function uploadData (created, api, global) {
       item.mediaType.includes('javascript') ||
       item.mediaType.includes('jscript') ||
       item.mediaType.includes('ecmascript')
-    ) { return }
+    ) {
+      return
+    }
     try {
       const data = new global.FormData()
       const filename = decodeURI(item.url)
@@ -37,7 +43,7 @@ function uploadData (created, api, global) {
       if (item.file) {
         file = item.file
       } else {
-        const blob = await zip.file(decodeURI(item.url)).async('blob')
+        const blob = await zip.file(decodeURI(item.documentPath)).async('blob')
         file = new global.File([blob], filename, { type: item.mediaType })
       }
       data.append('file', file)
@@ -46,6 +52,7 @@ function uploadData (created, api, global) {
       data.append('json', JSON.stringify(item.json))
       return api.activity.upload(data, `${book.id}/file-upload`)
     } catch (err) {
+      console.error(err)
       err.httpMethod = 'Parser'
       throw err
     }
