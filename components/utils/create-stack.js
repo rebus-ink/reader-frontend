@@ -31,12 +31,12 @@ ${name} > * + * {
   }
 }
 
-export const createStack = (name, render, config) => {
+export const createStack = (render, config) => {
   config.wrapEl = wrapEl
   config.observedAttributes = []
     .concat(config.observedAttributes)
     .concat(['space', 'recursive'])
-  return createElement(name, render, config)
+  return createElement(render, config)
 }
 
 // Preview code below
@@ -59,6 +59,7 @@ export const preview = () => {
     <div>Paragraph 2</div>
     <div>Paragraph 3</div>`
   }
-  createStack('test-el', render, { style })
+  const CustomElement = createStack(render, { style })
+  window.customElements.define('test-el', CustomElement)
   return html`<test-el></test-el>`
 }

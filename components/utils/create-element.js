@@ -1,6 +1,6 @@
 import { html } from 'lit-html'
 import { classMap } from 'lit-html/directives/class-map.js'
-import { component, useState } from 'haunted'
+import { component, useState, useEffect } from 'haunted'
 
 export const wrapClass = CustomClass => {
   return class Base extends CustomClass {
@@ -25,23 +25,22 @@ export const wrapClass = CustomClass => {
 }
 
 export const createElement = (
-  name,
   render,
-  { style, observedAttributes, wrapEl = wrapClass }
+  { style, observedAttributes, wrapEl = wrapClass, Base = window.HTMLElement }
 ) => {
   function renderWrap (el) {
-    el.styleConfig(style)
+    useEffect(() => {
+      el.styleConfig(style)
+    }, [])
     return render(el)
   }
   if (observedAttributes) {
     renderWrap.observedAttributes = observedAttributes
   }
-  const Base = component(renderWrap, window.HTMLElement, {
+  const CustomElement = wrapEl(Base)
+  return component(renderWrap, CustomElement, {
     useShadowDOM: false
   })
-  const CustomElement = wrapEl(Base)
-  window.customElements.define(name, CustomElement)
-  return CustomElement
 }
 
 // Preview code below
@@ -74,7 +73,7 @@ export const preview = () => {
         : ''
     }</button>`
   }
-  createElement('test-el', render, {
+  const CustomElement = createElement(render, {
     observedAttributes: [
       'disabled',
       'secondary',
@@ -218,5 +217,6 @@ export const preview = () => {
     height: 16px;
   }`
   })
+  window.customElements.define('test-el', CustomElement)
   return html`<test-el name="Fancy Button"></test-el> <test-el secondary name="Secondary Button"></test-el><test-el disabled>Disabled Button</test-el><test-el dropdown>Dropdown Button</test-el><test-el dropdown secondary>Dropdown Button</test-el><test-el dropdown compact secondary>Dropdown Button</test-el><test-el dropdown compact>Dropdown Button</test-el><test-el working>Fetching</test-el><test-el working secondary>Fetching</test-el>`
 }
