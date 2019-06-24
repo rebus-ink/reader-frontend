@@ -66,7 +66,9 @@ export const useModal = hook(
     }
 
     async opener (ref) {
-      const container = this.element.shadowRoot.querySelector('[role="dialog"]')
+      const container = this.element.shadowRoot
+        ? this.element.shadowRoot.querySelector('[role="dialog"]')
+        : this.element.querySelector('[role="dialog"]')
       let reference
       if (ref) {
         if (ref.current) {
@@ -87,7 +89,9 @@ export const useModal = hook(
       const element = this.element
       this.element.setAttribute('aria-hidden', 'false')
       if (this.config.animation) {
-        const container = element.shadowRoot.querySelector('.container')
+        const container = element.shadowRoot
+          ? element.shadowRoot.querySelector('.container')
+          : element.querySelector('.container')
         container.classList.add('is-opening')
         await once(container, 'animationend')
         container.classList.remove('is-opening')
@@ -100,7 +104,9 @@ export const useModal = hook(
       const element = this.element
       activeModal = null
       if (this.config.animation) {
-        const container = element.shadowRoot.querySelector('.container')
+        const container = element.shadowRoot
+          ? element.shadowRoot.querySelector('.container')
+          : element.querySelector('.container')
         container.classList.add('is-closing')
         await once(container, 'animationend')
         container.classList.remove('is-closing')
