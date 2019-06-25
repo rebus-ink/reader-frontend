@@ -255,7 +255,9 @@ export function wrapEl (CustomClass, config) {
           }
         }
       }
-      this.popper.destroy()
+      if (this.popper) {
+        this.popper.destroy()
+      }
       window.requestAnimationFrame(() => {
         if (this.activeElement) {
           this.activeElement.focus()

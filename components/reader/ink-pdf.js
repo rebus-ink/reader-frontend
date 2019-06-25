@@ -1,5 +1,5 @@
 import { html, render } from 'lit-html'
-import { component, useEffect } from 'haunted'
+import { component } from 'haunted'
 
 window.CMAP_URL = '/js/pdfjs-dist/cmaps/'
 window.CMAP_PACKED = true
@@ -490,5 +490,8 @@ function onPosition (entries) {
 
 function setupObservers (root) {
   const pages = Array.from(root.querySelectorAll('[data-page-number]'))
-  pages.forEach(page => positionObserver.observe(page))
+  pages.forEach(page => {
+    page.id = 'page' + page.dataset.pageNumber
+    positionObserver.observe(page)
+  })
 }

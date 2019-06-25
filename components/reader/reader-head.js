@@ -1,6 +1,6 @@
 import { html } from 'lit-html'
-import { classMap } from 'lit-html/directives/class-map.js'
 import { createElement } from '../utils/create-element.js'
+import { opener } from '../utils/create-modal.js'
 import '../widgets/icon-link.js'
 
 const style = `
@@ -26,11 +26,16 @@ reader-head icon-button {
 
 }`
 
-const render = ({ name, returnPath }) => {
+const render = ({ name, returnPath, contents }) => {
   return html`<ol class="App-menu-list">
-    <li><icon-button name="vertical-ellipsis">Contents</icon-button></li>
+    <li><button name="vertical-ellipsis" @click=${ev => {
+    if (ev.currentTarget === ev.target) {
+      console.log('click event')
+      opener('ink-contents', { contents }, 'Contents')
+    }
+  }}>Contents</button></li>
     <li><span class="reader-name">${name}</span></li>
-    <li><icon-button name="settings">Settings</icon-button></li>
+    <li></li>
   </ol>`
 }
 

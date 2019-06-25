@@ -1,17 +1,20 @@
 import { html } from 'lit-html'
 import { component, useState, useEffect, useContext } from 'haunted'
-import { navigate } from '../hooks/useRoutes.js'
 import { ApiContext } from '../api-provider.component.js'
 import lifecycle from 'page-lifecycle/dist/lifecycle.mjs'
 import '../widgets/icon-link.js'
 import './reader-head.js'
+import './contents-modal.js'
 
 export const Reader = el => {
   const { req, route } = el
   console.log(req, route)
   const api = useContext(ApiContext)
   const [book, setBook] = useState({ type: 'loading', json: {}, name: '' })
-  const { readingOrder = [] } = book
+  const [contents, setContents] = useState({
+    lang: 'en',
+    dom: html`<div class="loading"></div>`
+  })
   useEffect(
     () => {
       if (req.params.bookId && book.bookId !== req.params.bookId) {
@@ -20,6 +23,10 @@ export const Reader = el => {
           .then(book => {
             book.bookId = req.params.bookId
             setBook(book)
+            return api.book.navigation(book)
+          })
+          .then(nav => {
+            setContents(nav)
           })
           .catch(err => console.error(err))
       }
@@ -77,6 +84,7 @@ export const Reader = el => {
   if (navigation && navigation.next) {
     next = `/reader${navigation.next.path}`
   }
+  book.navigation = navigation
   return html`<style>
   ink-reader {
     background-color: white;
@@ -90,7 +98,7 @@ export const Reader = el => {
   }
   </style><reader-head name=${book.name} .returnPath=${`/info/${
   req.params.bookId
-}/`}></reader-head>
+}/`} .contents=${contents}></reader-head>
   ${view()}
 <nav class="Reader-menu App-menu App-menu--bottom App-menu App-menu--center">
   <ol class="App-menu-list">
@@ -107,8 +115,7 @@ export const Reader = el => {
     : ''
 }</li>
   </ol>
-</nav>
-<ink-collection-modal></ink-collection-modal>`
+</nav>`
 }
 window.customElements.define(
   'ink-reader',

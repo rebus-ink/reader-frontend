@@ -4,6 +4,7 @@ import { useRoutes } from '../hooks/useRoutes.js'
 import { ApiContext } from '../api-provider.component.js'
 import '../widgets/button.js'
 import '../widgets/text-button.js'
+import 'inert-polyfill/inert-polyfill.js'
 
 const library = {
   path: '/library/:collection*',
