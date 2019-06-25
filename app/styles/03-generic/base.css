@@ -209,9 +209,10 @@ button:focus {
   outline-offset: 1px;
 }
 
-/* [aria-hidden='true'] {
-  display: none;
-} */
+[aria-hidden='true'] {
+  visibility: hidden;
+  pointer-events: none;
+}
 
 strong[slot='modal-title'] {
   font-weight: 700;

@@ -15,7 +15,7 @@ export const preview = () => {
 }
 
 export const BookListing = ({ book = {}, layout }) => {
-  const { resources = [], attributedTo = [] } = book
+  const { resources = [], author = [] } = book
   const coverResource = resources.filter(resource =>
     resource.rel.includes('cover')
   )[0]
@@ -174,9 +174,7 @@ a:focus {
       <h4 class="BookCard-title"><a href="${url}" class="BookCard-link">${
   book.name
 }</a></h4>
-      <p class="BookCard-paragraph">${attributedTo.map(
-    attributionComponent
-  )}</p>
+      <p class="BookCard-paragraph">${author.map(attributionComponent)}</p>
       <p class="BookCard-total"></p>
     </div></div>
     `

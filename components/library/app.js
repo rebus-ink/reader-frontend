@@ -20,7 +20,7 @@ const reader = {
 }
 
 const info = {
-  path: '/info/:bookId/:bookPath*',
+  path: '/info/:bookId',
   render (req, route) {
     return html`<ink-info .req=${req} .params=${route}></ink-info>`
   }

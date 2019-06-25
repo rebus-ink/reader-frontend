@@ -18,12 +18,12 @@ export function createBookAPI (context, api, global) {
     // Load a given chapter, falling back to first or current chapter
     async load (book, path) {
       if (path) {
-        return this.chapter(`${book.id}/${path}`)
+        return this.chapter(`${book.id}${path}`)
       } else if (book.position && book.position.path) {
-        return this.chapter(`${book.id}/${book.position.path}`)
+        return this.chapter(`${book.id}${book.position.path}`)
       } else {
         const chapter = book.readingOrder[0]
-        return this.chapter(`${book.id}/${chapter.url}`)
+        return this.chapter(`${book.id}${chapter.url}`)
       }
     },
     savePosition (publication, path, newLocation) {
@@ -43,7 +43,7 @@ export function createBookAPI (context, api, global) {
     async notes (book, path, page = 1) {
       const notesURL = `${
         context.profile.id
-      }/notes?limit=100&page=${page}&document=${`${book.id}/${path}`}`
+      }/notes?limit=100&page=${page}&document=${`${book.id}${path}`}`
       try {
         let notes = await get(notesURL)
         while (notes.items.length <= notes.totalItems) {
@@ -51,7 +51,7 @@ export function createBookAPI (context, api, global) {
           const newNotes = await get(
             `${context.profile.id}/notes?limit=100&page=${page}&document=${`${
               book.id
-            }/${path}`}`
+            }${path}`}`
           )
           notes.items = notes.items.concat(newNotes.items)
         }
@@ -67,7 +67,7 @@ export function createBookAPI (context, api, global) {
         resource.rel.includes('contents')
       )[0]
       if (navResource) {
-        const navURL = `${book.id}/${navResource.url}`
+        const navURL = `${book.id}${navResource.url}`
         return this.chapter(navURL, true)
       } else {
         const dom = html`<ol class="Contents-list">${book.readingOrder.map(
@@ -77,7 +77,7 @@ export function createBookAPI (context, api, global) {
             }
             return html`<li class="Contents-item"><a  class="Contents-link" href=${`/reader${
               book.id
-            }/${resource.url}`}>${resource.name}</a></li>`
+            }${resource.url}`}>${resource.name}</a></li>`
           }
         )}</ol>`
         return { lang: 'en', dom }
