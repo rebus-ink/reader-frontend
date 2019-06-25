@@ -1,11 +1,10 @@
 import { html } from 'lit-html'
 import { component, useState, useEffect, useContext } from 'haunted'
-import { classMap } from 'lit-html/directives/class-map.js'
 import { navigate } from '../hooks/useRoutes.js'
 import { ApiContext } from '../api-provider.component.js'
 
 export const Info = el => {
-  const { req, route } = el
+  const { req } = el
   const api = useContext(ApiContext)
   const [book, setBook] = useState({ type: 'loading', json: {} })
   const { resources = [], author = [], readingOrder = [] } = book
@@ -38,9 +37,9 @@ export const Info = el => {
     }
   }, [])
   const { position = {} } = book
-  console.log()
-  let bookURL
+  let bookURL, continued
   if (position.location && position.path) {
+    continued = true
     bookURL = `/reader/${req.params.bookId}/${position.path}#${
       position.location
     }`
@@ -78,7 +77,7 @@ export const Info = el => {
     <p class="BookCard-paragraph">${author.map(attributionComponent)}</p>
     <p class="BookCard-total"></p>
   </div></div><div class="actions">
-    <a href="${bookURL}" class="Button">Read</a>
+    <a href="${bookURL}" class="Button">${continued ? 'Continue' : 'Read'}</a>
     <a href=${original} class="Button" download=${`${
   book.name
 }.${format}`}>Download Original</a>
