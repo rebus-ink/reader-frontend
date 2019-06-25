@@ -8,21 +8,21 @@ import '../widgets/text-button.js'
 const library = {
   path: '/library/:collection*',
   render (req, route) {
-    return html`<ink-library .req=${req} .params=${route}></ink-library>`
+    return html`<ink-library .req=${req} .route=${route}></ink-library>`
   }
 }
 
 const reader = {
   path: '/reader/:bookId/:bookPath*',
   render (req, route) {
-    return html`<ink-reader .req=${req} .params=${route}></ink-reader>`
+    return html`<ink-reader .req=${req} .route=${route}></ink-reader>`
   }
 }
 
 const info = {
   path: '/info/:bookId',
   render (req, route) {
-    return html`<ink-info .req=${req} .params=${route}></ink-info>`
+    return html`<ink-info .req=${req} .route=${route}></ink-info>`
   }
 }
 const fallback = {

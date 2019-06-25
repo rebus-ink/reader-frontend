@@ -396,10 +396,11 @@ class InkPDFRender extends window.HTMLElement {
     this.pdfLinkService.setViewer(this.pdfViewer)
     this.addEventListener('pagesinit', ev => {
       console.log(ev)
-      this.pdfViewer.currentScaleValue = this.getAttribute('scale') // 'page-width' 'page-actual' 'page-fit' 'page-height'  'auto'
+      this.pdfViewer.currentScaleValue = this.getAttribute('auto') // 'page-width' 'page-actual' 'page-fit' 'page-height'  'auto'
     })
     this.addEventListener('pagesloaded', ev => {
       this.goToPage(this.getAttribute('location'))
+      setupObservers(this)
       console.log(ev)
     })
     // if (this.getAttribute('chapter')) { this.chapter(this.getAttribute('chapter')) }
@@ -455,3 +456,39 @@ class InkPDFRender extends window.HTMLElement {
 window.customElements.define('ink-pdf-render', InkPDFRender, {
   shadowRootInit: { delegatesFocus: true }
 })
+
+const positionObserver = new window.IntersectionObserver(onPosition, {
+  rootMargin: '0px 0px 0px 0px'
+})
+
+let highest
+let visible = []
+function onPosition (entries) {
+  const enteringView = entries
+    .filter(entry => entry.isIntersecting)
+    .map(entry => entry.target)
+  const leavingView = entries
+    .filter(entry => !entry.isIntersecting)
+    .map(entry => entry.target)
+  visible = visible.filter(entry => !leavingView.includes(entry))
+  visible = visible.concat(enteringView)
+  if (visible[1]) {
+    highest = visible[1]
+  } else {
+    highest = visible[0]
+  }
+  let root
+  if (highest) {
+    root = highest.getRootNode().host
+    root.shadowRoot
+      .querySelectorAll('.is-current')
+      .forEach(element => element.classList.remove('is-current'))
+    highest.classList.add('is-current')
+    root.setAttribute('current', highest.id)
+  }
+}
+
+function setupObservers (root) {
+  const pages = Array.from(root.querySelectorAll('[data-page-number]'))
+  pages.forEach(page => positionObserver.observe(page))
+}

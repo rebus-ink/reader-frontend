@@ -13,7 +13,10 @@ export function createBookAPI (context, api, global) {
     },
     // Return the publication object
     async get (url, path) {
-      return get(url, context, global)
+      return get(url, context, global).then(book => {
+        book.navigation = addNav(book)
+        return book
+      })
     },
     // Load a given chapter, falling back to first or current chapter
     async load (book, path) {
@@ -336,3 +339,37 @@ DOMPurify.addHook('afterSanitizeAttributes', function (node) {
     }
   }
 })
+
+function addNav (book) {
+  const rootPath = new URL(book.id).pathname
+  const navigation = {}
+  let index
+  if (book.position && book.position.path) {
+    navigation.current = {
+      path: book.position.path,
+      location: book.position.location
+    }
+    index = book.readingOrder
+      .map(item => `${rootPath}${item.url}`)
+      .indexOf(book.position.path)
+  } else {
+    index = 0
+    navigation.current = {
+      path: `${rootPath}${book.readingOrder[0].url}`,
+      location: ''
+    }
+  }
+  const nextItem = book.readingOrder[index + 1]
+  if (nextItem) {
+    navigation.next = {
+      path: `${rootPath}${nextItem.url}`
+    }
+  }
+  const prevItem = book.readingOrder[index - 1]
+  if (prevItem) {
+    navigation.previous = {
+      path: `${rootPath}${prevItem.url}`
+    }
+  }
+  return navigation
+}

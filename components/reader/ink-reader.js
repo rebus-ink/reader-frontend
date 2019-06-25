@@ -2,66 +2,112 @@ import { html } from 'lit-html'
 import { component, useState, useEffect, useContext } from 'haunted'
 import { navigate } from '../hooks/useRoutes.js'
 import { ApiContext } from '../api-provider.component.js'
+import lifecycle from 'page-lifecycle/dist/lifecycle.mjs'
+import '../widgets/icon-link.js'
+import './reader-head.js'
 
 export const Reader = el => {
-  const { req } = el
+  const { req, route } = el
+  console.log(req, route)
   const api = useContext(ApiContext)
-  const [book, setBook] = useState({ type: 'loading', json: {} })
+  const [book, setBook] = useState({ type: 'loading', json: {}, name: '' })
   const { readingOrder = [] } = book
-  useEffect(() => {
-    if (req.params.bookId) {
-      el.updateComplete = api.book
-        .get(`/${req.params.bookId}`)
-        .then(book => {
-          setBook(book)
-        })
-        .catch(err => console.error(err))
-    }
-  }, [])
-  let chapter, view
+  useEffect(
+    () => {
+      if (req.params.bookId && book.bookId !== req.params.bookId) {
+        el.updateComplete = api.book
+          .get(`/${req.params.bookId}`)
+          .then(book => {
+            book.bookId = req.params.bookId
+            setBook(book)
+          })
+          .catch(err => console.error(err))
+      }
+    },
+    [req]
+  )
+  useEffect(
+    () => {
+      function handleLifeCycle (event) {
+        const root = document.querySelector('ink-chapter, ink-pdf')
+        const current = root.getAttribute('current')
+        const chapter = root.getAttribute('chapter')
+        if (
+          lifecycle.state === 'passive' &&
+          event.oldState === 'active' &&
+          current
+        ) {
+          api.book.savePosition(book, chapter, current)
+        }
+        console.log(book.id, chapter, current)
+      }
+      lifecycle.addEventListener('statechange', handleLifeCycle)
+      return () => {
+        lifecycle.removeEventListener('statechange', handleLifeCycle)
+      }
+    },
+    [book]
+  )
+  let chapter, view, location
+  if (req.params.bookPath) {
+    chapter = `/${req.params.bookId}/${req.params.bookPath}`
+    location = req.hash.replace('#', '')
+  } else if (book.navigation && book.navigation.current) {
+    chapter = book.navigation.current.path
+    location = book.navigation.current.location
+  }
   if (book.type === 'loading') {
     view = () => html`<div class="Loading"></div>`
   } else if (book.json.epubVersion) {
-    chapter = `/${req.params.bookId}/${readingOrder[0].url}`
-    view = () => html`<ink-chapter  chapter=${chapter}></ink-chapter>`
+    view = () =>
+      html`<ink-chapter  chapter=${chapter} location=${location}></ink-chapter>`
   } else if (book.json.pdfInfo) {
-    chapter = `/${req.params.bookId}/${readingOrder[0].url}`
-    view = () => html`<ink-pdf chapter=${chapter}>
+    view = () => html`<ink-pdf chapter=${chapter} location=${location}>
     <div><div id="viewer" class="pdfViewer">
       </div></div></ink-pdf>`
   }
+  let navigation
+  if (book.id) {
+    navigation = addNav(book, req.params.bookId, req.params.bookPath)
+  }
+  let previous, next
+  if (navigation && navigation.previous) {
+    previous = `/reader${navigation.previous.path}`
+  }
+  if (navigation && navigation.next) {
+    next = `/reader${navigation.next.path}`
+  }
   return html`<style>
   ink-reader {
+    background-color: white;
     display: block;
     padding: 0;
-  }
-  reader-head {
-    background-color: white;
-    margin: 0;
-    padding: 0.25rem 1rem;
-    position: sticky;
-    top: 0;
-    max-height: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    z-index: 2;
+    --reader-left-margin: 32px;
   }
   upload-section {
     display: block;
     padding: 1rem;
   }
-  reader-head .Library-name {
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--medium);
-  }
   </style><reader-head name=${book.name} .returnPath=${`/info/${
   req.params.bookId
 }/`}></reader-head>
   ${view()}
-
+<nav class="Reader-menu App-menu App-menu--bottom App-menu App-menu--center">
+  <ol class="App-menu-list">
+  <li>${
+  previous
+    ? html`
+    <icon-link name="left-chevron" label="Previous" href=${previous}></icon-link>`
+    : ''
+}</li>
+    <li></li>${
+  next
+    ? html`
+    <icon-link name="right-chevron" label="Previous" href=${next}></icon-link>`
+    : ''
+}</li>
+  </ol>
+</nav>
 <ink-collection-modal></ink-collection-modal>`
 }
 window.customElements.define(
@@ -69,29 +115,23 @@ window.customElements.define(
   component(Reader, window.HTMLElement, { useShadowDOM: false })
 )
 
-const ReaderHead = ({ name, returnPath }) => {
-  return html`<style>
-  
-  :host {
-    background-color: white;
-    margin: 0;
-    padding: 0.25rem 1rem;
-    position: sticky;
-    top: 0;
-    max-height: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    z-index: 2;
-    grid-column: 1/-1
+function addNav (book, bookId, bookPath) {
+  const rootPath = new URL(book.id).pathname
+  const navigation = {}
+  const index = book.readingOrder
+    .map(item => `${rootPath}${item.url}`)
+    .indexOf(`/${bookId}/${bookPath}`)
+  const nextItem = book.readingOrder[index + 1]
+  if (nextItem) {
+    navigation.next = {
+      path: `${rootPath}${nextItem.url}`
+    }
   }
-  </style><icon-button @click=${ev => {
-    navigate(returnPath)
-  }} name="cancel">Menu Sidebar</icon-button> <span class="Library-name">${name}</span> <span></span>`
+  const prevItem = book.readingOrder[index - 1]
+  if (prevItem) {
+    navigation.previous = {
+      path: `${rootPath}${prevItem.url}`
+    }
+  }
+  return navigation
 }
-ReaderHead.observedAttributes = ['name']
-
-window.customElements.define(
-  'reader-head',
-  component(ReaderHead, window.HTMLElement)
-)

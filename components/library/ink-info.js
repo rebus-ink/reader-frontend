@@ -36,15 +36,15 @@ export const Info = el => {
         .catch(err => console.error(err))
     }
   }, [])
-  const { position = {} } = book
+  const { navigation = {} } = book
   let bookURL, continued
-  if (position.location && position.path) {
-    continued = true
-    bookURL = `/reader/${req.params.bookId}/${position.path}#${
-      position.location
+  if (navigation.current) {
+    continued = book.position
+    bookURL = `/reader${book.navigation.current.path}#${
+      book.navigation.current.location
     }`
   } else if (resources[0]) {
-    bookURL = `/reader/${req.params.bookId}/${readingOrder[0].url}`
+    bookURL = `/reader${req.params.bookId}/${readingOrder[0].url}`
   }
   console.log(book)
   return html`

@@ -19,14 +19,15 @@ export const InkChapter = el => {
   )
   useEffect(
     () => {
-      window.requestAnimationFrame(() => {
-        const element = el.shadowRoot.getElementById(location)
-        if (element) {
+      const element = el.shadowRoot.getElementById(location)
+      console.log(element, location)
+      if (location && resource && element) {
+        window.requestAnimationFrame(() => {
           element.scrollIntoView({ behaviour: 'smooth' })
-        }
-      })
+        })
+      }
     },
-    [location]
+    [location, resource]
   )
   useEffect(
     () => {
@@ -212,9 +213,10 @@ img {
   max-width: 100%;
 }
 .is-current {
-  position: relative;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 0 0.25rem #f9f9f9;
 }
-.is-current:before {
+/* .is-current:before {
   content: '';
   position: absolute;
   bottom: 0;
@@ -224,7 +226,7 @@ img {
   display: block;
   background-color: var(--rc-medium);
   top: 0;
-}
+} */
     </style>
     <div class="chapter-body">${resource.dom}</div>
     `
