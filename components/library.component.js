@@ -1,3 +1,4 @@
+import 'inert-polyfill/inert-polyfill.js'
 import './library/book-list.js'
 import './library/book-listing.js'
 import './library/recent-books.js'

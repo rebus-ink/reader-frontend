@@ -114,6 +114,7 @@
     "haunted": "^4.4.0",
     "helmet": "^3.13.0",
     "hobb-api": "github:RebusFoundation/reader-api",
+    "inert-polyfill": "^0.2.5",
     "intersection-observer": "^0.5.1",
     "jsdom": "^15.1.0",
     "jsonwebtoken": "^8.3.0",
