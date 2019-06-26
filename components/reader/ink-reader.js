@@ -2,6 +2,7 @@ import { html } from 'lit-html'
 import { component, useState, useEffect, useContext } from 'haunted'
 import { ApiContext } from '../api-provider.component.js'
 import lifecycle from 'page-lifecycle/dist/lifecycle.mjs'
+import { HighlightButton } from './highlight.js'
 import '../widgets/icon-link.js'
 import './reader-head.js'
 import './contents-modal.js'
@@ -52,6 +53,7 @@ export const Reader = el => {
     },
     [book]
   )
+  const [selectionRange, setSelection] = useState({})
   let chapter, view, location
   if (req.params.bookPath) {
     chapter = `/${req.params.bookId}/${req.params.bookPath}`
@@ -64,9 +66,9 @@ export const Reader = el => {
     view = () => html`<div class="Loading"></div>`
   } else if (book.json.epubVersion) {
     view = () =>
-      html`<ink-chapter  chapter=${chapter} location=${location}></ink-chapter>`
+      html`<ink-chapter .setSelection=${setSelection} chapter=${chapter} location=${location}></ink-chapter>`
   } else if (book.json.pdfInfo) {
-    view = () => html`<ink-pdf chapter=${chapter} location=${location}>
+    view = () => html`<ink-pdf .setSelection=${setSelection} chapter=${chapter} location=${location}>
     <div><div id="viewer" class="pdfViewer">
       </div></div></ink-pdf>`
   }
@@ -104,6 +106,8 @@ export const Reader = el => {
     <icon-link name="left-chevron" label="Previous" href=${previous}></icon-link>`
     : ''
 }</li>
+<li>
+${HighlightButton(selectionRange)}</li>
     <li></li>${
   next
     ? html`

@@ -1,6 +1,7 @@
 import { html } from 'lit-html'
 import { component, useContext, useState, useEffect } from 'haunted'
 import { ApiContext } from '../api-provider.component.js'
+import { getRange } from 'shadow-selection-polyfill'
 
 export const title = 'Ink Chapter display: `<ink-chapter>`'
 
@@ -12,7 +13,7 @@ export const preview = () => {
 }
 
 export const InkChapter = el => {
-  const { location, chapter, readable } = el
+  const { location, chapter, readable, setSelection } = el
   const api = useContext(ApiContext)
   const [resource, setChapter] = useState(
     html`<div class="loading">Loading</div>`
@@ -29,6 +30,20 @@ export const InkChapter = el => {
     },
     [location, resource]
   )
+  useEffect(() => {
+    function handleSelection () {
+      const range = getRange(el.shadowRoot)
+      if (range && range.collapsed !== true) {
+        setSelection({ selectionRange: range, root: el.shadowRoot })
+      } else {
+        setSelection({})
+      }
+    }
+    document.addEventListener('-shadow-selectionchange', handleSelection)
+    return () => {
+      document.removeEventListener('-shadow-selectionchange', handleSelection)
+    }
+  }, [])
   useEffect(
     () => {
       if (chapter) {
@@ -71,6 +86,13 @@ export const InkChapter = el => {
   display: grid;
   grid-template-columns: minmax(var(--reader-left-margin), 0.5fr) minmax(var(--reader-min-column-width), var(--reader-max-column-width)) minmax(var(--reader-left-margin), 0.5fr);
   grid-template-areas: 'leftmargin maintext rightmargin';
+}
+.Highlight {
+  background-color: #ffff98;
+}
+
+.Highlight--selected {
+  background-color: #ddddd0;
 }
 
 .chapter-body {

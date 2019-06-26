@@ -1,5 +1,5 @@
 import { html, render } from 'lit-html'
-import { component } from 'haunted'
+import { component, useEffect } from 'haunted'
 
 window.CMAP_URL = '/js/pdfjs-dist/cmaps/'
 window.CMAP_PACKED = true
@@ -12,10 +12,24 @@ export const preview = () => {
   </div></div>
 </ink-pdf>`
 }
-
 export const InkPDF = el => {
-  const { location, chapter, scale = 'auto' } = el
+  const { location, chapter, scale = 'auto', setSelection } = el
   // 'page-width' 'page-actual' 'page-fit' 'page-height'  'auto'
+
+  useEffect(() => {
+    function handleSelection () {
+      const range = document.getSelection().getRangeAt(0)
+      if (range && range.collapsed !== true) {
+        setSelection({ selectionRange: range, root: el })
+      } else {
+        setSelection({})
+      }
+    }
+    document.addEventListener('selectionchange', handleSelection)
+    return () => {
+      document.removeEventListener('selectionchange', handleSelection)
+    }
+  }, [])
   return html`
     <style>
     :host {

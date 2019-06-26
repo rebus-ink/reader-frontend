@@ -20,6 +20,7 @@ document.addEventListener(
     if (
       // it was found
       anchor &&
+      anchor.href &&
       // it's for the current page
       /^(?:_self)?$/i.test(anchor.target) &&
       // it's not a download
