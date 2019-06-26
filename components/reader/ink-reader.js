@@ -10,10 +10,11 @@ export const Reader = el => {
   const { req, route } = el
   console.log(req, route)
   const api = useContext(ApiContext)
-  const [book, setBook] = useState({ type: 'loading', json: {}, name: '' })
-  const [contents, setContents] = useState({
-    lang: 'en',
-    dom: html`<div class="loading"></div>`
+  const [book, setBook] = useState({
+    type: 'loading',
+    json: {},
+    name: '',
+    readingOrder: []
   })
   useEffect(
     () => {
@@ -23,10 +24,6 @@ export const Reader = el => {
           .then(book => {
             book.bookId = req.params.bookId
             setBook(book)
-            return api.book.navigation(book)
-          })
-          .then(nav => {
-            setContents(nav)
           })
           .catch(err => console.error(err))
       }
@@ -98,7 +95,7 @@ export const Reader = el => {
   }
   </style><reader-head name=${book.name} .returnPath=${`/info/${
   req.params.bookId
-}/`} .contents=${contents}></reader-head>
+}/`} .book=${book} .current=${req.params.bookPath}></reader-head>
   ${view()}
 <nav class="Reader-menu App-menu App-menu--bottom App-menu App-menu--center">
   <ol class="App-menu-list">

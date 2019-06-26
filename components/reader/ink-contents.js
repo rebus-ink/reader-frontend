@@ -47,6 +47,10 @@ export const InkChapter = el => {
   )
   useEffect(
     () => {
+      const existing = el.shadowRoot.querySelector(`[aria-current="page"]`)
+      if (existing) {
+        existing.removeAttribute('aria-current')
+      }
       if (
         resource &&
         current &&

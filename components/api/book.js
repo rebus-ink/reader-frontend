@@ -66,6 +66,7 @@ export function createBookAPI (context, api, global) {
     // Returns sanitised DOM for navigation, generating if necessary
     async navigation (book) {
       const { resources = [] } = book
+      const bookPath = new URL(book.id).pathname
       const navResource = resources.filter(resource =>
         resource.rel.includes('contents')
       )[0]
@@ -78,9 +79,9 @@ export function createBookAPI (context, api, global) {
             if (!resource.name) {
               resource.name = `Chapter ${index + 1}`
             }
-            return html`<li class="Contents-item"><a  class="Contents-link" href=${`/reader${
-              book.id
-            }${resource.url}`}>${resource.name}</a></li>`
+            return html`<li class="Contents-item"><a  class="Contents-link" href=${`/reader${bookPath}${
+              resource.url
+            }`}>${resource.name}</a></li>`
           }
         )}</ol>`
         return { lang: 'en', dom }

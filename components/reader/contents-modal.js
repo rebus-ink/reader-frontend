@@ -53,40 +53,41 @@ const style = `
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
 }
-.content > * {
+
+#ink-contents-document .content > * {
   margin: auto;
 }
 
-.title {
+ink-contents-modal .title {
   font-weight: 600;
   font-size: 0.75rem;
   line-height: 1;
   box-sizing: border-box;
   text-transform: uppercase;
-  padding: 0.85rem 2rem;
+  padding: 0.25rem 2rem;
   text-align: center;
   margin: 0;
 }
 
-.row {
+#ink-contents-document .row {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
 
-.text {
+#ink-contents-document .text {
   margin: 2rem;
 }
-.list {
+#ink-contents-document .list {
   list-style: none;
   padding: 0;
   margin: auto 0;
 }
-.list li {
+#ink-contents-document .list li {
   padding: 0;
   margin: 0;
 }
-.item {
+#ink-contents-document .item {
   display: block;
   padding: 0.5rem 1.5rem;
   font-size: 0.75rem;
@@ -106,36 +107,37 @@ const style = `
   }
 }
 
-.item.selected {
+#ink-contents-document .item.selected {
   font-weight: 600;
   color: var(--dark);
   background-color: var(--rc-lighter);
 }
-.item:focus {
+#ink-contents-document .item:focus {
   animation: outlinePop 0.25s ease-in-out;
   outline: solid transparent;
   color: var(--dark);
   background-color: #f5ffff;
 }
-.item:hover {
+#ink-contents-document .item:hover {
   color: white;
   background-color: var(--rc-darker);
 }
-.sign-out {
-  position: absolute;
-  bottom: 0.5rem;
-  right: 1rem;
+#ink-contents-document header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }`
 
-const renderer = ({ contents = {} }, config) => {
+const renderer = ({ book, current }, config) => {
   return html`<header>
   <icon-button name="cancel" @click=${() =>
-    closer()}data-autofocus="true">Close Menu</icon-button>
+    closer()} data-autofocus="true">Close Menu</icon-button>
   <h2 class="title" data-autofocus="true">Contents</h2>
+  <span></span>
 </header>
-<div id="modal-1-content" class="content">
-        ${contents.dom}
-</div>`
+<ink-contents id="modal-1-content" class="content" .book=${book} .current=${current} @click=${event =>
+  closer()}>
+</ink-contents>`
 }
 
 createModal('ink-contents', renderer, { style })

@@ -20,14 +20,15 @@ reader-head icon-button {
 
 }`
 
-const render = ({ name, returnPath, contents }) => {
+const render = ({ name, returnPath, book, current }) => {
+  console.log(current)
   return html`<ol class="App-menu-list">
     <li><button name="vertical-ellipsis" @click=${ev => {
     if (ev.currentTarget === ev.target) {
-      opener('ink-contents', { contents }, 'Contents')
+      opener('ink-contents', { book, current }, 'Contents')
     }
   }}>Contents</button></li>
-    <li><span class="reader-name">${name}</span></li>
+    <li><span class="menu-name">${name}</span></li>
     <li></li>
   </ol>`
 }
