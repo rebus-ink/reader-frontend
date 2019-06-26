@@ -2,14 +2,13 @@ import { html } from 'lit-html'
 import { component, useState, useEffect, useContext } from 'haunted'
 import { ApiContext } from '../api-provider.component.js'
 import lifecycle from 'page-lifecycle/dist/lifecycle.mjs'
-import { HighlightButton } from './highlight.js'
+import { HighlightButton, RemoveHighlightButton } from './highlight.js'
 import '../widgets/icon-link.js'
 import './reader-head.js'
 import './contents-modal.js'
 
 export const Reader = el => {
   const { req, route } = el
-  console.log(req, route)
   const api = useContext(ApiContext)
   const [book, setBook] = useState({
     type: 'loading',
@@ -44,7 +43,6 @@ export const Reader = el => {
         ) {
           api.book.savePosition(book, chapter, current)
         }
-        console.log(book.id, chapter, current)
       }
       lifecycle.addEventListener('statechange', handleLifeCycle)
       return () => {
@@ -54,6 +52,7 @@ export const Reader = el => {
     [book]
   )
   const [selectionRange, setSelection] = useState({})
+  const [selectedHighlight, setHighlight] = useState({})
   let chapter, view, location
   if (req.params.bookPath) {
     chapter = `/${req.params.bookId}/${req.params.bookPath}`
@@ -66,9 +65,9 @@ export const Reader = el => {
     view = () => html`<div class="Loading"></div>`
   } else if (book.json.epubVersion) {
     view = () =>
-      html`<ink-chapter .setSelection=${setSelection} chapter=${chapter} location=${location}></ink-chapter>`
+      html`<ink-chapter .setSelection=${setSelection} .setHighlight=${setHighlight} chapter=${chapter} location=${location}></ink-chapter>`
   } else if (book.json.pdfInfo) {
-    view = () => html`<ink-pdf .setSelection=${setSelection} chapter=${chapter} location=${location}>
+    view = () => html`<ink-pdf .setSelection=${setSelection} .setHighlight=${setHighlight}  chapter=${chapter} location=${location}>
     <div><div id="viewer" class="pdfViewer">
       </div></div></ink-pdf>`
   }
@@ -107,7 +106,9 @@ export const Reader = el => {
     : ''
 }</li>
 <li>
-${HighlightButton(selectionRange)}</li>
+${HighlightButton(selectionRange)}${RemoveHighlightButton(
+  selectedHighlight
+)}</li>
     <li></li>${
   next
     ? html`

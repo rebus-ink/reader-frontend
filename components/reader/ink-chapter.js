@@ -13,7 +13,7 @@ export const preview = () => {
 }
 
 export const InkChapter = el => {
-  const { location, chapter, readable, setSelection } = el
+  const { location, chapter, readable, setSelection, setHighlight } = el
   const api = useContext(ApiContext)
   const [resource, setChapter] = useState(
     html`<div class="loading">Loading</div>`
@@ -21,7 +21,6 @@ export const InkChapter = el => {
   useEffect(
     () => {
       const element = el.shadowRoot.getElementById(location)
-      console.log(element, location)
       if (location && resource && element) {
         window.requestAnimationFrame(() => {
           element.scrollIntoView({ behaviour: 'smooth' })
@@ -40,8 +39,19 @@ export const InkChapter = el => {
       }
     }
     document.addEventListener('-shadow-selectionchange', handleSelection)
+    function handleHighlight (event) {
+      if (event.type === 'reader:highlight-selected') {
+        setHighlight({ noteId: event.detail.id, root: el.shadowRoot })
+      } else {
+        setHighlight({})
+      }
+    }
+    window.addEventListener('reader:highlight-selected', handleHighlight)
+    window.addEventListener('reader:highlight-deselected', handleHighlight)
     return () => {
       document.removeEventListener('-shadow-selectionchange', handleSelection)
+      window.removeEventListener('reader:highlight-selected', handleHighlight)
+      window.removeEventListener('reader:highlight-deselected', handleHighlight)
     }
   }, [])
   useEffect(

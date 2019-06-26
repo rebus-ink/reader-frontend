@@ -44,7 +44,6 @@ reader-head button {
 }`
 
 const render = ({ name, returnPath, book, current }) => {
-  console.log(current)
   return html`<ol class="App-menu-list">
     <li><button aria-label="Contents" @click=${ev => {
     opener('ink-contents', { book, current, returnPath }, 'Contents')

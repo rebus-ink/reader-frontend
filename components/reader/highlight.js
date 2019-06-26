@@ -1,20 +1,36 @@
 import * as textQuote from 'dom-anchor-text-quote'
-import { html, render } from 'lit-html'
-import { virtual, useEffect, useState } from 'haunted'
+import { html } from 'lit-html'
+import { virtual } from 'haunted'
 
 export const HighlightButton = virtual(({ selectionRange, root }) => {
   let selector
-  if (selectionRange && root) {
-    selector = textQuote.default.fromRange(root, selectionRange)
-  }
-  return html`<button style="position: fixed; bottom: 0.25rem;z-index: 5;" type="button" class="Button" ?hidden=${!(
+  return html`<button style="z-index: 5;" type="button" class="Button" ?hidden=${!(
     selectionRange && root
-  )} @click=${() =>
-    highlightNote(
-      selector,
-      root,
-      'id-' + Math.random() * 1000
-    )}>Highlight</button>`
+  )} @click=${() => {
+    if (selectionRange && root) {
+      selector = textQuote.default.fromRange(root, selectionRange)
+      highlightNote(selector, root, 'id-' + Math.random() * 1000)
+    }
+  }}>Highlight</button>`
+})
+
+export const RemoveHighlightButton = virtual(({ noteId, root }) => {
+  return html`<button style="z-index: 5;background-color: var(--error); color: white;" type="button" class="Button" ?hidden=${!(
+    noteId && root
+  )} @click=${() => {
+    if (noteId && root) {
+      root
+        .querySelectorAll(`reader-highlight[data-note-id="${noteId}"]`)
+        .forEach(highlight => highlight.replaceWith(...highlight.childNodes))
+      const customEvent = new window.CustomEvent(
+        'reader:highlight-deselected',
+        {
+          detail: { id: noteId }
+        }
+      )
+      window.dispatchEvent(customEvent)
+    }
+  }}>Remove Highlight</button>`
 })
 
 function highlightNote (selector, root, id) {
@@ -33,7 +49,6 @@ function highlightNote (selector, root, id) {
     range.setStart(startNode, 0)
     range.setEnd(startNode, startNode.length - 1)
   } else {
-    console.log('We are in separate nodes', start, startOffset, end, endOffset)
     if (start && start.splitText && startOffset && startOffset !== 0) {
       const startNode = start.splitText(startOffset)
       range.setStart(startNode, 0)
@@ -66,5 +81,53 @@ function highlightNote (selector, root, id) {
       highlight.appendChild(node)
     }
   }
-  window.getSelection().removeAllRanges()
+  window
+    .getSelection()
+    .getRangeAt(0)
+    .collapse()
 }
+
+class ReaderHighlight extends window.HTMLElement {
+  connectedCallback () {
+    this.addEventListener('click', this)
+    window.addEventListener('reader:highlight-selected', this)
+    window.addEventListener('reader:highlight-deselected', this)
+  }
+  handleEvent (event) {
+    if (
+      event.type === 'click' &&
+      !this.classList.contains('Highlight--selected')
+    ) {
+      const customEvent = new window.CustomEvent('reader:highlight-selected', {
+        detail: { id: this.dataset.noteId }
+      })
+      window.dispatchEvent(customEvent)
+    } else if (
+      event.type === 'click' &&
+      this.classList.contains('Highlight--selected')
+    ) {
+      const customEvent = new window.CustomEvent(
+        'reader:highlight-deselected',
+        {
+          detail: { id: this.dataset.noteId }
+        }
+      )
+      window.dispatchEvent(customEvent)
+    } else if (
+      event.type === 'reader:highlight-selected' &&
+      event.detail.id === this.dataset.noteId
+    ) {
+      this.classList.add('Highlight--selected')
+    } else if (
+      event.type === 'reader:highlight-deselected' &&
+      event.detail.id === this.dataset.noteId
+    ) {
+      this.classList.remove('Highlight--selected')
+    }
+  }
+  disconnectedCallback () {
+    this.removeEventListener('click', this)
+    this.removeEventListener('reader:highlight-selected', this)
+  }
+}
+window.customElements.define('reader-highlight', ReaderHighlight)

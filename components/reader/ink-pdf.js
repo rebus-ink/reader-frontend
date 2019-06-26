@@ -13,20 +13,34 @@ export const preview = () => {
 </ink-pdf>`
 }
 export const InkPDF = el => {
-  const { location, chapter, scale = 'auto', setSelection } = el
+  const { location, chapter, scale = 'auto', setSelection, setHighlight } = el
   // 'page-width' 'page-actual' 'page-fit' 'page-height'  'auto'
 
   useEffect(() => {
     function handleSelection () {
-      const range = document.getSelection().getRangeAt(0)
-      if (range && range.collapsed !== true) {
-        setSelection({ selectionRange: range, root: el })
-      } else {
-        setSelection({})
+      const selection = document.getSelection()
+      if (selection.rangeCount !== 0) {
+        const range = selection.getRangeAt(0)
+        if (range && range.collapsed !== true) {
+          setSelection({ selectionRange: range, root: el })
+        } else {
+          setSelection({})
+        }
       }
     }
     document.addEventListener('selectionchange', handleSelection)
+    function handleHighlight (event) {
+      if (event.type === 'reader:highlight-selected') {
+        setHighlight({ noteId: event.detail.id, root: el })
+      } else {
+        setHighlight({})
+      }
+    }
+    window.addEventListener('reader:highlight-selected', handleHighlight)
+    window.addEventListener('reader:highlight-deselected', handleHighlight)
     return () => {
+      window.removeEventListener('reader:highlight-selected', handleHighlight)
+      window.removeEventListener('reader:highlight-deselected', handleHighlight)
       document.removeEventListener('selectionchange', handleSelection)
     }
   }, [])
@@ -399,7 +413,6 @@ window.customElements.define(
 class InkPDFRender extends window.HTMLElement {
   connectedCallback () {
     this.render()
-    console.log(this.children[0])
     window.pdfjsLib.GlobalWorkerOptions.workerSrc =
       '/js/pdfjs-dist/build/pdf.worker.min.js'
     this.pdfLinkService = new window.pdfjsViewer.PDFLinkService()
@@ -412,13 +425,11 @@ class InkPDFRender extends window.HTMLElement {
     })
     this.pdfLinkService.setViewer(this.pdfViewer)
     this.addEventListener('pagesinit', ev => {
-      console.log(ev)
       this.pdfViewer.currentScaleValue = this.getAttribute('scale')
     })
     this.addEventListener('pagesloaded', ev => {
       this.goToPage(this.getAttribute('location'))
       setupObservers(this)
-      console.log(ev)
     })
     // if (this.getAttribute('chapter')) { this.chapter(this.getAttribute('chapter')) }
   }
@@ -441,7 +452,6 @@ class InkPDFRender extends window.HTMLElement {
     )
   }
   chapter (chapter) {
-    console.log(chapter)
     if (chapter) {
       const loadingTask = window.pdfjsLib.getDocument({
         url: chapter,
@@ -449,7 +459,6 @@ class InkPDFRender extends window.HTMLElement {
         cMapPacked: window.CMAP_PACKED
       })
       loadingTask.promise.then(pdfDocument => {
-        console.log(pdfDocument)
         // Document loaded, specifying document for the viewer and
         // the (optional) linkService.
         this.pdfViewer.setDocument(pdfDocument)
