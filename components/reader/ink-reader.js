@@ -84,7 +84,6 @@ export const Reader = el => {
   book.navigation = navigation
   return html`<style>
   ink-reader {
-    background-color: white;
     display: block;
     padding: 0;
     --reader-left-margin: 32px;

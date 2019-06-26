@@ -15,7 +15,10 @@ export const preview = () => {
 }
 
 export const BookListing = ({ book = {}, layout }) => {
-  const { resources = [], author = [] } = book
+  let { resources = [], author = [] } = book
+  if (resources.data) {
+    resources = resources.data
+  }
   const coverResource = resources.filter(resource =>
     resource.rel.includes('cover')
   )[0]

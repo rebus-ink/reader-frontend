@@ -138,8 +138,9 @@ if (!document.getElementById('what-a-modal-style')) {
 // wrapClass that adds modal methods
 // called with -> BaseClass
 export function wrapEl (CustomClass, config) {
-  return class extends wrapClass(CustomClass) {
+  return class Base extends wrapClass(CustomClass) {
     styleConfig (style = '') {
+      console.log(style, this.tagName)
       style = `${style}`
       super.styleConfig(style)
     }

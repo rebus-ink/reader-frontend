@@ -396,7 +396,7 @@ class InkPDFRender extends window.HTMLElement {
     this.pdfLinkService.setViewer(this.pdfViewer)
     this.addEventListener('pagesinit', ev => {
       console.log(ev)
-      this.pdfViewer.currentScaleValue = this.getAttribute('page-fit') // 'page-width' 'page-actual' 'page-fit' 'page-height'  'auto'
+      this.pdfViewer.currentScaleValue = this.getAttribute('page-width') // 'page-width' 'page-actual' 'page-fit' 'page-height'  'auto'
     })
     this.addEventListener('pagesloaded', ev => {
       this.goToPage(this.getAttribute('location'))

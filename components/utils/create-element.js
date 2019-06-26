@@ -30,6 +30,7 @@ export const createElement = (
 ) => {
   function renderWrap (el) {
     useEffect(() => {
+      console.log(el.tagName)
       el.styleConfig(style)
     }, [])
     return render(el)

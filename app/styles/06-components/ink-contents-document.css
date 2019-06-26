@@ -1,7 +1,3 @@
-import { createModal, closer } from '../utils/create-modal.js'
-import { html } from 'lit-html'
-
-const style = `
 #ink-contents-document {
   background-color: #fff;
   max-width: 95vw;
@@ -14,7 +10,7 @@ const style = `
   bottom: 0;
   display: flex;
   flex-direction: column;
-  box-shadow: 1px 1px 14px -2px rgba(0,0,0,0.15);
+  box-shadow: 1px 1px 14px -2px rgba(0, 0, 0, 0.15);
   z-index: 10;
 }
 .full #ink-contents-document {
@@ -35,22 +31,22 @@ const style = `
     opacity: 0;
   }
 }
-[aria-hidden="true"] #ink-contents-document {
+[aria-hidden='true'] #ink-contents-document {
   opacity: 0;
   transform: translateX(-100%);
 }
-#ink-contents-document.is-closing  {
+#ink-contents-document.is-closing {
   animation: containerPop 0.25s ease-in-out;
 }
-#ink-contents-document.is-opening  {
+#ink-contents-document.is-opening {
   animation: containerPop 0.25s ease-in-out reverse;
 }
 
 .content {
   display: flex;
   flex-direction: column;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 #ink-contents-document .content > * {
@@ -130,19 +126,4 @@ ink-contents-modal .title {
 #ink-contents-document .actions-button {
   text-align: left;
   border: none;
-}`
-
-const renderer = ({ book, current, returnPath }, config) => {
-  return html`<header>
-  <icon-button name="cancel" @click=${() =>
-    closer()} data-autofocus="true">Close Menu</icon-button>
-  <h2 class="title" data-autofocus="true">Contents</h2>
-  <span></span>
-</header>
-    <p><a href=${returnPath} class="actions-button actions-button--secondary">&lt; Return</a></p>
-<ink-contents id="modal-1-content" class="content" .book=${book} .current=${current} @click=${event =>
-  closer()}>
-</ink-contents>`
 }
-
-createModal('ink-contents', renderer, { style })
