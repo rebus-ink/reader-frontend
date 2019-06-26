@@ -139,7 +139,7 @@ export const RecentBooks = component(
   })}><p class="label">Recently uploaded ${
   tag === 'all' ? '' : `in ${tag}`
 }</p> <p class="link">
-    <a href=${url}>See all &gt;</a>
+    <a href=${url} class="Button">See all items &gt;</a>
   </p></div><book-list .books=${books}></book-list>`
   },
   window.HTMLElement,
