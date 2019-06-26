@@ -16,18 +16,39 @@ reader-head {
   display: flex;
   align-items: center;
 }
-reader-head icon-button {
+reader-head button {
+  font-size: 1.25rem;
+  line-height: 1rem;
+  transform: translateY(-2px);
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-align: center;
+  white-space: nowrap;
+  text-decoration: none;
+  text-transform: uppercase;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  border: none;
+  background-color: transparent;
+  color: var(--rc-dark);
 
+  height: 24px;
+    width: 24px;
+    margin: 0;
+    padding: 0;
+  border-radius: 9999px;
 }`
 
 const render = ({ name, returnPath, book, current }) => {
   console.log(current)
   return html`<ol class="App-menu-list">
-    <li><button name="vertical-ellipsis" @click=${ev => {
-    if (ev.currentTarget === ev.target) {
-      opener('ink-contents', { book, current, returnPath }, 'Contents')
-    }
-  }}>Contents</button></li>
+    <li><button aria-label="Contents" @click=${ev => {
+    opener('ink-contents', { book, current, returnPath }, 'Contents')
+  }}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></button></li>
     <li><span class="menu-name">${name}</span></li>
     <li></li>
   </ol>`
