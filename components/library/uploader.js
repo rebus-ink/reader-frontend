@@ -158,11 +158,11 @@ export const UploadModal = () => {
       close()
     }
   })
-  return html`<ink-menu-modal .open=${ref}><strong slot="modal-title">${
+  return html`<menu-modal .open=${ref}><strong slot="modal-title">${
     files.size
   } Items</strong><ol slot="modal-body">${Array.from(files).map(
     file => html`<li class="MenuItem">${file.name}</li>`
-  )}</ol></ink-menu-modal>`
+  )}</ol></menu-modal>`
 }
 
 window.customElements.define(
