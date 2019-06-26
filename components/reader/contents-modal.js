@@ -126,15 +126,22 @@ ink-contents-modal .title {
   display: flex;
   align-items: center;
   justify-content: space-between;
-}`
+}
 
-const renderer = ({ book, current }, config) => {
+#ink-contents-document .actions-button {
+  text-align: left;
+  border: none;
+}
+`
+
+const renderer = ({ book, current, returnPath }, config) => {
   return html`<header>
   <icon-button name="cancel" @click=${() =>
     closer()} data-autofocus="true">Close Menu</icon-button>
   <h2 class="title" data-autofocus="true">Contents</h2>
   <span></span>
 </header>
+    <p><a href=${returnPath} class="actions-button actions-button--secondary">&lt; Return</a></p>
 <ink-contents id="modal-1-content" class="content" .book=${book} .current=${current} @click=${event =>
   closer()}>
 </ink-contents>`

@@ -25,7 +25,7 @@ const render = ({ name, returnPath, book, current }) => {
   return html`<ol class="App-menu-list">
     <li><button name="vertical-ellipsis" @click=${ev => {
     if (ev.currentTarget === ev.target) {
-      opener('ink-contents', { book, current }, 'Contents')
+      opener('ink-contents', { book, current, returnPath }, 'Contents')
     }
   }}>Contents</button></li>
     <li><span class="menu-name">${name}</span></li>
