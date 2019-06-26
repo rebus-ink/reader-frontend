@@ -14,7 +14,8 @@ export const preview = () => {
 }
 
 export const InkPDF = el => {
-  const { location, chapter, scale = 'page-width' } = el
+  const { location, chapter, scale = 'auto' } = el
+  // 'page-width' 'page-actual' 'page-fit' 'page-height'  'auto'
   return html`
     <style>
     :host {
@@ -376,7 +377,10 @@ ink-pdf-render[scale="page-height"] > div {
 }
 InkPDF.observedAttributes = ['chapter', 'location', 'scale']
 
-window.customElements.define('ink-pdf', component(InkPDF, window.HTMLElement))
+window.customElements.define(
+  'ink-pdf',
+  component(InkPDF, window.HTMLElement, { useShadowDOM: false })
+)
 
 class InkPDFRender extends window.HTMLElement {
   connectedCallback () {
@@ -390,13 +394,12 @@ class InkPDFRender extends window.HTMLElement {
       linkService: this.pdfLinkService,
       renderer: 'svg',
       textLayerMode: 1,
-      removePageBorders: true,
-      useOnlyCssZoom: true
+      removePageBorders: true
     })
     this.pdfLinkService.setViewer(this.pdfViewer)
     this.addEventListener('pagesinit', ev => {
       console.log(ev)
-      this.pdfViewer.currentScaleValue = this.getAttribute('page-width') // 'page-width' 'page-actual' 'page-fit' 'page-height'  'auto'
+      this.pdfViewer.currentScaleValue = this.getAttribute('scale')
     })
     this.addEventListener('pagesloaded', ev => {
       this.goToPage(this.getAttribute('location'))
@@ -479,8 +482,8 @@ function onPosition (entries) {
   }
   let root
   if (highest) {
-    root = highest.getRootNode().host
-    root.shadowRoot
+    root = highest.closest('ink-pdf')
+    root
       .querySelectorAll('.is-current')
       .forEach(element => element.classList.remove('is-current'))
     highest.classList.add('is-current')
