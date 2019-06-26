@@ -60,9 +60,6 @@ export const Info = el => {
   ink-info .Cover-icon {
     max-width: 40vw;
   }
-  ink-info .actions {
-    padding: 1rem;
-  }
   ink-info ink-button {
     display: block;
     text-align:center;
@@ -71,22 +68,31 @@ export const Info = el => {
   </style>
   <info-head name=${book.name}></info-head>
   <div class="Cover">
-  <img class="Cover-icon" alt="${book.description || ''}" src="${cover}">
+  <img class="Cover-icon" alt="${book.description ||
+    ''}" src="${cover}"></div><div class="actions">
   <div class="BookCard-group">
     <h4 class="BookCard-title">${book.name}</h4>
     <p class="BookCard-paragraph">${author.map(attributionComponent)}</p>
     <p class="BookCard-total"></p>
-  </div></div><div class="actions">
-    <a href="${bookURL}" class="Button">${continued ? 'Continue' : 'Read'}</a>
-    <a href=${original} class="Button" download=${`${
+  </div>
+    <ol>
+      <li>
+    <a href="${bookURL}" class="actions-button">${
+  continued ? 'Continue' : 'Read'
+}</a></li>
+    </ol>
+    <ol>
+    <a href=${original} class="actions-button actions-button--secondary" download=${`${
   book.name
-}.${format}`}>Download Original</a>
-    <text-button dangerous @click=${ev => {
+}.${format}`}>Download Original</a></li>
+      <li>
+    <a class="actions-button actions-button--secondary actions-button--dangerous" @click=${ev => {
     const modal = document.getElementById('delete-publication')
     if (modal) {
       modal.open = true
     }
-  }}>Delete</text-button>
+  }}>Delete</a></li>
+    </ol>
   </div><ink-modal id="delete-publication" aria-hidden="true">
     <strong slot="modal-title" class="Modal-name">Delete Publication</strong>
     <confirm-action dangerous slot="modal-body" .action=${() => {
@@ -115,7 +121,7 @@ window.customElements.define(
 const InfoHead = ({ name }) => {
   return html`<style>
   
-  :host {
+ info-head {
     background-color: white;
     margin: 0;
     padding: 0.25rem 1rem;
@@ -130,11 +136,11 @@ const InfoHead = ({ name }) => {
   }
   </style><icon-button @click=${ev => {
     navigate('/library')
-  }} name="cancel">Menu Sidebar</icon-button> <span class="Library-name">${name}</span> <span></span>`
+  }} name="cancel">Menu Sidebar</icon-button> <span class="menu-name">${name}</span> <span></span>`
 }
 InfoHead.observedAttributes = ['name']
 
 window.customElements.define(
   'info-head',
-  component(InfoHead, window.HTMLElement)
+  component(InfoHead, window.HTMLElement, { useShadowDOM: false })
 )

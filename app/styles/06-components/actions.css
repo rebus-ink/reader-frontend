@@ -1,0 +1,74 @@
+.actions {
+  background-color: #fafafa;
+  margin: 1rem;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+  max-width: 235px;
+  max-height: 300px;
+}
+
+.actions ol {
+  padding: 0;
+  margin: 0.5rem 0;
+  list-style: none;
+}
+.actions li {
+  padding: 0;
+  margin: 0;
+}
+.actions .BookCard-group {
+  padding: 0.25rem;
+  margin: 0 1rem;
+}
+
+.actions-button {
+  display: block;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji,
+    Segoe UI Symbol;
+  font-family: var(--sans-fonts);
+  font-size: 0.65rem;
+  flex: 0 1 auto;
+  line-height: 1;
+  padding: 0.45rem 1.5rem 0.5rem;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-align: center;
+  white-space: nowrap;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 350;
+  color: #333;
+  color: var(--dark);
+  border-radius: 0;
+  touch-action: manipulation;
+  background-color: #37b5b5;
+  background-color: var(--rc-main);
+  text-decoration: none !important;
+  border: none;
+}
+.actions-button:hover {
+  background-color: var(--link);
+  color: white;
+}
+
+.actions-button--secondary {
+  background-color: white;
+  border-top: 1px solid #f0f0f0;
+  color: var(--link);
+}
+.actions-button--dangerous {
+  background-color: white;
+  border-top: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+  color: var(--error);
+  border-bottom: 1px solid #f0f0f0;
+}

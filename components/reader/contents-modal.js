@@ -127,14 +127,14 @@ const style = `
   right: 1rem;
 }`
 
-const renderer = ({ navigation = {} }, config) => {
+const renderer = ({ contents = {} }, config) => {
   return html`<header>
   <icon-button name="cancel" @click=${() =>
     closer()}data-autofocus="true">Close Menu</icon-button>
   <h2 class="title" data-autofocus="true">Contents</h2>
 </header>
 <div id="modal-1-content" class="content">
-        ${navigation.dom}
+        ${contents.dom}
 </div>`
 }
 

@@ -1,0 +1,9 @@
+.menu-name {
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  font-weight: 400;
+  color: var(--medium);
+  border-radius: 0.25rem;
+  background-color: white;
+  box-shadow: 0 0 0 0.25rem white;
+}

@@ -16,12 +16,6 @@ reader-head {
   display: flex;
   align-items: center;
 }
-reader-head .reader-name {
-  text-transform: uppercase;
-  font-size: 0.65rem;
-  font-weight: 400;
-  color: var(--medium);
-}
 reader-head icon-button {
 
 }`
@@ -30,7 +24,6 @@ const render = ({ name, returnPath, contents }) => {
   return html`<ol class="App-menu-list">
     <li><button name="vertical-ellipsis" @click=${ev => {
     if (ev.currentTarget === ev.target) {
-      console.log('click event')
       opener('ink-contents', { contents }, 'Contents')
     }
   }}>Contents</button></li>
