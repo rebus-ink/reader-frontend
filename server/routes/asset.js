@@ -44,6 +44,20 @@ async function assets (url, res) {
     const result = serializeToString(clean)
     res.type('svg')
     res.send(result)
+  } else if (response.headers['content-type'].includes('xhtml')) {
+    const mainresponse = await got(url)
+    const dom = new JSDOM(mainresponse.body, {
+      contentType: response.headers['content-type'] || 'application/xhtml+xml'
+    })
+    const window = dom.window
+    const DOMPurify = createDOMPurify(window)
+    const clean = DOMPurify.sanitize(
+      window.document.documentElement,
+      purifyConfig
+    )
+    const result = serializeToString(clean)
+    res.type('application/xhtml+xml')
+    res.send(result)
   } else if (response.headers['content-type'].includes('html')) {
     const mainresponse = await got(url)
     const dom = new JSDOM(mainresponse.body, {

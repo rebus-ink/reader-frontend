@@ -14,7 +14,8 @@ function apiAuth (req, res, next) {
     prefix = /asset/
   }
   res.redirect = function (url) {
-    originalRedirect.call(this, `${prefix}${encodeURIComponent(url)}`)
+    res.set('Cache-Control', 'max-age=31536000,immutable')
+    originalRedirect.call(this, 301, `${prefix}${encodeURIComponent(url)}`)
   }
   next()
 }
