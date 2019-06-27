@@ -17,7 +17,7 @@ export const Info = el => {
     original = `/${req.params.bookId}/original.epub`
   } else if (book.json.pdfInfo) {
     format = 'pdf'
-    original = `/${req.params.bookId}/original.pdf`
+    original = `/${req.params.bookId}/${readingOrder[0].url}`
   }
   let cover
   if (coverResource) {

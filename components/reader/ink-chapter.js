@@ -87,7 +87,7 @@ export const InkChapter = el => {
   line-height: var(--reader-line-height);
   font-size: var(--reader-font-size);
   color: var(--reader-text-color);
-  font-family: var(--reader-font-family);
+  font-family: 'Source Serif Pro', serif;
   background-color: var(--reader-background-color);
   line-height: var(--reader-line-height);
   display: block;

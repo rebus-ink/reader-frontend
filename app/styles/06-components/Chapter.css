@@ -97,7 +97,7 @@ StyleGuide 6.Chapter
   --reader-max-column-width: 31rem;
   --reader-background-color: white;
   --reader-border-color: #fafaef;
-  --reader-line-height: 1.4;
+  --reader-line-height: 1.45;
   --reader-font-family: var(--sans-fonts);
 }
 @media (max-width: 820px) {
