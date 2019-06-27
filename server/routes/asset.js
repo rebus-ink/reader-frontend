@@ -11,7 +11,7 @@ const { serializeToString } = require('xmlserializer')
 const purifyConfig = {
   KEEP_CONTENT: false,
   IN_PLACE: true,
-  ADD_ATTR: ['epub:type'],
+  ADD_ATTR: ['epub:type', 'xmlns:epub'],
   ADD_TAGS: ['preview-app', 'link'],
   WHOLE_DOCUMENT: true
 }

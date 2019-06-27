@@ -4,8 +4,14 @@ import { component, useState, useEffect } from 'haunted'
 
 export const wrapClass = CustomClass => {
   return class Base extends CustomClass {
-    styleConfig (style = '') {
-      const name = this.tagName.toLowerCase()
+    styleConfig (style) {
+      let name
+      if (this.getAttribute('is')) {
+        name = this.getAttribute('is')
+      } else {
+        name = this.tagName.toLowerCase()
+      }
+      this.dataset.is = name
       if (!document.getElementById(name + '-style') && style) {
         const styleEl = document.createElement('style')
         styleEl.id = name + '-style'

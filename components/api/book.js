@@ -71,7 +71,7 @@ export function createBookAPI (context, api, global) {
         resource.rel.includes('contents')
       )[0]
       if (navResource) {
-        const navURL = `${book.id}${navResource.url}`
+        const navURL = new URL(navResource.url, book.id).href
         return this.chapter(navURL, true)
       } else {
         const dom = html`<ol class="Contents-list">${book.readingOrder.map(
@@ -109,6 +109,23 @@ function DocumentFetch (url) {
 
 export async function getChapter (url, readable) {
   let response = await DocumentFetch(url)
+  const baseURL = new URL(url, window.location)
+  const baseHost = baseURL.host
+  response.querySelectorAll('a[href]').forEach(element => {
+    const href = element.getAttribute('href')
+    try {
+      const { pathname, hash, host } = new URL(href, baseURL)
+      if (host === baseHost) {
+        element.setAttribute(
+          'href',
+          `/reader${pathname}${hash ? `#${url}:${hash.slice(1)}` : ''}`
+        )
+        element.dataset.href = href
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  })
   let doc
   let stylesheets = []
   response = addLocations(response, url)
@@ -184,23 +201,7 @@ const purifyConfig = {
 
 export function processChapter (chapter, base) {
   const baseURL = new URL(base, window.location)
-  const baseHost = baseURL.host
   const clean = DOMPurify.sanitize(chapter, purifyConfig)
-  clean.querySelectorAll('a[href]').forEach(element => {
-    const href = element.getAttribute('href')
-    try {
-      const { pathname, hash, host } = new URL(href, baseURL)
-      if (host === baseHost) {
-        element.setAttribute(
-          'href',
-          `/reader${pathname}${hash ? `#${base}:${hash.slice(1)}` : ''}`
-        )
-        element.dataset.href = href
-      }
-    } catch (err) {
-      console.error(err)
-    }
-  })
   clean.querySelectorAll(`[src]`).forEach(element => {
     const src = element.getAttribute('src')
     try {
@@ -211,11 +212,11 @@ export function processChapter (chapter, base) {
     }
   })
   // This probably only works for SVG inlined in HTML files, not for SVG in XHTML
-  clean.querySelectorAll(`[xlink\\:href]`).forEach(element => {
-    const src = element.getAttribute('xlink\\:href')
+  clean.querySelectorAll('image[*|href]').forEach(element => {
+    const src = element.getAttributeNS('http://www.w3.org/1999/xlink', 'href')
     try {
       const path = new URL(src, baseURL).pathname
-      element.setAttribute('xlink\\:href', path)
+      element.setAttributeNS('http://www.w3.org/1999/xlink', 'href', path)
     } catch (err) {
       console.error(err)
     }
