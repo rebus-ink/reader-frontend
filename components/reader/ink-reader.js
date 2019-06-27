@@ -32,6 +32,11 @@ export const Reader = el => {
   )
   useEffect(
     () => {
+      if (book.json.epubVersion) {
+        el.dataset.format = 'epub'
+      } else if (book.json.pdfInfo) {
+        el.dataset.format = 'pdf'
+      }
       function handleLifeCycle (event) {
         const root = document.querySelector('ink-chapter, ink-pdf')
         const current = root.getAttribute('current')
@@ -88,6 +93,9 @@ export const Reader = el => {
     display: block;
     padding: 0;
     --reader-left-margin: 32px;
+  }
+  ink-reader[data-format="epub"] {
+    background-color: var(--reader-background-color);
   }
   upload-section {
     display: block;
