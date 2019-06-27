@@ -121,7 +121,7 @@ export const Reader = el => {
 ${HighlightButton(selectionRange)}${RemoveHighlightButton(
   selectedHighlight
 )}</li>
-    <li></li>${
+    <li>${
   next
     ? html`
     <icon-link name="right-chevron" label="Previous" href=${next}></icon-link>`
