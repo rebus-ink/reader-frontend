@@ -93,6 +93,10 @@ export const Reader = el => {
     display: block;
     padding: 0;
     --reader-left-margin: 32px;
+    min-height: 100vh;
+  }
+  ink-reader ink-chapter {
+    min-height: calc(100vh - 4rem);
   }
   ink-reader[data-format="epub"] {
     background-color: var(--reader-background-color);
