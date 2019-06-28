@@ -3,6 +3,7 @@ import { component, useState, useEffect, useContext } from 'haunted'
 import { ApiContext } from '../api-provider.component.js'
 import lifecycle from 'page-lifecycle/dist/lifecycle.mjs'
 import { HighlightButton, RemoveHighlightButton } from './highlight.js'
+import quicklink from 'quicklink/dist/quicklink.mjs'
 import '../widgets/icon-link.js'
 import './reader-head.js'
 import './contents-modal.js'
@@ -50,6 +51,14 @@ export const Reader = el => {
         }
       }
       lifecycle.addEventListener('statechange', handleLifeCycle)
+      if (book && book.id) {
+        const rootPath = new URL(book.id).pathname
+        const urls = book.resources
+          .map(item => `${rootPath}${item.url}`)
+          .filter(uri => !uri.includes('.epub'))
+          .filter(uri => !uri.includes('.opf'))
+        quicklink({ urls })
+      }
       return () => {
         lifecycle.removeEventListener('statechange', handleLifeCycle)
       }
@@ -70,7 +79,7 @@ export const Reader = el => {
     view = () => html`<div class="Loading"></div>`
   } else if (book.json.epubVersion) {
     view = () =>
-      html`<ink-chapter .setSelection=${setSelection} .setHighlight=${setHighlight} chapter=${chapter} location=${location}></ink-chapter>`
+      html`<ink-chapter .setSelection=${setSelection} .setHighlight=${setHighlight} chapter=${chapter} location=${location} .book=${book}></ink-chapter>`
   } else if (book.json.pdfInfo) {
     view = () => html`<ink-pdf .setSelection=${setSelection} .setHighlight=${setHighlight}  chapter=${chapter} location=${location}>
     <div><div id="viewer" class="pdfViewer">

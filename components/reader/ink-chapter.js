@@ -13,7 +13,7 @@ export const preview = () => {
 }
 
 export const InkChapter = el => {
-  const { location, chapter, readable, setSelection, setHighlight } = el
+  const { location, chapter, readable, setSelection, setHighlight, book } = el
   const api = useContext(ApiContext)
   const [resource, setChapter] = useState(
     html`<div class="loading">Loading</div>`
@@ -58,17 +58,33 @@ export const InkChapter = el => {
     () => {
       if (chapter) {
         el.classList.add('is-loading')
-        el.updateComplete = api.book
-          .chapter(chapter, readable)
+        Promise.resolve()
+          .then(() => {
+            if (resource.nextDom) {
+              return Promise.resolve(resource.nextDom)
+            } else {
+              return api.book.chapter(chapter, readable, book)
+            }
+          })
           .then(dom => {
             el.classList.remove('is-loading')
             window.scrollTo(0, 0)
             setChapter(dom)
+            return dom
+          })
+          .then(dom => {
+            const { next } = dom
+            if (next) {
+              return api.book.chapter(next, readable, book).then(nextDom => {
+                dom.nextDom = nextDom
+                setChapter(dom)
+              })
+            }
           })
           .catch(err => console.error(err))
       }
     },
-    [chapter, readable]
+    [chapter, readable, book]
   )
   useEffect(
     () => {

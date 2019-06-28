@@ -9,7 +9,7 @@ export function createBookAPI (context, api, global) {
   return {
     // Returns sanitised DOM for chapter
     get chapter () {
-      return (url, readable) => getChapter(url, readable)
+      return (url, readable, book) => getChapter(url, readable, book)
     },
     // Return the publication object
     async get (url, path) {
@@ -107,7 +107,18 @@ function DocumentFetch (url) {
   })
 }
 
-export async function getChapter (url, readable) {
+export async function getChapter (url, readable, book) {
+  let next
+  if (book) {
+    const rootPath = new URL(book.id).pathname
+    const index = book.readingOrder
+      .map(item => `${rootPath}${item.url}`)
+      .indexOf(url)
+    const nextItem = book.readingOrder[index + 1]
+    if (nextItem) {
+      next = `${rootPath}${nextItem.url}`
+    }
+  }
   let response = await DocumentFetch(url)
   const baseURL = new URL(url, window.location)
   const baseHost = baseURL.host
@@ -152,7 +163,7 @@ export async function getChapter (url, readable) {
       styleNodes.push(await processChapter(`<style>${text}</style>`, cssURL))
     }
   }
-  return { lang, dom: styleNodes.concat(nodes), url, stylesheets }
+  return { lang, dom: styleNodes.concat(nodes), url, stylesheets, next }
 }
 
 function addLocations (doc, base) {
