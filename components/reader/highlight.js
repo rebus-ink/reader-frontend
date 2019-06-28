@@ -168,6 +168,9 @@ function serializeRange (range) {
   fragment.querySelectorAll('reader-highlight').forEach(element => {
     element.replaceWith(element.textContent)
   })
+  fragment
+    .querySelectorAll('[style]')
+    .forEach(element => element.removeAttribute('style'))
   placeholder.appendChild(fragment)
   return placeholder.innerHTML
 }
