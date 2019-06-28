@@ -57,7 +57,9 @@ export const Reader = el => {
           .map(item => `${rootPath}${item.url}`)
           .filter(uri => !uri.includes('.epub'))
           .filter(uri => !uri.includes('.opf'))
-        quicklink({ urls })
+        window.requestAnimationFrame(() => {
+          quicklink({ urls })
+        })
       }
       return () => {
         lifecycle.removeEventListener('statechange', handleLifeCycle)
@@ -81,7 +83,7 @@ export const Reader = el => {
     view = () =>
       html`<ink-chapter .setSelection=${setSelection} .setHighlight=${setHighlight} chapter=${chapter} location=${location} .book=${book}></ink-chapter>`
   } else if (book.json.pdfInfo) {
-    view = () => html`<ink-pdf .setSelection=${setSelection} .setHighlight=${setHighlight}  chapter=${chapter} location=${location}>
+    view = () => html`<ink-pdf .setSelection=${setSelection} .setHighlight=${setHighlight}  chapter=${chapter} location=${location} .api=${api}>
     <div><div id="viewer" class="pdfViewer">
       </div></div></ink-pdf>`
   }

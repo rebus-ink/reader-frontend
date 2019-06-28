@@ -9,7 +9,7 @@ export function createBookAPI (context, api, global) {
   return {
     // Returns sanitised DOM for chapter
     get chapter () {
-      return (url, readable, book) => getChapter(url, readable, book)
+      return (url, readable, book) => getChapter(url, readable, book, api)
     },
     // Return the publication object
     async get (url, path) {
@@ -43,21 +43,20 @@ export function createBookAPI (context, api, global) {
       }
       return api.activity.save(activity)
     },
-    async notes (book, path, page = 1) {
-      const notesURL = `${
-        context.profile.id
-      }/notes?limit=100&page=${page}&document=${`${book.id}${path}`}`
+    async notes (document, page = 1) {
+      const notesEndpoint = await api.profile.notes()
+      const bookId = document.match(/(publication-[^/]+)/)[0]
+      document = document.replace(bookId + '/', bookId)
+      const notesURL = `${notesEndpoint}?limit=100&page=${page}&document=${document}`
       try {
         let notes = await get(notesURL)
-        while (notes.items.length <= notes.totalItems) {
-          page = page + 1
-          const newNotes = await get(
-            `${context.profile.id}/notes?limit=100&page=${page}&document=${`${
-              book.id
-            }${path}`}`
-          )
-          notes.items = notes.items.concat(newNotes.items)
-        }
+        // while (notes.items.length <= notes.totalItems) {
+        //   page = page + 1
+        //   const newNotes = await get(
+        //     `${context.profile.id}/notes?limit=100&page=${page}&document=${document}`
+        //   )
+        //   notes.items = notes.items.concat(newNotes.items)
+        // }
         return notes
       } catch (err) {
         console.error(err)
@@ -107,8 +106,8 @@ function DocumentFetch (url) {
   })
 }
 
-export async function getChapter (url, readable, book) {
-  let next
+export async function getChapter (url, readable, book, api) {
+  let next, notes
   if (book) {
     const rootPath = new URL(book.id).pathname
     const index = book.readingOrder
@@ -118,6 +117,7 @@ export async function getChapter (url, readable, book) {
     if (nextItem) {
       next = `${rootPath}${nextItem.url}`
     }
+    notes = await api.book.notes(url)
   }
   let response = await DocumentFetch(url)
   const baseURL = new URL(url, window.location)
@@ -141,8 +141,10 @@ export async function getChapter (url, readable, book) {
   let stylesheets = []
   response = addLocations(response, url)
   const lang = getLang(response)
+  let readability
   if (readable) {
-    doc = new Readability(response).parse().content
+    readability = new Readability(response).parse()
+    doc = readability.content
   } else {
     doc = response.documentElement.outerHTML
     stylesheets = Array.from(
@@ -163,7 +165,15 @@ export async function getChapter (url, readable, book) {
       styleNodes.push(await processChapter(`<style>${text}</style>`, cssURL))
     }
   }
-  return { lang, dom: styleNodes.concat(nodes), url, stylesheets, next }
+  return {
+    lang,
+    dom: styleNodes.concat(nodes),
+    url,
+    stylesheets,
+    next,
+    readability,
+    notes
+  }
 }
 
 function addLocations (doc, base) {
@@ -206,6 +216,7 @@ const purifyConfig = {
   RETURN_DOM_FRAGMENT: true,
   WHOLE_DOCUMENT: true,
   RETURN_DOM_IMPORT: true,
+  ALLOW_TAGS: ['reader-highlight'],
   FORBID_TAGS: ['meta', 'form', 'title', 'link'],
   FORBID_ATTR: ['srcset', 'action', 'background', 'poster']
 }
@@ -213,6 +224,7 @@ const purifyConfig = {
 export function processChapter (chapter, base) {
   const baseURL = new URL(base, window.location)
   const clean = DOMPurify.sanitize(chapter, purifyConfig)
+  // Move into function to process before Readability
   clean.querySelectorAll(`[src]`).forEach(element => {
     const src = element.getAttribute('src')
     try {

@@ -2,6 +2,7 @@ import { html } from 'lit-html'
 import { component, useContext, useState, useEffect } from 'haunted'
 import { ApiContext } from '../api-provider.component.js'
 import { getRange } from 'shadow-selection-polyfill'
+import { highlightNotes } from './highlight.js'
 
 export const title = 'Ink Chapter display: `<ink-chapter>`'
 
@@ -88,12 +89,15 @@ export const InkChapter = el => {
   )
   useEffect(
     () => {
-      const { lang } = resource
+      const { lang, notes } = resource
       if (lang) {
         el.setAttribute('lang', lang)
       }
       if (resource) {
         followLocations(el)
+      }
+      if (notes && resource) {
+        window.requestAnimationFrame(() => highlightNotes(el.shadowRoot, notes))
       }
     },
     [resource]

@@ -126,7 +126,10 @@ ${renderResult(req, route)}`
 }
 
 function createProfile (api, setProfile) {
-  return html`<div class="TwoUp">
+  return html`
+  
+  <p>Warning! Rebus ink is currently <em>pre-release software</em> which uses a <em>temporary</em> database. You data <strong><em>will be lost</em></strong> at some point!</p>
+  <div class="TwoUp">
 <div class="Card">
   <h2 id="modal-1-title" class="Modal-title">
   Do you want to create a Rebus Ink account?

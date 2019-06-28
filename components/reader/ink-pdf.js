@@ -1,5 +1,6 @@
 import { html, render } from 'lit-html'
 import { component, useEffect } from 'haunted'
+import { highlightNotes } from './highlight'
 
 window.CMAP_URL = '/js/pdfjs-dist/cmaps/'
 window.CMAP_PACKED = true
@@ -13,7 +14,14 @@ export const preview = () => {
 </ink-pdf>`
 }
 export const InkPDF = el => {
-  const { location, chapter, scale = 'auto', setSelection, setHighlight } = el
+  const {
+    location,
+    chapter,
+    scale = 'auto',
+    setSelection,
+    setHighlight,
+    api
+  } = el
   // 'page-width' 'page-actual' 'page-fit' 'page-height'  'auto'
 
   useEffect(() => {
@@ -401,7 +409,7 @@ ink-pdf-render[scale="page-height"] > div {
 }
 
 </style>
-    <ink-pdf-render scale=${scale} chapter=${chapter} location=${location}></ink-pdf-render>`
+    <ink-pdf-render scale=${scale} chapter=${chapter} location=${location} .api=${api}></ink-pdf-render>`
 }
 InkPDF.observedAttributes = ['chapter', 'location', 'scale']
 
@@ -430,6 +438,9 @@ class InkPDFRender extends window.HTMLElement {
     this.addEventListener('pagesloaded', ev => {
       this.goToPage(this.getAttribute('location'))
       setupObservers(this)
+      this.api.book
+        .notes(this.getAttribute('chapter'))
+        .then(notes => highlightNotes(this, notes))
     })
     // if (this.getAttribute('chapter')) { this.chapter(this.getAttribute('chapter')) }
   }

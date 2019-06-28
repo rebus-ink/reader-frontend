@@ -11,6 +11,10 @@ export function createProfileAPI (context, api, global) {
       const profile = await getProfile(context, global)
       return `${profile.id}/file-upload`
     },
+    async notes () {
+      const profile = await getProfile(context, global)
+      return `${profile.id}/notes`
+    },
     async library () {
       const profile = await getProfile(context, global)
       return profile.id + '/library'

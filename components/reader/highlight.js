@@ -17,17 +17,20 @@ export const HighlightButton = virtual(
           bookId + '/',
           bookId
         )
-        console.log(bookId)
         return api.activity
           .create({
             type: 'Note',
             noteType: 'reader:Highlight',
             inReplyTo: docurl,
-            selector,
+            'oa:hasSelector': selector,
             content
           })
           .then(id => {
             highlightNote(selector, root, id)
+            window
+              .getSelection()
+              .getRangeAt(0)
+              .collapse()
           })
       }
     }}>Highlight</button>`
@@ -101,10 +104,14 @@ function highlightNote (selector, root, id) {
       highlight.appendChild(node)
     }
   }
-  window
-    .getSelection()
-    .getRangeAt(0)
-    .collapse()
+}
+
+export async function highlightNotes (root, notes) {
+  for (const note of notes.items) {
+    if (note.selector) {
+      highlightNote(note.selector, root, note.id)
+    }
+  }
 }
 
 class ReaderHighlight extends window.HTMLElement {
