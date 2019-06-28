@@ -57,9 +57,12 @@ export const InkChapter = el => {
   useEffect(
     () => {
       if (chapter) {
+        el.classList.add('is-loading')
         el.updateComplete = api.book
           .chapter(chapter, readable)
           .then(dom => {
+            el.classList.remove('is-loading')
+            window.scrollTo(0, 0)
             setChapter(dom)
           })
           .catch(err => console.error(err))
@@ -96,6 +99,9 @@ export const InkChapter = el => {
   display: grid;
   grid-template-columns: minmax(var(--reader-left-margin), 0.5fr) minmax(var(--reader-min-column-width), var(--reader-max-column-width)) minmax(var(--reader-left-margin), 0.5fr);
   grid-template-areas: 'leftmargin maintext rightmargin';
+}
+:host(.is-loading) {
+  opacity: 0.5;
 }
 .Highlight {
   background-color: #ffff98;
