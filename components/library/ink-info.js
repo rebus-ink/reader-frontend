@@ -6,6 +6,16 @@ import { ApiContext } from '../api-provider.component.js'
 export const Info = el => {
   const { req } = el
   const api = useContext(ApiContext)
+  const [tags, setTags] = useState([])
+  useEffect(
+    () => {
+      api
+        .library({ limit: 10 })
+        .then(library => setTags(library.tags))
+        .catch(err => console.error(err))
+    },
+    [req]
+  )
   const [book, setBook] = useState({ type: 'loading', json: {} })
   const { resources = [], author = [], readingOrder = [] } = book
   const coverResource = resources.filter(resource =>
@@ -46,7 +56,48 @@ export const Info = el => {
   } else if (resources[0]) {
     bookURL = `/reader${req.params.bookId}/${readingOrder[0].url}`
   }
-  console.log(book)
+  function tagRender (tag) {
+    const bookTags = book.tags.map(tag => tag.id)
+    return html`<li><label><input name=${
+      tag.id
+    } value="" type="checkbox" ?checked=${bookTags.includes(tag.id)} id=${
+      tag.id
+    } @change=${event => {
+      const input = event.target
+      let payload
+      if (input.checked) {
+        payload = {
+          type: 'Add',
+          object: {
+            type: 'reader:Tag',
+            id: tag.id,
+            name: tag.name
+          },
+          target: {
+            type: 'Publication',
+            id: book.id
+          }
+        }
+      } else {
+        payload = {
+          type: 'Remove',
+          object: {
+            type: 'reader:Tag',
+            id: tag.id,
+            name: tag.name
+          },
+          target: {
+            type: 'Publication',
+            id: book.id
+          }
+        }
+      }
+      api.activity
+        .save(payload)
+        .then(location => console.log(location))
+        .catch(err => console.error(err))
+    }}> ${tag.name}</label></li>`
+  }
   return html`
   <style>
   ink-info {
@@ -82,7 +133,11 @@ export const Info = el => {
 }</a></li>
     </ol>
     <ol>
-    <a href=${original} class="actions-button actions-button--secondary" download=${`${
+      <li><details class="actions-button actions-button--secondary"><summary>Collections</summary>
+    <ol>
+      ${tags.map(tagRender)}
+    </ol></details></li>
+    <li><a href=${original} class="actions-button actions-button--secondary" download=${`${
   book.name
 }.${format}`}>Download Original</a></li>
       <li>

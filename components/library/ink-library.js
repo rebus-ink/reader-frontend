@@ -74,7 +74,7 @@ export const Library = el => {
     document.getElementById('collection-name').value = ''
     const tag = {
       type: 'reader:Tag',
-      tagType: 'reader:Collection',
+      tagType: 'reader:Stack',
       name
     }
     return api.activity.create(tag).then(() => {
