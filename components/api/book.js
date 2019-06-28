@@ -44,6 +44,7 @@ export function createBookAPI (context, api, global) {
       return api.activity.save(activity)
     },
     async notes (document, page = 1) {
+      document = new URL(document, window.location).href
       const notesEndpoint = await api.profile.notes()
       const bookId = document.match(/(publication-[^/]+)/)[0]
       document = document.replace(bookId + '/', bookId)
