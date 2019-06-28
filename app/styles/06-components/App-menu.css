@@ -26,6 +26,9 @@
   display: grid;
   grid-template-columns: 24px 1fr 24px;
 }
+.App-menu-centre {
+  text-align: center;
+}
 
 .App-menu-list li {
   padding: 0;

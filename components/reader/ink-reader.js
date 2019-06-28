@@ -117,10 +117,12 @@ export const Reader = el => {
     <icon-link name="left-chevron" label="Previous" href=${previous}></icon-link>`
     : ''
 }</li>
-<li>
-${HighlightButton(selectionRange)}${RemoveHighlightButton(
-  selectedHighlight
-)}</li>
+<li class="App-menu-centre">
+${HighlightButton(
+    selectionRange,
+    chapter,
+    req.params.bookId
+  )}${RemoveHighlightButton(selectedHighlight)}</li>
     <li>${
   next
     ? html`

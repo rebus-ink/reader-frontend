@@ -1,18 +1,38 @@
 import * as textQuote from 'dom-anchor-text-quote'
 import { html } from 'lit-html'
 import { virtual } from 'haunted'
+import { api } from '../api-provider.component.js'
 
-export const HighlightButton = virtual(({ selectionRange, root }) => {
-  let selector
-  return html`<button style="z-index: 5;" type="button" class="Button" ?hidden=${!(
-    selectionRange && root
-  )} @click=${() => {
-    if (selectionRange && root) {
-      selector = textQuote.default.fromRange(root, selectionRange)
-      highlightNote(selector, root, 'id-' + Math.random() * 1000)
-    }
-  }}>Highlight</button>`
-})
+export const HighlightButton = virtual(
+  ({ selectionRange, root }, document, bookId) => {
+    let selector
+    return html`<button style="z-index: 5;" type="button" class="Button" ?hidden=${!(
+      selectionRange && root
+    )} @click=${() => {
+      if (selectionRange && root) {
+        selector = textQuote.default.fromRange(root, selectionRange)
+        const html = serializeRange(selectionRange)
+        const content = `<blockquote data-original-quote>${html}</blockquote>`
+        const docurl = new URL(document, window.location).href.replace(
+          bookId + '/',
+          bookId
+        )
+        console.log(bookId)
+        return api.activity
+          .create({
+            type: 'Note',
+            noteType: 'reader:Highlight',
+            inReplyTo: docurl,
+            selector,
+            content
+          })
+          .then(id => {
+            highlightNote(selector, root, id)
+          })
+      }
+    }}>Highlight</button>`
+  }
+)
 
 export const RemoveHighlightButton = virtual(({ noteId, root }) => {
   return html`<button style="z-index: 5;background-color: var(--error); color: white;" type="button" class="Button" ?hidden=${!(
@@ -131,3 +151,16 @@ class ReaderHighlight extends window.HTMLElement {
   }
 }
 window.customElements.define('reader-highlight', ReaderHighlight)
+
+function serializeRange (range) {
+  const placeholder = document.createElement('div')
+  const fragment = range.cloneContents()
+  fragment.querySelectorAll('[data-reader]').forEach(element => {
+    element.parentElement.removeChild(element)
+  })
+  fragment.querySelectorAll('reader-highlight').forEach(element => {
+    element.replaceWith(element.textContent)
+  })
+  placeholder.appendChild(fragment)
+  return placeholder.innerHTML
+}
