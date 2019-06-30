@@ -5,7 +5,7 @@ export async function uploadMedia (created, api, global) {
   const { book, media } = await created
   assert(book, 'No publication found to upload')
   assert(media, 'No media found to upload')
-  const uploadQueue = queue(uploadData(created, api, global), 1)
+  const uploadQueue = queue(uploadData(created, api, global), 5)
   for (const item of media) {
     uploadQueue.push(item)
   }

@@ -46,8 +46,6 @@ export function createBookAPI (context, api, global) {
     async notes (document, page = 1) {
       document = new URL(document, window.location).href
       const notesEndpoint = await api.profile.notes()
-      const bookId = document.match(/(publication-[^/]+)/)[0]
-      document = document.replace(bookId + '/', bookId)
       const notesURL = `${notesEndpoint}?limit=100&page=${page}&document=${document}`
       try {
         let notes = await get(notesURL)

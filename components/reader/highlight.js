@@ -13,10 +13,7 @@ export const HighlightButton = virtual(
         selector = textQuote.default.fromRange(root, selectionRange)
         const html = serializeRange(selectionRange)
         const content = `<blockquote data-original-quote>${html}</blockquote>`
-        const docurl = new URL(document, window.location).href.replace(
-          bookId + '/',
-          bookId
-        )
+        const docurl = new URL(document, window.location).href
         return api.activity
           .create({
             type: 'Note',
