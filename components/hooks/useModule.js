@@ -43,24 +43,24 @@ async function getModule (path, hook) {
   return hook.module
 }
 
-// useLazyModule needs an intersection observer
+// // useLazyModule needs an intersection observer
 
-const config = {
-  rootMargin: '50% 0px',
-  threshold: 0.01
-}
-const positionObserver = new window.IntersectionObserver(onIntersection, config)
-const hostToHook = new WeakMap()
+// const config = {
+//   rootMargin: '50% 0px',
+//   threshold: 0.01
+// }
+// const positionObserver = new window.IntersectionObserver(onIntersection, config)
+// const hostToHook = new WeakMap()
 
-function onIntersection (entries) {
-  entries.forEach(entry => {
-    if (entry.intersectionRatio > 0) {
-      // Stop watching and load the image
-      positionObserver.unobserve(entry.target)
-      setVisibility(hostToHook.get(entry.target))
-    }
-  })
-}
+// function onIntersection (entries) {
+//   entries.forEach(entry => {
+//     if (entry.intersectionRatio > 0) {
+//       // Stop watching and load the image
+//       positionObserver.unobserve(entry.target)
+//       setVisibility(hostToHook.get(entry.target))
+//     }
+//   })
+// }
 
 function setVisibility (hook) {
   hook.visible = true

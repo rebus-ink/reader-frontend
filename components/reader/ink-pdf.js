@@ -1,5 +1,6 @@
 import { html, render } from 'lit-html'
 import { component, useEffect } from 'haunted'
+import { useScripts } from '../hooks/useScript.js'
 import { highlightNotes } from './highlight'
 
 window.CMAP_URL = '/js/pdfjs-dist/cmaps/'
@@ -23,7 +24,10 @@ export const InkPDF = el => {
     api
   } = el
   // 'page-width' 'page-actual' 'page-fit' 'page-height'  'auto'
-
+  const pdfLibsLoaded = useScripts(
+    ['/js/pdfjs-dist/build/pdf.min.js', '/js/pdf_viewer.js'],
+    () => window.pdfjsLib && window.pdfjsViewer
+  )
   useEffect(() => {
     function handleSelection () {
       const selection = document.getSelection()
@@ -52,6 +56,7 @@ export const InkPDF = el => {
       document.removeEventListener('selectionchange', handleSelection)
     }
   }, [])
+  if (!pdfLibsLoaded) return html`<div class='loading'></div>`
   return html`
     <style>
     :host {
