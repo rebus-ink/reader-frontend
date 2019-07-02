@@ -1,4 +1,4 @@
-import {errorEvent} from './error-event.js'
+import { errorEvent } from './error-event.js'
 export class HTTPError extends Error {
   constructor (type, message, response) {
     super(message)
@@ -6,6 +6,7 @@ export class HTTPError extends Error {
       Error.captureStackTrace(this, HTTPError)
     }
     this.httpMethod = type
+    this.status = response.status
     this.response = response
   }
 }

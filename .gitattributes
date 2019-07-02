@@ -1,5 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 # do not show lock files while doing git diff
-package-lock.json -diff
+# package-lock.json -diff
 yarn.lock -diff

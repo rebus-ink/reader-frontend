@@ -12,6 +12,7 @@ const createDOMPurify = require('dompurify')
 const { JSDOM } = require('jsdom')
 const { serializeToString } = require('xmlserializer')
 const path = require('path')
+const { pageBody } = require('../views/render-body.js')
 
 const purifyConfig = {
   KEEP_CONTENT: false,
@@ -22,7 +23,7 @@ const purifyConfig = {
   ADD_ATTR: ['epub:type']
 }
 
-router.get('/reader/:bookId/*', ensureLogin, csurf(), function (req, res, next) {
+router.get('/asset/:bookId/*', ensureLogin, csurf(), function (req, res, next) {
   debug(req.path)
   return getBookState(req, res)
     .then(model => {
@@ -57,6 +58,31 @@ router.get('/reader/:bookId/*', ensureLogin, csurf(), function (req, res, next) 
             debug(err)
             return res.sendStatus(404)
           })
+      } else {
+        // This should _not_ redirect non image resources to the image end route.
+        const altURL = getAlternate(model.chapter)
+        // Remember to check 'encodingFormat' on the LinkResource object here when we switch to WPUB.
+        if (path.extname(altURL) === '.svg') {
+          // This should use the actual media type
+          return res.redirect(`/images/svg/${encodeURIComponent(altURL)}`)
+        } else {
+          return res.redirect(`/images/proxy/${encodeURIComponent(altURL)}`)
+        }
+      }
+    })
+    .catch(err => next(err))
+})
+
+router.get('/reader/:bookId/*', ensureLogin, csurf(), function (req, res, next) {
+  debug(req.path)
+  return getBookState(req, res)
+    .then(model => {
+      debug('got model')
+      debug(getAlternate(model.chapter))
+      if (model.chapter.type === 'Document') {
+        const render = viperHTML.wire
+        res.type('html')
+        res.send(page(render, {}, req, pageBody))
       } else {
         // This should _not_ redirect non image resources to the image end route.
         const altURL = getAlternate(model.chapter)

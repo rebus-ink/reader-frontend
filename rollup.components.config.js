@@ -4,7 +4,8 @@ import commonjs from 'rollup-plugin-commonjs'
 import { terser } from 'rollup-plugin-terser'
 import { string } from 'rollup-plugin-string'
 import glob from 'glob'
-const input = glob.sync('components/**/*.component.js')
+import json from 'rollup-plugin-json'
+const input = glob.sync('components/**/*.{component,hook}.js')
 
 export default {
   input,
@@ -18,6 +19,7 @@ export default {
       preferBuiltins: false,
       browser: true
     }),
+    json(),
     commonjs(),
     string({
       // Required to be specified

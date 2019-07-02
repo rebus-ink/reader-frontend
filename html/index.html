@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+<link media="all" rel="stylesheet" href="/static/styles/app.css">
+<title>Rebus Ink</title>
+<script src="/js/vendor/document-register-element.js"></script>
+<script>
+  try {
+    import('/js/components.js')
+  } catch (e) {
+    var s = document.createElement('script')
+    s.src = '/js/shimport.js'
+    s.dataset.main = '/js/components.js'
+    document.head.appendChild(s)
+  }
+  document.documentElement.classList.remove('no-js')
+</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" 
+      type="image/png" 
+      href="/static/rebus-ink-square-512.png">
+      <link rel="apple-touch-icon" sizes="512x512" href="/static/rebus-ink-square-512.png">
+</head>
+  <body>
+    <div><ink-app></ink-app></div>
+  </body>
+</html>

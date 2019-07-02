@@ -42,15 +42,17 @@ function setup (authserver) {
 
   app.use('/', require('./server/routes/front-page.js'))
   app.use('/', require('./server/routes/library.js'))
-  app.use('/', require('./server/routes/notes.js'))
+  // app.use('/', require('./server/routes/notes.js'))
   app.use('/', require('./server/routes/reader-book.js'))
-  app.use('/', require('./server/routes/reader-chapter.js'))
-  app.use('/', require('./server/routes/process-chapter.js'))
-  app.use('/', require('./server/routes/refresh-token.js'))
+  // app.use('/', require('./server/routes/reader-chapter.js'))
+  // app.use('/', require('./server/routes/process-chapter.js'))
+  // app.use('/', require('./server/routes/refresh-token.js'))
   app.use('/', require('./server/routes/process-url.js'))
   app.use('/images', require('./server/routes/images.js'))
+  app.use('/', require('./server/routes/asset.js'))
 
   const apiApp = require('hobb-api/server.js').app
+  app.use('/', require('./server/api-auth.js'))
   app.use('/', apiApp) // This requires multer, @google-cloud/storage, sqlite objection knex pg objection-db-errors objection-guid debug lodash dotenv passport-jwt
 
   apiApp.initialize(true).catch(err => {

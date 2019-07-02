@@ -197,19 +197,33 @@ strong > * {
   font-weight: 600;
 }
 
-svg,
 img {
   max-height: 88vh;
   width: auto;
   height: auto;
   max-width: 100%;
 }
-:focus,
 button:focus {
   outline: 1px solid #3333331a;
   outline-offset: 1px;
 }
 
-[aria-hidden='true'] {
-  display: none;
+ink-modal[aria-hidden='true'],
+menu-modal[aria-hidden='true'],
+ink-collection-modal[aria-hidden='true'],
+collection-sidebar[aria-hidden='true'] {
+  visibility: hidden;
+  pointer-events: none;
+}
+/*[inert]*/
+*[inert] {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+strong[slot='modal-title'] {
+  font-weight: 700;
 }

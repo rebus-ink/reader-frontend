@@ -1,0 +1,12 @@
+.Stack {
+  padding: 0.5rem 1rem;
+}
+
+.Stack * + * {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.Stack--centered * + * {
+  text-align: center;
+}

@@ -89,7 +89,7 @@ StyleGuide 6.Chapter
 */
 
 :root {
-  --reader-font-size: 0.85rem;
+  --reader-font-size: 0.9rem;
   --reader-paragraph-spacing: 1rem;
   --reader-left-margin: 2rem;
   --reader-text-color: #444;
@@ -97,19 +97,19 @@ StyleGuide 6.Chapter
   --reader-max-column-width: 31rem;
   --reader-background-color: white;
   --reader-border-color: #fafaef;
-  --reader-line-height: 1.4;
+  --reader-line-height: 1.45;
   --reader-font-family: var(--sans-fonts);
 }
 @media (max-width: 820px) {
   :root {
-    --reader-font-size: 0.75rem;
+    --reader-font-size: 0.85rem;
     --reader-paragraph-spacing: 1rem;
     --reader-left-margin: 1.5rem;
   }
 }
 @media (max-width: 550px) {
   :root {
-    --reader-font-size: 0.65rem;
+    --reader-font-size: 0.7rem;
     --reader-paragraph-spacing: 0.85rem;
     --reader-left-margin: 1rem;
   }

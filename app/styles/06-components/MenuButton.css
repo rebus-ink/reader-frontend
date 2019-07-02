@@ -254,3 +254,145 @@ StyleGuide 6.MenuButton
   font-weight: 400;
   font-size: 0.6rem;
 }
+
+/*
+Next Gen MenuButton
+*/
+
+.InkMenuButton {
+  position: relative;
+  width: auto;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+.InkMenuSummary {
+  font-family: var(--sans-fonts);
+  font-size: 0.65rem;
+  flex: 0 1 auto;
+  line-height: 1;
+
+  display: inline-block;
+
+  padding: 0.45rem 1.5rem 0.5rem 0.5rem;
+
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-align: center;
+  white-space: nowrap;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--dark);
+  border-radius: var(--border-radius);
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  background-color: var(--rc-main);
+  border: 2px solid var(--rc-main);
+  box-shadow: 1px 2px 4px 0 rgba(33, 33, 33, 0.1);
+  text-decoration: none !important;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23333333%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22square%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%209l6%206%206-6%22%2F%3E%3C%2Fsvg%3E'),
+    linear-gradient(to bottom, transparent 0%, transparent 100%);
+  background-repeat: no-repeat, repeat;
+  background-position: right 0.7em top 50%, 0 0;
+  background-size: 1em auto, 100%;
+}
+.InkMenuSummary--secondary {
+  background-color: white;
+  border: 2px solid var(--rc-main);
+  color: var(--rc-main);
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2337b5b5%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22square%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%209l6%206%206-6%22%2F%3E%3C%2Fsvg%3E'),
+    linear-gradient(to bottom, transparent 0%, transparent 100%);
+}
+
+.InkMenuButton[open] .InkMenuSummary--secondary {
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23333333%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22square%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%209l6%206%206-6%22%2F%3E%3C%2Fsvg%3E'),
+    linear-gradient(to bottom, transparent 0%, transparent 100%);
+}
+.InkMenuSummary--secondary:hover {
+  background-color: var(--rc-main);
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23333333%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22square%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%209l6%206%206-6%22%2F%3E%3C%2Fsvg%3E'),
+    linear-gradient(to bottom, transparent 0%, transparent 100%);
+}
+.InkMenuSummary {
+  list-style: none;
+}
+.InkMenuSummary::-webkit-details-marker {
+  display: none;
+}
+.InkMenuSummary:hover {
+  color: white;
+  background-color: var(--rc-dark);
+  border-color: var(--rc-dark);
+  box-shadow: none;
+  text-decoration: none;
+}
+.InkMenuButton[open] .InkMenuSummary {
+  color: var(--dark);
+  background-color: var(--light);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-color: transparent;
+  border-color: transparent;
+}
+.InkMenuSummary:active {
+  background-color: var(--active);
+  border-color: var(--active);
+}
+.InkMenuSummary[disabled] {
+  background-color: #eee;
+  background-image: none;
+  border-color: #eee;
+  color: #bbb;
+  cursor: not-allowed;
+}
+@keyframes inkMenuButtonPop {
+  0% {
+    box-shadow: 0 0 0 1px rgba(33, 33, 33, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 8px var(--rc-main);
+  }
+  100% {
+    box-shadow: 0 0 0 3px var(--rc-main);
+  }
+}
+.InkMenuSummary:focus {
+  box-shadow: 0 0 0 3px var(--rc-main);
+  outline: solid transparent;
+  animation: outlinePop 0.25s ease-in-out;
+}
+.InkMenuSummary[disabled]:focus {
+  border-color: #999;
+  background-color: var(--disabled);
+  box-shadow: inset 0 0px 2px 0 rgba(0, 66, 98, 0.15);
+  background-image: none;
+}
+.InkMenuButton details-menu {
+  position: absolute;
+  background-color: var(--light);
+  z-index: 1;
+  list-style: none;
+  border-radius: 4px;
+  border-top-left-radius: 0;
+  margin: 0;
+  margin-left: -0.5rem;
+  padding: 0.25rem 0;
+  min-width: 110%;
+  box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.1);
+  max-height: calc(100vh - 2.5rem);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(-5%);
+  opacity: 0;
+  transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+.InkMenuButton[open] details-menu {
+  transform: translateY(0);
+  opacity: 1;
+}

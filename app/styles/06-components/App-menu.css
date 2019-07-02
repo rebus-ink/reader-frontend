@@ -23,9 +23,15 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+  display: grid;
+  grid-template-columns: 24px 1fr 24px;
+}
+.App-menu-centre {
+  text-align: center;
 }
 
 .App-menu-list li {
   padding: 0;
-  margin: auto 0;
+  margin: 0;
+  line-height: 1;
 }

@@ -24,11 +24,11 @@ const customOrigin = wrender.createOrigin('/:source', async ({ source }) => {
 const instance = wrender({
   convertGIF: false,
   convertPNG: false,
+  maxAge: 31536000,
   recipes: [
     wrender.recipes.proxy,
     wrender.recipes.resize,
-    wrender.recipes.crop,
-    wrender.createRecipe('/svg/:origin', image => image)
+    wrender.recipes.crop
   ],
   origins: [customOrigin],
   onError: e => {

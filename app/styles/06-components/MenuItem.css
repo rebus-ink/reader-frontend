@@ -51,6 +51,35 @@ StyleGuide 6.MenuItem
 a.MenuItem {
   text-decoration: none;
 }
+@keyframes menuItemPop {
+  0% {
+    box-shadow: 0 0 0 1px rgba(33, 33, 33, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 8px #f5ffff;
+  }
+  100% {
+    box-shadow: 0 0 0 3px #f5ffff;
+  }
+}
+@keyframes menuHoverPop {
+  0% {
+    box-shadow: 0 0 0 1px rgba(33, 33, 33, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 8px var(--link);
+  }
+  100% {
+    box-shadow: 0 0 0 3px var(--link);
+  }
+}
+.MenuItem:focus {
+  text-decoration: none;
+  background-color: #f5ffff;
+  color: var(--dark);
+  animation: menuItemPop 0.25s ease-in-out;
+  outline: solid transparent;
+}
 .MenuItem:hover,
 .MenuItem:link:hover {
   text-decoration: none;
@@ -58,17 +87,11 @@ a.MenuItem {
   text-decoration: none;
   background-color: var(--link);
   color: white;
+  animation: menuHoverPop 0.25s ease-in-out;
 }
 
 .MenuItem:active {
   color: var(--active);
-}
-
-.MenuItem:focus {
-  text-decoration: none;
-  background-color: var(--link);
-  color: white;
-  box-shadow: none;
 }
 
 .MenuItem[disabled],

@@ -1,23 +1,22 @@
-
-import {createContext} from 'neverland'
+import { createContext } from 'neverland'
 import * as activities from '../state/activities.js'
 
 // This should keep track of current book
 // Route needs to reset context if bookIds don't match
-export const initialBook = {type: 'initial-book', id: '', position: {}}
+export const initialBook = { type: 'initial-book', id: '', position: {} }
 
 export const book = createContext(initialBook)
 
-export const chapter = createContext({type: 'initial-chapter', position: {}})
+export const chapter = createContext({ type: 'initial-chapter', position: {} })
 
-export const reading = createContext({type: 'initial-location'})
+export const reading = createContext({ type: 'initial-location' })
 
 // We need loadBook, loadNotes, setLocation, and calloutLocation
 // We also need saveHighlight, removeHighlight, saveNote, updateNote, removeNote
 
 // Called when active->passive lifecycle change and when route component is disconnected
 export function savePosition (location, act = activities) {
-  const {saved} = reading.value
+  const { saved } = reading.value
   if (location !== saved) {
     const activity = {
       type: 'Read',
@@ -40,8 +39,8 @@ export function savePosition (location, act = activities) {
 // Called by add bookmark and add anchor buttons when highlighted or focused
 // Call without argument to call out current location. Call with null or falsey value to end call out.
 export function toggleCallout () {
-  const {callout} = reading.value
-  reading.provide({...reading.value, callout: !callout})
+  const { callout } = reading.value
+  reading.provide({ ...reading.value, callout: !callout })
 }
 
 function getNext (bookId, items, current) {
@@ -59,7 +58,12 @@ function getPrevious (bookId, items, current) {
 
 // Route component calls loadBook if there is no book or if it doesn't match the bookId (id doesn't include bookId)
 // Then it should call loadChapter.
-export async function loadBook (bookId, path, act = activities, caches = window.caches) {
+export async function loadBook (
+  bookId,
+  path,
+  act = activities,
+  caches = window.caches
+) {
   let bookData
   if (book.value.id.includes(bookId)) {
     bookData = book.value
@@ -70,26 +74,34 @@ export async function loadBook (bookId, path, act = activities, caches = window.
   let chapter
   if (path) {
     let value
-    chapter = bookData.orderedItems.filter(chapter => decodeURIComponent(chapter['reader:path']) === path)[0]
-    if (bookData.position && bookData.position.value && bookData.position.documentId === chapter.id) {
+    chapter = bookData.orderedItems.filter(
+      chapter => decodeURIComponent(chapter['reader:path']) === path
+    )[0]
+    if (
+      bookData.position &&
+      bookData.position.value &&
+      bookData.position.documentId === chapter.id
+    ) {
       value = bookData.position.value
     }
     bookData.position = {
       documentId: chapter.id,
       path: makeChapterURL(bookId, chapter),
-      resource: makeChapterURL(bookId, chapter, true),
+      resource: makeResourceURL(bookId, chapter),
       value
     }
   } else if (bookData.position && bookData.position.documentId) {
-    chapter = bookData.orderedItems.filter(chapter => chapter.id === bookData.position.documentId)[0]
+    chapter = bookData.orderedItems.filter(
+      chapter => chapter.id === bookData.position.documentId
+    )[0]
     bookData.position.path = makeChapterURL(bookId, chapter)
-    bookData.position.resource = makeChapterURL(bookId, chapter, true)
+    bookData.position.resource = makeResourceURL(bookId, chapter)
   } else {
     chapter = bookData.orderedItems[0]
     bookData.position = {
       documentId: bookData.orderedItems[0].id,
-      path: makeChapterURL(bookId, bookData.orderedItems[0], false),
-      resource: makeChapterURL(bookId, bookData.orderedItems[0], true)
+      path: makeChapterURL(bookId, bookData.orderedItems[0]),
+      resource: makeResourceURL(bookId, bookData.orderedItems[0])
     }
   }
   bookData.previous = getPrevious(bookId, bookData.orderedItems, chapter)
@@ -113,17 +125,19 @@ export async function loadChapter (position, act = activities) {
   }
 }
 
-function makeChapterURL (bookId, chapter = {}, json) {
-  // The below doesn't work as only Web Pub LinkResources have mediatypes.
-  if (chapter.mediaType === 'text/html' || chapter.mediaType === 'application/xhtml+xml') {
-    json = true
-  }
-  return `/reader/${bookId}/${chapter['reader:path']}${json ? '?json=true' : ''}`
+function makeChapterURL (bookId, chapter = {}) {
+  return `/reader/${bookId}/${chapter['reader:path']}`
+}
+function makeResourceURL (bookId, chapter = {}) {
+  return `/asset/${bookId}/${chapter['reader:path']}?json=true`
 }
 
-export async function cacheBook (book, bookId, caches = window.caches) { // Could use link[rel=preload] here instead
+export async function cacheBook (book, bookId, caches = window.caches) {
+  // Could use link[rel=preload] here instead
   // This should filter out video resources
-  const resources = book.orderedItems.map((resource) => makeChapterURL(bookId, resource, true))
+  const resources = book.orderedItems.map(resource =>
+    makeResourceURL(bookId, resource)
+  )
   const bookResources = await caches.open('book-resources')
   await bookResources.addAll(resources)
 }

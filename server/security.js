@@ -6,9 +6,9 @@ function securitySetup (app) {
       contentSecurityPolicy: {
         directives: {
           defaultSrc: ["'self'"],
-          scriptSrc: ["'self'", 'blob:', "'unsafe-inline'"], // For now
+          scriptSrc: ["'self'", 'blob:', "'unsafe-inline'", "'unsafe-eval'"], // For now
           styleSrc: ["'self'", "'unsafe-inline'"],
-          connectSrc: ["'self'"],
+          connectSrc: ["'self'", 'https://rebus.auth0.com'],
           objectSrc: ["'none'"],
           imgSrc: ['*', 'data:', 'https:', 'blob:'],
           frameSrc: [
@@ -16,7 +16,7 @@ function securitySetup (app) {
             'https://www.youtube-nocookie.com'
           ],
           fontSrc: ["'self'"],
-          formAction: ["'self'", 'https://rebus.auth0.com/'],
+          formAction: ["'self'", 'https://rebus.auth0.com'],
           frameAncestors: ["'none'"]
         }
       }

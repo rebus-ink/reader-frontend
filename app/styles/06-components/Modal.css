@@ -47,6 +47,9 @@
   margin: auto;
 }
 
+.Modal-paragraph {
+  text-align: center;
+}
 .Modal-title {
   font-weight: 600;
   font-size: 1rem;
@@ -55,6 +58,7 @@
   text-transform: uppercase;
   margin: 0 2rem 1rem;
   text-align: center;
+  display: block;
 }
 
 .Modal-row {
